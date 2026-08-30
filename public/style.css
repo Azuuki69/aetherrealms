@@ -15,7 +15,9 @@
 
 body {
   margin: 0;
-  background: radial-gradient(ellipse at top, #241c12 0%, var(--bg) 70%);
+  background:
+    repeating-linear-gradient(135deg, rgba(255,255,255,0.015) 0 2px, transparent 2px 6px),
+    radial-gradient(ellipse at top, #241c12 0%, var(--bg) 70%);
   color: var(--text);
   font-family: 'Georgia', 'Times New Roman', serif;
   min-height: 100vh;
@@ -40,7 +42,12 @@ h1 span {
 }
 
 /* ---------- Lobby ---------- */
-#lobby { max-width: 900px; margin: 0 auto; padding: 1rem 1.5rem 3rem; }
+#lobby {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem 3rem;
+  background: radial-gradient(ellipse at 50% 0%, #2a2013a0 0%, transparent 60%);
+}
 
 .faction-picker {
   display: grid;
@@ -49,18 +56,36 @@ h1 span {
   margin: 2rem 0;
 }
 .faction-card {
-  padding: 1.2rem 0.5rem;
-  background: var(--panel);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 1rem 0.5rem;
+  background: linear-gradient(#2a2115, var(--panel));
   border: 2px solid var(--border);
-  border-radius: 8px;
+  border-radius: 10px;
   color: var(--text);
   font-family: inherit;
   font-size: 1rem;
   cursor: pointer;
-  transition: transform 0.15s, border-color 0.15s;
+  transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
 }
-.faction-card:hover { transform: translateY(-2px); border-color: var(--gold); }
-.faction-card.selected { border-color: var(--gold); background: #3a2c14; box-shadow: 0 0 12px #00000080 inset, 0 0 8px #d9b25c60; }
+.faction-card:hover { transform: translateY(-3px); border-color: var(--gold); box-shadow: 0 6px 16px #0008; }
+.faction-card.selected { border-color: var(--gold); background: linear-gradient(#3a2c14, #241c12); box-shadow: 0 0 12px #00000080 inset, 0 0 10px #d9b25c80; }
+.faction-card .thumb {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #0f0c08;
+  border: 2px solid var(--border);
+  box-shadow: inset 0 0 10px #000a;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.faction-card:hover .thumb, .faction-card.selected .thumb { border-color: var(--gold); box-shadow: 0 0 12px #d9b25c80; }
+.faction-card .thumb img { position: absolute; top: 0; left: 0; }
+.faction-card .label { font-size: 0.95rem; }
 
 .lobby-actions {
   display: grid;
@@ -122,27 +147,117 @@ h1 span {
 }
 .hp-panel { display: flex; align-items: center; gap: 0.6rem; min-width: 220px; }
 .hp-panel .name { font-weight: bold; color: var(--gold); min-width: 90px; }
-.hp-bar { width: 120px; height: 14px; background: #000; border: 1px solid var(--border); border-radius: 7px; overflow: hidden; }
-.hp-fill { height: 100%; background: linear-gradient(#e05a55, var(--hp)); }
-.mana { color: var(--mana); font-weight: bold; min-width: 50px; }
+.hp-bar {
+  width: 120px;
+  height: 14px;
+  background: linear-gradient(#0a0a0a, #000);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px #000, 0 0 6px #00000080;
+  position: relative;
+}
+.hp-bar::before {
+  content: '♥';
+  position: absolute;
+  left: -2px; top: 50%;
+  transform: translate(-100%, -50%);
+  color: var(--hp);
+  font-size: 0.85rem;
+  text-shadow: 0 0 4px #000;
+}
+.hp-fill {
+  height: 100%;
+  background: linear-gradient(180deg, #ff8b83, var(--hp) 55%, #7a1f1d);
+  box-shadow: inset 0 1px 2px #ffffff50;
+  transition: width 0.3s ease;
+}
+.mana-crystals { display: flex; gap: 3px; }
+.crystal {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  transform: rotate(45deg);
+  display: inline-block;
+}
+.crystal.filled {
+  background: radial-gradient(circle at 30% 30%, #a9d8ff, var(--mana) 70%);
+  box-shadow: 0 0 6px #3c7fd0cc;
+}
+.crystal.spent { background: #1a2433; border: 1px solid #2c3b52; }
+.mana { color: var(--mana); font-weight: bold; min-width: 34px; font-size: 0.85rem; }
 .turn-indicator { font-size: 1.1rem; color: var(--gold); text-align: center; flex: 1; }
 
-.board-area { flex: 1; display: flex; flex-direction: column; justify-content: center; gap: 6px; min-height: 0; }
-.lane-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; justify-items: center; }
-.lane-divider { height: 2px; background: linear-gradient(90deg, transparent, var(--border), transparent); margin: 4px 0; }
+.board-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  min-height: 0;
+  padding: 8px 6px;
+  border-radius: 14px;
+  background: radial-gradient(ellipse at center, #1c150d 0%, #100c07 100%);
+  box-shadow: inset 0 0 40px #000a, inset 0 0 0 1px #4a3a2240;
+}
+.lane-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  justify-items: center;
+  padding: 8px 4px;
+  border-radius: 10px;
+}
+#oppRearguard, #youRearguard {
+  background: linear-gradient(180deg, var(--rearguard), transparent);
+}
+#oppVanguard, #youVanguard {
+  background: linear-gradient(180deg, var(--vanguard), transparent);
+}
+.lane-divider {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 2px 0;
+  opacity: 0.6;
+  box-shadow: 0 0 8px var(--gold);
+}
 
 .slot {
+  position: relative;
   width: 100px;
   height: 138px;
-  border: 2px dashed #4a3a22;
-  border-radius: 8px;
+  border: 1px solid #4a3a22;
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0,0,0,0.15);
+  background: radial-gradient(ellipse at center, rgba(255,255,255,0.02), rgba(0,0,0,0.3));
+  box-shadow: inset 0 0 10px #00000090;
 }
-.slot.legal-target { border-color: #6fd66a; box-shadow: 0 0 10px #6fd66a80; cursor: pointer; }
-.slot.can-play { border-color: var(--gold); box-shadow: 0 0 10px #d9b25c60; cursor: pointer; }
+.slot::before, .slot::after {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--border);
+  opacity: 0.7;
+  pointer-events: none;
+}
+.slot::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+.slot::after { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+.slot.legal-target { border-color: #6fd66a; cursor: pointer; animation: pulse-green 1.3s ease-in-out infinite; }
+.slot.legal-target::before, .slot.legal-target::after { border-color: #6fd66a; }
+.slot.can-play { border-color: var(--gold); cursor: pointer; animation: pulse-gold 1.3s ease-in-out infinite; }
+.slot.can-play::before, .slot.can-play::after { border-color: var(--gold); }
+
+@keyframes pulse-gold {
+  0%, 100% { box-shadow: inset 0 0 10px #00000090, 0 0 6px 0 #d9b25c80; }
+  50% { box-shadow: inset 0 0 10px #00000090, 0 0 16px 4px #d9b25ccc; }
+}
+@keyframes pulse-green {
+  0%, 100% { box-shadow: inset 0 0 10px #00000090, 0 0 6px 0 #6fd66a80; }
+  50% { box-shadow: inset 0 0 10px #00000090, 0 0 16px 4px #6fd66acc; }
+}
 
 .card {
   position: relative;
@@ -155,7 +270,18 @@ h1 span {
   cursor: pointer;
   flex-shrink: 0;
   background-color: #100c08;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
+.card.hand-card:not(.unaffordable):hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 12px 20px #000c, 0 0 14px var(--gold);
+  z-index: 5;
+}
+@keyframes card-pop {
+  0% { transform: scale(0.7); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.card.card-enter { animation: card-pop 0.25s ease-out; }
 .card img.art { position: absolute; top: 0; left: 0; image-rendering: -webkit-optimize-contrast; }
 .card .badge {
   position: absolute;
@@ -184,11 +310,15 @@ h1 span {
   left: 0;
   right: 0;
   text-align: center;
-  font-size: 0.6rem;
+  font-size: 0.55rem;
   background: #00000099;
   color: var(--gold);
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 2px;
 }
 
 .controls { display: flex; gap: 1rem; justify-content: center; padding: 0.5rem; }
@@ -328,6 +458,12 @@ h1 span {
 @media (max-width: 720px) {
   .lobby-actions { grid-template-columns: 1fr; }
   .faction-picker { grid-template-columns: repeat(2, 1fr); }
+  .faction-card .thumb { width: 52px; height: 52px; }
   .slot, .card { width: 60px; height: 84px; }
   .tutorial-tip { max-width: 160px; font-size: 0.7rem; }
+  .hp-panel { flex-wrap: wrap; min-width: 0; gap: 0.35rem; }
+  .hp-panel .name { min-width: 0; font-size: 0.85rem; }
+  .hp-bar { width: 80px; }
+  .mana-crystals { gap: 2px; }
+  .crystal { width: 7px; height: 7px; }
 }

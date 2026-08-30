@@ -1,4 +1,11 @@
 const FACTION_KEYS = ['human', 'elf', 'dwarf', 'orc'];
+const CARD_W = 100;
+const CARD_H = 138;
+const PREVIEW_W = 220;
+const PREVIEW_H = 304;
+const KEYWORD_ICONS = { volley: '🏹', phalanx: '🛡️', trample: '💥', siege: '🏰', charge: '⚡' };
+const FACTION_THUMB_CARD = { human: 'human_24', elf: 'elf_01', dwarf: 'dwarf_05', orc: 'orc_11' };
+const LOG_ICONS = { played: '🃏', hits: '⚔️', destroyed: '💀', started: '📜' };
 const cardIndex = {}; // cardId -> { faction, sheet, sheetSize, rect, ...cardDef }
 const factionData = {};
 
@@ -20,6 +27,7 @@ let selectedFaction = null;
 let ws = null;
 let mySeatKey = null; // 'A' or 'B', informational only
 let currentView = null;
+let previousBoardIds = new Set();
 let selectedHandCardId = null;
 let selectedAttacker = null; // { lane, slot }
 let tutorialDismissed = false;
@@ -99,16 +107,23 @@ function showGame() {
 }
 
 // ---------- Rendering ----------
-function cardArtStyle(cardId, displayW) {
+// Crops `cardId`'s art to fully cover a displayW x displayH box (like CSS
+// background-size:cover), centering on whichever axis has leftover space.
+// Scaling by width alone (the old approach) left a gap on cards whose sheet
+// rect isn't shaped like the target box, revealing the next card in the
+// sheet underneath — this guarantees the box is always fully covered.
+function cardArtStyle(cardId, displayW, displayH) {
   const def = cardIndex[cardId];
   if (!def) return {};
-  const scale = displayW / def.rect.w;
+  const scale = Math.max(displayW / def.rect.w, displayH / def.rect.h);
+  const offsetX = (displayW - def.rect.w * scale) / 2;
+  const offsetY = (displayH - def.rect.h * scale) / 2;
   return {
     sheet: def.sheet,
     width: def.sheetSize.w * scale,
     height: def.sheetSize.h * scale,
-    left: -def.rect.x * scale,
-    top: -def.rect.y * scale,
+    left: offsetX - def.rect.x * scale,
+    top: offsetY - def.rect.y * scale,
   };
 }
 
@@ -121,7 +136,7 @@ function buildCardEl(instance, { faceDown = false, context = 'board' } = {}) {
     return wrap;
   }
 
-  const style = cardArtStyle(instance.cardId, 100);
+  const style = cardArtStyle(instance.cardId, CARD_W, CARD_H);
   if (style.sheet) {
     const img = document.createElement('img');
     img.className = 'art';
@@ -149,9 +164,10 @@ function buildCardEl(instance, { faceDown = false, context = 'board' } = {}) {
   wrap.appendChild(defense);
 
   if (instance.keywords && instance.keywords.length) {
+    const keyword = instance.keywords[0];
     const kw = document.createElement('div');
     kw.className = 'keyword-tag';
-    kw.textContent = instance.keywords[0];
+    kw.textContent = `${KEYWORD_ICONS[keyword] || ''} ${keyword}`.trim();
     wrap.appendChild(kw);
   }
 
@@ -170,7 +186,7 @@ function buildCardEl(instance, { faceDown = false, context = 'board' } = {}) {
 }
 
 function showPreview(instance, evt) {
-  const style = cardArtStyle(instance.cardId, 220);
+  const style = cardArtStyle(instance.cardId, PREVIEW_W, PREVIEW_H);
   if (!style.sheet) return;
   const img = el('previewImg');
   img.src = style.sheet;
@@ -211,20 +227,24 @@ function render() {
 
   el('youInfo').querySelector('.name').textContent = `You (${capitalize(you.faction)})`;
   el('youInfo').querySelector('.hp-fill').style.width = Math.max(0, (you.hp / 30) * 100) + '%';
-  el('youInfo').querySelector('.mana').textContent = `${you.mana}/${you.maxMana} mana`;
+  el('youInfo').querySelector('.mana').textContent = `${you.mana}/${you.maxMana}`;
+  renderManaCrystals(el('youInfo').querySelector('.mana-crystals'), you.mana, you.maxMana);
 
   el('oppInfo').querySelector('.name').textContent = `Opponent (${capitalize(opponent.faction)})`;
   el('oppInfo').querySelector('.hp-fill').style.width = Math.max(0, (opponent.hp / 30) * 100) + '%';
-  el('oppInfo').querySelector('.mana').textContent = `${opponent.mana}/${opponent.maxMana} mana`;
+  el('oppInfo').querySelector('.mana').textContent = `${opponent.mana}/${opponent.maxMana}`;
+  renderManaCrystals(el('oppInfo').querySelector('.mana-crystals'), opponent.mana, opponent.maxMana);
 
   el('turnIndicator').textContent = winner
     ? 'Game Over'
     : `Turn ${turnNumber} — ${myTurn ? 'Your' : "Opponent's"} turn (${phase})`;
 
+  const newBoardIds = collectBoardIds(you, opponent);
   renderLane('youVanguard', you.board.vanguard, 'you', 'vanguard');
   renderLane('youRearguard', you.board.rearguard, 'you', 'rearguard');
   renderLane('oppVanguard', opponent.board.vanguard, 'opp', 'vanguard');
   renderLane('oppRearguard', opponent.board.rearguard, 'opp', 'rearguard');
+  previousBoardIds = newBoardIds;
 
   renderHand(you.hand, myTurn && phase === 'deployment');
 
@@ -233,9 +253,7 @@ function render() {
 
   el('log').innerHTML = '';
   for (const line of log) {
-    const d = document.createElement('div');
-    d.textContent = line;
-    el('log').appendChild(d);
+    el('log').appendChild(buildLogLine(line));
   }
   el('log').scrollTop = el('log').scrollHeight;
 
@@ -245,6 +263,27 @@ function render() {
   if (winner) {
     el('gameOverOverlay').classList.remove('hidden');
     el('gameOverText').textContent = winner === you_key ? 'Victory!' : 'Defeat...';
+  }
+}
+
+function collectBoardIds(you, opponent) {
+  const ids = new Set();
+  for (const p of [you, opponent]) {
+    for (const lane of ['vanguard', 'rearguard']) {
+      for (const unit of p.board[lane]) {
+        if (unit) ids.add(unit.instanceId);
+      }
+    }
+  }
+  return ids;
+}
+
+function renderManaCrystals(container, mana, maxMana) {
+  container.innerHTML = '';
+  for (let i = 0; i < maxMana; i++) {
+    const gem = document.createElement('span');
+    gem.className = 'crystal' + (i < mana ? ' filled' : ' spent');
+    container.appendChild(gem);
   }
 }
 
@@ -259,6 +298,7 @@ function renderLane(containerId, laneArr, side, laneName) {
     slot.dataset.slot = String(slotIndex);
     if (unit) {
       const cardEl = buildCardEl(unit, { context: 'board' });
+      if (!previousBoardIds.has(unit.instanceId)) cardEl.classList.add('card-enter');
       cardEl.addEventListener('click', () => onBoardCardClick(side, laneName, slotIndex));
       slot.appendChild(cardEl);
     } else {
@@ -384,10 +424,23 @@ function send(message) {
   if (ws && ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(message));
 }
 
-function logLine(text) {
+function logIcon(text) {
+  if (/destroyed/i.test(text)) return LOG_ICONS.destroyed;
+  if (/hits/i.test(text)) return LOG_ICONS.hits;
+  if (/played/i.test(text)) return LOG_ICONS.played;
+  if (/match started/i.test(text)) return LOG_ICONS.started;
+  return '';
+}
+
+function buildLogLine(text) {
   const d = document.createElement('div');
-  d.textContent = text;
-  el('log').appendChild(d);
+  const icon = logIcon(text);
+  d.textContent = icon ? `${icon} ${text}` : text;
+  return d;
+}
+
+function logLine(text) {
+  el('log').appendChild(buildLogLine(text));
   el('log').scrollTop = el('log').scrollHeight;
 }
 
@@ -417,8 +470,25 @@ function initTutorial() {
   }
 }
 
+function renderFactionThumbnails() {
+  for (const [faction, cardId] of Object.entries(FACTION_THUMB_CARD)) {
+    const btn = document.querySelector(`.faction-card[data-faction="${faction}"] .thumb`);
+    if (!btn) continue;
+    const style = cardArtStyle(cardId, 72, 72);
+    if (!style.sheet) continue;
+    const img = document.createElement('img');
+    img.src = style.sheet;
+    img.style.width = style.width + 'px';
+    img.style.height = style.height + 'px';
+    img.style.left = style.left + 'px';
+    img.style.top = style.top + 'px';
+    btn.appendChild(img);
+  }
+}
+
 (async function init() {
   await loadFactionData();
   initLobby();
   initTutorial();
+  renderFactionThumbnails();
 })();
