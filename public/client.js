@@ -22,6 +22,7 @@ let mySeatKey = null; // 'A' or 'B', informational only
 let currentView = null;
 let selectedHandCardId = null;
 let selectedAttacker = null; // { lane, slot }
+let tutorialDismissed = false;
 
 const el = (id) => document.getElementById(id);
 
@@ -159,7 +160,48 @@ function buildCardEl(instance, { faceDown = false, context = 'board' } = {}) {
   if (instance.sick) wrap.classList.add('sick');
   if (instance.attackedThisTurn) wrap.classList.add('attacked');
 
+  if (context === 'hand') {
+    wrap.addEventListener('mouseenter', (e) => showPreview(instance, e));
+    wrap.addEventListener('mousemove', (e) => movePreview(e));
+    wrap.addEventListener('mouseleave', hidePreview);
+  }
+
   return wrap;
+}
+
+function showPreview(instance, evt) {
+  const style = cardArtStyle(instance.cardId, 220);
+  if (!style.sheet) return;
+  const img = el('previewImg');
+  img.src = style.sheet;
+  img.style.width = style.width + 'px';
+  img.style.height = style.height + 'px';
+  img.style.left = style.left + 'px';
+  img.style.top = style.top + 'px';
+  el('previewCost').textContent = instance.cost;
+  el('previewPower').textContent = instance.power;
+  el('previewDefense').textContent = instance.defense;
+  el('previewName').textContent = instance.name;
+  el('previewText').textContent = instance.text || '';
+  el('cardPreview').classList.add('visible');
+  movePreview(evt);
+}
+
+function movePreview(evt) {
+  const preview = el('cardPreview');
+  const margin = 16;
+  const pw = preview.offsetWidth || 220;
+  const ph = preview.offsetHeight || 360;
+  let x = evt.clientX - pw / 2;
+  let y = evt.clientY - ph - margin;
+  x = Math.max(margin, Math.min(window.innerWidth - pw - margin, x));
+  if (y < margin) y = evt.clientY + margin;
+  preview.style.left = x + 'px';
+  preview.style.top = y + 'px';
+}
+
+function hidePreview() {
+  el('cardPreview').classList.remove('visible');
 }
 
 function render() {
@@ -198,6 +240,7 @@ function render() {
   el('log').scrollTop = el('log').scrollHeight;
 
   highlightSelections();
+  renderTutorial(turnNumber);
 
   if (winner) {
     el('gameOverOverlay').classList.remove('hidden');
@@ -352,7 +395,30 @@ function capitalize(s) {
   return s ? s[0].toUpperCase() + s.slice(1) : s;
 }
 
+const TUTORIAL_TIP_IDS = ['tipHand', 'tipCombat', 'tipCommander'];
+
+function renderTutorial(turnNumber) {
+  const show = !tutorialDismissed && turnNumber <= 3;
+  for (const id of TUTORIAL_TIP_IDS) {
+    el(id).classList.toggle('hidden', !show);
+  }
+}
+
+function dismissTutorial() {
+  tutorialDismissed = true;
+  for (const id of TUTORIAL_TIP_IDS) {
+    el(id).classList.add('hidden');
+  }
+}
+
+function initTutorial() {
+  for (const id of TUTORIAL_TIP_IDS) {
+    el(id).querySelector('.tip-close').addEventListener('click', dismissTutorial);
+  }
+}
+
 (async function init() {
   await loadFactionData();
   initLobby();
+  initTutorial();
 })();

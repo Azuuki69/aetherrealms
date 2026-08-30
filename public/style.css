@@ -111,7 +111,7 @@ h1 span {
 .lobby-status { text-align: center; margin-top: 1.5rem; color: var(--dim); min-height: 1.5em; }
 
 /* ---------- Game ---------- */
-#game { display: flex; flex-direction: column; height: 100vh; padding: 0.5rem 0.8rem; }
+#game { position: relative; display: flex; flex-direction: column; height: 100vh; padding: 0.5rem 0.8rem; }
 
 #topBar {
   display: flex;
@@ -177,7 +177,6 @@ h1 span {
 .card.selected { outline: 3px solid var(--gold); }
 .card.sick { filter: grayscale(0.6) brightness(0.7); }
 .card.attacked { filter: brightness(0.55); }
-.card.hand-card { position: static; }
 .card.unaffordable { filter: grayscale(0.8) brightness(0.5); cursor: not-allowed; }
 .card .keyword-tag {
   position: absolute;
@@ -248,8 +247,87 @@ h1 span {
   cursor: pointer;
 }
 
+/* ---------- Card hover preview ---------- */
+#cardPreview {
+  position: fixed;
+  z-index: 500;
+  pointer-events: none;
+  width: 220px;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 3px solid var(--gold);
+  box-shadow: 0 8px 24px #000c;
+  background: #100c08;
+  opacity: 0;
+  transition: opacity 0.08s;
+}
+#cardPreview.visible { opacity: 1; }
+#cardPreview .preview-art {
+  position: relative;
+  width: 220px;
+  height: 304px;
+  overflow: hidden;
+  background: #100c08;
+}
+#cardPreview .preview-art img { position: absolute; top: 0; left: 0; }
+#cardPreview .preview-badges {
+  position: absolute;
+  inset: 0;
+}
+#cardPreview .preview-badges .badge {
+  position: absolute;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #fff;
+  background: #000c;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--gold);
+}
+#cardPreview .preview-badges .cost { top: 6px; left: 6px; background: #1c3a6b; }
+#cardPreview .preview-badges .power { bottom: 6px; left: 6px; background: #6b1c1c; }
+#cardPreview .preview-badges .defense { bottom: 6px; right: 6px; background: #1c5c2a; }
+#cardPreview .preview-info {
+  padding: 0.6rem 0.7rem 0.8rem;
+  background: var(--panel);
+}
+#cardPreview .preview-name { color: var(--gold); font-weight: bold; font-size: 1rem; margin-bottom: 0.3rem; }
+#cardPreview .preview-text { color: var(--text); font-size: 0.85rem; line-height: 1.3; }
+
+/* ---------- Tutorial tips ---------- */
+.tutorial-tip {
+  position: absolute;
+  max-width: 220px;
+  background: linear-gradient(#3a2c14, #241c12);
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+  padding: 0.5rem 1.6rem 0.5rem 0.7rem;
+  font-size: 0.8rem;
+  color: var(--text);
+  box-shadow: 0 4px 14px #000a;
+  z-index: 50;
+  line-height: 1.35;
+}
+.tutorial-tip .tip-close {
+  position: absolute;
+  top: 2px;
+  right: 6px;
+  cursor: pointer;
+  color: var(--dim);
+  font-size: 0.9rem;
+}
+.tutorial-tip .tip-close:hover { color: var(--gold); }
+#tipHand { bottom: 156px; left: 50%; transform: translateX(-50%); }
+#tipCombat { bottom: 56px; right: 1rem; }
+#tipCommander { top: 46px; right: 1rem; }
+
 @media (max-width: 720px) {
   .lobby-actions { grid-template-columns: 1fr; }
   .faction-picker { grid-template-columns: repeat(2, 1fr); }
   .slot, .card { width: 60px; height: 84px; }
+  .tutorial-tip { max-width: 160px; font-size: 0.7rem; }
 }
