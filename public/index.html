@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Aether Realms: Clash of Armies</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div id="lobby" class="screen">
+  <h1>Aether Realms<span>Clash of Armies</span></h1>
+
+  <div class="faction-picker" id="factionPicker">
+    <button class="faction-card" data-faction="human">Human Kingdom</button>
+    <button class="faction-card" data-faction="elf">Sylvan Realm</button>
+    <button class="faction-card" data-faction="dwarf">Dwarven Realm</button>
+    <button class="faction-card" data-faction="orc">Orcish Horde</button>
+  </div>
+
+  <div class="lobby-actions">
+    <div class="lobby-panel">
+      <h2>Create a Match</h2>
+      <p>Pick a faction above, then create a room and share the code.</p>
+      <button id="createBtn">Create Match</button>
+      <div id="createdCode" class="room-code hidden"></div>
+    </div>
+    <div class="lobby-panel">
+      <h2>Join a Match</h2>
+      <p>Pick a faction above, then enter your friend's room code.</p>
+      <input id="joinCode" maxlength="6" placeholder="ROOM CODE" autocomplete="off" />
+      <button id="joinBtn">Join Match</button>
+    </div>
+  </div>
+
+  <div id="lobbyStatus" class="lobby-status"></div>
+</div>
+
+<div id="game" class="screen hidden">
+  <header id="topBar">
+    <div class="hp-panel" id="oppInfo">
+      <span class="name"></span>
+      <div class="hp-bar"><div class="hp-fill"></div></div>
+      <span class="mana"></span>
+    </div>
+    <div class="turn-indicator" id="turnIndicator"></div>
+    <div class="hp-panel" id="youInfo">
+      <span class="name"></span>
+      <div class="hp-bar"><div class="hp-fill"></div></div>
+      <span class="mana"></span>
+    </div>
+  </header>
+
+  <div class="board-area">
+    <div class="lane-row" id="oppRearguard"></div>
+    <div class="lane-row" id="oppVanguard"></div>
+    <div class="lane-divider"></div>
+    <div class="lane-row" id="youVanguard"></div>
+    <div class="lane-row" id="youRearguard"></div>
+  </div>
+
+  <div class="controls">
+    <button id="combatBtn">Go to Combat</button>
+    <button id="endTurnBtn">End Turn</button>
+  </div>
+
+  <div id="hand" class="hand"></div>
+
+  <div id="log" class="log"></div>
+
+  <div id="gameOverOverlay" class="overlay hidden">
+    <div class="overlay-box">
+      <h2 id="gameOverText"></h2>
+      <button onclick="location.reload()">Back to Lobby</button>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="client.js"></script>
+</body>
+</html>

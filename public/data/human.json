@@ -1,0 +1,34 @@
+{
+  "faction": "human",
+  "displayName": "Human Kingdom",
+  "sheet": "assets/human.png",
+  "sheetSize": { "w": 1024, "h": 559 },
+  "cards": [
+    { "id": "human_01", "name": "Militia", "cost": 1, "power": 1, "defense": 1, "text": "CONSCRIPT: When summoned, search your deck for another Militia and put it into hand.", "rect": { "x": 8, "y": 40, "w": 126, "h": 170 } },
+    { "id": "human_02", "name": "Spearman", "cost": 1, "power": 1, "defense": 1, "text": "PHALANX: Takes reduced damage from frontal attacks.", "rect": { "x": 134, "y": 40, "w": 126, "h": 170 } },
+    { "id": "human_03", "name": "Sergeant", "cost": 1, "power": 1, "defense": 1, "text": "CONSCRIPT: When summoned, search your deck for another Sergeant and put it into hand.", "rect": { "x": 260, "y": 40, "w": 126, "h": 170 } },
+    { "id": "human_04", "name": "Archer", "cost": 2, "power": 1, "defense": 1, "text": "VOLLEY: Once per turn, deal 1 damage to any unit.", "rect": { "x": 386, "y": 40, "w": 126, "h": 170 } },
+    { "id": "human_05", "name": "Crossbowman", "cost": 4, "power": 1, "defense": 1, "text": "VOLLEY: Once per turn, deal 1 damage to any unit.", "rect": { "x": 512, "y": 40, "w": 126, "h": 170 } },
+    { "id": "human_06", "name": "Longbowman", "cost": 3, "power": 2, "defense": 2, "text": "VOLLEY (far): Deals bonus damage at range.", "rect": { "x": 638, "y": 40, "w": 126, "h": 170 } },
+    { "id": "human_07", "name": "Halberdier", "cost": 4, "power": 3, "defense": 3, "text": "PIKE-WALL: Bonus damage against cavalry.", "rect": { "x": 764, "y": 40, "w": 126, "h": 170 } },
+    { "id": "human_08", "name": "Cleric", "cost": 3, "power": 0, "defense": 3, "text": "HEAL: Restore full health to one allied unit once per turn.", "rect": { "x": 890, "y": 40, "w": 126, "h": 170 } },
+
+    { "id": "human_09", "name": "Halberdier", "cost": 3, "power": 2, "defense": 2, "text": "PIKE-WALL: Deals bonus damage against cavalry units.", "rect": { "x": 8, "y": 210, "w": 126, "h": 170 } },
+    { "id": "human_10", "name": "Knight", "cost": 3, "power": 1, "defense": 2, "text": "CHARGE: Deals bonus damage on the turn it's summoned.", "rect": { "x": 134, "y": 210, "w": 126, "h": 170 } },
+    { "id": "human_11", "name": "Lancer", "cost": 4, "power": 1, "defense": 4, "text": "CHARGE (lance): Deals bonus damage on the turn it's summoned.", "rect": { "x": 260, "y": 210, "w": 126, "h": 170 } },
+    { "id": "human_12", "name": "Stormcaller", "cost": 5, "power": 2, "defense": 2, "text": "CHAIN LIGHTNING: Deals damage to up to 3 units: first takes 3, second 2, third 1.", "rect": { "x": 386, "y": 210, "w": 126, "h": 170 } },
+    { "id": "human_13", "name": "Cataphract", "cost": 4, "power": 5, "defense": 3, "text": "TRAMPLE: Cannot be blocked by units with less Power.", "rect": { "x": 512, "y": 210, "w": 126, "h": 170 } },
+    { "id": "human_14", "name": "Inquisitor", "cost": 3, "power": 0, "defense": 3, "text": "SMITE: Restore full health to one allied unit once per turn.", "rect": { "x": 638, "y": 210, "w": 126, "h": 170 } },
+    { "id": "human_15", "name": "Templar", "cost": 3, "power": 0, "defense": 3, "text": "GUARDIAN: Restore full health to one allied unit once per turn.", "rect": { "x": 764, "y": 210, "w": 126, "h": 170 } },
+    { "id": "human_16", "name": "Paladin", "cost": 5, "power": 0, "defense": 3, "text": "HEAL: Restore full health to one ally once per turn.", "rect": { "x": 890, "y": 210, "w": 126, "h": 170 } },
+
+    { "id": "human_17", "name": "War Priest", "cost": 3, "power": 1, "defense": 2, "text": "FERVOR: Target full health to one allied unit each turn.", "rect": { "x": 8, "y": 380, "w": 126, "h": 170 } },
+    { "id": "human_18", "name": "Royal Guard", "cost": 4, "power": 3, "defense": 4, "text": "GUARD: Reduces damage taken while on guard.", "rect": { "x": 134, "y": 380, "w": 126, "h": 170 } },
+    { "id": "human_19", "name": "Siege Tower", "cost": 5, "power": 6, "defense": 6, "text": "SIEGE: Target and destroy one enemy building card.", "rect": { "x": 260, "y": 380, "w": 126, "h": 170 } },
+    { "id": "human_20", "name": "Mangonel", "cost": 4, "power": 0, "defense": 5, "text": "BARRAGE: Target and destroy one enemy building card.", "rect": { "x": 386, "y": 380, "w": 126, "h": 170 } },
+    { "id": "human_21", "name": "Trebuchet", "cost": 5, "power": 0, "defense": 5, "text": "BARRAGE: Target and destroy one enemy building card.", "rect": { "x": 512, "y": 380, "w": 126, "h": 170 } },
+    { "id": "human_22", "name": "Valkyrie", "cost": 2, "power": 0, "defense": 2, "text": "SWOOP: Target and destroy one enemy building card.", "rect": { "x": 638, "y": 380, "w": 126, "h": 170 } },
+    { "id": "human_23", "name": "Seraph", "cost": 5, "power": 5, "defense": 4, "text": "HOLY AEGIS: All adjacent allied units are immune to non-magical damage.", "rect": { "x": 764, "y": 380, "w": 126, "h": 170 } },
+    { "id": "human_24", "name": "Titan", "cost": 5, "power": 6, "defense": 6, "text": "STOMP: On summon, stun all enemy units for one turn.", "rect": { "x": 890, "y": 380, "w": 126, "h": 170 } }
+  ]
+}

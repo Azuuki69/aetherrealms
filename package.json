@@ -1,0 +1,13 @@
+{
+  "name": "aether-realms",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Aether Realms: Clash of Armies - a 1v1 multiplayer card game on Cloudflare Workers",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}
