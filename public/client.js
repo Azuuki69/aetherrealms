@@ -1,16 +1,4 @@
 const FACTION_KEYS = ['beast', 'clock', 'damned', 'dwarf', 'dynasty', 'elf', 'fallen', 'human', 'orc', 'undead'];
-const FLAGSHIP_NAME = {
-  beast: 'Dire Wolf',
-  clock: 'Sparkwright',
-  damned: 'The Creditor',
-  dwarf: 'Warden',
-  dynasty: 'Samurai',
-  elf: 'Sharpshooter',
-  fallen: 'Scavenger-Lord',
-  human: 'Paladin',
-  orc: 'Berserker',
-  undead: 'Lich',
-};
 const LOG_ICONS = { played: '🃏', hits: '⚔️', destroyed: '💀', started: '📜', draws: '🎴', mends: '💚', rage: '🔥', rebirth: '✨' };
 const factionData = {};
 
@@ -461,11 +449,9 @@ function initTutorial() {
 function renderFactionThumbnails() {
   for (const faction of FACTION_KEYS) {
     const btn = document.querySelector(`.faction-card[data-faction="${faction}"] .thumb`);
-    const data = factionData[faction];
-    if (!btn || !data) continue;
-    const flagship = data.cards.find((c) => c.name === FLAGSHIP_NAME[faction]) || data.cards[0];
+    if (!btn) continue;
     const img = document.createElement('img');
-    img.src = flagship.image;
+    img.src = `assets/cards/${faction}logo.png`;
     img.alt = faction;
     btn.appendChild(img);
   }
