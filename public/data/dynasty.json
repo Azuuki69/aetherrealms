@@ -1,0 +1,240 @@
+﻿{
+    "faction":  "dynasty",
+    "displayName":  "Dynasty",
+    "cards":  [
+                  {
+                      "id":  "dynasty_01",
+                      "name":  "Ashigaru",
+                      "cost":  1,
+                      "power":  1,
+                      "defense":  2,
+                      "text":  "FORMATION: +1 DMG while adjacent to another Dynasty unit.",
+                      "image":  "assets/cards/web/dynasty/01_ashigaru.jpg"
+                  },
+                  {
+                      "id":  "dynasty_02",
+                      "name":  "Soldier",
+                      "cost":  1,
+                      "power":  1,
+                      "defense":  2,
+                      "text":  "FORMATION: +1 DMG while adjacent to another Dynasty unit.",
+                      "image":  "assets/cards/web/dynasty/02_soldier.jpg"
+                  },
+                  {
+                      "id":  "dynasty_03",
+                      "name":  "Yumi Archer",
+                      "cost":  1,
+                      "power":  2,
+                      "defense":  1,
+                      "text":  "VOLLEY: May attack the enemy Commander directly even through blockers.",
+                      "image":  "assets/cards/web/dynasty/03_yumi_archer.jpg"
+                  },
+                  {
+                      "id":  "dynasty_04",
+                      "name":  "Chu-ko-nu",
+                      "cost":  2,
+                      "power":  2,
+                      "defense":  3,
+                      "text":  "FORMATION: +1 DMG while adjacent to another Dynasty unit.",
+                      "image":  "assets/cards/web/dynasty/04_chu_ko_nu.jpg"
+                  },
+                  {
+                      "id":  "dynasty_05",
+                      "name":  "Flame Archer",
+                      "cost":  2,
+                      "power":  3,
+                      "defense":  2,
+                      "text":  "VOLLEY: May attack the enemy Commander directly even through blockers.",
+                      "image":  "assets/cards/web/dynasty/05_flame_archer.jpg"
+                  },
+                  {
+                      "id":  "dynasty_06",
+                      "name":  "Fire Lance",
+                      "cost":  2,
+                      "power":  3,
+                      "defense":  2,
+                      "text":  "VOLLEY: May attack the enemy Commander directly even through blockers.",
+                      "image":  "assets/cards/web/dynasty/06_fire_lance.jpg"
+                  },
+                  {
+                      "id":  "dynasty_07",
+                      "name":  "Naginata Guard",
+                      "cost":  2,
+                      "power":  2,
+                      "defense":  3,
+                      "text":  "GUARD: Enemies in this lane must attack this unit first.",
+                      "image":  "assets/cards/web/dynasty/07_naginata_guard.jpg"
+                  },
+                  {
+                      "id":  "dynasty_08",
+                      "name":  "Iron Monk",
+                      "cost":  3,
+                      "power":  3,
+                      "defense":  3,
+                      "text":  "MEND: Heals an allied unit for 2 when played.",
+                      "image":  "assets/cards/web/dynasty/08_iron_monk.jpg"
+                  },
+                  {
+                      "id":  "dynasty_09",
+                      "name":  "Light Cavalry",
+                      "cost":  3,
+                      "power":  3,
+                      "defense":  3,
+                      "text":  "CHARGE: Can attack the turn it is played.",
+                      "image":  "assets/cards/web/dynasty/09_light_cavalry.jpg"
+                  },
+                  {
+                      "id":  "dynasty_10",
+                      "name":  "Horse Archer",
+                      "cost":  3,
+                      "power":  4,
+                      "defense":  2,
+                      "text":  "VOLLEY: May attack the enemy Commander directly even through blockers.",
+                      "image":  "assets/cards/web/dynasty/10_horse_archer.jpg"
+                  },
+                  {
+                      "id":  "dynasty_11",
+                      "name":  "Iron Pagoda",
+                      "cost":  3,
+                      "power":  3,
+                      "defense":  3,
+                      "text":  "FORMATION: +1 DMG while adjacent to another Dynasty unit.",
+                      "image":  "assets/cards/web/dynasty/11_iron_pagoda.jpg"
+                  },
+                  {
+                      "id":  "dynasty_12",
+                      "name":  "Ronin",
+                      "cost":  4,
+                      "power":  4,
+                      "defense":  4,
+                      "text":  "FORMATION: +1 DMG while adjacent to another Dynasty unit.",
+                      "image":  "assets/cards/web/dynasty/12_ronin.jpg"
+                  },
+                  {
+                      "id":  "dynasty_13",
+                      "name":  "Shinobi",
+                      "cost":  4,
+                      "power":  4,
+                      "defense":  4,
+                      "text":  "FORMATION: +1 DMG while adjacent to another Dynasty unit.",
+                      "image":  "assets/cards/web/dynasty/13_shinobi.jpg"
+                  },
+                  {
+                      "id":  "dynasty_14",
+                      "name":  "Sohei",
+                      "cost":  4,
+                      "power":  4,
+                      "defense":  4,
+                      "text":  "FORMATION: +1 DMG while adjacent to another Dynasty unit.",
+                      "image":  "assets/cards/web/dynasty/14_sohei.jpg"
+                  },
+                  {
+                      "id":  "dynasty_15",
+                      "name":  "Shrine Maiden",
+                      "cost":  4,
+                      "power":  4,
+                      "defense":  4,
+                      "text":  "FORMATION: +1 DMG while adjacent to another Dynasty unit.",
+                      "image":  "assets/cards/web/dynasty/15_shrine_maiden.jpg"
+                  },
+                  {
+                      "id":  "dynasty_16",
+                      "name":  "Pyromancer",
+                      "cost":  5,
+                      "power":  6,
+                      "defense":  3,
+                      "text":  "FORMATION: +1 DMG while adjacent to another Dynasty unit.",
+                      "image":  "assets/cards/web/dynasty/16_pyromancer.jpg"
+                  },
+                  {
+                      "id":  "dynasty_17",
+                      "name":  "Onmyoji",
+                      "cost":  5,
+                      "power":  4,
+                      "defense":  5,
+                      "text":  "FORMATION: +1 DMG while adjacent to another Dynasty unit.",
+                      "image":  "assets/cards/web/dynasty/17_onmyoji.jpg"
+                  },
+                  {
+                      "id":  "dynasty_18",
+                      "name":  "Samurai",
+                      "cost":  4,
+                      "power":  5,
+                      "defense":  4,
+                      "text":  "FORMATION: While adjacent to another Dynasty unit, gains +1 DMG and +1 HP.",
+                      "image":  "assets/cards/web/dynasty/18_samurai.jpg"
+                  },
+                  {
+                      "id":  "dynasty_19",
+                      "name":  "Kensei",
+                      "cost":  6,
+                      "power":  5,
+                      "defense":  6,
+                      "text":  "FORMATION: +1 DMG while adjacent to another Dynasty unit.",
+                      "image":  "assets/cards/web/dynasty/19_kensei.jpg"
+                  },
+                  {
+                      "id":  "dynasty_20",
+                      "name":  "Hwacha",
+                      "cost":  6,
+                      "power":  5,
+                      "defense":  6,
+                      "text":  "FORMATION: +1 DMG while adjacent to another Dynasty unit.",
+                      "image":  "assets/cards/web/dynasty/20_hwacha.jpg"
+                  },
+                  {
+                      "id":  "dynasty_21",
+                      "name":  "Fire Ox",
+                      "cost":  6,
+                      "power":  7,
+                      "defense":  4,
+                      "text":  "FORMATION: +1 DMG while adjacent to another Dynasty unit.",
+                      "image":  "assets/cards/web/dynasty/21_fire_ox.jpg"
+                  },
+                  {
+                      "id":  "dynasty_22",
+                      "name":  "Terracotta Guard",
+                      "cost":  7,
+                      "power":  4,
+                      "defense":  8,
+                      "text":  "GUARD: Enemies in this lane must attack this unit first.",
+                      "image":  "assets/cards/web/dynasty/22_terracotta_guard.jpg"
+                  },
+                  {
+                      "id":  "dynasty_23",
+                      "name":  "War Elephant",
+                      "cost":  7,
+                      "power":  4,
+                      "defense":  8,
+                      "text":  "FORMATION: +1 DMG while adjacent to another Dynasty unit.",
+                      "image":  "assets/cards/web/dynasty/23_war_elephant.jpg"
+                  },
+                  {
+                      "id":  "dynasty_24",
+                      "name":  "Qilin",
+                      "cost":  8,
+                      "power":  7,
+                      "defense":  7,
+                      "text":  "FORMATION: +1 DMG while adjacent to another Dynasty unit.",
+                      "image":  "assets/cards/web/dynasty/24_qilin.jpg"
+                  },
+                  {
+                      "id":  "dynasty_25",
+                      "name":  "Cloud Serpent",
+                      "cost":  9,
+                      "power":  7,
+                      "defense":  8,
+                      "text":  "FORMATION: +1 DMG while adjacent to another Dynasty unit. (This unit is a rare, high-impact threat.)",
+                      "image":  "assets/cards/web/dynasty/25_cloud_serpent.jpg"
+                  },
+                  {
+                      "id":  "dynasty_26",
+                      "name":  "Oni",
+                      "cost":  10,
+                      "power":  8,
+                      "defense":  9,
+                      "text":  "FORMATION: +1 DMG while adjacent to another Dynasty unit. (This unit is a rare, high-impact threat.)",
+                      "image":  "assets/cards/web/dynasty/26_oni.jpg"
+                  }
+              ]
+}

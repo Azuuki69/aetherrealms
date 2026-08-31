@@ -1,0 +1,240 @@
+﻿{
+    "faction":  "clock",
+    "displayName":  "Clock",
+    "cards":  [
+                  {
+                      "id":  "clock_01",
+                      "name":  "Rivetman",
+                      "cost":  1,
+                      "power":  1,
+                      "defense":  2,
+                      "text":  "COUNTDOWN 1: Deals 1 DMG to a random enemy at the start of your next turn.",
+                      "image":  "assets/cards/web/clock/01_rivetman.jpg"
+                  },
+                  {
+                      "id":  "clock_02",
+                      "name":  "Stoker",
+                      "cost":  1,
+                      "power":  1,
+                      "defense":  2,
+                      "text":  "COUNTDOWN 1: Deals 1 DMG to a random enemy at the start of your next turn.",
+                      "image":  "assets/cards/web/clock/02_stoker.jpg"
+                  },
+                  {
+                      "id":  "clock_03",
+                      "name":  "Cogshot",
+                      "cost":  1,
+                      "power":  2,
+                      "defense":  1,
+                      "text":  "COUNTDOWN 1: Deals 1 DMG to a random enemy at the start of your next turn.",
+                      "image":  "assets/cards/web/clock/03_cogshot.jpg"
+                  },
+                  {
+                      "id":  "clock_04",
+                      "name":  "Steam Lance",
+                      "cost":  2,
+                      "power":  2,
+                      "defense":  3,
+                      "text":  "VOLLEY: May attack the enemy Commander directly even through blockers.",
+                      "image":  "assets/cards/web/clock/04_steam_lance.jpg"
+                  },
+                  {
+                      "id":  "clock_05",
+                      "name":  "Vent Gunner",
+                      "cost":  2,
+                      "power":  3,
+                      "defense":  2,
+                      "text":  "VOLLEY: May attack the enemy Commander directly even through blockers.",
+                      "image":  "assets/cards/web/clock/05_vent_gunner.jpg"
+                  },
+                  {
+                      "id":  "clock_06",
+                      "name":  "Chainshot Crew",
+                      "cost":  2,
+                      "power":  3,
+                      "defense":  2,
+                      "text":  "COUNTDOWN 1: Deals 1 DMG to a random enemy at the start of your next turn.",
+                      "image":  "assets/cards/web/clock/06_chainshot_crew.jpg"
+                  },
+                  {
+                      "id":  "clock_07",
+                      "name":  "Pressure Guard",
+                      "cost":  2,
+                      "power":  2,
+                      "defense":  3,
+                      "text":  "GUARD: Enemies in this lane must attack this unit first.",
+                      "image":  "assets/cards/web/clock/07_pressure_guard.jpg"
+                  },
+                  {
+                      "id":  "clock_08",
+                      "name":  "Wrenchbreaker",
+                      "cost":  3,
+                      "power":  3,
+                      "defense":  3,
+                      "text":  "COUNTDOWN 1: Deals 1 DMG to a random enemy at the start of your next turn.",
+                      "image":  "assets/cards/web/clock/08_wrenchbreaker.jpg"
+                  },
+                  {
+                      "id":  "clock_09",
+                      "name":  "Boiler Rider",
+                      "cost":  3,
+                      "power":  3,
+                      "defense":  3,
+                      "text":  "CHARGE: Can attack the turn it is played.",
+                      "image":  "assets/cards/web/clock/09_boiler_rider.jpg"
+                  },
+                  {
+                      "id":  "clock_10",
+                      "name":  "Pistonfist",
+                      "cost":  3,
+                      "power":  3,
+                      "defense":  3,
+                      "text":  "COUNTDOWN 1: Deals 1 DMG to a random enemy at the start of your next turn.",
+                      "image":  "assets/cards/web/clock/10_pistonfist.jpg"
+                  },
+                  {
+                      "id":  "clock_11",
+                      "name":  "Hammerworks",
+                      "cost":  3,
+                      "power":  3,
+                      "defense":  3,
+                      "text":  "COUNTDOWN 1: Deals 1 DMG to a random enemy at the start of your next turn.",
+                      "image":  "assets/cards/web/clock/11_hammerworks.jpg"
+                  },
+                  {
+                      "id":  "clock_12",
+                      "name":  "Gaugekeeper",
+                      "cost":  4,
+                      "power":  4,
+                      "defense":  4,
+                      "text":  "COUNTDOWN 1: Deals 1 DMG to a random enemy at the start of your next turn.",
+                      "image":  "assets/cards/web/clock/12_gaugekeeper.jpg"
+                  },
+                  {
+                      "id":  "clock_13",
+                      "name":  "Bellowsman",
+                      "cost":  4,
+                      "power":  4,
+                      "defense":  4,
+                      "text":  "COUNTDOWN 1: Deals 1 DMG to a random enemy at the start of your next turn.",
+                      "image":  "assets/cards/web/clock/13_bellowsman.jpg"
+                  },
+                  {
+                      "id":  "clock_14",
+                      "name":  "Sparkwright",
+                      "cost":  6,
+                      "power":  3,
+                      "defense":  6,
+                      "text":  "COUNTDOWN 2: At the start of your second turn after this enters play, deal 4 DMG to an enemy and draw a card.",
+                      "image":  "assets/cards/web/clock/14_sparkwright.jpg"
+                  },
+                  {
+                      "id":  "clock_15",
+                      "name":  "Governor",
+                      "cost":  4,
+                      "power":  4,
+                      "defense":  4,
+                      "text":  "COUNTDOWN 1: Deals 1 DMG to a random enemy at the start of your next turn.",
+                      "image":  "assets/cards/web/clock/15_governor.jpg"
+                  },
+                  {
+                      "id":  "clock_16",
+                      "name":  "Foreman",
+                      "cost":  5,
+                      "power":  4,
+                      "defense":  5,
+                      "text":  "COUNTDOWN 1: Deals 1 DMG to a random enemy at the start of your next turn.",
+                      "image":  "assets/cards/web/clock/16_foreman.jpg"
+                  },
+                  {
+                      "id":  "clock_17",
+                      "name":  "Plague Doctor",
+                      "cost":  5,
+                      "power":  4,
+                      "defense":  5,
+                      "text":  "COUNTDOWN 1: Deals 1 DMG to a random enemy at the start of your next turn.",
+                      "image":  "assets/cards/web/clock/17_plague_doctor.jpg"
+                  },
+                  {
+                      "id":  "clock_18",
+                      "name":  "Pressure Mortar",
+                      "cost":  5,
+                      "power":  4,
+                      "defense":  5,
+                      "text":  "VOLLEY: May attack the enemy Commander directly even through blockers.",
+                      "image":  "assets/cards/web/clock/18_pressure_mortar.jpg"
+                  },
+                  {
+                      "id":  "clock_19",
+                      "name":  "Steam Ram",
+                      "cost":  6,
+                      "power":  4,
+                      "defense":  7,
+                      "text":  "COUNTDOWN 1: Deals 1 DMG to a random enemy at the start of your next turn.",
+                      "image":  "assets/cards/web/clock/19_steam_ram.jpg"
+                  },
+                  {
+                      "id":  "clock_20",
+                      "name":  "Air Ship",
+                      "cost":  6,
+                      "power":  5,
+                      "defense":  6,
+                      "text":  "COUNTDOWN 1: Deals 1 DMG to a random enemy at the start of your next turn.",
+                      "image":  "assets/cards/web/clock/20_air_ship.jpg"
+                  },
+                  {
+                      "id":  "clock_21",
+                      "name":  "Cogwalker",
+                      "cost":  6,
+                      "power":  5,
+                      "defense":  6,
+                      "text":  "COUNTDOWN 1: Deals 1 DMG to a random enemy at the start of your next turn.",
+                      "image":  "assets/cards/web/clock/21_cogwalker.jpg"
+                  },
+                  {
+                      "id":  "clock_22",
+                      "name":  "Brass Golem",
+                      "cost":  7,
+                      "power":  4,
+                      "defense":  8,
+                      "text":  "COUNTDOWN 1: Deals 1 DMG to a random enemy at the start of your next turn.",
+                      "image":  "assets/cards/web/clock/22_brass_golem.jpg"
+                  },
+                  {
+                      "id":  "clock_23",
+                      "name":  "Iron Hound",
+                      "cost":  7,
+                      "power":  6,
+                      "defense":  6,
+                      "text":  "COUNTDOWN 1: Deals 1 DMG to a random enemy at the start of your next turn.",
+                      "image":  "assets/cards/web/clock/23_iron_hound.jpg"
+                  },
+                  {
+                      "id":  "clock_24",
+                      "name":  "Crawler",
+                      "cost":  8,
+                      "power":  7,
+                      "defense":  7,
+                      "text":  "COUNTDOWN 1: Deals 1 DMG to a random enemy at the start of your next turn.",
+                      "image":  "assets/cards/web/clock/24_crawler.jpg"
+                  },
+                  {
+                      "id":  "clock_25",
+                      "name":  "The Great Engine",
+                      "cost":  9,
+                      "power":  6,
+                      "defense":  9,
+                      "text":  "COUNTDOWN 1: Deals 1 DMG to a random enemy at the start of your next turn. (This unit is a rare, high-impact threat.)",
+                      "image":  "assets/cards/web/clock/25_the_great_engine.jpg"
+                  },
+                  {
+                      "id":  "clock_26",
+                      "name":  "Boiler King",
+                      "cost":  10,
+                      "power":  8,
+                      "defense":  9,
+                      "text":  "COUNTDOWN 1: Deals 1 DMG to a random enemy at the start of your next turn. (This unit is a rare, high-impact threat.)",
+                      "image":  "assets/cards/web/clock/26_boiler_king.jpg"
+                  }
+              ]
+}

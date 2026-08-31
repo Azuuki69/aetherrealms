@@ -1,0 +1,240 @@
+﻿{
+    "faction":  "fallen",
+    "displayName":  "Fallen",
+    "cards":  [
+                  {
+                      "id":  "fallen_01",
+                      "name":  "Scrapling",
+                      "cost":  1,
+                      "power":  1,
+                      "defense":  2,
+                      "text":  "SALVAGE: Draw a card whenever an allied unit dies.",
+                      "image":  "assets/cards/web/fallen/01_scrapling.jpg"
+                  },
+                  {
+                      "id":  "fallen_02",
+                      "name":  "Gleaner",
+                      "cost":  1,
+                      "power":  1,
+                      "defense":  2,
+                      "text":  "SALVAGE: Draw a card whenever an allied unit dies.",
+                      "image":  "assets/cards/web/fallen/02_gleaner.jpg"
+                  },
+                  {
+                      "id":  "fallen_03",
+                      "name":  "Shardslinger",
+                      "cost":  1,
+                      "power":  2,
+                      "defense":  1,
+                      "text":  "VOLLEY: May attack the enemy Commander directly even through blockers.",
+                      "image":  "assets/cards/web/fallen/03_shardslinger.jpg"
+                  },
+                  {
+                      "id":  "fallen_04",
+                      "name":  "Beamlance",
+                      "cost":  2,
+                      "power":  2,
+                      "defense":  3,
+                      "text":  "VOLLEY: May attack the enemy Commander directly even through blockers.",
+                      "image":  "assets/cards/web/fallen/04_beamlance.jpg"
+                  },
+                  {
+                      "id":  "fallen_05",
+                      "name":  "Ray Splitter",
+                      "cost":  2,
+                      "power":  2,
+                      "defense":  3,
+                      "text":  "SALVAGE: Draw a card whenever an allied unit dies.",
+                      "image":  "assets/cards/web/fallen/05_ray_splitter.jpg"
+                  },
+                  {
+                      "id":  "fallen_06",
+                      "name":  "Watcher",
+                      "cost":  2,
+                      "power":  2,
+                      "defense":  3,
+                      "text":  "SALVAGE: Draw a card whenever an allied unit dies.",
+                      "image":  "assets/cards/web/fallen/06_watcher.jpg"
+                  },
+                  {
+                      "id":  "fallen_07",
+                      "name":  "Flare Crew",
+                      "cost":  2,
+                      "power":  2,
+                      "defense":  3,
+                      "text":  "SALVAGE: Draw a card whenever an allied unit dies.",
+                      "image":  "assets/cards/web/fallen/07_flare_crew.jpg"
+                  },
+                  {
+                      "id":  "fallen_08",
+                      "name":  "Hullbreaker",
+                      "cost":  3,
+                      "power":  3,
+                      "defense":  3,
+                      "text":  "SALVAGE: Draw a card whenever an allied unit dies.",
+                      "image":  "assets/cards/web/fallen/08_hullbreaker.jpg"
+                  },
+                  {
+                      "id":  "fallen_09",
+                      "name":  "Prybar",
+                      "cost":  3,
+                      "power":  3,
+                      "defense":  3,
+                      "text":  "SALVAGE: Draw a card whenever an allied unit dies.",
+                      "image":  "assets/cards/web/fallen/09_prybar.jpg"
+                  },
+                  {
+                      "id":  "fallen_10",
+                      "name":  "Skiff Rider",
+                      "cost":  3,
+                      "power":  3,
+                      "defense":  3,
+                      "text":  "CHARGE: Can attack the turn it is played.",
+                      "image":  "assets/cards/web/fallen/10_skiff_rider.jpg"
+                  },
+                  {
+                      "id":  "fallen_11",
+                      "name":  "Hauler",
+                      "cost":  3,
+                      "power":  3,
+                      "defense":  3,
+                      "text":  "SALVAGE: Draw a card whenever an allied unit dies.",
+                      "image":  "assets/cards/web/fallen/11_hauler.jpg"
+                  },
+                  {
+                      "id":  "fallen_12",
+                      "name":  "Breachjack",
+                      "cost":  4,
+                      "power":  4,
+                      "defense":  4,
+                      "text":  "SALVAGE: Draw a card whenever an allied unit dies.",
+                      "image":  "assets/cards/web/fallen/12_breachjack.jpg"
+                  },
+                  {
+                      "id":  "fallen_13",
+                      "name":  "Cutterman",
+                      "cost":  4,
+                      "power":  4,
+                      "defense":  4,
+                      "text":  "SALVAGE: Draw a card whenever an allied unit dies.",
+                      "image":  "assets/cards/web/fallen/13_cutterman.jpg"
+                  },
+                  {
+                      "id":  "fallen_14",
+                      "name":  "Signaller",
+                      "cost":  4,
+                      "power":  4,
+                      "defense":  4,
+                      "text":  "SALVAGE: Draw a card whenever an allied unit dies.",
+                      "image":  "assets/cards/web/fallen/14_signaller.jpg"
+                  },
+                  {
+                      "id":  "fallen_15",
+                      "name":  "Mender",
+                      "cost":  4,
+                      "power":  4,
+                      "defense":  4,
+                      "text":  "SALVAGE: Draw a card whenever an allied unit dies.",
+                      "image":  "assets/cards/web/fallen/15_mender.jpg"
+                  },
+                  {
+                      "id":  "fallen_16",
+                      "name":  "Scavenger-Lord",
+                      "cost":  6,
+                      "power":  4,
+                      "defense":  5,
+                      "text":  "SALVAGE: Draw a card whenever an allied unit dies.",
+                      "image":  "assets/cards/web/fallen/16_scavenger_lord.jpg"
+                  },
+                  {
+                      "id":  "fallen_17",
+                      "name":  "Fieldwright",
+                      "cost":  5,
+                      "power":  4,
+                      "defense":  5,
+                      "text":  "SALVAGE: Draw a card whenever an allied unit dies.",
+                      "image":  "assets/cards/web/fallen/17_fieldwright.jpg"
+                  },
+                  {
+                      "id":  "fallen_18",
+                      "name":  "Starcaller",
+                      "cost":  5,
+                      "power":  4,
+                      "defense":  5,
+                      "text":  "SALVAGE: Draw a card whenever an allied unit dies.",
+                      "image":  "assets/cards/web/fallen/18_starcaller.jpg"
+                  },
+                  {
+                      "id":  "fallen_19",
+                      "name":  "Crater Guard",
+                      "cost":  6,
+                      "power":  4,
+                      "defense":  7,
+                      "text":  "GUARD: Enemies in this lane must attack this unit first.",
+                      "image":  "assets/cards/web/fallen/19_crater_guard.jpg"
+                  },
+                  {
+                      "id":  "fallen_20",
+                      "name":  "Hull Knight",
+                      "cost":  6,
+                      "power":  4,
+                      "defense":  7,
+                      "text":  "SALVAGE: Draw a card whenever an allied unit dies.",
+                      "image":  "assets/cards/web/fallen/20_hull_knight.jpg"
+                  },
+                  {
+                      "id":  "fallen_21",
+                      "name":  "Star Warden",
+                      "cost":  6,
+                      "power":  4,
+                      "defense":  7,
+                      "text":  "GUARD: Enemies in this lane must attack this unit first.",
+                      "image":  "assets/cards/web/fallen/21_star_warden.jpg"
+                  },
+                  {
+                      "id":  "fallen_22",
+                      "name":  "Lantern Engine",
+                      "cost":  7,
+                      "power":  4,
+                      "defense":  8,
+                      "text":  "SALVAGE: Draw a card whenever an allied unit dies.",
+                      "image":  "assets/cards/web/fallen/22_lantern_engine.jpg"
+                  },
+                  {
+                      "id":  "fallen_23",
+                      "name":  "Grav Sled",
+                      "cost":  7,
+                      "power":  6,
+                      "defense":  6,
+                      "text":  "SALVAGE: Draw a card whenever an allied unit dies.",
+                      "image":  "assets/cards/web/fallen/23_grav_sled.jpg"
+                  },
+                  {
+                      "id":  "fallen_24",
+                      "name":  "Salvage Walker",
+                      "cost":  8,
+                      "power":  7,
+                      "defense":  7,
+                      "text":  "SALVAGE: Draw a card whenever an allied unit dies.",
+                      "image":  "assets/cards/web/fallen/24_salvage_walker.jpg"
+                  },
+                  {
+                      "id":  "fallen_25",
+                      "name":  "The Last Lander",
+                      "cost":  9,
+                      "power":  7,
+                      "defense":  8,
+                      "text":  "SALVAGE: Draw a card whenever an allied unit dies. (This unit is a rare, high-impact threat.)",
+                      "image":  "assets/cards/web/fallen/25_the_last_lander.jpg"
+                  },
+                  {
+                      "id":  "fallen_26",
+                      "name":  "The Prow",
+                      "cost":  10,
+                      "power":  8,
+                      "defense":  9,
+                      "text":  "SALVAGE: Draw a card whenever an allied unit dies. (This unit is a rare, high-impact threat.)",
+                      "image":  "assets/cards/web/fallen/26_the_prow.jpg"
+                  }
+              ]
+}

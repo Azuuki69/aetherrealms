@@ -1,0 +1,240 @@
+﻿{
+    "faction":  "damned",
+    "displayName":  "Damned",
+    "cards":  [
+                  {
+                      "id":  "damned_01",
+                      "name":  "Thrall",
+                      "cost":  1,
+                      "power":  1,
+                      "defense":  2,
+                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "image":  "assets/cards/web/damned/01_thrall.jpg"
+                  },
+                  {
+                      "id":  "damned_02",
+                      "name":  "Penitent",
+                      "cost":  1,
+                      "power":  1,
+                      "defense":  2,
+                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "image":  "assets/cards/web/damned/02_penitent.jpg"
+                  },
+                  {
+                      "id":  "damned_03",
+                      "name":  "Emberling",
+                      "cost":  1,
+                      "power":  1,
+                      "defense":  2,
+                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "image":  "assets/cards/web/damned/03_emberling.jpg"
+                  },
+                  {
+                      "id":  "damned_04",
+                      "name":  "Screamer",
+                      "cost":  2,
+                      "power":  2,
+                      "defense":  3,
+                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "image":  "assets/cards/web/damned/04_screamer.jpg"
+                  },
+                  {
+                      "id":  "damned_05",
+                      "name":  "Hound of the Pact",
+                      "cost":  2,
+                      "power":  2,
+                      "defense":  3,
+                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "image":  "assets/cards/web/damned/05_hound_of_the_pact.jpg"
+                  },
+                  {
+                      "id":  "damned_06",
+                      "name":  "Branded Rider",
+                      "cost":  2,
+                      "power":  2,
+                      "defense":  3,
+                      "text":  "CHARGE: Can attack the turn it is played.",
+                      "image":  "assets/cards/web/damned/06_branded_rider.jpg"
+                  },
+                  {
+                      "id":  "damned_07",
+                      "name":  "Flenser",
+                      "cost":  2,
+                      "power":  2,
+                      "defense":  3,
+                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "image":  "assets/cards/web/damned/07_flenser.jpg"
+                  },
+                  {
+                      "id":  "damned_08",
+                      "name":  "Gnasher",
+                      "cost":  3,
+                      "power":  3,
+                      "defense":  3,
+                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "image":  "assets/cards/web/damned/08_gnasher.jpg"
+                  },
+                  {
+                      "id":  "damned_09",
+                      "name":  "Wrathborn",
+                      "cost":  3,
+                      "power":  3,
+                      "defense":  3,
+                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "image":  "assets/cards/web/damned/09_wrathborn.jpg"
+                  },
+                  {
+                      "id":  "damned_10",
+                      "name":  "Scourgeling",
+                      "cost":  3,
+                      "power":  3,
+                      "defense":  3,
+                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "image":  "assets/cards/web/damned/10_scourgeling.jpg"
+                  },
+                  {
+                      "id":  "damned_11",
+                      "name":  "Shardbreaker",
+                      "cost":  3,
+                      "power":  3,
+                      "defense":  3,
+                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "image":  "assets/cards/web/damned/11_shardbreaker.jpg"
+                  },
+                  {
+                      "id":  "damned_12",
+                      "name":  "Yoke-Bearer",
+                      "cost":  4,
+                      "power":  4,
+                      "defense":  4,
+                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "image":  "assets/cards/web/damned/12_yoke_bearer.jpg"
+                  },
+                  {
+                      "id":  "damned_13",
+                      "name":  "Confessor",
+                      "cost":  4,
+                      "power":  4,
+                      "defense":  4,
+                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "image":  "assets/cards/web/damned/13_confessor.jpg"
+                  },
+                  {
+                      "id":  "damned_14",
+                      "name":  "Ledger-Keeper",
+                      "cost":  4,
+                      "power":  4,
+                      "defense":  4,
+                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "image":  "assets/cards/web/damned/14_ledger_keeper.jpg"
+                  },
+                  {
+                      "id":  "damned_15",
+                      "name":  "Brimstone Caller",
+                      "cost":  4,
+                      "power":  4,
+                      "defense":  4,
+                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "image":  "assets/cards/web/damned/15_brimstone_caller.jpg"
+                  },
+                  {
+                      "id":  "damned_16",
+                      "name":  "Binding Warlock",
+                      "cost":  5,
+                      "power":  6,
+                      "defense":  3,
+                      "text":  "REBIRTH: The first time this would die, return it to your hand at 1 HP instead.",
+                      "image":  "assets/cards/web/damned/16_binding_warlock.jpg"
+                  },
+                  {
+                      "id":  "damned_17",
+                      "name":  "Soul Broker",
+                      "cost":  5,
+                      "power":  4,
+                      "defense":  5,
+                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "image":  "assets/cards/web/damned/17_soul_broker.jpg"
+                  },
+                  {
+                      "id":  "damned_18",
+                      "name":  "Dread Champion",
+                      "cost":  5,
+                      "power":  4,
+                      "defense":  5,
+                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "image":  "assets/cards/web/damned/18_dread_champion.jpg"
+                  },
+                  {
+                      "id":  "damned_19",
+                      "name":  "Gate Warden",
+                      "cost":  6,
+                      "power":  4,
+                      "defense":  7,
+                      "text":  "GUARD: Enemies in this lane must attack this unit first.",
+                      "image":  "assets/cards/web/damned/19_gate_warden.jpg"
+                  },
+                  {
+                      "id":  "damned_20",
+                      "name":  "Harrow Knight",
+                      "cost":  6,
+                      "power":  4,
+                      "defense":  7,
+                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "image":  "assets/cards/web/damned/20_harrow_knight.jpg"
+                  },
+                  {
+                      "id":  "damned_21",
+                      "name":  "Abyssal Priest",
+                      "cost":  6,
+                      "power":  5,
+                      "defense":  6,
+                      "text":  "MEND: Heals an allied unit for 2 when played.",
+                      "image":  "assets/cards/web/damned/21_abyssal_priest.jpg"
+                  },
+                  {
+                      "id":  "damned_22",
+                      "name":  "Maw",
+                      "cost":  7,
+                      "power":  6,
+                      "defense":  6,
+                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "image":  "assets/cards/web/damned/22_maw.jpg"
+                  },
+                  {
+                      "id":  "damned_23",
+                      "name":  "Carrion Wing",
+                      "cost":  7,
+                      "power":  6,
+                      "defense":  6,
+                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "image":  "assets/cards/web/damned/23_carrion_wing.jpg"
+                  },
+                  {
+                      "id":  "damned_24",
+                      "name":  "Bone Engine",
+                      "cost":  8,
+                      "power":  5,
+                      "defense":  9,
+                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "image":  "assets/cards/web/damned/24_bone_engine.jpg"
+                  },
+                  {
+                      "id":  "damned_25",
+                      "name":  "The Creditor",
+                      "cost":  5,
+                      "power":  5,
+                      "defense":  5,
+                      "text":  "BLOODPRICE 2: When played, deal 2 DMG to your own Commander. LAST BREATH: Draw 2 cards.",
+                      "image":  "assets/cards/web/damned/25_the_creditor.jpg"
+                  },
+                  {
+                      "id":  "damned_26",
+                      "name":  "The Foreclosure",
+                      "cost":  10,
+                      "power":  8,
+                      "defense":  9,
+                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card. (This unit is a rare, high-impact threat.)",
+                      "image":  "assets/cards/web/damned/26_the_foreclosure.jpg"
+                  }
+              ]
+}

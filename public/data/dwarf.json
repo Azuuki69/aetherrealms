@@ -1,34 +1,240 @@
-{
-  "faction": "dwarf",
-  "displayName": "Dwarven Realm",
-  "sheet": "assets/dwarf.png",
-  "sheetSize": { "w": 1024, "h": 1024 },
-  "cards": [
-    { "id": "dwarf_01", "name": "Dwarven Sentry", "cost": 1, "power": 5, "defense": 5, "text": "STALWART DEFENSE: +1 Defense when not moving.", "rect": { "x": 96, "y": 84, "w": 178, "h": 178 } },
-    { "id": "dwarf_02", "name": "Axe-thane", "cost": 2, "power": 1, "defense": 2, "text": "CLEAVE: Attacks deal 1 extra damage.", "rect": { "x": 272, "y": 84, "w": 178, "h": 178 } },
-    { "id": "dwarf_03", "name": "Quarreler", "cost": 4, "power": 0, "defense": 6, "text": "PIERCING SHOT: Ignores 1 point of Defense.", "rect": { "x": 450, "y": 84, "w": 180, "h": 356 } },
-    { "id": "dwarf_04", "name": "Thunderer", "cost": 4, "power": 4, "defense": 2, "text": "LINE OF FIRE: Target and up to 2 units behind it take damage.", "rect": { "x": 624, "y": 84, "w": 178, "h": 178 } },
-    { "id": "dwarf_05", "name": "King Thorgrim", "cost": 5, "power": 4, "defense": 7, "unique": true, "text": "HIGH KING'S MANDATE: All friendly Dwarfs in this row gain +1/+1.", "rect": { "x": 800, "y": 84, "w": 178, "h": 178 } },
-
-    { "id": "dwarf_06", "name": "Gyro-copter", "cost": 6, "power": 5, "defense": 4, "text": "AERIAL RECON: Search your deck for a Machine unit.", "rect": { "x": 96, "y": 260, "w": 178, "h": 178 } },
-    { "id": "dwarf_07", "name": "Battle Standard", "cost": 2, "power": 3, "defense": 2, "text": "RALLYING CRY: All adjacent Dwarfs heal 1 on summon.", "rect": { "x": 272, "y": 260, "w": 178, "h": 178 } },
-    { "id": "dwarf_08", "name": "Royal Guard", "cost": 4, "power": 5, "defense": 5, "text": "HOLD THE LINE: Unit cannot be moved and gains +2 Defense.", "rect": { "x": 624, "y": 260, "w": 178, "h": 178 } },
-    { "id": "dwarf_09", "name": "Runesmith Adept", "cost": 5, "power": 3, "defense": 4, "text": "RUNIC INFUSION: Give adjacent Dwarfs +1 Power.", "rect": { "x": 800, "y": 260, "w": 178, "h": 178 } },
-
-    { "id": "dwarf_10", "name": "Gyro-copter", "cost": 4, "power": 4, "defense": 4, "text": "AERIAL RECON: Search your deck for a Machine unit.", "rect": { "x": 96, "y": 436, "w": 178, "h": 178 } },
-    { "id": "dwarf_11", "name": "Battle Guard", "cost": 2, "power": 4, "defense": 2, "text": "RALLYING CRY: All adjacent Dwarfs heal 1 on summon.", "rect": { "x": 272, "y": 436, "w": 178, "h": 178 } },
-    { "id": "dwarf_12", "name": "Master Runesmith", "cost": 1, "power": 5, "defense": 5, "unique": true, "text": "RUNIC CASTING: Once per turn, spend 1 mana to Roll the Dice.", "rect": { "x": 450, "y": 436, "w": 180, "h": 356 } },
-    { "id": "dwarf_13", "name": "Champion Bulwark", "cost": 4, "power": 2, "defense": 6, "text": "UNBREAKABLE SHIELD: Damage to this unit is reduced by 1.", "rect": { "x": 624, "y": 436, "w": 178, "h": 178 } },
-    { "id": "dwarf_14", "name": "Runesmith Adept", "cost": 5, "power": 3, "defense": 4, "text": "RUNIC INFUSION: Give adjacent Dwarfs +1 Power.", "rect": { "x": 800, "y": 436, "w": 178, "h": 178 } },
-
-    { "id": "dwarf_15", "name": "Rune Cannon", "cost": 1, "power": 1, "defense": 5, "text": "BARRAGE: Deal 3 damage to any unit.", "rect": { "x": 96, "y": 612, "w": 178, "h": 178 } },
-    { "id": "dwarf_16", "name": "Stone Thrower", "cost": 2, "power": 4, "defense": 5, "text": "SIEGE: Deal 4 damage to a building.", "rect": { "x": 272, "y": 612, "w": 178, "h": 178 } },
-    { "id": "dwarf_17", "name": "Stone Golem", "cost": 3, "power": 4, "defense": 7, "text": "STALWART GOLEM: Unaffected by magical spells and effects.", "rect": { "x": 624, "y": 612, "w": 178, "h": 178 } },
-    { "id": "dwarf_18", "name": "Crystal Golem", "cost": 4, "power": 3, "defense": 6, "text": "ARCANE BATTERY: While active, your spells cost 1 less.", "rect": { "x": 800, "y": 612, "w": 178, "h": 178 } },
-
-    { "id": "dwarf_19", "name": "Longbeard Boar Cavalry", "cost": 1, "power": 2, "defense": 2, "text": "CHARGE: On attack, deals extra damage based on distance moved.", "rect": { "x": 96, "y": 788, "w": 178, "h": 178 } },
-    { "id": "dwarf_20", "name": "Griffin Rider", "cost": 3, "power": 3, "defense": 3, "text": "AERIAL STRIKE: Can attack any unit on the board.", "rect": { "x": 272, "y": 788, "w": 178, "h": 178 } },
-    { "id": "dwarf_21", "name": "Mechanical Elephant", "cost": 3, "power": 4, "defense": 5, "text": "TRAMPLE: When attacking, deal 2 damage to units behind the target.", "rect": { "x": 624, "y": 788, "w": 178, "h": 178 } },
-    { "id": "dwarf_22", "name": "Guild Bombardier", "cost": 4, "power": 3, "defense": 3, "text": "DEMOLITION: When destroyed, deal 4 damage to all adjacent targets.", "rect": { "x": 800, "y": 788, "w": 178, "h": 178 } }
-  ]
+﻿{
+    "faction":  "dwarf",
+    "displayName":  "Dwarf",
+    "cards":  [
+                  {
+                      "id":  "dwarf_01",
+                      "name":  "Clan Miner",
+                      "cost":  1,
+                      "power":  1,
+                      "defense":  2,
+                      "text":  "STALWART: Takes 1 less DMG from attacks.",
+                      "image":  "assets/cards/web/dwarf/01_clan_miner.jpg"
+                  },
+                  {
+                      "id":  "dwarf_02",
+                      "name":  "Footman",
+                      "cost":  1,
+                      "power":  1,
+                      "defense":  2,
+                      "text":  "STALWART: Takes 1 less DMG from attacks.",
+                      "image":  "assets/cards/web/dwarf/02_footman.jpg"
+                  },
+                  {
+                      "id":  "dwarf_03",
+                      "name":  "Axe Thrower",
+                      "cost":  1,
+                      "power":  1,
+                      "defense":  2,
+                      "text":  "STALWART: Takes 1 less DMG from attacks.",
+                      "image":  "assets/cards/web/dwarf/03_axe_thrower.jpg"
+                  },
+                  {
+                      "id":  "dwarf_04",
+                      "name":  "Arbalest",
+                      "cost":  2,
+                      "power":  2,
+                      "defense":  3,
+                      "text":  "STALWART: Takes 1 less DMG from attacks.",
+                      "image":  "assets/cards/web/dwarf/04_arbalest.jpg"
+                  },
+                  {
+                      "id":  "dwarf_05",
+                      "name":  "Frost Archer",
+                      "cost":  2,
+                      "power":  3,
+                      "defense":  2,
+                      "text":  "VOLLEY: May attack the enemy Commander directly even through blockers.",
+                      "image":  "assets/cards/web/dwarf/05_frost_archer.jpg"
+                  },
+                  {
+                      "id":  "dwarf_06",
+                      "name":  "Hand Cannon",
+                      "cost":  2,
+                      "power":  3,
+                      "defense":  2,
+                      "text":  "VOLLEY: May attack the enemy Commander directly even through blockers.",
+                      "image":  "assets/cards/web/dwarf/06_hand_cannon.jpg"
+                  },
+                  {
+                      "id":  "dwarf_07",
+                      "name":  "Gyrocopter",
+                      "cost":  2,
+                      "power":  2,
+                      "defense":  3,
+                      "text":  "STALWART: Takes 1 less DMG from attacks.",
+                      "image":  "assets/cards/web/dwarf/07_gyrocopter.jpg"
+                  },
+                  {
+                      "id":  "dwarf_08",
+                      "name":  "Pikeman",
+                      "cost":  3,
+                      "power":  3,
+                      "defense":  3,
+                      "text":  "STALWART: Takes 1 less DMG from attacks.",
+                      "image":  "assets/cards/web/dwarf/08_pikeman.jpg"
+                  },
+                  {
+                      "id":  "dwarf_09",
+                      "name":  "Shieldbreaker",
+                      "cost":  3,
+                      "power":  2,
+                      "defense":  4,
+                      "text":  "STALWART: Takes 1 less DMG from attacks.",
+                      "image":  "assets/cards/web/dwarf/09_shieldbreaker.jpg"
+                  },
+                  {
+                      "id":  "dwarf_10",
+                      "name":  "Sapper",
+                      "cost":  3,
+                      "power":  3,
+                      "defense":  3,
+                      "text":  "STALWART: Takes 1 less DMG from attacks.",
+                      "image":  "assets/cards/web/dwarf/10_sapper.jpg"
+                  },
+                  {
+                      "id":  "dwarf_11",
+                      "name":  "Executioner",
+                      "cost":  3,
+                      "power":  3,
+                      "defense":  3,
+                      "text":  "STALWART: Takes 1 less DMG from attacks.",
+                      "image":  "assets/cards/web/dwarf/11_executioner.jpg"
+                  },
+                  {
+                      "id":  "dwarf_12",
+                      "name":  "Standard Bearer",
+                      "cost":  4,
+                      "power":  4,
+                      "defense":  4,
+                      "text":  "STALWART: Takes 1 less DMG from attacks.",
+                      "image":  "assets/cards/web/dwarf/12_standard_bearer.jpg"
+                  },
+                  {
+                      "id":  "dwarf_13",
+                      "name":  "Field Surgeon",
+                      "cost":  4,
+                      "power":  4,
+                      "defense":  4,
+                      "text":  "MEND: Heals an allied unit for 2 when played.",
+                      "image":  "assets/cards/web/dwarf/13_field_surgeon.jpg"
+                  },
+                  {
+                      "id":  "dwarf_14",
+                      "name":  "Runesmith",
+                      "cost":  4,
+                      "power":  4,
+                      "defense":  4,
+                      "text":  "STALWART: Takes 1 less DMG from attacks.",
+                      "image":  "assets/cards/web/dwarf/14_runesmith.jpg"
+                  },
+                  {
+                      "id":  "dwarf_15",
+                      "name":  "Frost Mage",
+                      "cost":  4,
+                      "power":  5,
+                      "defense":  3,
+                      "text":  "STALWART: Takes 1 less DMG from attacks.",
+                      "image":  "assets/cards/web/dwarf/15_frost_mage.jpg"
+                  },
+                  {
+                      "id":  "dwarf_16",
+                      "name":  "Geomancer",
+                      "cost":  5,
+                      "power":  4,
+                      "defense":  5,
+                      "text":  "STALWART: Takes 1 less DMG from attacks.",
+                      "image":  "assets/cards/web/dwarf/16_geomancer.jpg"
+                  },
+                  {
+                      "id":  "dwarf_17",
+                      "name":  "Warden",
+                      "cost":  4,
+                      "power":  2,
+                      "defense":  8,
+                      "text":  "GUARD: Enemies in this lane must attack this unit first. FORTIFY: Gains +1 HP whenever it blocks an attack.",
+                      "image":  "assets/cards/web/dwarf/17_warden.jpg"
+                  },
+                  {
+                      "id":  "dwarf_18",
+                      "name":  "Vanguard",
+                      "cost":  5,
+                      "power":  3,
+                      "defense":  6,
+                      "text":  "GUARD: Enemies in this lane must attack this unit first.",
+                      "image":  "assets/cards/web/dwarf/18_vanguard.jpg"
+                  },
+                  {
+                      "id":  "dwarf_19",
+                      "name":  "Onager",
+                      "cost":  6,
+                      "power":  5,
+                      "defense":  6,
+                      "text":  "STALWART: Takes 1 less DMG from attacks.",
+                      "image":  "assets/cards/web/dwarf/19_onager.jpg"
+                  },
+                  {
+                      "id":  "dwarf_20",
+                      "name":  "Bombard",
+                      "cost":  6,
+                      "power":  5,
+                      "defense":  6,
+                      "text":  "STALWART: Takes 1 less DMG from attacks.",
+                      "image":  "assets/cards/web/dwarf/20_bombard.jpg"
+                  },
+                  {
+                      "id":  "dwarf_21",
+                      "name":  "Stone Golem",
+                      "cost":  6,
+                      "power":  4,
+                      "defense":  7,
+                      "text":  "STALWART: Takes 1 less DMG from attacks.",
+                      "image":  "assets/cards/web/dwarf/21_stone_golem.jpg"
+                  },
+                  {
+                      "id":  "dwarf_22",
+                      "name":  "Iron Golem",
+                      "cost":  7,
+                      "power":  4,
+                      "defense":  8,
+                      "text":  "STALWART: Takes 1 less DMG from attacks.",
+                      "image":  "assets/cards/web/dwarf/22_iron_golem.jpg"
+                  },
+                  {
+                      "id":  "dwarf_23",
+                      "name":  "Dreadnought",
+                      "cost":  7,
+                      "power":  4,
+                      "defense":  8,
+                      "text":  "STALWART: Takes 1 less DMG from attacks.",
+                      "image":  "assets/cards/web/dwarf/23_dreadnought.jpg"
+                  },
+                  {
+                      "id":  "dwarf_24",
+                      "name":  "Colossus",
+                      "cost":  8,
+                      "power":  5,
+                      "defense":  9,
+                      "text":  "STALWART: Takes 1 less DMG from attacks.",
+                      "image":  "assets/cards/web/dwarf/24_colossus.jpg"
+                  },
+                  {
+                      "id":  "dwarf_25",
+                      "name":  "Mountain Giant",
+                      "cost":  9,
+                      "power":  6,
+                      "defense":  9,
+                      "text":  "STALWART: Takes 1 less DMG from attacks. (This unit is a rare, high-impact threat.)",
+                      "image":  "assets/cards/web/dwarf/25_mountain_giant.jpg"
+                  },
+                  {
+                      "id":  "dwarf_26",
+                      "name":  "Frost Giant",
+                      "cost":  10,
+                      "power":  6,
+                      "defense":  11,
+                      "text":  "STALWART: Takes 1 less DMG from attacks. (This unit is a rare, high-impact threat.)",
+                      "image":  "assets/cards/web/dwarf/26_frost_giant.jpg"
+                  }
+              ]
 }

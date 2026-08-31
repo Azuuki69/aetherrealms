@@ -12,10 +12,16 @@
   <h1>Aether Realms<span>Clash of Armies</span></h1>
 
   <div class="faction-picker" id="factionPicker">
-    <button class="faction-card" data-faction="human"><span class="thumb"></span><span class="label">Human Kingdom</span></button>
-    <button class="faction-card" data-faction="elf"><span class="thumb"></span><span class="label">Sylvan Realm</span></button>
-    <button class="faction-card" data-faction="dwarf"><span class="thumb"></span><span class="label">Dwarven Realm</span></button>
-    <button class="faction-card" data-faction="orc"><span class="thumb"></span><span class="label">Orcish Horde</span></button>
+    <button class="faction-card" data-faction="beast"><span class="thumb"></span><span class="label">Mythic Beasts</span></button>
+    <button class="faction-card" data-faction="clock"><span class="thumb"></span><span class="label">Steampunk Hold</span></button>
+    <button class="faction-card" data-faction="damned"><span class="thumb"></span><span class="label">Damned Covenant</span></button>
+    <button class="faction-card" data-faction="dwarf"><span class="thumb"></span><span class="label">Dwarven Clans</span></button>
+    <button class="faction-card" data-faction="dynasty"><span class="thumb"></span><span class="label">Jade Dynasty</span></button>
+    <button class="faction-card" data-faction="elf"><span class="thumb"></span><span class="label">Elven Court</span></button>
+    <button class="faction-card" data-faction="fallen"><span class="thumb"></span><span class="label">Star-Fallen</span></button>
+    <button class="faction-card" data-faction="human"><span class="thumb"></span><span class="label">Human Realm</span></button>
+    <button class="faction-card" data-faction="orc"><span class="thumb"></span><span class="label">Orc Horde</span></button>
+    <button class="faction-card" data-faction="undead"><span class="thumb"></span><span class="label">Undead Dominion</span></button>
   </div>
 
   <div class="lobby-actions">
@@ -87,23 +93,16 @@
   </div>
   <div id="tipCommander" class="tutorial-tip hidden">
     <span class="tip-close">&times;</span>
-    If their front row is empty in that lane, your attack hits their Commander directly.
+    Guard units must be attacked first — if there's no Guard blocking that lane, you hit their Commander directly.
+  </div>
+  <div id="tipHover" class="tutorial-tip hidden">
+    <span class="tip-close">&times;</span>
+    Hover any card, yours or theirs, to see it full-size and read what it does.
   </div>
 </div>
 
 <div id="cardPreview">
-  <div class="preview-art">
-    <img id="previewImg" alt="" />
-    <div class="preview-badges">
-      <div class="badge cost" id="previewCost"></div>
-      <div class="badge power" id="previewPower"></div>
-      <div class="badge defense" id="previewDefense"></div>
-    </div>
-  </div>
-  <div class="preview-info">
-    <div class="preview-name" id="previewName"></div>
-    <div class="preview-text" id="previewText"></div>
-  </div>
+  <img id="previewImg" alt="" />
 </div>
 
 <script type="module" src="client.js"></script>

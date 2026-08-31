@@ -1,34 +1,240 @@
-{
-  "faction": "orc",
-  "displayName": "Orcish Horde",
-  "sheet": "assets/orc.png",
-  "sheetSize": { "w": 1024, "h": 1024 },
-  "cards": [
-    { "id": "orc_01", "name": "Skull-Crusher", "cost": 1, "power": 5, "defense": 4, "text": "MACE MASTER: Attacks have a 1-in-3 chance to Stun.", "rect": { "x": 98, "y": 82, "w": 178, "h": 178 } },
-    { "id": "orc_02", "name": "Tusk-Pike", "cost": 2, "power": 3, "defense": 5, "text": "SPIKE WALL: Gains +1 Defense against Cavalry units.", "rect": { "x": 274, "y": 82, "w": 178, "h": 178 } },
-    { "id": "orc_03", "name": "Black-Bow", "cost": 3, "power": 2, "defense": 2, "text": "VOLLEY: On death, deal 2 damage to all enemies in this row.", "rect": { "x": 450, "y": 80, "w": 180, "h": 356 } },
-    { "id": "orc_04", "name": "Tusk-Shield", "cost": 4, "power": 3, "defense": 6, "text": "IRON HIDE: Damage taken is reduced by 1.", "rect": { "x": 626, "y": 82, "w": 178, "h": 178 } },
-    { "id": "orc_05", "name": "Tusk-Shield", "cost": 5, "power": 3, "defense": 6, "text": "IRON HIDE: Damage taken is reduced by 1.", "rect": { "x": 794, "y": 82, "w": 186, "h": 178 } },
-
-    { "id": "orc_06", "name": "Stone-Club", "cost": 6, "power": 4, "defense": 3, "text": "FRENZY: Gains +1 Power after each attack.", "rect": { "x": 98, "y": 258, "w": 178, "h": 178 } },
-    { "id": "orc_07", "name": "Tusk-Blade", "cost": 7, "power": 4, "defense": 4, "text": "CLEAVE: Attacks also damage enemies to the left and right of the target.", "rect": { "x": 274, "y": 258, "w": 178, "h": 178 } },
-    { "id": "orc_08", "name": "Wolf-Slayer", "cost": 8, "power": 4, "defense": 3, "text": "CHARGE: Gains +2 Power on the first attack after being summoned.", "rect": { "x": 626, "y": 258, "w": 178, "h": 178 } },
-    { "id": "orc_09", "name": "Gore-Boar", "cost": 9, "power": 5, "defense": 4, "text": "TRAMPLE: Any excess damage dealt is dealt to the next target in the lane.", "rect": { "x": 794, "y": 258, "w": 186, "h": 178 } },
-
-    { "id": "orc_10", "name": "Explosion-Toss", "cost": 2, "power": 2, "defense": 1, "text": "LAST BREATH: When destroyed, deal 4 damage to all adjacent enemies.", "rect": { "x": 98, "y": 434, "w": 178, "h": 178 } },
-    { "id": "orc_11", "name": "Warlord of the Horde", "cost": 6, "power": 6, "defense": 6, "unique": true, "text": "HORDE MANDATE: All friendly Orcs in this row gain +1/+1.", "rect": { "x": 274, "y": 434, "w": 178, "h": 178 } },
-    { "id": "orc_12", "name": "Master of the Void-Tusk", "cost": 8, "power": 4, "defense": 6, "unique": true, "text": "VOID SUMMONING: Once per turn, spend 1 gold to summon something from the Void.", "rect": { "x": 450, "y": 434, "w": 180, "h": 356 } },
-    { "id": "orc_13", "name": "Tusk-Dagger", "cost": 4, "power": 4, "defense": 2, "text": "FLURRY: Attacks twice per turn.", "rect": { "x": 626, "y": 434, "w": 178, "h": 178 } },
-    { "id": "orc_14", "name": "Necro-Talon", "cost": 4, "power": 2, "defense": 3, "text": "RAISE UNDEAD: Once per turn, spend 1 gold to summon a 1/1 Skeleton Token.", "rect": { "x": 794, "y": 434, "w": 186, "h": 178 } },
-
-    { "id": "orc_15", "name": "Spirit-Walker", "cost": 1, "power": 2, "defense": 2, "text": "VOODOO CURSE: Lower the Power of a target enemy by 2 for one turn.", "rect": { "x": 98, "y": 610, "w": 178, "h": 178 } },
-    { "id": "orc_16", "name": "Totem-Caller", "cost": 2, "power": 2, "defense": 3, "text": "TOTEM RECALL: Add a Totem card from your deck to your hand.", "rect": { "x": 274, "y": 610, "w": 178, "h": 178 } },
-    { "id": "orc_17", "name": "Tusk-Cannon", "cost": 3, "power": 3, "defense": 5, "text": "SIEGE SHOT: Deal 4 damage to a building.", "rect": { "x": 626, "y": 610, "w": 178, "h": 178 } },
-    { "id": "orc_18", "name": "Stone-Flinger", "cost": 2, "power": 2, "defense": 5, "text": "BARRAGE: Deal 3 damage to any enemy.", "rect": { "x": 794, "y": 610, "w": 186, "h": 178 } },
-
-    { "id": "orc_19", "name": "Tusk-Chariot", "cost": 1, "power": 4, "defense": 5, "text": "LINE OF CHARGE: Move through a line of enemies, dealing damage to each.", "rect": { "x": 98, "y": 786, "w": 178, "h": 178 } },
-    { "id": "orc_20", "name": "Stone-Beast", "cost": 6, "power": 4, "defense": 7, "text": "IMMUNE: Cannot be affected by spells and effects.", "rect": { "x": 274, "y": 786, "w": 178, "h": 178 } },
-    { "id": "orc_21", "name": "Ancient Red Terror", "cost": 9, "power": 7, "defense": 7, "text": "FLYING. DEVASTATING BREATH: Deals 5 damage to all enemies.", "rect": { "x": 626, "y": 786, "w": 178, "h": 178 } },
-    { "id": "orc_22", "name": "Horde-Guard", "cost": 4, "power": 5, "defense": 6, "text": "TAUNT: Enemy units must attack this card first. SHIELD-WALL: Gains +2 Defense.", "rect": { "x": 794, "y": 786, "w": 186, "h": 178 } }
-  ]
+﻿{
+    "faction":  "orc",
+    "displayName":  "Orc",
+    "cards":  [
+                  {
+                      "id":  "orc_01",
+                      "name":  "Grunt",
+                      "cost":  1,
+                      "power":  1,
+                      "defense":  2,
+                      "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG.",
+                      "image":  "assets/cards/web/orc/01_grunt.jpg"
+                  },
+                  {
+                      "id":  "orc_02",
+                      "name":  "Conscript",
+                      "cost":  1,
+                      "power":  1,
+                      "defense":  2,
+                      "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG.",
+                      "image":  "assets/cards/web/orc/02_conscript.jpg"
+                  },
+                  {
+                      "id":  "orc_03",
+                      "name":  "Slinger",
+                      "cost":  1,
+                      "power":  2,
+                      "defense":  1,
+                      "text":  "VOLLEY: May attack the enemy Commander directly even through blockers.",
+                      "image":  "assets/cards/web/orc/03_slinger.jpg"
+                  },
+                  {
+                      "id":  "orc_04",
+                      "name":  "Javelineer",
+                      "cost":  2,
+                      "power":  3,
+                      "defense":  2,
+                      "text":  "VOLLEY: May attack the enemy Commander directly even through blockers.",
+                      "image":  "assets/cards/web/orc/04_javelineer.jpg"
+                  },
+                  {
+                      "id":  "orc_05",
+                      "name":  "Spike Hurler",
+                      "cost":  2,
+                      "power":  3,
+                      "defense":  2,
+                      "text":  "VOLLEY: May attack the enemy Commander directly even through blockers.",
+                      "image":  "assets/cards/web/orc/05_spike_hurler.jpg"
+                  },
+                  {
+                      "id":  "orc_06",
+                      "name":  "Maceman",
+                      "cost":  2,
+                      "power":  2,
+                      "defense":  3,
+                      "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG.",
+                      "image":  "assets/cards/web/orc/06_maceman.jpg"
+                  },
+                  {
+                      "id":  "orc_07",
+                      "name":  "Tusk Breaker",
+                      "cost":  2,
+                      "power":  2,
+                      "defense":  3,
+                      "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG.",
+                      "image":  "assets/cards/web/orc/07_tusk_breaker.jpg"
+                  },
+                  {
+                      "id":  "orc_08",
+                      "name":  "Wolf Rider",
+                      "cost":  3,
+                      "power":  3,
+                      "defense":  3,
+                      "text":  "CHARGE: Can attack the turn it is played.",
+                      "image":  "assets/cards/web/orc/08_wolf_rider.jpg"
+                  },
+                  {
+                      "id":  "orc_09",
+                      "name":  "Boar Rider",
+                      "cost":  3,
+                      "power":  3,
+                      "defense":  3,
+                      "text":  "CHARGE: Can attack the turn it is played.",
+                      "image":  "assets/cards/web/orc/09_boar_rider.jpg"
+                  },
+                  {
+                      "id":  "orc_10",
+                      "name":  "Ravager",
+                      "cost":  3,
+                      "power":  3,
+                      "defense":  3,
+                      "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG.",
+                      "image":  "assets/cards/web/orc/10_ravager.jpg"
+                  },
+                  {
+                      "id":  "orc_11",
+                      "name":  "Raider",
+                      "cost":  3,
+                      "power":  3,
+                      "defense":  3,
+                      "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG.",
+                      "image":  "assets/cards/web/orc/11_raider.jpg"
+                  },
+                  {
+                      "id":  "orc_12",
+                      "name":  "Marauder",
+                      "cost":  4,
+                      "power":  4,
+                      "defense":  4,
+                      "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG.",
+                      "image":  "assets/cards/web/orc/12_marauder.jpg"
+                  },
+                  {
+                      "id":  "orc_13",
+                      "name":  "Berserker",
+                      "cost":  4,
+                      "power":  6,
+                      "defense":  3,
+                      "text":  "RAGE: Whenever it takes damage and survives, permanently gain +2 DMG.",
+                      "image":  "assets/cards/web/orc/13_berserker.jpg"
+                  },
+                  {
+                      "id":  "orc_14",
+                      "name":  "Warhorn Bearer",
+                      "cost":  4,
+                      "power":  4,
+                      "defense":  4,
+                      "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG.",
+                      "image":  "assets/cards/web/orc/14_warhorn_bearer.jpg"
+                  },
+                  {
+                      "id":  "orc_15",
+                      "name":  "Blood Shaman",
+                      "cost":  4,
+                      "power":  4,
+                      "defense":  4,
+                      "text":  "MEND: Heals an allied unit for 2 when played.",
+                      "image":  "assets/cards/web/orc/15_blood_shaman.jpg"
+                  },
+                  {
+                      "id":  "orc_16",
+                      "name":  "Plaguebringer",
+                      "cost":  5,
+                      "power":  4,
+                      "defense":  5,
+                      "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG.",
+                      "image":  "assets/cards/web/orc/16_plaguebringer.jpg"
+                  },
+                  {
+                      "id":  "orc_17",
+                      "name":  "Sand Mage",
+                      "cost":  5,
+                      "power":  6,
+                      "defense":  3,
+                      "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG.",
+                      "image":  "assets/cards/web/orc/17_sand_mage.jpg"
+                  },
+                  {
+                      "id":  "orc_18",
+                      "name":  "Hexer",
+                      "cost":  5,
+                      "power":  4,
+                      "defense":  5,
+                      "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG.",
+                      "image":  "assets/cards/web/orc/18_hexer.jpg"
+                  },
+                  {
+                      "id":  "orc_19",
+                      "name":  "Warlord",
+                      "cost":  6,
+                      "power":  5,
+                      "defense":  6,
+                      "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG.",
+                      "image":  "assets/cards/web/orc/19_warlord.jpg"
+                  },
+                  {
+                      "id":  "orc_20",
+                      "name":  "Battering Ram",
+                      "cost":  6,
+                      "power":  4,
+                      "defense":  7,
+                      "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG.",
+                      "image":  "assets/cards/web/orc/20_battering_ram.jpg"
+                  },
+                  {
+                      "id":  "orc_21",
+                      "name":  "Catapult",
+                      "cost":  6,
+                      "power":  5,
+                      "defense":  6,
+                      "text":  "VOLLEY: May attack the enemy Commander directly even through blockers.",
+                      "image":  "assets/cards/web/orc/21_catapult.jpg"
+                  },
+                  {
+                      "id":  "orc_22",
+                      "name":  "Ogre",
+                      "cost":  7,
+                      "power":  4,
+                      "defense":  8,
+                      "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG.",
+                      "image":  "assets/cards/web/orc/22_ogre.jpg"
+                  },
+                  {
+                      "id":  "orc_23",
+                      "name":  "Wyvern",
+                      "cost":  7,
+                      "power":  8,
+                      "defense":  4,
+                      "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG.",
+                      "image":  "assets/cards/web/orc/23_wyvern.jpg"
+                  },
+                  {
+                      "id":  "orc_24",
+                      "name":  "Wyrm",
+                      "cost":  8,
+                      "power":  9,
+                      "defense":  5,
+                      "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG.",
+                      "image":  "assets/cards/web/orc/24_wyrm.jpg"
+                  },
+                  {
+                      "id":  "orc_25",
+                      "name":  "Cyclops",
+                      "cost":  9,
+                      "power":  7,
+                      "defense":  8,
+                      "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG. (This unit is a rare, high-impact threat.)",
+                      "image":  "assets/cards/web/orc/25_cyclops.jpg"
+                  },
+                  {
+                      "id":  "orc_26",
+                      "name":  "Fire Giant",
+                      "cost":  10,
+                      "power":  11,
+                      "defense":  6,
+                      "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG. (This unit is a rare, high-impact threat.)",
+                      "image":  "assets/cards/web/orc/26_fire_giant.jpg"
+                  }
+              ]
 }

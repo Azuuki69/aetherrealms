@@ -1,23 +1,24 @@
-const FACTION_KEYS = ['human', 'elf', 'dwarf', 'orc'];
-const CARD_W = 100;
-const CARD_H = 138;
-const PREVIEW_W = 220;
-const PREVIEW_H = 304;
-const KEYWORD_ICONS = { volley: '🏹', phalanx: '🛡️', trample: '💥', siege: '🏰', charge: '⚡' };
-const FACTION_THUMB_CARD = { human: 'human_24', elf: 'elf_01', dwarf: 'dwarf_05', orc: 'orc_11' };
-const LOG_ICONS = { played: '🃏', hits: '⚔️', destroyed: '💀', started: '📜' };
-const cardIndex = {}; // cardId -> { faction, sheet, sheetSize, rect, ...cardDef }
+const FACTION_KEYS = ['beast', 'clock', 'damned', 'dwarf', 'dynasty', 'elf', 'fallen', 'human', 'orc', 'undead'];
+const FLAGSHIP_NAME = {
+  beast: 'Dire Wolf',
+  clock: 'Sparkwright',
+  damned: 'The Creditor',
+  dwarf: 'Warden',
+  dynasty: 'Samurai',
+  elf: 'Sharpshooter',
+  fallen: 'Scavenger-Lord',
+  human: 'Paladin',
+  orc: 'Berserker',
+  undead: 'Lich',
+};
+const LOG_ICONS = { played: '🃏', hits: '⚔️', destroyed: '💀', started: '📜', draws: '🎴', mends: '💚', rage: '🔥', rebirth: '✨' };
 const factionData = {};
 
 async function loadFactionData() {
   await Promise.all(
     FACTION_KEYS.map(async (key) => {
       const res = await fetch(`data/${key}.json`);
-      const data = await res.json();
-      factionData[key] = data;
-      for (const card of data.cards) {
-        cardIndex[card.id] = { faction: key, sheet: data.sheet, sheetSize: data.sheetSize, ...card };
-      }
+      factionData[key] = await res.json();
     })
   );
 }
@@ -107,98 +108,37 @@ function showGame() {
 }
 
 // ---------- Rendering ----------
-// Crops `cardId`'s art to fully cover a displayW x displayH box (like CSS
-// background-size:cover), centering on whichever axis has leftover space.
-// Scaling by width alone (the old approach) left a gap on cards whose sheet
-// rect isn't shaped like the target box, revealing the next card in the
-// sheet underneath — this guarantees the box is always fully covered.
-function cardArtStyle(cardId, displayW, displayH) {
-  const def = cardIndex[cardId];
-  if (!def) return {};
-  const scale = Math.max(displayW / def.rect.w, displayH / def.rect.h);
-  const offsetX = (displayW - def.rect.w * scale) / 2;
-  const offsetY = (displayH - def.rect.h * scale) / 2;
-  return {
-    sheet: def.sheet,
-    width: def.sheetSize.w * scale,
-    height: def.sheetSize.h * scale,
-    left: offsetX - def.rect.x * scale,
-    top: offsetY - def.rect.y * scale,
-  };
-}
-
-function buildCardEl(instance, { faceDown = false, context = 'board' } = {}) {
+// Every finished card image already has its border, art, name, cost, DMG,
+// and HP baked in by the generation pipeline, so a "card" here is just that
+// image sized to its slot — no runtime cropping or badge overlays needed.
+function buildCardEl(instance, { context = 'board' } = {}) {
   const wrap = document.createElement('div');
   wrap.className = 'card' + (context === 'hand' ? ' hand-card' : '');
-  if (faceDown || !instance || instance.hidden) {
-    wrap.style.background = '#2a2015';
-    wrap.style.border = '2px solid #5c4419';
+  if (!instance || instance.hidden) {
+    wrap.classList.add('face-down');
     return wrap;
   }
 
-  const style = cardArtStyle(instance.cardId, CARD_W, CARD_H);
-  if (style.sheet) {
-    const img = document.createElement('img');
-    img.className = 'art';
-    img.src = style.sheet;
-    img.style.width = style.width + 'px';
-    img.style.height = style.height + 'px';
-    img.style.left = style.left + 'px';
-    img.style.top = style.top + 'px';
-    wrap.appendChild(img);
-  }
-
-  const cost = document.createElement('div');
-  cost.className = 'badge cost';
-  cost.textContent = instance.cost;
-  wrap.appendChild(cost);
-
-  const power = document.createElement('div');
-  power.className = 'badge power';
-  power.textContent = instance.power;
-  wrap.appendChild(power);
-
-  const defense = document.createElement('div');
-  defense.className = 'badge defense';
-  defense.textContent = instance.defense;
-  wrap.appendChild(defense);
-
-  if (instance.keywords && instance.keywords.length) {
-    const keyword = instance.keywords[0];
-    const kw = document.createElement('div');
-    kw.className = 'keyword-tag';
-    kw.textContent = `${KEYWORD_ICONS[keyword] || ''} ${keyword}`.trim();
-    wrap.appendChild(kw);
-  }
-
+  const img = document.createElement('img');
+  img.className = 'art';
+  img.src = instance.image;
+  img.alt = instance.name;
+  wrap.appendChild(img);
   wrap.title = `${instance.name}\n${instance.text || ''}`;
 
   if (instance.sick) wrap.classList.add('sick');
   if (instance.attackedThisTurn) wrap.classList.add('attacked');
 
-  if (context === 'hand') {
-    wrap.addEventListener('mouseenter', (e) => showPreview(instance, e));
-    wrap.addEventListener('mousemove', (e) => movePreview(e));
-    wrap.addEventListener('mouseleave', hidePreview);
-  }
+  wrap.addEventListener('mouseenter', (e) => showPreview(instance, e));
+  wrap.addEventListener('mousemove', (e) => movePreview(e));
+  wrap.addEventListener('mouseleave', hidePreview);
 
   return wrap;
 }
 
 function showPreview(instance, evt) {
-  const style = cardArtStyle(instance.cardId, PREVIEW_W, PREVIEW_H);
-  if (!style.sheet) return;
-  const img = el('previewImg');
-  img.src = style.sheet;
-  img.style.width = style.width + 'px';
-  img.style.height = style.height + 'px';
-  img.style.left = style.left + 'px';
-  img.style.top = style.top + 'px';
-  el('previewCost').textContent = instance.cost;
-  el('previewPower').textContent = instance.power;
-  el('previewDefense').textContent = instance.defense;
-  el('previewName').textContent = instance.name;
-  el('previewText').textContent = instance.text || '';
+  if (!instance.image) return;
+  el('previewImg').src = instance.image;
   el('cardPreview').classList.add('visible');
   movePreview(evt);
 }
@@ -206,8 +146,8 @@ function showPreview(instance, evt) {
 function movePreview(evt) {
   const preview = el('cardPreview');
   const margin = 16;
-  const pw = preview.offsetWidth || 220;
-  const ph = preview.offsetHeight || 360;
+  const pw = preview.offsetWidth || 260;
+  const ph = preview.offsetHeight || 390;
   let x = evt.clientX - pw / 2;
   let y = evt.clientY - ph - margin;
   x = Math.max(margin, Math.min(window.innerWidth - pw - margin, x));
@@ -299,6 +239,7 @@ function renderLane(containerId, laneArr, side, laneName) {
     if (unit) {
       const cardEl = buildCardEl(unit, { context: 'board' });
       if (!previousBoardIds.has(unit.instanceId)) cardEl.classList.add('card-enter');
+      if (unit.keywords && unit.keywords.includes('guard')) cardEl.classList.add('has-guard');
       cardEl.addEventListener('click', () => onBoardCardClick(side, laneName, slotIndex));
       slot.appendChild(cardEl);
     } else {
@@ -360,20 +301,28 @@ function onBoardCardClick(side, lane, slotIndex) {
   }
 }
 
+// Mirrors getLegalTargetLanes() in src/game/rules.js — Guard forces an
+// attacker to target it from either row; a plain Rearguard occupant without
+// Guard never blocks a hit on the Commander; Volley ignores Guard entirely.
 function legalTargetLanes(attacker) {
   const { you, opponent } = currentView;
   const unit = you.board[attacker.lane][attacker.slot];
   if (!unit) return [];
   if (unit.keywords.includes('siege')) return ['commander'];
   const col = attacker.slot;
-  const vanguardOccupied = !!opponent.board.vanguard[col];
-  const rearguardOccupied = !!opponent.board.rearguard[col];
+  const vanguard = opponent.board.vanguard[col];
+  const rearguard = opponent.board.rearguard[col];
   const hasVolley = unit.keywords.includes('volley');
-  if (vanguardOccupied) {
-    if (hasVolley) return rearguardOccupied ? ['vanguard', 'rearguard'] : ['vanguard'];
-    return ['vanguard'];
+  const hasPrecise = unit.keywords.includes('precise');
+  if (hasVolley) {
+    const opts = [];
+    if (vanguard) opts.push('vanguard');
+    if (rearguard) opts.push('rearguard');
+    if (opts.length === 0) opts.push('commander');
+    return opts;
   }
-  if (rearguardOccupied) return ['rearguard'];
+  if (vanguard) return ['vanguard'];
+  if (rearguard && rearguard.keywords.includes('guard') && !hasPrecise) return ['rearguard'];
   return ['commander'];
 }
 
@@ -426,6 +375,10 @@ function send(message) {
 
 function logIcon(text) {
   if (/destroyed/i.test(text)) return LOG_ICONS.destroyed;
+  if (/draws?/i.test(text)) return LOG_ICONS.draws;
+  if (/mends/i.test(text)) return LOG_ICONS.mends;
+  if (/rage/i.test(text)) return LOG_ICONS.rage;
+  if (/hand at 1 hp/i.test(text)) return LOG_ICONS.rebirth;
   if (/hits/i.test(text)) return LOG_ICONS.hits;
   if (/played/i.test(text)) return LOG_ICONS.played;
   if (/match started/i.test(text)) return LOG_ICONS.started;
@@ -448,7 +401,7 @@ function capitalize(s) {
   return s ? s[0].toUpperCase() + s.slice(1) : s;
 }
 
-const TUTORIAL_TIP_IDS = ['tipHand', 'tipCombat', 'tipCommander'];
+const TUTORIAL_TIP_IDS = ['tipHand', 'tipCombat', 'tipCommander', 'tipHover'];
 
 function renderTutorial(turnNumber) {
   const show = !tutorialDismissed && turnNumber <= 3;
@@ -471,17 +424,14 @@ function initTutorial() {
 }
 
 function renderFactionThumbnails() {
-  for (const [faction, cardId] of Object.entries(FACTION_THUMB_CARD)) {
+  for (const faction of FACTION_KEYS) {
     const btn = document.querySelector(`.faction-card[data-faction="${faction}"] .thumb`);
-    if (!btn) continue;
-    const style = cardArtStyle(cardId, 72, 72);
-    if (!style.sheet) continue;
+    const data = factionData[faction];
+    if (!btn || !data) continue;
+    const flagship = data.cards.find((c) => c.name === FLAGSHIP_NAME[faction]) || data.cards[0];
     const img = document.createElement('img');
-    img.src = style.sheet;
-    img.style.width = style.width + 'px';
-    img.style.height = style.height + 'px';
-    img.style.left = style.left + 'px';
-    img.style.top = style.top + 'px';
+    img.src = flagship.image;
+    img.alt = faction;
     btn.appendChild(img);
   }
 }

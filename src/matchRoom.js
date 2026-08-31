@@ -102,7 +102,7 @@ export class MatchRoom {
   }
 
   async handleJoin(seat, faction) {
-    const validFactions = ['human', 'elf', 'dwarf', 'orc'];
+    const validFactions = ['beast', 'clock', 'damned', 'dwarf', 'dynasty', 'elf', 'fallen', 'human', 'orc', 'undead'];
     if (!validFactions.includes(faction)) {
       const ws = this.state.getWebSockets(seat)[0];
       return this.sendTo(ws, { type: 'error', message: 'Pick a valid faction.' });

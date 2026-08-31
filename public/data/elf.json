@@ -1,35 +1,240 @@
-{
-  "faction": "elf",
-  "displayName": "Sylvan Realm",
-  "sheet": "assets/elf.png",
-  "sheetSize": { "w": 1024, "h": 1024 },
-  "cards": [
-    { "id": "elf_01", "name": "Elven King Theros", "cost": 6, "power": 4, "defense": 5, "unique": true, "text": "ROYAL COMMAND: All adjacent friendly units gain +1/+1.", "rect": { "x": 90, "y": 92, "w": 170, "h": 186 } },
-    { "id": "elf_02", "name": "Elven Paladin", "cost": 4, "power": 1, "defense": 2, "text": "HOLY CHARGE: Deals bonus damage on the turn it's summoned.", "rect": { "x": 266, "y": 92, "w": 170, "h": 186 } },
-    { "id": "elf_03", "name": "Archangel of Greenhaven", "cost": 4, "power": 0, "defense": 6, "text": "Deals 1 damage to an enemy unit and heals a friendly unit.", "rect": { "x": 436, "y": 88, "w": 178, "h": 236 } },
-    { "id": "elf_04", "name": "Elven Mages", "cost": 4, "power": 1, "defense": 2, "text": "HEALING: Heals a friendly unit to full health.", "rect": { "x": 618, "y": 92, "w": 170, "h": 186 } },
-    { "id": "elf_05", "name": "Dees Centaur Lord", "cost": 4, "power": 2, "defense": 4, "text": "Attacks made after moving deal +2 damage.", "rect": { "x": 786, "y": 92, "w": 176, "h": 186 } },
-
-    { "id": "elf_06", "name": "Elven Mages", "cost": 3, "power": 5, "defense": 3, "text": "HEALING: Heals target unit to full health.", "rect": { "x": 90, "y": 278, "w": 170, "h": 186 } },
-    { "id": "elf_07", "name": "Precision Shot", "cost": 4, "power": 3, "defense": 2, "text": "PRECISION SHOT: Deals 3 damage to a target enemy.", "rect": { "x": 266, "y": 278, "w": 170, "h": 186 } },
-    { "id": "elf_08", "name": "Steern Stormree", "cost": 3, "power": 5, "defense": 4, "text": "REBIRTH: Returns a friendly unit to your hand at full health.", "rect": { "x": 618, "y": 278, "w": 170, "h": 186 } },
-    { "id": "elf_09", "name": "Grove Druid", "cost": 4, "power": 4, "defense": 5, "text": "DEFENSE BOOST: Heals an adjacent ally when this unit takes damage.", "rect": { "x": 786, "y": 278, "w": 176, "h": 186 } },
-
-    { "id": "elf_10", "name": "Taon Idon Inaaele", "cost": 4, "power": 4, "defense": 6, "text": "HEALING: Restores a friendly unit to full health.", "rect": { "x": 90, "y": 464, "w": 170, "h": 186 } },
-    { "id": "elf_11", "name": "Woodland Drago", "cost": 3, "power": 1, "defense": 2, "text": "PRECISION SHOT: Deals 5 damage to a target enemy.", "rect": { "x": 266, "y": 464, "w": 170, "h": 186 } },
-    { "id": "elf_12", "name": "Phoenix of the Eternal Grove", "cost": 7, "power": 6, "defense": 6, "unique": true, "text": "REBIRTH: On death, shuffle this card into your deck.", "rect": { "x": 436, "y": 366, "w": 178, "h": 302 } },
-    { "id": "elf_13", "name": "Elven Griffin", "cost": 4, "power": 6, "defense": 5, "text": "DEFENSE BOOST: All adjacent allies gain +1/+0.", "rect": { "x": 618, "y": 464, "w": 170, "h": 186 } },
-    { "id": "elf_14", "name": "Deep Roots Guardian", "cost": 5, "power": 5, "defense": 7, "text": "STALWART: Cannot be moved or destroyed by non-magic spells.", "rect": { "x": 786, "y": 464, "w": 176, "h": 186 } },
-
-    { "id": "elf_15", "name": "Guardian", "cost": 3, "power": 1, "defense": 6, "text": "DEFENSE BOOST: Target friendly unit gains +0/+2.", "rect": { "x": 90, "y": 650, "w": 170, "h": 186 } },
-    { "id": "elf_16", "name": "Lancer", "cost": 4, "power": 3, "defense": 5, "text": "DEFENSE BOOST: Target friendly unit gains +1/+1.", "rect": { "x": 266, "y": 650, "w": 170, "h": 186 } },
-    { "id": "elf_17", "name": "Eno Ihlage", "cost": 5, "power": 5, "defense": 5, "text": "STALWART: Cannot be moved or destroyed by non-magic spells.", "rect": { "x": 436, "y": 648, "w": 178, "h": 200 } },
-    { "id": "elf_18", "name": "Dear-Centaur Lord", "cost": 4, "power": 4, "defense": 4, "text": "WOODLAND CHARGE: Attacks made after moving deal +2 damage.", "rect": { "x": 618, "y": 650, "w": 170, "h": 186 } },
-    { "id": "elf_19", "name": "Centaur", "cost": 4, "power": 4, "defense": 4, "text": "WOODLAND CHARGE: Attacks made after moving deal +2 damage.", "rect": { "x": 786, "y": 650, "w": 176, "h": 186 } },
-
-    { "id": "elf_20", "name": "Elven Priest", "cost": 3, "power": 5, "defense": 3, "text": "BLESSING: Heals all friendly units for 1 when summoned.", "rect": { "x": 90, "y": 836, "w": 170, "h": 186 } },
-    { "id": "elf_21", "name": "Siege Damage", "cost": 5, "power": 5, "defense": 3, "text": "SIEGE: Target and destroy one enemy building card.", "rect": { "x": 266, "y": 836, "w": 170, "h": 186 } },
-    { "id": "elf_22", "name": "Deer-Centaur Lord", "cost": 5, "power": 5, "defense": 7, "text": "STALWART: Cannot be moved; when destroyed, shuffle this card into your deck.", "rect": { "x": 618, "y": 836, "w": 170, "h": 186 } },
-    { "id": "elf_23", "name": "Golem", "cost": 5, "power": 5, "defense": 7, "text": "STALWART: Cannot be moved or destroyed by non-magic spells.", "rect": { "x": 786, "y": 836, "w": 176, "h": 186 } }
-  ]
+﻿{
+    "faction":  "elf",
+    "displayName":  "Elf",
+    "cards":  [
+                  {
+                      "id":  "elf_01",
+                      "name":  "Thornguard",
+                      "cost":  1,
+                      "power":  1,
+                      "defense":  2,
+                      "text":  "GUARD: Enemies in this lane must attack this unit first.",
+                      "image":  "assets/cards/web/elf/01_thornguard.jpg"
+                  },
+                  {
+                      "id":  "elf_02",
+                      "name":  "Wyld Scout",
+                      "cost":  1,
+                      "power":  1,
+                      "defense":  2,
+                      "text":  "PRECISE: This unit\u0027s attacks ignore Guard.",
+                      "image":  "assets/cards/web/elf/02_wyld_scout.jpg"
+                  },
+                  {
+                      "id":  "elf_03",
+                      "name":  "Marksman",
+                      "cost":  1,
+                      "power":  1,
+                      "defense":  2,
+                      "text":  "PRECISE: This unit\u0027s attacks ignore Guard.",
+                      "image":  "assets/cards/web/elf/03_marksman.jpg"
+                  },
+                  {
+                      "id":  "elf_04",
+                      "name":  "Huntress",
+                      "cost":  2,
+                      "power":  2,
+                      "defense":  3,
+                      "text":  "PRECISE: This unit\u0027s attacks ignore Guard.",
+                      "image":  "assets/cards/web/elf/04_huntress.jpg"
+                  },
+                  {
+                      "id":  "elf_05",
+                      "name":  "Sharpshooter",
+                      "cost":  3,
+                      "power":  4,
+                      "defense":  2,
+                      "text":  "VOLLEY: May attack the enemy Commander directly even through blockers. Ignores Guard.",
+                      "image":  "assets/cards/web/elf/05_sharpshooter.jpg"
+                  },
+                  {
+                      "id":  "elf_06",
+                      "name":  "Halberd Lord",
+                      "cost":  2,
+                      "power":  2,
+                      "defense":  3,
+                      "text":  "PRECISE: This unit\u0027s attacks ignore Guard.",
+                      "image":  "assets/cards/web/elf/06_halberd_lord.jpg"
+                  },
+                  {
+                      "id":  "elf_07",
+                      "name":  "Outrider",
+                      "cost":  2,
+                      "power":  2,
+                      "defense":  3,
+                      "text":  "CHARGE: Can attack the turn it is played.",
+                      "image":  "assets/cards/web/elf/07_outrider.jpg"
+                  },
+                  {
+                      "id":  "elf_08",
+                      "name":  "Stag Rider",
+                      "cost":  3,
+                      "power":  3,
+                      "defense":  3,
+                      "text":  "CHARGE: Can attack the turn it is played.",
+                      "image":  "assets/cards/web/elf/08_stag_rider.jpg"
+                  },
+                  {
+                      "id":  "elf_09",
+                      "name":  "Myrmidon",
+                      "cost":  3,
+                      "power":  3,
+                      "defense":  3,
+                      "text":  "PRECISE: This unit\u0027s attacks ignore Guard.",
+                      "image":  "assets/cards/web/elf/09_myrmidon.jpg"
+                  },
+                  {
+                      "id":  "elf_10",
+                      "name":  "Moonblade",
+                      "cost":  3,
+                      "power":  4,
+                      "defense":  2,
+                      "text":  "PRECISE: This unit\u0027s attacks ignore Guard.",
+                      "image":  "assets/cards/web/elf/10_moonblade.jpg"
+                  },
+                  {
+                      "id":  "elf_11",
+                      "name":  "Spellblade",
+                      "cost":  3,
+                      "power":  4,
+                      "defense":  2,
+                      "text":  "PRECISE: This unit\u0027s attacks ignore Guard.",
+                      "image":  "assets/cards/web/elf/11_spellblade.jpg"
+                  },
+                  {
+                      "id":  "elf_12",
+                      "name":  "Shadowblade",
+                      "cost":  4,
+                      "power":  5,
+                      "defense":  3,
+                      "text":  "PRECISE: This unit\u0027s attacks ignore Guard.",
+                      "image":  "assets/cards/web/elf/12_shadowblade.jpg"
+                  },
+                  {
+                      "id":  "elf_13",
+                      "name":  "War Piper",
+                      "cost":  4,
+                      "power":  4,
+                      "defense":  4,
+                      "text":  "PRECISE: This unit\u0027s attacks ignore Guard.",
+                      "image":  "assets/cards/web/elf/13_war_piper.jpg"
+                  },
+                  {
+                      "id":  "elf_14",
+                      "name":  "Druid",
+                      "cost":  4,
+                      "power":  4,
+                      "defense":  4,
+                      "text":  "MEND: Heals an allied unit for 2 when played.",
+                      "image":  "assets/cards/web/elf/14_druid.jpg"
+                  },
+                  {
+                      "id":  "elf_15",
+                      "name":  "Enchanter",
+                      "cost":  4,
+                      "power":  4,
+                      "defense":  4,
+                      "text":  "PRECISE: This unit\u0027s attacks ignore Guard.",
+                      "image":  "assets/cards/web/elf/15_enchanter.jpg"
+                  },
+                  {
+                      "id":  "elf_16",
+                      "name":  "Tempest",
+                      "cost":  5,
+                      "power":  4,
+                      "defense":  5,
+                      "text":  "PRECISE: This unit\u0027s attacks ignore Guard.",
+                      "image":  "assets/cards/web/elf/16_tempest.jpg"
+                  },
+                  {
+                      "id":  "elf_17",
+                      "name":  "Wispcaller",
+                      "cost":  5,
+                      "power":  4,
+                      "defense":  5,
+                      "text":  "PRECISE: This unit\u0027s attacks ignore Guard.",
+                      "image":  "assets/cards/web/elf/17_wispcaller.jpg"
+                  },
+                  {
+                      "id":  "elf_18",
+                      "name":  "Sentinel",
+                      "cost":  5,
+                      "power":  3,
+                      "defense":  6,
+                      "text":  "GUARD: Enemies in this lane must attack this unit first.",
+                      "image":  "assets/cards/web/elf/18_sentinel.jpg"
+                  },
+                  {
+                      "id":  "elf_19",
+                      "name":  "War Maiden",
+                      "cost":  6,
+                      "power":  5,
+                      "defense":  6,
+                      "text":  "PRECISE: This unit\u0027s attacks ignore Guard.",
+                      "image":  "assets/cards/web/elf/19_war_maiden.jpg"
+                  },
+                  {
+                      "id":  "elf_20",
+                      "name":  "Ballista",
+                      "cost":  6,
+                      "power":  5,
+                      "defense":  6,
+                      "text":  "VOLLEY: May attack the enemy Commander directly even through blockers.",
+                      "image":  "assets/cards/web/elf/20_ballista.jpg"
+                  },
+                  {
+                      "id":  "elf_21",
+                      "name":  "Heartwood Ram",
+                      "cost":  6,
+                      "power":  4,
+                      "defense":  7,
+                      "text":  "PRECISE: This unit\u0027s attacks ignore Guard.",
+                      "image":  "assets/cards/web/elf/21_heartwood_ram.jpg"
+                  },
+                  {
+                      "id":  "elf_22",
+                      "name":  "Griffon Rider",
+                      "cost":  7,
+                      "power":  6,
+                      "defense":  6,
+                      "text":  "CHARGE: Can attack the turn it is played.",
+                      "image":  "assets/cards/web/elf/22_griffon_rider.jpg"
+                  },
+                  {
+                      "id":  "elf_23",
+                      "name":  "Phoenix",
+                      "cost":  7,
+                      "power":  8,
+                      "defense":  4,
+                      "text":  "PRECISE: This unit\u0027s attacks ignore Guard.",
+                      "image":  "assets/cards/web/elf/23_phoenix.jpg"
+                  },
+                  {
+                      "id":  "elf_24",
+                      "name":  "Archmage",
+                      "cost":  8,
+                      "power":  9,
+                      "defense":  5,
+                      "text":  "PRECISE: This unit\u0027s attacks ignore Guard.",
+                      "image":  "assets/cards/web/elf/24_archmage.jpg"
+                  },
+                  {
+                      "id":  "elf_25",
+                      "name":  "Elder Treant",
+                      "cost":  9,
+                      "power":  6,
+                      "defense":  9,
+                      "text":  "PRECISE: This unit\u0027s attacks ignore Guard. (This unit is a rare, high-impact threat.)",
+                      "image":  "assets/cards/web/elf/25_elder_treant.jpg"
+                  },
+                  {
+                      "id":  "elf_26",
+                      "name":  "Storm Giant",
+                      "cost":  10,
+                      "power":  6,
+                      "defense":  11,
+                      "text":  "PRECISE: This unit\u0027s attacks ignore Guard. (This unit is a rare, high-impact threat.)",
+                      "image":  "assets/cards/web/elf/26_storm_giant.jpg"
+                  }
+              ]
 }

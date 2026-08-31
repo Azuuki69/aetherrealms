@@ -1,0 +1,240 @@
+﻿{
+    "faction":  "undead",
+    "displayName":  "Undead",
+    "cards":  [
+                  {
+                      "id":  "undead_01",
+                      "name":  "Skeleton",
+                      "cost":  1,
+                      "power":  1,
+                      "defense":  2,
+                      "text":  "REBIRTH: The first time this would die, return it to your hand at 1 HP instead.",
+                      "image":  "assets/cards/web/undead/01_skeleton.jpg"
+                  },
+                  {
+                      "id":  "undead_02",
+                      "name":  "Shambler",
+                      "cost":  1,
+                      "power":  1,
+                      "defense":  2,
+                      "text":  "REAP: Draw a card whenever an enemy unit dies.",
+                      "image":  "assets/cards/web/undead/02_shambler.jpg"
+                  },
+                  {
+                      "id":  "undead_03",
+                      "name":  "Bone Archer",
+                      "cost":  1,
+                      "power":  2,
+                      "defense":  1,
+                      "text":  "VOLLEY: May attack the enemy Commander directly even through blockers.",
+                      "image":  "assets/cards/web/undead/03_bone_archer.jpg"
+                  },
+                  {
+                      "id":  "undead_04",
+                      "name":  "Bone Hurler",
+                      "cost":  2,
+                      "power":  3,
+                      "defense":  2,
+                      "text":  "VOLLEY: May attack the enemy Commander directly even through blockers.",
+                      "image":  "assets/cards/web/undead/04_bone_hurler.jpg"
+                  },
+                  {
+                      "id":  "undead_05",
+                      "name":  "Barrow Wight",
+                      "cost":  2,
+                      "power":  2,
+                      "defense":  3,
+                      "text":  "REAP: Draw a card whenever an enemy unit dies.",
+                      "image":  "assets/cards/web/undead/05_barrow_wight.jpg"
+                  },
+                  {
+                      "id":  "undead_06",
+                      "name":  "Dread Knight",
+                      "cost":  2,
+                      "power":  2,
+                      "defense":  3,
+                      "text":  "REAP: Draw a card whenever an enemy unit dies.",
+                      "image":  "assets/cards/web/undead/06_dread_knight.jpg"
+                  },
+                  {
+                      "id":  "undead_07",
+                      "name":  "Ghoul",
+                      "cost":  2,
+                      "power":  2,
+                      "defense":  3,
+                      "text":  "REBIRTH: The first time this would die, return it to your hand at 1 HP instead.",
+                      "image":  "assets/cards/web/undead/07_ghoul.jpg"
+                  },
+                  {
+                      "id":  "undead_08",
+                      "name":  "Crypt Stalker",
+                      "cost":  3,
+                      "power":  4,
+                      "defense":  2,
+                      "text":  "REAP: Draw a card whenever an enemy unit dies.",
+                      "image":  "assets/cards/web/undead/08_crypt_stalker.jpg"
+                  },
+                  {
+                      "id":  "undead_09",
+                      "name":  "Reaver",
+                      "cost":  3,
+                      "power":  4,
+                      "defense":  2,
+                      "text":  "REBIRTH: The first time this would die, return it to your hand at 1 HP instead.",
+                      "image":  "assets/cards/web/undead/09_reaver.jpg"
+                  },
+                  {
+                      "id":  "undead_10",
+                      "name":  "Wraith",
+                      "cost":  3,
+                      "power":  3,
+                      "defense":  3,
+                      "text":  "REBIRTH: The first time this would die, return it to your hand at 1 HP instead.",
+                      "image":  "assets/cards/web/undead/10_wraith.jpg"
+                  },
+                  {
+                      "id":  "undead_11",
+                      "name":  "Dirge Piper",
+                      "cost":  3,
+                      "power":  3,
+                      "defense":  3,
+                      "text":  "REAP: Draw a card whenever an enemy unit dies.",
+                      "image":  "assets/cards/web/undead/11_dirge_piper.jpg"
+                  },
+                  {
+                      "id":  "undead_12",
+                      "name":  "Bone Shaper",
+                      "cost":  4,
+                      "power":  4,
+                      "defense":  4,
+                      "text":  "REAP: Draw a card whenever an enemy unit dies.",
+                      "image":  "assets/cards/web/undead/12_bone_shaper.jpg"
+                  },
+                  {
+                      "id":  "undead_13",
+                      "name":  "Banshee",
+                      "cost":  4,
+                      "power":  4,
+                      "defense":  4,
+                      "text":  "REBIRTH: The first time this would die, return it to your hand at 1 HP instead.",
+                      "image":  "assets/cards/web/undead/13_banshee.jpg"
+                  },
+                  {
+                      "id":  "undead_14",
+                      "name":  "Warlock",
+                      "cost":  4,
+                      "power":  5,
+                      "defense":  3,
+                      "text":  "REBIRTH: The first time this would die, return it to your hand at 1 HP instead.",
+                      "image":  "assets/cards/web/undead/14_warlock.jpg"
+                  },
+                  {
+                      "id":  "undead_15",
+                      "name":  "Graveweaver",
+                      "cost":  4,
+                      "power":  4,
+                      "defense":  4,
+                      "text":  "REAP: Draw a card whenever an enemy unit dies.",
+                      "image":  "assets/cards/web/undead/15_graveweaver.jpg"
+                  },
+                  {
+                      "id":  "undead_16",
+                      "name":  "Necromancer",
+                      "cost":  5,
+                      "power":  4,
+                      "defense":  5,
+                      "text":  "REBIRTH: The first time this would die, return it to your hand at 1 HP instead.",
+                      "image":  "assets/cards/web/undead/16_necromancer.jpg"
+                  },
+                  {
+                      "id":  "undead_17",
+                      "name":  "Voidcaller",
+                      "cost":  5,
+                      "power":  4,
+                      "defense":  5,
+                      "text":  "REAP: Draw a card whenever an enemy unit dies.",
+                      "image":  "assets/cards/web/undead/17_voidcaller.jpg"
+                  },
+                  {
+                      "id":  "undead_18",
+                      "name":  "Grave Guard",
+                      "cost":  5,
+                      "power":  3,
+                      "defense":  6,
+                      "text":  "GUARD: Enemies in this lane must attack this unit first.",
+                      "image":  "assets/cards/web/undead/18_grave_guard.jpg"
+                  },
+                  {
+                      "id":  "undead_19",
+                      "name":  "Death Knight",
+                      "cost":  6,
+                      "power":  4,
+                      "defense":  7,
+                      "text":  "REBIRTH: The first time this would die, return it to your hand at 1 HP instead.",
+                      "image":  "assets/cards/web/undead/19_death_knight.jpg"
+                  },
+                  {
+                      "id":  "undead_20",
+                      "name":  "Charnel Ram",
+                      "cost":  6,
+                      "power":  4,
+                      "defense":  7,
+                      "text":  "REAP: Draw a card whenever an enemy unit dies.",
+                      "image":  "assets/cards/web/undead/20_charnel_ram.jpg"
+                  },
+                  {
+                      "id":  "undead_21",
+                      "name":  "Plague Cart",
+                      "cost":  6,
+                      "power":  5,
+                      "defense":  6,
+                      "text":  "REAP: Draw a card whenever an enemy unit dies.",
+                      "image":  "assets/cards/web/undead/21_plague_cart.jpg"
+                  },
+                  {
+                      "id":  "undead_22",
+                      "name":  "Lich",
+                      "cost":  7,
+                      "power":  3,
+                      "defense":  6,
+                      "text":  "REBIRTH: The first time this would die, return it to your hand at 1 HP instead. REAP: Draw a card whenever an enemy unit dies.",
+                      "image":  "assets/cards/web/undead/22_lich.jpg"
+                  },
+                  {
+                      "id":  "undead_23",
+                      "name":  "Vampire Lord",
+                      "cost":  7,
+                      "power":  6,
+                      "defense":  6,
+                      "text":  "REBIRTH: The first time this would die, return it to your hand at 1 HP instead.",
+                      "image":  "assets/cards/web/undead/23_vampire_lord.jpg"
+                  },
+                  {
+                      "id":  "undead_24",
+                      "name":  "Sandworm",
+                      "cost":  8,
+                      "power":  7,
+                      "defense":  7,
+                      "text":  "REAP: Draw a card whenever an enemy unit dies.",
+                      "image":  "assets/cards/web/undead/24_sandworm.jpg"
+                  },
+                  {
+                      "id":  "undead_25",
+                      "name":  "Bone Colossus",
+                      "cost":  9,
+                      "power":  6,
+                      "defense":  9,
+                      "text":  "REAP: Draw a card whenever an enemy unit dies. (This unit is a rare, high-impact threat.)",
+                      "image":  "assets/cards/web/undead/25_bone_colossus.jpg"
+                  },
+                  {
+                      "id":  "undead_26",
+                      "name":  "Dracolich",
+                      "cost":  10,
+                      "power":  8,
+                      "defense":  9,
+                      "text":  "REBIRTH: The first time this would die, return it to your hand at 1 HP instead.",
+                      "image":  "assets/cards/web/undead/26_dracolich.jpg"
+                  }
+              ]
+}

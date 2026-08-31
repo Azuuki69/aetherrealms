@@ -1,0 +1,240 @@
+﻿{
+    "faction":  "beast",
+    "displayName":  "Beast",
+    "cards":  [
+                  {
+                      "id":  "beast_01",
+                      "name":  "Gnoll",
+                      "cost":  1,
+                      "power":  1,
+                      "defense":  2,
+                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "image":  "assets/cards/web/beast/01_gnoll.jpg"
+                  },
+                  {
+                      "id":  "beast_02",
+                      "name":  "Gnome Slinger",
+                      "cost":  1,
+                      "power":  2,
+                      "defense":  1,
+                      "text":  "VOLLEY: May attack the enemy Commander directly even through blockers.",
+                      "image":  "assets/cards/web/beast/02_gnome_slinger.jpg"
+                  },
+                  {
+                      "id":  "beast_03",
+                      "name":  "Ravenkin",
+                      "cost":  1,
+                      "power":  1,
+                      "defense":  2,
+                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "image":  "assets/cards/web/beast/03_ravenkin.jpg"
+                  },
+                  {
+                      "id":  "beast_04",
+                      "name":  "Quillboar",
+                      "cost":  2,
+                      "power":  2,
+                      "defense":  3,
+                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "image":  "assets/cards/web/beast/04_quillboar.jpg"
+                  },
+                  {
+                      "id":  "beast_05",
+                      "name":  "Centaur Lancer",
+                      "cost":  2,
+                      "power":  2,
+                      "defense":  3,
+                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "image":  "assets/cards/web/beast/05_centaur_lancer.jpg"
+                  },
+                  {
+                      "id":  "beast_06",
+                      "name":  "Assassin",
+                      "cost":  2,
+                      "power":  3,
+                      "defense":  2,
+                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "image":  "assets/cards/web/beast/06_assassin.jpg"
+                  },
+                  {
+                      "id":  "beast_07",
+                      "name":  "Gnoll Reaver",
+                      "cost":  2,
+                      "power":  3,
+                      "defense":  2,
+                      "text":  "REBIRTH: The first time this would die, return it to your hand at 1 HP instead.",
+                      "image":  "assets/cards/web/beast/07_gnoll_reaver.jpg"
+                  },
+                  {
+                      "id":  "beast_08",
+                      "name":  "Pixie",
+                      "cost":  3,
+                      "power":  3,
+                      "defense":  3,
+                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "image":  "assets/cards/web/beast/08_pixie.jpg"
+                  },
+                  {
+                      "id":  "beast_09",
+                      "name":  "Mossback",
+                      "cost":  3,
+                      "power":  3,
+                      "defense":  3,
+                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "image":  "assets/cards/web/beast/09_mossback.jpg"
+                  },
+                  {
+                      "id":  "beast_10",
+                      "name":  "Pack Alpha",
+                      "cost":  3,
+                      "power":  3,
+                      "defense":  3,
+                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "image":  "assets/cards/web/beast/10_pack_alpha.jpg"
+                  },
+                  {
+                      "id":  "beast_11",
+                      "name":  "Satyr Piper",
+                      "cost":  3,
+                      "power":  3,
+                      "defense":  3,
+                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "image":  "assets/cards/web/beast/11_satyr_piper.jpg"
+                  },
+                  {
+                      "id":  "beast_12",
+                      "name":  "Minotaur",
+                      "cost":  4,
+                      "power":  4,
+                      "defense":  4,
+                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "image":  "assets/cards/web/beast/12_minotaur.jpg"
+                  },
+                  {
+                      "id":  "beast_13",
+                      "name":  "Gnome Tinker",
+                      "cost":  4,
+                      "power":  4,
+                      "defense":  4,
+                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "image":  "assets/cards/web/beast/13_gnome_tinker.jpg"
+                  },
+                  {
+                      "id":  "beast_14",
+                      "name":  "Ettin",
+                      "cost":  4,
+                      "power":  4,
+                      "defense":  4,
+                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "image":  "assets/cards/web/beast/14_ettin.jpg"
+                  },
+                  {
+                      "id":  "beast_15",
+                      "name":  "Dire Wolf",
+                      "cost":  3,
+                      "power":  4,
+                      "defense":  3,
+                      "text":  "PACK HUNT: Gains +1 DMG for each other Beast you control.",
+                      "image":  "assets/cards/web/beast/15_dire_wolf.jpg"
+                  },
+                  {
+                      "id":  "beast_16",
+                      "name":  "Harpy",
+                      "cost":  5,
+                      "power":  4,
+                      "defense":  5,
+                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "image":  "assets/cards/web/beast/16_harpy.jpg"
+                  },
+                  {
+                      "id":  "beast_17",
+                      "name":  "Great Bear",
+                      "cost":  5,
+                      "power":  4,
+                      "defense":  5,
+                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "image":  "assets/cards/web/beast/17_great_bear.jpg"
+                  },
+                  {
+                      "id":  "beast_18",
+                      "name":  "Cave Troll",
+                      "cost":  5,
+                      "power":  3,
+                      "defense":  6,
+                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "image":  "assets/cards/web/beast/18_cave_troll.jpg"
+                  },
+                  {
+                      "id":  "beast_19",
+                      "name":  "Basilisk",
+                      "cost":  6,
+                      "power":  5,
+                      "defense":  6,
+                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "image":  "assets/cards/web/beast/19_basilisk.jpg"
+                  },
+                  {
+                      "id":  "beast_20",
+                      "name":  "Drake",
+                      "cost":  6,
+                      "power":  7,
+                      "defense":  4,
+                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "image":  "assets/cards/web/beast/20_drake.jpg"
+                  },
+                  {
+                      "id":  "beast_21",
+                      "name":  "Manticore",
+                      "cost":  6,
+                      "power":  5,
+                      "defense":  6,
+                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "image":  "assets/cards/web/beast/21_manticore.jpg"
+                  },
+                  {
+                      "id":  "beast_22",
+                      "name":  "Thunderbird",
+                      "cost":  7,
+                      "power":  8,
+                      "defense":  4,
+                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "image":  "assets/cards/web/beast/22_thunderbird.jpg"
+                  },
+                  {
+                      "id":  "beast_23",
+                      "name":  "Behemoth",
+                      "cost":  7,
+                      "power":  4,
+                      "defense":  8,
+                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "image":  "assets/cards/web/beast/23_behemoth.jpg"
+                  },
+                  {
+                      "id":  "beast_24",
+                      "name":  "Hydra",
+                      "cost":  8,
+                      "power":  7,
+                      "defense":  7,
+                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "image":  "assets/cards/web/beast/24_hydra.jpg"
+                  },
+                  {
+                      "id":  "beast_25",
+                      "name":  "Chimera",
+                      "cost":  9,
+                      "power":  7,
+                      "defense":  8,
+                      "text":  "PACK HUNT: +1 DMG for each other Beast you control. (This unit is a rare, high-impact threat.)",
+                      "image":  "assets/cards/web/beast/25_chimera.jpg"
+                  },
+                  {
+                      "id":  "beast_26",
+                      "name":  "Roc",
+                      "cost":  10,
+                      "power":  8,
+                      "defense":  9,
+                      "text":  "PACK HUNT: +1 DMG for each other Beast you control. (This unit is a rare, high-impact threat.)",
+                      "image":  "assets/cards/web/beast/26_roc.jpg"
+                  }
+              ]
+}

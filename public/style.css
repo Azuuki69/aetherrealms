@@ -51,7 +51,7 @@ h1 span {
 
 .faction-picker {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 12px;
   margin: 2rem 0;
 }
@@ -74,9 +74,9 @@ h1 span {
 .faction-card.selected { border-color: var(--gold); background: linear-gradient(#3a2c14, #241c12); box-shadow: 0 0 12px #00000080 inset, 0 0 10px #d9b25c80; }
 .faction-card .thumb {
   position: relative;
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
+  width: 84px;
+  height: 126px;
+  border-radius: 8px;
   overflow: hidden;
   background: #0f0c08;
   border: 2px solid var(--border);
@@ -84,8 +84,8 @@ h1 span {
   transition: border-color 0.15s, box-shadow 0.15s;
 }
 .faction-card:hover .thumb, .faction-card.selected .thumb { border-color: var(--gold); box-shadow: 0 0 12px #d9b25c80; }
-.faction-card .thumb img { position: absolute; top: 0; left: 0; }
-.faction-card .label { font-size: 0.95rem; }
+.faction-card .thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+.faction-card .label { font-size: 0.85rem; text-align: center; }
 
 .lobby-actions {
   display: grid;
@@ -193,8 +193,12 @@ h1 span {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   gap: 6px;
   min-height: 0;
+  width: 100%;
+  max-width: 620px;
+  margin: 0 auto;
   padding: 8px 6px;
   border-radius: 14px;
   background: radial-gradient(ellipse at center, #1c150d 0%, #100c07 100%);
@@ -203,10 +207,12 @@ h1 span {
 .lane-row {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
+  align-items: center;
   gap: 8px;
   justify-items: center;
   padding: 8px 4px;
   border-radius: 10px;
+  width: 100%;
 }
 #oppRearguard, #youRearguard {
   background: linear-gradient(180deg, var(--rearguard), transparent);
@@ -224,8 +230,8 @@ h1 span {
 
 .slot {
   position: relative;
-  width: 100px;
-  height: 138px;
+  width: 110px;
+  height: 165px;
   border: 1px solid #4a3a22;
   border-radius: 6px;
   display: flex;
@@ -261,8 +267,8 @@ h1 span {
 
 .card {
   position: relative;
-  width: 100px;
-  height: 138px;
+  width: 110px;
+  height: 165px;
   border-radius: 8px;
   overflow: hidden;
   border: 2px solid #1a140c;
@@ -272,8 +278,9 @@ h1 span {
   background-color: #100c08;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
+.card.face-down { background: linear-gradient(135deg, #2a2015, #1a1209); border-color: #5c4419; }
 .card.hand-card:not(.unaffordable):hover {
-  transform: translateY(-10px) scale(1.05);
+  transform: translateY(-14px) scale(1.08);
   box-shadow: 0 12px 20px #000c, 0 0 14px var(--gold);
   z-index: 5;
 }
@@ -282,44 +289,12 @@ h1 span {
   100% { transform: scale(1); opacity: 1; }
 }
 .card.card-enter { animation: card-pop 0.25s ease-out; }
-.card img.art { position: absolute; top: 0; left: 0; image-rendering: -webkit-optimize-contrast; }
-.card .badge {
-  position: absolute;
-  font-size: 0.75rem;
-  font-weight: bold;
-  color: #fff;
-  background: #000c;
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--gold);
-}
-.card .cost { top: 3px; left: 3px; background: #1c3a6b; }
-.card .power { bottom: 3px; left: 3px; background: #6b1c1c; }
-.card .defense { bottom: 3px; right: 3px; background: #1c5c2a; }
+.card img.art { width: 100%; height: 100%; object-fit: cover; display: block; }
 .card.selected { outline: 3px solid var(--gold); }
 .card.sick { filter: grayscale(0.6) brightness(0.7); }
 .card.attacked { filter: brightness(0.55); }
 .card.unaffordable { filter: grayscale(0.8) brightness(0.5); cursor: not-allowed; }
-.card .keyword-tag {
-  position: absolute;
-  bottom: 20px;
-  left: 0;
-  right: 0;
-  text-align: center;
-  font-size: 0.55rem;
-  background: #00000099;
-  color: var(--gold);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding: 0 2px;
-}
+.card.has-guard { box-shadow: 0 0 0 2px #6fd66a, 0 2px 6px #000a; }
 
 .controls { display: flex; gap: 1rem; justify-content: center; padding: 0.5rem; }
 .controls button, #hand .end-icons button {
@@ -339,7 +314,7 @@ h1 span {
   gap: 8px;
   justify-content: center;
   padding: 6px 0;
-  min-height: 148px;
+  min-height: 175px;
   overflow-x: auto;
 }
 
@@ -382,51 +357,18 @@ h1 span {
   position: fixed;
   z-index: 500;
   pointer-events: none;
-  width: 220px;
-  border-radius: 12px;
+  width: 300px;
+  height: 450px;
+  border-radius: 14px;
   overflow: hidden;
   border: 3px solid var(--gold);
-  box-shadow: 0 8px 24px #000c;
+  box-shadow: 0 10px 30px #000d, 0 0 24px #d9b25c60;
   background: #100c08;
   opacity: 0;
   transition: opacity 0.08s;
 }
 #cardPreview.visible { opacity: 1; }
-#cardPreview .preview-art {
-  position: relative;
-  width: 220px;
-  height: 304px;
-  overflow: hidden;
-  background: #100c08;
-}
-#cardPreview .preview-art img { position: absolute; top: 0; left: 0; }
-#cardPreview .preview-badges {
-  position: absolute;
-  inset: 0;
-}
-#cardPreview .preview-badges .badge {
-  position: absolute;
-  font-size: 1.1rem;
-  font-weight: bold;
-  color: #fff;
-  background: #000c;
-  border-radius: 50%;
-  width: 34px;
-  height: 34px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid var(--gold);
-}
-#cardPreview .preview-badges .cost { top: 6px; left: 6px; background: #1c3a6b; }
-#cardPreview .preview-badges .power { bottom: 6px; left: 6px; background: #6b1c1c; }
-#cardPreview .preview-badges .defense { bottom: 6px; right: 6px; background: #1c5c2a; }
-#cardPreview .preview-info {
-  padding: 0.6rem 0.7rem 0.8rem;
-  background: var(--panel);
-}
-#cardPreview .preview-name { color: var(--gold); font-weight: bold; font-size: 1rem; margin-bottom: 0.3rem; }
-#cardPreview .preview-text { color: var(--text); font-size: 0.85rem; line-height: 1.3; }
+#cardPreview img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 /* ---------- Tutorial tips ---------- */
 .tutorial-tip {
@@ -451,16 +393,19 @@ h1 span {
   font-size: 0.9rem;
 }
 .tutorial-tip .tip-close:hover { color: var(--gold); }
-#tipHand { bottom: 156px; left: 50%; transform: translateX(-50%); }
+#tipHand { bottom: 182px; left: 50%; transform: translateX(-50%); }
 #tipCombat { bottom: 56px; right: 1rem; }
 #tipCommander { top: 46px; right: 1rem; }
+#tipHover { top: 46px; left: 1rem; }
 
 @media (max-width: 720px) {
   .lobby-actions { grid-template-columns: 1fr; }
   .faction-picker { grid-template-columns: repeat(2, 1fr); }
-  .faction-card .thumb { width: 52px; height: 52px; }
-  .slot, .card { width: 60px; height: 84px; }
+  .faction-card .thumb { width: 60px; height: 90px; }
+  .slot, .card { width: 66px; height: 99px; }
+  .hand { min-height: 108px; }
   .tutorial-tip { max-width: 160px; font-size: 0.7rem; }
+  #cardPreview { width: 220px; height: 330px; }
   .hp-panel { flex-wrap: wrap; min-width: 0; gap: 0.35rem; }
   .hp-panel .name { min-width: 0; font-size: 0.85rem; }
   .hp-bar { width: 80px; }

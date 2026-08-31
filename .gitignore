@@ -1,3 +1,7 @@
 node_modules/
 .wrangler/
 *.log
+
+# Full-res source card art (791MB) + generation scripts — not deployed,
+# regenerate with cardsource/make_all_cards.ps1 + compress_cards.ps1 if needed.
+cardsource/
