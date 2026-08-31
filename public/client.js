@@ -106,7 +106,26 @@ function handleMessage(msg) {
 function showGame() {
   el('lobby').classList.add('hidden');
   el('game').classList.remove('hidden');
+  document.body.classList.add('in-game');
 }
+
+// ---------- Scale-to-fit ----------
+// #game is a fixed-size design canvas; scale it to fit whatever window is
+// actually available (like a native TCG client), instead of reflowing its
+// contents and risking overflow/scroll on short or non-fullscreen windows.
+const GAME_DESIGN_WIDTH = 1600;
+const GAME_DESIGN_HEIGHT = 950;
+const GAME_MAX_SCALE = 1.4;
+
+function updateGameScale() {
+  const scale = Math.min(
+    window.innerWidth / GAME_DESIGN_WIDTH,
+    window.innerHeight / GAME_DESIGN_HEIGHT,
+    GAME_MAX_SCALE
+  );
+  el('game').style.transform = `scale(${scale})`;
+}
+window.addEventListener('resize', updateGameScale);
 
 // ---------- Rendering ----------
 // Every finished card image already has its border, art, name, cost, DMG,
@@ -457,4 +476,5 @@ function renderFactionThumbnails() {
   initLobby();
   initTutorial();
   renderFactionThumbnails();
+  updateGameScale();
 })();
