@@ -120,6 +120,19 @@
   <img id="previewImg" alt="" />
 </div>
 
+<div id="chatPanel" class="chat-panel collapsed">
+  <button id="chatToggle" type="button" class="chat-toggle">
+    💬 Chat<span id="chatBadge" class="chat-badge hidden">0</span>
+  </button>
+  <div class="chat-body">
+    <div id="chatMessages" class="chat-messages"></div>
+    <form id="chatForm" class="chat-form">
+      <input id="chatInput" maxlength="240" autocomplete="off" placeholder="Message your opponent..." />
+      <button type="submit">Send</button>
+    </form>
+  </div>
+</div>
+
 <script type="module" src="client.js"></script>
 </body>
 </html>

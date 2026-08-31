@@ -78,6 +78,16 @@ export class MatchRoom {
       }
 
       switch (msg.type) {
+        case 'chat': {
+          const text = (msg.text ?? '').toString().trim().slice(0, 240);
+          if (!text) return;
+          const chatMsg = { type: 'chat', owner, text };
+          for (const s of SEATS) {
+            const seatWs = this.state.getWebSockets(s)[0];
+            if (seatWs) this.sendTo(seatWs, chatMsg);
+          }
+          return;
+        }
         case 'play_card':
           playCard(game, owner, msg.cardInstanceId, msg.lane, msg.slotIndex);
           break;

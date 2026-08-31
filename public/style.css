@@ -475,6 +475,21 @@ h1 span {
 #cardPreview.visible { opacity: 1; transform: scale(1); }
 #cardPreview img { width: 100%; height: 100%; object-fit: contain; display: block; }
 
+/* ---------- Chat panel ---------- */
+#chatPanel { position: fixed; right: 16px; bottom: 16px; z-index: 400; width: 300px; max-width: calc(100vw - 32px); }
+.chat-toggle { display: flex; align-items: center; gap: 6px; width: 100%; background: linear-gradient(#3a2c14, #241c12); border: 1px solid var(--gold); border-radius: 8px; color: var(--gold); font-family: inherit; font-weight: bold; padding: 0.5rem 0.8rem; cursor: pointer; box-shadow: 0 4px 14px #000a; }
+.chat-badge { margin-left: auto; background: var(--hp); color: #fff; border-radius: 999px; font-size: 0.7rem; padding: 1px 7px; font-weight: bold; }
+.chat-body { margin-top: 6px; background: var(--panel); border: 1px solid var(--gold); border-radius: 8px; box-shadow: 0 8px 24px #000c; overflow: hidden; }
+#chatPanel.collapsed .chat-body { display: none; }
+.chat-messages { max-height: 240px; overflow-y: auto; padding: 8px 10px; font-size: 0.85rem; color: var(--text); }
+.chat-line { margin-bottom: 6px; line-height: 1.35; }
+.chat-line .who { font-weight: bold; color: var(--gold); margin-right: 4px; }
+.chat-line.mine .who { color: var(--mana); }
+.chat-form { display: flex; border-top: 1px solid var(--border); }
+.chat-form input { flex: 1; background: #0000004d; border: none; color: var(--text); font-family: inherit; font-size: 0.85rem; padding: 8px 10px; }
+.chat-form input:focus { outline: 1px solid var(--gold); }
+.chat-form button { background: linear-gradient(#e7c877, #b8912f); border: none; padding: 0 14px; font-weight: bold; cursor: pointer; }
+
 /* ---------- Tutorial tips ---------- */
 .tutorial-tips {
   display: flex;

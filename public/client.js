@@ -88,6 +88,9 @@ function handleMessage(msg) {
     case 'error':
       logLine('Error: ' + msg.message);
       break;
+    case 'chat':
+      addChatMessage(msg.owner, msg.text, msg.owner === mySeatKey);
+      break;
   }
 }
 
@@ -466,6 +469,56 @@ function initTutorial() {
   }
 }
 
+// ---------- Chat ----------
+// Independent of render()/#log on purpose: render() destructively rebuilds
+// #log from currentView.log on every 'state' push, which would wipe any
+// chat line appended there before the next game action from either player.
+let chatCollapsed = true;
+let unreadChat = 0;
+
+function initChat() {
+  el('chatToggle').addEventListener('click', () => {
+    chatCollapsed = !chatCollapsed;
+    el('chatPanel').classList.toggle('collapsed', chatCollapsed);
+    if (!chatCollapsed) {
+      unreadChat = 0;
+      updateChatBadge();
+      el('chatInput').focus();
+    }
+  });
+  el('chatForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const input = el('chatInput');
+    const text = input.value.trim();
+    if (!text) return;
+    send({ type: 'chat', text });
+    input.value = '';
+  });
+}
+
+function addChatMessage(owner, text, mine) {
+  const line = document.createElement('div');
+  line.className = 'chat-line' + (mine ? ' mine' : '');
+  const who = document.createElement('span');
+  who.className = 'who';
+  who.textContent = mine ? 'You:' : 'Opponent:';
+  const body = document.createElement('span');
+  body.textContent = text; // textContent only — never innerHTML, text is untrusted opponent input
+  line.append(who, body);
+  el('chatMessages').appendChild(line);
+  el('chatMessages').scrollTop = el('chatMessages').scrollHeight;
+  if (chatCollapsed) {
+    unreadChat++;
+    updateChatBadge();
+  }
+}
+
+function updateChatBadge() {
+  const badge = el('chatBadge');
+  badge.textContent = String(unreadChat);
+  badge.classList.toggle('hidden', unreadChat === 0);
+}
+
 function renderFactionThumbnails() {
   for (const faction of FACTION_KEYS) {
     const btn = document.querySelector(`.faction-card[data-faction="${faction}"] .thumb`);
@@ -481,6 +534,7 @@ function renderFactionThumbnails() {
   await loadFactionData();
   initLobby();
   initTutorial();
+  initChat();
   renderFactionThumbnails();
   updateGameScale();
 })();
