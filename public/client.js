@@ -32,6 +32,7 @@ let previousBoardIds = new Set();
 let selectedHandCardId = null;
 let selectedAttacker = null; // { lane, slot }
 let tutorialDismissed = false;
+let previousHp = { you: null, opponent: null };
 
 const el = (id) => document.getElementById(id);
 
@@ -160,6 +161,17 @@ function hidePreview() {
   el('cardPreview').classList.remove('visible');
 }
 
+function flashHpIfDropped(panelId, hp, key) {
+  const prev = previousHp[key];
+  if (prev !== null && hp < prev) {
+    const panel = el(panelId);
+    panel.classList.remove('hp-hit');
+    void panel.offsetWidth; // restart animation
+    panel.classList.add('hp-hit');
+  }
+  previousHp[key] = hp;
+}
+
 function render() {
   if (!currentView) return;
   const { you, opponent, turn, phase, turnNumber, winner, log, you_key } = currentView;
@@ -167,13 +179,17 @@ function render() {
 
   el('youInfo').querySelector('.name').textContent = `You (${capitalize(you.faction)})`;
   el('youInfo').querySelector('.hp-fill').style.width = Math.max(0, (you.hp / 30) * 100) + '%';
+  el('youInfo').querySelector('.hp-value').textContent = `${Math.max(0, you.hp)}/30`;
   el('youInfo').querySelector('.mana').textContent = `${you.mana}/${you.maxMana}`;
   renderManaCrystals(el('youInfo').querySelector('.mana-crystals'), you.mana, you.maxMana);
+  flashHpIfDropped('youInfo', you.hp, 'you');
 
   el('oppInfo').querySelector('.name').textContent = `Opponent (${capitalize(opponent.faction)})`;
   el('oppInfo').querySelector('.hp-fill').style.width = Math.max(0, (opponent.hp / 30) * 100) + '%';
+  el('oppInfo').querySelector('.hp-value').textContent = `${Math.max(0, opponent.hp)}/30`;
   el('oppInfo').querySelector('.mana').textContent = `${opponent.mana}/${opponent.maxMana}`;
   renderManaCrystals(el('oppInfo').querySelector('.mana-crystals'), opponent.mana, opponent.maxMana);
+  flashHpIfDropped('oppInfo', opponent.hp, 'opponent');
 
   el('turnIndicator').textContent = winner
     ? 'Game Over'

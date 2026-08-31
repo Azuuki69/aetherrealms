@@ -136,23 +136,37 @@ h1 span {
 .lobby-status { text-align: center; margin-top: 1.5rem; color: var(--dim); min-height: 1.5em; }
 
 /* ---------- Game ---------- */
-#game { position: relative; display: flex; flex-direction: column; height: 100vh; padding: 0.5rem 0.8rem; }
+#game {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 0.5rem 0.8rem;
+  background:
+    radial-gradient(ellipse 900px 700px at 50% 45%, #2e2313 0%, transparent 65%),
+    radial-gradient(ellipse at 50% 50%, transparent 55%, #000 100%);
+}
 
 #topBar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 0.4rem 0.8rem;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(180deg, #2a2013c0, #1a140dc0);
+  border: 1px solid #4a3a2270;
+  border-radius: 10px;
+  box-shadow: 0 3px 12px #0007;
+  margin-bottom: 4px;
 }
-.hp-panel { display: flex; align-items: center; gap: 0.6rem; min-width: 220px; }
-.hp-panel .name { font-weight: bold; color: var(--gold); min-width: 90px; }
+.hp-panel { display: flex; align-items: center; gap: 0.6rem; min-width: 240px; }
+.hp-panel .name { font-weight: bold; color: var(--gold); min-width: 90px; font-size: 1.05rem; }
 .hp-bar {
-  width: 120px;
-  height: 14px;
+  width: 130px;
+  height: 18px;
   background: linear-gradient(#0a0a0a, #000);
   border: 1px solid var(--border);
-  border-radius: 7px;
+  border-radius: 9px;
   overflow: hidden;
   box-shadow: inset 0 2px 4px #000, 0 0 6px #00000080;
   position: relative;
@@ -163,7 +177,7 @@ h1 span {
   left: -2px; top: 50%;
   transform: translate(-100%, -50%);
   color: var(--hp);
-  font-size: 0.85rem;
+  font-size: 1rem;
   text-shadow: 0 0 4px #000;
 }
 .hp-fill {
@@ -172,21 +186,35 @@ h1 span {
   box-shadow: inset 0 1px 2px #ffffff50;
   transition: width 0.3s ease;
 }
-.mana-crystals { display: flex; gap: 3px; }
+.hp-value {
+  font-weight: bold;
+  color: #ffdede;
+  font-size: 0.95rem;
+  text-shadow: 0 1px 3px #000;
+  min-width: 2.4em;
+}
+.mana-crystals { display: flex; gap: 4px; }
 .crystal {
-  width: 10px;
-  height: 10px;
+  width: 13px;
+  height: 13px;
   border-radius: 2px;
   transform: rotate(45deg);
   display: inline-block;
 }
 .crystal.filled {
   background: radial-gradient(circle at 30% 30%, #a9d8ff, var(--mana) 70%);
-  box-shadow: 0 0 6px #3c7fd0cc;
+  box-shadow: 0 0 7px #3c7fd0e0;
 }
 .crystal.spent { background: #1a2433; border: 1px solid #2c3b52; }
-.mana { color: var(--mana); font-weight: bold; min-width: 34px; font-size: 0.85rem; }
-.turn-indicator { font-size: 1.1rem; color: var(--gold); text-align: center; flex: 1; }
+.mana { color: #bfe0ff; font-weight: bold; min-width: 38px; font-size: 1rem; text-shadow: 0 1px 3px #000; }
+.turn-indicator { font-size: 1.2rem; color: var(--gold); text-align: center; flex: 1; text-shadow: 0 2px 6px #000; letter-spacing: 1px; }
+
+.hp-panel.hp-hit { animation: hp-hit-flash 0.6s ease-out; }
+@keyframes hp-hit-flash {
+  0% { box-shadow: 0 0 0 3px #ff4d4d00; background-color: transparent; }
+  15% { box-shadow: 0 0 18px 4px #ff4d4dcc; background-color: #ff4d4d33; }
+  100% { box-shadow: 0 0 0 3px #ff4d4d00; background-color: transparent; }
+}
 
 .board-area {
   flex: 1;
@@ -197,12 +225,13 @@ h1 span {
   gap: 6px;
   min-height: 0;
   width: 100%;
-  max-width: 620px;
+  max-width: 730px;
   margin: 0 auto;
-  padding: 8px 6px;
-  border-radius: 14px;
+  padding: 10px 8px;
+  border-radius: 16px;
   background: radial-gradient(ellipse at center, #1c150d 0%, #100c07 100%);
-  box-shadow: inset 0 0 40px #000a, inset 0 0 0 1px #4a3a2240;
+  box-shadow: inset 0 0 50px #000c, inset 0 0 0 1px #6b5330, 0 8px 30px #0009;
+  border: 1px solid #4a3a2280;
 }
 .lane-row {
   display: grid;
@@ -230,8 +259,8 @@ h1 span {
 
 .slot {
   position: relative;
-  width: 110px;
-  height: 165px;
+  width: 128px;
+  height: 192px;
   border: 1px solid #4a3a22;
   border-radius: 6px;
   display: flex;
@@ -267,8 +296,8 @@ h1 span {
 
 .card {
   position: relative;
-  width: 110px;
-  height: 165px;
+  width: 128px;
+  height: 192px;
   border-radius: 8px;
   overflow: hidden;
   border: 2px solid #1a140c;
@@ -314,14 +343,14 @@ h1 span {
   gap: 8px;
   justify-content: center;
   padding: 6px 0;
-  min-height: 175px;
+  min-height: 200px;
   overflow-x: auto;
 }
 
 .log {
-  max-height: 70px;
+  max-height: 84px;
   overflow-y: auto;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   color: var(--dim);
   background: #0000004d;
   border-top: 1px solid var(--border);
@@ -357,17 +386,18 @@ h1 span {
   position: fixed;
   z-index: 500;
   pointer-events: none;
-  width: 300px;
-  height: 450px;
-  border-radius: 14px;
+  width: 360px;
+  height: 540px;
+  border-radius: 16px;
   overflow: hidden;
   border: 3px solid var(--gold);
-  box-shadow: 0 10px 30px #000d, 0 0 24px #d9b25c60;
+  box-shadow: 0 14px 40px #000f, 0 0 32px #d9b25c70;
   background: #100c08;
   opacity: 0;
-  transition: opacity 0.08s;
+  transform: scale(0.97);
+  transition: opacity 0.08s, transform 0.08s;
 }
-#cardPreview.visible { opacity: 1; }
+#cardPreview.visible { opacity: 1; transform: scale(1); }
 #cardPreview img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 /* ---------- Tutorial tips ---------- */
@@ -398,17 +428,48 @@ h1 span {
 #tipCommander { top: 46px; right: 1rem; }
 #tipHover { top: 46px; left: 1rem; }
 
+@media (max-width: 980px) {
+  .faction-picker { grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  .faction-card { padding: 0.6rem 0.3rem; gap: 0.35rem; }
+  .faction-card .thumb { width: 56px; height: 84px; }
+  .faction-card .label { font-size: 0.7rem; }
+}
+
 @media (max-width: 720px) {
-  .lobby-actions { grid-template-columns: 1fr; }
-  .faction-picker { grid-template-columns: repeat(2, 1fr); }
-  .faction-card .thumb { width: 60px; height: 90px; }
-  .slot, .card { width: 66px; height: 99px; }
-  .hand { min-height: 108px; }
+  #lobby { padding: 0.5rem 0.8rem 2rem; }
+  h1 { font-size: 1.8rem; margin: 1rem 0 0.1rem; }
+  .lobby-actions { grid-template-columns: 1fr; gap: 0.8rem; }
+  .faction-picker { grid-template-columns: repeat(5, 1fr); gap: 6px; margin: 1rem 0; }
+  .faction-card { padding: 0.4rem 0.2rem; gap: 0.25rem; }
+  .faction-card .thumb { width: 42px; height: 63px; }
+  .faction-card .label { font-size: 0.62rem; line-height: 1.1; }
+  .slot, .card { width: 80px; height: 120px; }
+  .hand { min-height: 132px; }
   .tutorial-tip { max-width: 160px; font-size: 0.7rem; }
-  #cardPreview { width: 220px; height: 330px; }
+  #cardPreview { width: 260px; height: 390px; }
   .hp-panel { flex-wrap: wrap; min-width: 0; gap: 0.35rem; }
   .hp-panel .name { min-width: 0; font-size: 0.85rem; }
   .hp-bar { width: 80px; }
+  .hp-value { font-size: 0.8rem; }
   .mana-crystals { gap: 2px; }
-  .crystal { width: 7px; height: 7px; }
+  .crystal { width: 8px; height: 8px; }
+}
+
+@media (min-width: 1400px) {
+  .board-area { max-width: 880px; }
+  .slot, .card { width: 148px; height: 222px; }
+  .hand { min-height: 234px; }
+  #cardPreview { width: 400px; height: 600px; }
+}
+
+@media (max-width: 480px) {
+  .faction-picker { grid-template-columns: repeat(5, 1fr); gap: 4px; }
+  .faction-card { padding: 0.3rem 0.15rem; }
+  .faction-card .thumb { width: 34px; height: 51px; }
+  .faction-card .label { font-size: 0.56rem; }
+  .slot, .card { width: 60px; height: 90px; }
+  .lane-row { gap: 5px; padding: 5px 2px; }
+  .board-area { gap: 4px; padding: 6px 4px; }
+  .hand { min-height: 100px; gap: 5px; }
+  #cardPreview { width: 210px; height: 315px; }
 }
