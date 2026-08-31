@@ -490,12 +490,25 @@ function requireActive(game, owner) {
   if (game.turn !== owner) throw new Error("It's not your turn.");
 }
 
+// Pack Hunt/Formation bonuses fluctuate live with board state rather than
+// being baked into unit.power, so the client needs the current effective
+// value to display — computed here via the same effectivePower() combat
+// already uses, so the shown number can never drift from the real damage.
+function withDisplayPower(game, owner) {
+  const player = game.players[owner];
+  const annotate = (lane) =>
+    player.board[lane].map((unit, idx) =>
+      unit ? { ...unit, displayPower: effectivePower(game, owner, lane, idx) } : null
+    );
+  return { ...player, board: { vanguard: annotate('vanguard'), rearguard: annotate('rearguard') } };
+}
+
 export function viewFor(game, owner) {
   const opp = opponentOf(owner);
   return {
-    you: game.players[owner],
+    you: withDisplayPower(game, owner),
     opponent: {
-      ...game.players[opp],
+      ...withDisplayPower(game, opp),
       hand: game.players[opp].hand.map(() => ({ hidden: true })),
       deck: undefined,
       deckCount: game.players[opp].deck.length,

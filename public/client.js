@@ -145,11 +145,18 @@ function buildCardEl(instance, { context = 'board' } = {}) {
   cost.textContent = instance.cost;
   const dmg = document.createElement('span');
   dmg.className = 'card-badge dmg-badge';
-  dmg.textContent = instance.power;
+  dmg.textContent = instance.displayPower ?? instance.power;
   const hp = document.createElement('span');
   hp.className = 'card-badge hp-badge';
   hp.textContent = instance.defense;
   wrap.append(cost, dmg, hp);
+
+  if (instance.countdown !== null && instance.countdown !== undefined) {
+    const cd = document.createElement('span');
+    cd.className = 'card-badge countdown-badge';
+    cd.textContent = `⏳${instance.countdown}`;
+    wrap.appendChild(cd);
+  }
 
   if (instance.sick) wrap.classList.add('sick');
   if (instance.attackedThisTurn) wrap.classList.add('attacked');

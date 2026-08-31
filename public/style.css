@@ -261,7 +261,7 @@ h1 span {
 }
 .panel-icon { font-size: 1.2rem; }
 .board-area {
-  flex: 0 0 730px;
+  flex: 0 0 1020px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -399,6 +399,7 @@ h1 span {
 .cost-badge { top: 3px; right: 3px; background: radial-gradient(circle at 30% 30%, #6fa8e0, #2a5d94); }
 .dmg-badge { bottom: 3px; left: 3px; background: radial-gradient(circle at 30% 30%, #d8d8d8, #6b6b6b); }
 .hp-badge { bottom: 3px; right: 3px; background: radial-gradient(circle at 30% 30%, #ff8b83, var(--hp)); }
+.countdown-badge { top: 3px; left: 50%; transform: translateX(-50%); background: radial-gradient(circle at 30% 30%, #d8c9a0, #7a6a3f); }
 
 .controls { display: flex; gap: 1rem; justify-content: center; padding: 0.5rem; }
 .controls button, #hand .end-icons button {
