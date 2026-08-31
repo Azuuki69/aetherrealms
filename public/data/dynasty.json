@@ -224,7 +224,7 @@
                       "cost":  9,
                       "power":  7,
                       "defense":  8,
-                      "text":  "FORMATION: +1 DMG while adjacent to another Dynasty unit. (This unit is a rare, high-impact threat.)",
+                      "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
                       "image":  "assets/cards/web/dynasty/25_cloud_serpent.jpg"
                   },
                   {

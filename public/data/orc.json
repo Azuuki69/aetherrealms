@@ -143,7 +143,7 @@
                       "cost":  5,
                       "power":  4,
                       "defense":  5,
-                      "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG.",
+                      "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
                       "image":  "assets/cards/web/orc/16_plaguebringer.jpg"
                   },
                   {
@@ -179,7 +179,7 @@
                       "cost":  6,
                       "power":  4,
                       "defense":  7,
-                      "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG.",
+                      "text":  "SIEGE: May only attack the enemy Commander directly.",
                       "image":  "assets/cards/web/orc/20_battering_ram.jpg"
                   },
                   {
@@ -188,7 +188,7 @@
                       "cost":  6,
                       "power":  5,
                       "defense":  6,
-                      "text":  "VOLLEY: May attack the enemy Commander directly even through blockers.",
+                      "text":  "SIEGE: May only attack the enemy Commander directly.",
                       "image":  "assets/cards/web/orc/21_catapult.jpg"
                   },
                   {
@@ -206,7 +206,7 @@
                       "cost":  7,
                       "power":  8,
                       "defense":  4,
-                      "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG.",
+                      "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
                       "image":  "assets/cards/web/orc/23_wyvern.jpg"
                   },
                   {

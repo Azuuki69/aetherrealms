@@ -179,7 +179,7 @@
                       "cost":  6,
                       "power":  5,
                       "defense":  6,
-                      "text":  "VOLLEY: May attack the enemy Commander directly even through blockers.",
+                      "text":  "SIEGE: May only attack the enemy Commander directly.",
                       "image":  "assets/cards/web/elf/20_ballista.jpg"
                   },
                   {

@@ -40,6 +40,9 @@ function detectKeywords(text) {
   if (/last breath/.test(t)) kw.push('lastbreath');
   if (/fortify|resolve/.test(t)) kw.push('fortify');
   if (/pack hunt/.test(t)) kw.push('packhunt');
+  if (/shield/.test(t)) kw.push('shield');
+  if (/lifesteal/.test(t)) kw.push('lifesteal');
+  if (/venom/.test(t)) kw.push('venom');
   return kw;
 }
 
@@ -62,15 +65,27 @@ function nextInstanceId() {
   return `inst_${Date.now().toString(36)}_${instanceCounter}`;
 }
 
-// Each deck is simply its faction's 26 unique cards, one copy each, shuffled.
+// Each faction's 10 hand-tuned flagship cards stay singleton regardless of
+// cost (a real deck's "legendary" tier); every other card gets 2 copies if
+// cheap enough (cost <= 3) to behave like a real constructed deck's commons.
+const FLAGSHIP_NAMES = new Set([
+  'Dire Wolf', 'Sparkwright', 'The Creditor', 'Warden', 'Samurai',
+  'Sharpshooter', 'Scavenger-Lord', 'Paladin', 'Berserker', 'Lich',
+]);
+
 export function buildDeck(factionKey) {
   const faction = FACTIONS[factionKey];
   if (!faction) throw new Error('Unknown faction: ' + factionKey);
-  const deck = faction.cards.map(makeCardInstance);
+  const deck = [];
+  for (const card of faction.cards) {
+    const copies = !FLAGSHIP_NAMES.has(card.name) && card.cost <= 3 ? 2 : 1;
+    for (let i = 0; i < copies; i++) deck.push(makeCardInstance(card));
+  }
   return shuffle(deck);
 }
 
 function makeCardInstance(card) {
+  const keywords = detectKeywords(card.text);
   return {
     instanceId: nextInstanceId(),
     cardId: card.id,
@@ -83,7 +98,8 @@ function makeCardInstance(card) {
     maxDefense: card.defense,
     text: card.text,
     image: card.image,
-    keywords: detectKeywords(card.text),
+    keywords,
+    hasShield: keywords.includes('shield'),
     faction: card.id.split('_')[0],
     usedRebirth: false,
     usedRage: false,
@@ -382,16 +398,39 @@ export function attack(game, owner, attackerLane, attackerSlot, targetLane) {
   if (targetLane === 'commander') {
     opponent.hp -= attackPower;
     game.log.push(`${owner}'s ${unit.name} hits the enemy Commander for ${attackPower}.`);
+    if (unit.keywords.includes('lifesteal') && attackPower > 0) {
+      const before = player.hp;
+      player.hp = Math.min(STARTING_HP, player.hp + attackPower);
+      if (player.hp > before) game.log.push(`${owner} heals ${player.hp - before} (Lifesteal).`);
+    }
     checkWinner(game);
     return game;
   }
 
   const targetUnit = opponent.board[targetLane][attackerSlot];
+
+  if (targetUnit.hasShield) {
+    targetUnit.hasShield = false;
+    game.log.push(`${targetUnit.name}'s Shield absorbs the hit from ${unit.name}.`);
+    checkWinner(game);
+    return game;
+  }
+
   let dmg = attackPower;
   if (targetUnit.keywords.includes('phalanx')) dmg = Math.max(0, dmg - 1);
   if (hasFormationToughness(game, opponentOf(owner), targetLane, attackerSlot)) dmg = Math.max(0, dmg - 1);
   targetUnit.defense -= dmg;
   game.log.push(`${owner}'s ${unit.name} hits ${targetUnit.name} for ${dmg}.`);
+
+  if (unit.keywords.includes('lifesteal') && dmg > 0) {
+    const before = player.hp;
+    player.hp = Math.min(STARTING_HP, player.hp + dmg);
+    if (player.hp > before) game.log.push(`${owner} heals ${player.hp - before} (Lifesteal).`);
+  }
+  if (unit.keywords.includes('venom') && dmg > 0 && targetUnit.defense > 0) {
+    targetUnit.defense = 0;
+    game.log.push(`${targetUnit.name} succumbs to Venom.`);
+  }
 
   const survived = targetUnit.defense > 0;
   // Rage is repeatable ("whenever") unless the card's own text says "first

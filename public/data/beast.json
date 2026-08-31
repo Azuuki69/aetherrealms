@@ -170,7 +170,7 @@
                       "cost":  6,
                       "power":  5,
                       "defense":  6,
-                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
                       "image":  "assets/cards/web/beast/19_basilisk.jpg"
                   },
                   {
@@ -206,7 +206,7 @@
                       "cost":  7,
                       "power":  4,
                       "defense":  8,
-                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "text":  "TRAMPLE: Excess damage from a killing blow carries to the unit or Commander behind it.",
                       "image":  "assets/cards/web/beast/23_behemoth.jpg"
                   },
                   {

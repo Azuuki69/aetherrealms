@@ -179,7 +179,7 @@
                       "cost":  6,
                       "power":  4,
                       "defense":  7,
-                      "text":  "SALVAGE: Draw a card whenever an allied unit dies.",
+                      "text":  "SHIELD: Absorbs the next instance of combat damage entirely, then is consumed.",
                       "image":  "assets/cards/web/fallen/20_hull_knight.jpg"
                   },
                   {

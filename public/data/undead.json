@@ -188,7 +188,7 @@
                       "cost":  6,
                       "power":  5,
                       "defense":  6,
-                      "text":  "REAP: Draw a card whenever an enemy unit dies.",
+                      "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
                       "image":  "assets/cards/web/undead/21_plague_cart.jpg"
                   },
                   {
@@ -206,7 +206,7 @@
                       "cost":  7,
                       "power":  6,
                       "defense":  6,
-                      "text":  "REBIRTH: The first time this would die, return it to your hand at 1 HP instead.",
+                      "text":  "LIFESTEAL: Heals your Commander for the DMG this unit deals in combat.",
                       "image":  "assets/cards/web/undead/23_vampire_lord.jpg"
                   },
                   {
@@ -224,7 +224,7 @@
                       "cost":  9,
                       "power":  6,
                       "defense":  9,
-                      "text":  "REAP: Draw a card whenever an enemy unit dies. (This unit is a rare, high-impact threat.)",
+                      "text":  "TRAMPLE: Excess damage from a killing blow carries to the unit or Commander behind it.",
                       "image":  "assets/cards/web/undead/25_bone_colossus.jpg"
                   },
                   {

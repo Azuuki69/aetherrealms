@@ -188,7 +188,7 @@
                       "cost":  6,
                       "power":  4,
                       "defense":  7,
-                      "text":  "STALWART: Takes 1 less DMG from attacks.",
+                      "text":  "SHIELD: Absorbs the next instance of combat damage entirely, then is consumed.",
                       "image":  "assets/cards/web/dwarf/21_stone_golem.jpg"
                   },
                   {
@@ -197,7 +197,7 @@
                       "cost":  7,
                       "power":  4,
                       "defense":  8,
-                      "text":  "STALWART: Takes 1 less DMG from attacks.",
+                      "text":  "SHIELD: Absorbs the next instance of combat damage entirely, then is consumed.",
                       "image":  "assets/cards/web/dwarf/22_iron_golem.jpg"
                   },
                   {
@@ -206,7 +206,7 @@
                       "cost":  7,
                       "power":  4,
                       "defense":  8,
-                      "text":  "STALWART: Takes 1 less DMG from attacks.",
+                      "text":  "TRAMPLE: Excess damage from a killing blow carries to the unit or Commander behind it.",
                       "image":  "assets/cards/web/dwarf/23_dreadnought.jpg"
                   },
                   {
@@ -215,7 +215,7 @@
                       "cost":  8,
                       "power":  5,
                       "defense":  9,
-                      "text":  "STALWART: Takes 1 less DMG from attacks.",
+                      "text":  "TRAMPLE: Excess damage from a killing blow carries to the unit or Commander behind it.",
                       "image":  "assets/cards/web/dwarf/24_colossus.jpg"
                   },
                   {

@@ -188,7 +188,7 @@
                       "cost":  6,
                       "power":  5,
                       "defense":  6,
-                      "text":  "RESOLVE: Gains +1 HP after surviving combat.",
+                      "text":  "SIEGE: May only attack the enemy Commander directly.",
                       "image":  "assets/cards/web/human/21_siege_tower.jpg"
                   },
                   {
@@ -197,7 +197,7 @@
                       "cost":  7,
                       "power":  6,
                       "defense":  6,
-                      "text":  "VOLLEY: May attack the enemy Commander directly even through blockers.",
+                      "text":  "SIEGE: May only attack the enemy Commander directly.",
                       "image":  "assets/cards/web/human/22_mangonel.jpg"
                   },
                   {
@@ -206,7 +206,7 @@
                       "cost":  7,
                       "power":  6,
                       "defense":  6,
-                      "text":  "VOLLEY: May attack the enemy Commander directly even through blockers.",
+                      "text":  "SIEGE: May only attack the enemy Commander directly.",
                       "image":  "assets/cards/web/human/23_trebuchet.jpg"
                   },
                   {

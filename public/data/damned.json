@@ -197,7 +197,7 @@
                       "cost":  7,
                       "power":  6,
                       "defense":  6,
-                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "text":  "LIFESTEAL: Heals your Commander for the DMG this unit deals in combat.",
                       "image":  "assets/cards/web/damned/22_maw.jpg"
                   },
                   {

@@ -152,7 +152,7 @@
                       "cost":  5,
                       "power":  4,
                       "defense":  5,
-                      "text":  "COUNTDOWN 1: Deals 1 DMG to a random enemy at the start of your next turn.",
+                      "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
                       "image":  "assets/cards/web/clock/17_plague_doctor.jpg"
                   },
                   {
@@ -161,7 +161,7 @@
                       "cost":  5,
                       "power":  4,
                       "defense":  5,
-                      "text":  "VOLLEY: May attack the enemy Commander directly even through blockers.",
+                      "text":  "SIEGE: May only attack the enemy Commander directly.",
                       "image":  "assets/cards/web/clock/18_pressure_mortar.jpg"
                   },
                   {
@@ -197,7 +197,7 @@
                       "cost":  7,
                       "power":  4,
                       "defense":  8,
-                      "text":  "COUNTDOWN 1: Deals 1 DMG to a random enemy at the start of your next turn.",
+                      "text":  "SHIELD: Absorbs the next instance of combat damage entirely, then is consumed.",
                       "image":  "assets/cards/web/clock/22_brass_golem.jpg"
                   },
                   {
