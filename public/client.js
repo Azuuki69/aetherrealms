@@ -161,32 +161,16 @@ function buildCardEl(instance, { context = 'board' } = {}) {
   if (instance.sick) wrap.classList.add('sick');
   if (instance.attackedThisTurn) wrap.classList.add('attacked');
 
-  wrap.addEventListener('mouseenter', (e) => showPreview(instance, e));
-  wrap.addEventListener('mousemove', (e) => movePreview(e));
+  wrap.addEventListener('mouseenter', () => showPreview(instance));
   wrap.addEventListener('mouseleave', hidePreview);
 
   return wrap;
 }
 
-function showPreview(instance, evt) {
+function showPreview(instance) {
   if (!instance.image) return;
   el('previewImg').src = instance.image;
   el('cardPreview').classList.add('visible');
-  movePreview(evt);
-}
-
-function movePreview(evt) {
-  const preview = el('cardPreview');
-  const margin = 16;
-  const pw = preview.offsetWidth || 260;
-  const ph = preview.offsetHeight || 390;
-  let x = evt.clientX - pw / 2;
-  let y = evt.clientY - ph - margin;
-  x = Math.max(margin, Math.min(window.innerWidth - pw - margin, x));
-  if (y < margin) y = evt.clientY + margin;
-  y = Math.max(margin, Math.min(window.innerHeight - ph - margin, y));
-  preview.style.left = x + 'px';
-  preview.style.top = y + 'px';
 }
 
 function hidePreview() {

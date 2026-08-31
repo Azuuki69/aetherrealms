@@ -460,6 +460,8 @@ h1 span {
 /* ---------- Card hover preview ---------- */
 #cardPreview {
   position: fixed;
+  left: 16px;
+  top: 50%;
   z-index: 500;
   pointer-events: none;
   width: 360px;
@@ -470,10 +472,10 @@ h1 span {
   box-shadow: 0 14px 40px #000f, 0 0 32px #d9b25c70;
   background: #100c08;
   opacity: 0;
-  transform: scale(0.97);
+  transform: translateY(-50%) scale(0.97);
   transition: opacity 0.08s, transform 0.08s;
 }
-#cardPreview.visible { opacity: 1; transform: scale(1); }
+#cardPreview.visible { opacity: 1; transform: translateY(-50%) scale(1); }
 #cardPreview img { width: 100%; height: 100%; object-fit: contain; display: block; }
 
 /* ---------- Chat panel ---------- */
