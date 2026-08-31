@@ -459,6 +459,7 @@ export function viewFor(game, owner) {
       ...game.players[opp],
       hand: game.players[opp].hand.map(() => ({ hidden: true })),
       deck: undefined,
+      deckCount: game.players[opp].deck.length,
     },
     turn: game.turn,
     phase: game.phase,

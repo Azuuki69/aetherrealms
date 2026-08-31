@@ -117,8 +117,11 @@ window.addEventListener('resize', updateGameScale);
 
 // ---------- Rendering ----------
 // Every finished card image already has its border, art, name, cost, DMG,
-// and HP baked in by the generation pipeline, so a "card" here is just that
-// image sized to its slot — no runtime cropping or badge overlays needed.
+// and HP baked in by the generation pipeline, so a "card" here is mostly just
+// that image sized to its slot — no runtime cropping needed. The cost/DMG/HP
+// numbers are also mirrored as small CSS badges on top, since the baked-in
+// numbers are too small to read at typical board scale (a fixed-resolution
+// raster image can't be sharpened by resizing its container).
 function buildCardEl(instance, { context = 'board' } = {}) {
   const wrap = document.createElement('div');
   wrap.className = 'card' + (context === 'hand' ? ' hand-card' : '');
@@ -133,6 +136,17 @@ function buildCardEl(instance, { context = 'board' } = {}) {
   img.alt = instance.name;
   wrap.appendChild(img);
   wrap.title = `${instance.name}\n${instance.text || ''}`;
+
+  const cost = document.createElement('span');
+  cost.className = 'card-badge cost-badge';
+  cost.textContent = instance.cost;
+  const dmg = document.createElement('span');
+  dmg.className = 'card-badge dmg-badge';
+  dmg.textContent = instance.power;
+  const hp = document.createElement('span');
+  hp.className = 'card-badge hp-badge';
+  hp.textContent = instance.defense;
+  wrap.append(cost, dmg, hp);
 
   if (instance.sick) wrap.classList.add('sick');
   if (instance.attackedThisTurn) wrap.classList.add('attacked');
@@ -160,6 +174,7 @@ function movePreview(evt) {
   let y = evt.clientY - ph - margin;
   x = Math.max(margin, Math.min(window.innerWidth - pw - margin, x));
   if (y < margin) y = evt.clientY + margin;
+  y = Math.max(margin, Math.min(window.innerHeight - ph - margin, y));
   preview.style.left = x + 'px';
   preview.style.top = y + 'px';
 }
@@ -201,6 +216,11 @@ function render() {
   el('turnIndicator').textContent = winner
     ? 'Game Over'
     : `Turn ${turnNumber} — ${myTurn ? 'Your' : "Opponent's"} turn (${phase})`;
+
+  el('youDeckCount').textContent = you.deck.length;
+  el('youGraveCount').textContent = you.graveyard.length;
+  el('oppDeckCount').textContent = opponent.deckCount;
+  el('oppGraveCount').textContent = opponent.graveyard.length;
 
   const newBoardIds = collectBoardIds(you, opponent);
   renderLane('youVanguard', you.board.vanguard, 'you', 'vanguard');
