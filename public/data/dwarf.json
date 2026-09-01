@@ -151,7 +151,7 @@
                       "name":  "Warden",
                       "cost":  4,
                       "power":  2,
-                      "defense":  8,
+                      "defense":  7,
                       "text":  "TAUNT: Enemies must attack this unit first. FORTIFY: Gains +1 HP whenever it blocks an attack.",
                       "image":  "assets/cards/web/dwarf/17_warden.jpg"
                   },
