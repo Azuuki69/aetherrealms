@@ -103,7 +103,7 @@
     </div>
     <div id="tipCombat" class="tutorial-tip hidden">
       <span class="tip-close">&times;</span>
-      In Combat, click one of your units, then click a highlighted enemy unit or their castle to attack it — or a highlighted slot of your own to move instead. Attack All resolves the rest automatically.
+      In Combat, drag one of your units onto a highlighted enemy unit or their castle to attack, or onto a highlighted slot of your own to move instead. Attack All resolves the rest automatically.
     </div>
     <div id="tipCommander" class="tutorial-tip hidden">
       <span class="tip-close">&times;</span>
@@ -155,6 +155,11 @@
 <div id="cardPreview">
   <img id="previewImg" alt="" />
 </div>
+
+<svg id="targetArrow" class="hidden">
+  <path id="arrowPath"></path>
+  <polygon id="arrowHead" points="0,0 -22,-9 -16,0 -22,9"></polygon>
+</svg>
 
 <div id="coinFlipOverlay" class="overlay hidden">
   <div class="overlay-box coin-flip-box">

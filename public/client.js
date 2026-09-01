@@ -25,6 +25,14 @@ let combatResolvers = [];
 let autoAttackRunning = false;
 let coinFlipAckSent = false;
 
+// ---------- Drag-to-target arrow ----------
+let dragCandidate = null; // { lane, slot, startX, startY } — set on mousedown, before the drag threshold is crossed
+let isDragging = false;
+let dragOrigin = null; // { x, y } — attacker card center, captured once when dragging begins
+let dragCurveOffset = 90; // px cap, recomputed per-drag from the board's actual current rendered size
+let suppressNextClick = false; // a drag that starts/ends on the same element still fires a native click after mouseup
+const DRAG_THRESHOLD = 8; // px of mouse movement before a mousedown becomes a drag rather than a plain click
+
 const el = (id) => document.getElementById(id);
 
 function initLobby() {
@@ -138,6 +146,8 @@ function buildCardEl(instance, { context = 'board' } = {}) {
     wrap.classList.add('face-down');
     return wrap;
   }
+
+  wrap.dataset.instanceId = instance.instanceId;
 
   const img = document.createElement('img');
   img.className = 'art';
@@ -401,6 +411,7 @@ function renderLane(containerId, laneArr, side, laneName) {
       if (!previousBoardIds.has(unit.instanceId)) cardEl.classList.add('card-enter');
       if (unit.keywords && unit.keywords.includes('guard')) cardEl.classList.add('has-guard');
       cardEl.addEventListener('click', () => onBoardCardClick(side, laneName, slotIndex));
+      cardEl.addEventListener('mousedown', (e) => onCardMouseDown(e, side, laneName, slotIndex));
       slot.appendChild(cardEl);
     } else {
       slot.addEventListener('click', () => onEmptySlotClick(side, laneName, slotIndex));
@@ -446,6 +457,7 @@ function legalMoveDestinations(mover) {
 }
 
 function onEmptySlotClick(side, lane, slotIndex) {
+  if (suppressNextClick) { suppressNextClick = false; return; }
   if (side !== 'you') return;
   if (selectedHandCardId) {
     send({ type: 'play_card', cardInstanceId: selectedHandCardId, lane, slotIndex });
@@ -470,6 +482,7 @@ function onEmptySlotClick(side, lane, slotIndex) {
 }
 
 function onBoardCardClick(side, lane, slotIndex) {
+  if (suppressNextClick) { suppressNextClick = false; return; }
   const { turn, phase, you_key } = currentView;
   const myTurn = turn === you_key;
   if (!myTurn || phase !== 'combat' || autoAttackRunning) return;
@@ -516,6 +529,133 @@ function onCastleClick() {
   });
   selectedUnit = null;
 }
+
+// ---------- Drag-to-target arrow ----------
+// A thin input layer in front of the existing click-based resolution
+// (onBoardCardClick/onEmptySlotClick/onCastleClick) — dragging never
+// duplicates targeting logic, it just decides WHICH of those to call based
+// on where the mouse is released. A plain click (no movement past the
+// threshold) falls through untouched to the native click listeners.
+const ARROW_CURVE_STRENGTH = 0.18;
+const EPSILON = 0.5;
+
+function onCardMouseDown(e, side, lane, slotIndex) {
+  if (side !== 'you') return;
+  const { turn, phase, you_key } = currentView || {};
+  if (turn !== you_key || phase !== 'combat' || autoAttackRunning) return;
+  const unit = currentView.you.board[lane][slotIndex];
+  if (!unit || unit.sick || unit.attackedThisTurn) return;
+  dragCandidate = { lane, slot: slotIndex, startX: e.clientX, startY: e.clientY };
+}
+
+function cardCenter(side, lane, slotIndex) {
+  const containerId = (side === 'you' ? 'you' : 'opp') + (lane === 'vanguard' ? 'Vanguard' : 'Rearguard');
+  const slotEl = document.querySelectorAll(`#${containerId} .slot`)[slotIndex];
+  const cardEl = slotEl?.querySelector('.card');
+  const rect = (cardEl || slotEl)?.getBoundingClientRect();
+  if (!rect) return null;
+  return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+}
+
+function beginDrag(clientX, clientY) {
+  isDragging = true;
+  selectedHandCardId = null;
+  selectedUnit = { lane: dragCandidate.lane, slot: dragCandidate.slot };
+  render(); // shows the existing legal-target highlights, reused as-is
+  dragOrigin = cardCenter('you', dragCandidate.lane, dragCandidate.slot) || { x: dragCandidate.startX, y: dragCandidate.startY };
+  const boardRect = document.querySelector('.board-area')?.getBoundingClientRect();
+  dragCurveOffset = boardRect ? Math.max(40, Math.min(boardRect.height * 0.35, 140)) : 90;
+  el('targetArrow').classList.remove('hidden');
+  updateArrowTo(clientX, clientY);
+}
+
+function bezierPoint(t, p0, p1, p2) {
+  const mt = 1 - t;
+  return { x: mt * mt * p0.x + 2 * mt * t * p1.x + t * t * p2.x, y: mt * mt * p0.y + 2 * mt * t * p1.y + t * t * p2.y };
+}
+
+function computeControlPoint(p0, p2) {
+  const dx = p2.x - p0.x;
+  const dy = p2.y - p0.y;
+  const distance = Math.hypot(dx, dy);
+  const mid = { x: (p0.x + p2.x) / 2, y: (p0.y + p2.y) / 2 };
+  if (distance < EPSILON) return mid;
+  const dir = { x: dx / distance, y: dy / distance };
+  const perp = { x: -dir.y, y: dir.x };
+  const curveOffset = Math.min(distance * ARROW_CURVE_STRENGTH, dragCurveOffset);
+  return { x: mid.x + perp.x * curveOffset, y: mid.y + perp.y * curveOffset };
+}
+
+function isPointOverLegalDrop(clientX, clientY) {
+  const dropEl = document.elementFromPoint(clientX, clientY);
+  if (!dropEl) return false;
+  const slotEl = dropEl.closest('.slot');
+  if (slotEl) {
+    const { side, lane, slot } = slotEl.dataset;
+    const slotIndex = Number(slot);
+    if (side === 'you') return legalMoveDestinations(selectedUnit).some((d) => d.lane === lane && d.slot === slotIndex);
+    return legalAttackTargets(selectedUnit).some((t) => t.type === 'unit' && t.lane === lane && t.slot === slotIndex);
+  }
+  if (dropEl.closest('#oppInfo')) return legalAttackTargets(selectedUnit).some((t) => t.type === 'castle');
+  return false;
+}
+
+function updateArrowTo(clientX, clientY) {
+  if (!dragOrigin) return;
+  const p2 = { x: clientX, y: clientY };
+  const p1 = computeControlPoint(dragOrigin, p2);
+  el('arrowPath').setAttribute('d', `M ${dragOrigin.x},${dragOrigin.y} Q ${p1.x},${p1.y} ${p2.x},${p2.y}`);
+  const beforeEnd = bezierPoint(0.95, dragOrigin, p1, p2);
+  const angleDeg = (Math.atan2(p2.y - beforeEnd.y, p2.x - beforeEnd.x) * 180) / Math.PI;
+  el('arrowHead').setAttribute('transform', `translate(${p2.x},${p2.y}) rotate(${angleDeg})`);
+  el('targetArrow').classList.toggle('arrow-illegal', !isPointOverLegalDrop(clientX, clientY));
+}
+
+function endDrag(clientX, clientY) {
+  el('targetArrow').classList.add('hidden');
+  const dropEl = document.elementFromPoint(clientX, clientY);
+  const mover = selectedUnit;
+  isDragging = false;
+  dragOrigin = null;
+  if (dropEl && mover) {
+    const slotEl = dropEl.closest('.slot');
+    if (slotEl) {
+      const { side, lane, slot } = slotEl.dataset;
+      const slotIndex = Number(slot);
+      if (side === 'you') onEmptySlotClick(side, lane, slotIndex);
+      else onBoardCardClick(side, lane, slotIndex);
+    } else if (dropEl.closest('#oppInfo')) {
+      onCastleClick();
+    }
+  }
+  // The resolution call above already acted on the drop (or safely no-op'd
+  // on an illegal one); a native click still fires right after mouseup when
+  // the drag started and ended on the same element (browsers dispatch it
+  // synchronously in that same gesture), so swallow exactly that one
+  // follow-up click. Most drops land on a DIFFERENT element than mousedown,
+  // where no click ever follows at all — self-clearing on a timeout (rather
+  // than only ever being reset by a click that may never come) means this
+  // flag can never leak into swallowing the player's next, unrelated click.
+  suppressNextClick = true;
+  setTimeout(() => { suppressNextClick = false; }, 0);
+  selectedUnit = null;
+  render();
+}
+
+document.addEventListener('mousemove', (e) => {
+  if (isDragging) {
+    updateArrowTo(e.clientX, e.clientY);
+    return;
+  }
+  if (!dragCandidate) return;
+  const dist = Math.hypot(e.clientX - dragCandidate.startX, e.clientY - dragCandidate.startY);
+  if (dist > DRAG_THRESHOLD) beginDrag(e.clientX, e.clientY);
+});
+
+document.addEventListener('mouseup', (e) => {
+  if (isDragging) endDrag(e.clientX, e.clientY);
+  dragCandidate = null;
+});
 
 // Mirrors getLegalAttackTargets() in src/game/rules.js — the single source
 // of truth for "can this attacker legally hit this target" lives server-
