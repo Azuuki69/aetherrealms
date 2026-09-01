@@ -363,6 +363,8 @@ function render() {
   el('turnIndicator').textContent = winner
     ? 'Game Over'
     : `Turn ${turnNumber} — ${myTurn ? 'Your' : "Opponent's"} turn (${phase})`;
+  el('youInfo').classList.toggle('active-turn', !winner && myTurn);
+  el('oppInfo').classList.toggle('active-turn', !winner && !myTurn);
 
   el('youDeckCount').textContent = you.deck.length;
   el('youGraveCount').textContent = you.graveyard.length;
