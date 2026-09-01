@@ -68,7 +68,8 @@ export class MatchRoom {
           // Reconnecting to a match already in progress — just resend their view.
           return this.sendTo(ws, { type: 'state', ...viewFor(existingGame, owner) });
         }
-        await this.handleJoin(seat, msg.faction);
+        const username = await this.resolveUsername(msg.token);
+        await this.handleJoin(seat, msg.faction, username);
         return;
       }
 
@@ -76,6 +77,7 @@ export class MatchRoom {
       if (!game) {
         return this.sendTo(ws, { type: 'error', message: 'The match has not started yet.' });
       }
+      const wasOver = !!game.winner;
 
       switch (msg.type) {
         case 'chat': {
@@ -109,12 +111,51 @@ export class MatchRoom {
 
       await this.state.storage.put('game', game);
       this.broadcastState(game);
+      if (!wasOver && game.winner) await this.reportResult(game);
     } catch (err) {
       this.sendTo(ws, { type: 'error', message: err.message || String(err) });
     }
   }
 
-  async handleJoin(seat, faction) {
+  async resolveUsername(token) {
+    if (!token) return null;
+    try {
+      const stub = this.env.ACCOUNTS.get(this.env.ACCOUNTS.idFromName('global'));
+      const res = await stub.fetch('https://accounts/resolve-session', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ token }),
+      });
+      const data = await res.json();
+      return data.username || null;
+    } catch {
+      return null;
+    }
+  }
+
+  async reportResult(game) {
+    try {
+      const factions = (await this.state.storage.get('factions')) || {};
+      const usernames = (await this.state.storage.get('usernames')) || {};
+      const winnerSeat = game.winner === 'A' ? 'seatA' : 'seatB';
+      const loserSeat = game.winner === 'A' ? 'seatB' : 'seatA';
+      const stub = this.env.ACCOUNTS.get(this.env.ACCOUNTS.idFromName('global'));
+      await stub.fetch('https://accounts/record-result', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          winnerUsername: usernames[winnerSeat] || null,
+          winnerFaction: factions[winnerSeat] || null,
+          loserUsername: usernames[loserSeat] || null,
+          loserFaction: factions[loserSeat] || null,
+        }),
+      });
+    } catch {
+      /* rankings are best-effort — never let this break the match */
+    }
+  }
+
+  async handleJoin(seat, faction, username) {
     const validFactions = ['beast', 'clock', 'damned', 'dwarf', 'dynasty', 'elf', 'fallen', 'human', 'orc', 'undead'];
     if (!validFactions.includes(faction)) {
       const ws = this.state.getWebSockets(seat)[0];
@@ -123,6 +164,10 @@ export class MatchRoom {
     const factions = (await this.state.storage.get('factions')) || {};
     factions[seat] = faction;
     await this.state.storage.put('factions', factions);
+
+    const usernames = (await this.state.storage.get('usernames')) || {};
+    usernames[seat] = username || null;
+    await this.state.storage.put('usernames', usernames);
 
     const otherSeat = seat === 'seatA' ? 'seatB' : 'seatA';
     if (factions[otherSeat]) {

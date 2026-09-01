@@ -11,6 +11,22 @@
 <div id="lobby" class="screen">
   <h1>Aether Realms<span>Clash of Armies</span></h1>
 
+  <div class="account-panel" id="accountPanel">
+    <div id="accountLoggedOut" class="account-view">
+      <form id="accountForm" class="account-form">
+        <input id="accountUsername" placeholder="Username" autocomplete="username" maxlength="20" />
+        <input id="accountPassword" type="password" placeholder="Password" autocomplete="current-password" maxlength="60" />
+        <button id="accountSubmitBtn" type="submit">Log In</button>
+        <button id="accountToggleModeBtn" type="button" class="link-btn">Need an account? Register</button>
+      </form>
+      <div id="accountStatus" class="account-status"></div>
+    </div>
+    <div id="accountLoggedIn" class="account-view hidden">
+      <span>Logged in as <strong id="accountUsernameLabel"></strong></span>
+      <button id="accountLogoutBtn" type="button" class="link-btn">Log Out</button>
+    </div>
+  </div>
+
   <div class="faction-picker" id="factionPicker">
     <button class="faction-card" data-faction="beast"><span class="thumb"></span><span class="label">Mythic Beasts</span></button>
     <button class="faction-card" data-faction="clock"><span class="thumb"></span><span class="label">Steampunk Hold</span></button>
@@ -40,6 +56,21 @@
   </div>
 
   <div id="lobbyStatus" class="lobby-status"></div>
+
+  <div class="rankings-panel" id="rankingsPanel">
+    <div class="ranking-tabs">
+      <button class="ranking-tab active" id="tabPlayers" type="button">Players</button>
+      <button class="ranking-tab" id="tabDecks" type="button">Decks</button>
+    </div>
+    <table class="ranking-table" id="playersTable">
+      <thead><tr><th>#</th><th>Player</th><th>Wins</th><th>Losses</th></tr></thead>
+      <tbody id="playersTableBody"></tbody>
+    </table>
+    <table class="ranking-table hidden" id="decksTable">
+      <thead><tr><th>#</th><th>Faction</th><th>Win Rate</th><th>Games</th></tr></thead>
+      <tbody id="decksTableBody"></tbody>
+    </table>
+  </div>
 </div>
 
 <div id="game" class="screen hidden">

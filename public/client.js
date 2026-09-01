@@ -68,7 +68,7 @@ function connect(code) {
 function handleMessage(msg) {
   switch (msg.type) {
     case 'need_faction':
-      ws.send(JSON.stringify({ type: 'join', faction: selectedFaction }));
+      ws.send(JSON.stringify({ type: 'join', faction: selectedFaction, token: getStoredAccount().token }));
       break;
     case 'waiting_for_opponent':
       setStatus('Waiting for opponent to join...');
@@ -552,6 +552,159 @@ function updateChatBadge() {
   badge.classList.toggle('hidden', unreadChat === 0);
 }
 
+// ---------- Account ----------
+function getStoredAccount() {
+  try {
+    return {
+      token: localStorage.getItem('ar_token'),
+      username: localStorage.getItem('ar_username'),
+    };
+  } catch {
+    return { token: null, username: null };
+  }
+}
+
+function setStoredAccount(token, username) {
+  try {
+    localStorage.setItem('ar_token', token);
+    localStorage.setItem('ar_username', username);
+  } catch {
+    /* localStorage unavailable — account just won't persist across reloads */
+  }
+}
+
+function clearStoredAccount() {
+  try {
+    localStorage.removeItem('ar_token');
+    localStorage.removeItem('ar_username');
+  } catch {
+    /* ignore */
+  }
+}
+
+let accountMode = 'login'; // 'login' | 'register'
+
+function showLoggedIn(username) {
+  el('accountLoggedOut').classList.add('hidden');
+  el('accountLoggedIn').classList.remove('hidden');
+  el('accountUsernameLabel').textContent = username;
+}
+
+function showLoggedOut() {
+  el('accountLoggedIn').classList.add('hidden');
+  el('accountLoggedOut').classList.remove('hidden');
+}
+
+function setAccountStatus(text) {
+  el('accountStatus').textContent = text || '';
+}
+
+function initAccount() {
+  const stored = getStoredAccount();
+  if (stored.token && stored.username) {
+    showLoggedIn(stored.username);
+  } else {
+    showLoggedOut();
+  }
+
+  el('accountToggleModeBtn').addEventListener('click', () => {
+    accountMode = accountMode === 'login' ? 'register' : 'login';
+    el('accountSubmitBtn').textContent = accountMode === 'login' ? 'Log In' : 'Register';
+    el('accountToggleModeBtn').textContent =
+      accountMode === 'login' ? 'Need an account? Register' : 'Already have an account? Log In';
+    setAccountStatus('');
+  });
+
+  el('accountForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const username = el('accountUsername').value.trim();
+    const password = el('accountPassword').value;
+    if (!username || !password) return setAccountStatus('Enter a username and password.');
+    setAccountStatus('');
+    try {
+      const res = await fetch(`api/${accountMode === 'login' ? 'login' : 'register'}`, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      });
+      const data = await res.json();
+      if (!res.ok) return setAccountStatus(data.error || 'Something went wrong.');
+      setStoredAccount(data.token, data.username);
+      showLoggedIn(data.username);
+      el('accountPassword').value = '';
+    } catch {
+      setAccountStatus('Could not reach the server.');
+    }
+  });
+
+  el('accountLogoutBtn').addEventListener('click', () => {
+    clearStoredAccount();
+    showLoggedOut();
+  });
+}
+
+// ---------- Rankings ----------
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function renderPlayerRankings(players) {
+  const body = el('playersTableBody');
+  body.innerHTML = '';
+  if (players.length === 0) {
+    body.innerHTML = '<tr class="empty-row"><td colspan="4">No ranked players yet — log in and win a match!</td></tr>';
+    return;
+  }
+  players.forEach((p, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${i + 1}</td><td>${escapeHtml(p.username)}</td><td>${p.wins}</td><td>${p.losses}</td>`;
+    body.appendChild(tr);
+  });
+}
+
+function renderFactionRankings(factions, minFactionGames) {
+  const body = el('decksTableBody');
+  body.innerHTML = '';
+  factions.forEach((f, i) => {
+    const tr = document.createElement('tr');
+    const pct = Math.round(f.winRate * 100);
+    const fewGames = f.games < minFactionGames ? ' <span class="few-games">(few games)</span>' : '';
+    tr.innerHTML = `<td>${i + 1}</td><td>${capitalize(f.faction)}${fewGames}</td><td>${pct}%</td><td>${f.games}</td>`;
+    body.appendChild(tr);
+  });
+}
+
+function initRankingTabs() {
+  el('tabPlayers').addEventListener('click', () => {
+    el('tabPlayers').classList.add('active');
+    el('tabDecks').classList.remove('active');
+    el('playersTable').classList.remove('hidden');
+    el('decksTable').classList.add('hidden');
+  });
+  el('tabDecks').addEventListener('click', () => {
+    el('tabDecks').classList.add('active');
+    el('tabPlayers').classList.remove('active');
+    el('decksTable').classList.remove('hidden');
+    el('playersTable').classList.add('hidden');
+  });
+}
+
+async function loadRankings() {
+  try {
+    const res = await fetch('api/rankings');
+    const data = await res.json();
+    renderPlayerRankings(data.players || []);
+    renderFactionRankings(data.factions || [], data.minFactionGames || 5);
+  } catch {
+    /* rankings are a nice-to-have on the lobby screen — a failed fetch shouldn't block anything else */
+  }
+}
+
 function renderFactionThumbnails() {
   for (const faction of FACTION_KEYS) {
     const btn = document.querySelector(`.faction-card[data-faction="${faction}"] .thumb`);
@@ -566,8 +719,11 @@ function renderFactionThumbnails() {
 (async function init() {
   await loadFactionData();
   initLobby();
+  initAccount();
+  initRankingTabs();
   initTutorial();
   initChat();
   renderFactionThumbnails();
   updateGameScale();
+  loadRankings();
 })();

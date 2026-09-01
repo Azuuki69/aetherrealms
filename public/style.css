@@ -143,6 +143,81 @@ h1 span {
 }
 .lobby-status { text-align: center; margin-top: 1.5rem; color: var(--dim); min-height: 1.5em; }
 
+/* ---------- Account panel ---------- */
+.account-panel {
+  max-width: 420px;
+  margin: 1.2rem auto 0;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.9rem 1.1rem;
+}
+.account-view { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+.account-view.hidden { display: none; }
+.account-form { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; width: 100%; }
+.account-form input {
+  flex: 1 1 140px;
+  padding: 0.5rem 0.7rem;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: #0f0c08;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+.account-form button[type="submit"] {
+  background: linear-gradient(#e7c877, #b8912f);
+  border: 1px solid #5c4419;
+  color: #241c12;
+  font-weight: bold;
+  padding: 0.5rem 1.1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.link-btn {
+  background: none;
+  border: none;
+  color: var(--gold);
+  text-decoration: underline;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.85rem;
+  padding: 0;
+}
+.account-status { color: var(--hp); font-size: 0.85rem; min-height: 1.2em; text-align: center; }
+#accountLoggedIn { flex-direction: row; }
+#accountLoggedIn strong { color: var(--gold); }
+
+/* ---------- Rankings panel ---------- */
+.rankings-panel {
+  max-width: 560px;
+  margin: 1.5rem auto 0;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+}
+.ranking-tabs { display: flex; gap: 0.5rem; margin-bottom: 0.8rem; }
+.ranking-tab {
+  flex: 1;
+  background: linear-gradient(#2a2115, var(--panel));
+  border: 1px solid var(--border);
+  color: var(--dim);
+  font-family: inherit;
+  font-weight: bold;
+  padding: 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.ranking-tab.active { border-color: var(--gold); color: var(--gold); background: linear-gradient(#3a2c14, #241c12); }
+.ranking-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.ranking-table th { color: var(--gold); text-align: left; border-bottom: 1px solid var(--border); padding: 0.4rem 0.5rem; }
+.ranking-table td { padding: 0.4rem 0.5rem; border-bottom: 1px solid #4a3a2250; color: var(--text); }
+.ranking-table tbody tr:last-child td { border-bottom: none; }
+.ranking-table .few-games { color: var(--dim); font-size: 0.8rem; }
+.ranking-table .empty-row td { text-align: center; color: var(--dim); padding: 0.8rem; }
+
 /* ---------- Game ---------- */
 #game {
   position: relative;

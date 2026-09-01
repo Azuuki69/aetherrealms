@@ -1,4 +1,5 @@
 export { MatchRoom } from './matchRoom.js';
+export { AccountsRegistry } from './accountsRegistry.js';
 
 const CODE_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
 
@@ -8,6 +9,10 @@ function randomCode(length = 6) {
     code += CODE_ALPHABET[Math.floor(Math.random() * CODE_ALPHABET.length)];
   }
   return code;
+}
+
+function accountsStub(env) {
+  return env.ACCOUNTS.get(env.ACCOUNTS.idFromName('global'));
 }
 
 export default {
@@ -26,6 +31,14 @@ export default {
       const id = env.MATCH_ROOM.idFromName(code);
       const stub = env.MATCH_ROOM.get(id);
       return stub.fetch(request);
+    }
+
+    if (
+      (url.pathname === '/api/register' && request.method === 'POST') ||
+      (url.pathname === '/api/login' && request.method === 'POST') ||
+      (url.pathname === '/api/rankings' && request.method === 'GET')
+    ) {
+      return accountsStub(env).fetch(request);
     }
 
     return env.ASSETS.fetch(request);

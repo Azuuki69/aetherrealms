@@ -10,6 +10,14 @@ binding = "ASSETS"
 name = "MATCH_ROOM"
 class_name = "MatchRoom"
 
+[[durable_objects.bindings]]
+name = "ACCOUNTS"
+class_name = "AccountsRegistry"
+
 [[migrations]]
 tag = "v1"
 new_sqlite_classes = ["MatchRoom"]
+
+[[migrations]]
+tag = "v2"
+new_sqlite_classes = ["AccountsRegistry"]
