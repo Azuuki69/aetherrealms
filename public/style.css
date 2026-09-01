@@ -17,6 +17,14 @@
 
 * { box-sizing: border-box; }
 
+/* A visible focus ring matching the theme for every interactive element —
+   nothing suppresses the browser default elsewhere in this file, but the
+   default ring reads inconsistently against a dark parchment/gold UI. */
+button:focus-visible, input:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
 body {
   margin: 0;
   position: relative;
@@ -53,6 +61,19 @@ body::after {
 @media (prefers-reduced-motion: reduce) {
   body::after { animation: none; }
   #arrowPath { animation: none; }
+  /* Continuous/looping decorative pulses only — the state they signal
+     (whose turn, legal target, playable slot, the front-line divider)
+     still reads from the static color/border/outline underneath, so
+     turning off just the looping animation loses nothing functional.
+     Brief, one-shot feedback (combat hits, card-enter, coin flip) stays
+     as-is since those convey a discrete event, not ambient motion. */
+  .hp-panel.legal-target,
+  .hp-panel.active-turn,
+  .slot.legal-target,
+  .slot.can-play,
+  .lane-divider {
+    animation: none;
+  }
 }
 
 .hidden { display: none !important; }
