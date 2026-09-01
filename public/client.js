@@ -177,16 +177,23 @@ function buildCardEl(instance, { context = 'board' } = {}) {
   if (instance.sick) wrap.classList.add('sick');
   if (instance.attackedThisTurn) wrap.classList.add('attacked');
 
-  wrap.addEventListener('mouseenter', () => showPreview(instance));
+  wrap.addEventListener('mouseenter', () => showPreview(instance, wrap));
   wrap.addEventListener('mouseleave', hidePreview);
 
   return wrap;
 }
 
-function showPreview(instance) {
+function showPreview(instance, sourceEl) {
   if (!instance.image) return;
   el('previewImg').src = instance.image;
-  el('cardPreview').classList.add('visible');
+  const preview = el('cardPreview');
+  if (sourceEl) {
+    const cardCenterX = sourceEl.getBoundingClientRect().left + sourceEl.offsetWidth / 2;
+    // Preview pops up on whichever side the hovered card ISN'T on, so it
+    // never covers the card (or the board behind it) you're looking at.
+    preview.classList.toggle('preview-right', cardCenterX < window.innerWidth / 2);
+  }
+  preview.classList.add('visible');
 }
 
 function hidePreview() {

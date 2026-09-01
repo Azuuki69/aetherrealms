@@ -685,6 +685,10 @@ body:has(#chatPanel:not(.collapsed)) .hand {
 }
 #cardPreview.visible { opacity: 1; transform: translateY(-50%) scale(1); }
 #cardPreview img { width: 100%; height: 100%; object-fit: contain; display: block; }
+/* Pops up on whichever side the hovered card isn't on (set in
+   showPreview() in client.js), so it never covers the card — or the board
+   behind it — you're actually looking at. */
+#cardPreview.preview-right { left: auto; right: 16px; }
 
 /* ---------- Drag-to-target attack arrow ---------- */
 /* Fixed, full-viewport, no viewBox — its coordinate space is plain CSS
