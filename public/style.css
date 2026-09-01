@@ -52,6 +52,7 @@ body::after {
 }
 @media (prefers-reduced-motion: reduce) {
   body::after { animation: none; }
+  #arrowPath { animation: none; }
 }
 
 .hidden { display: none !important; }
@@ -877,6 +878,13 @@ body:has(#chatPanel:not(.collapsed)) .hand {
   stroke-width: 5;
   stroke-linecap: round;
   filter: drop-shadow(0 0 6px #d9b25c90);
+  /* Energy flowing toward the target rather than a static line — a dashed
+     stroke sliding along the path, cheap (no filter/layout work per frame). */
+  stroke-dasharray: 10 8;
+  animation: arrow-energy-flow 0.5s linear infinite;
+}
+@keyframes arrow-energy-flow {
+  to { stroke-dashoffset: -36; }
 }
 #arrowHead { fill: var(--gold); filter: drop-shadow(0 0 6px #d9b25c90); }
 #targetArrow.arrow-illegal #arrowPath { stroke: var(--hp); filter: drop-shadow(0 0 6px #b5322f90); }
