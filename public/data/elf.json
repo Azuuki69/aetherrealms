@@ -35,7 +35,7 @@
                       "cost":  2,
                       "power":  2,
                       "defense":  3,
-                      "text":  "PRECISE: This unit\u0027s attacks ignore Guard.",
+                      "text":  "DESPERATE: Gains +2 DMG while your castle is below half HP.",
                       "image":  "assets/cards/web/elf/04_huntress.jpg"
                   },
                   {
@@ -53,7 +53,7 @@
                       "cost":  2,
                       "power":  2,
                       "defense":  3,
-                      "text":  "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
+                      "text":  "FORMATION: +1 DMG while adjacent to another Elf unit.",
                       "image":  "assets/cards/web/elf/06_halberd_lord.jpg"
                   },
                   {
@@ -80,7 +80,7 @@
                       "cost":  3,
                       "power":  3,
                       "defense":  3,
-                      "text":  "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
+                      "text":  "PRECISE: This unit\u0027s attacks ignore Guard.",
                       "image":  "assets/cards/web/elf/09_myrmidon.jpg"
                   },
                   {
@@ -89,7 +89,7 @@
                       "cost":  3,
                       "power":  4,
                       "defense":  2,
-                      "text":  "PRECISE: This unit\u0027s attacks ignore Guard.",
+                      "text":  "FORMATION: +1 DMG while adjacent to another Elf unit.",
                       "image":  "assets/cards/web/elf/10_moonblade.jpg"
                   },
                   {
@@ -98,7 +98,7 @@
                       "cost":  3,
                       "power":  4,
                       "defense":  2,
-                      "text":  "FORMATION: +1 DMG while adjacent to another Elf unit.",
+                      "text":  "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
                       "image":  "assets/cards/web/elf/11_spellblade.jpg"
                   },
                   {
@@ -107,7 +107,7 @@
                       "cost":  4,
                       "power":  5,
                       "defense":  3,
-                      "text":  "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
+                      "text":  "DESPERATE: Gains +2 DMG while your castle is below half HP.",
                       "image":  "assets/cards/web/elf/12_shadowblade.jpg"
                   },
                   {
@@ -143,7 +143,7 @@
                       "cost":  5,
                       "power":  4,
                       "defense":  5,
-                      "text":  "PRECISE: This unit\u0027s attacks ignore Guard.",
+                      "text":  "DESPERATE: Gains +2 DMG while your castle is below half HP.",
                       "image":  "assets/cards/web/elf/16_tempest.jpg"
                   },
                   {
@@ -152,7 +152,7 @@
                       "cost":  5,
                       "power":  4,
                       "defense":  5,
-                      "text":  "FORMATION: +1 DMG while adjacent to another Elf unit.",
+                      "text":  "PRECISE: This unit\u0027s attacks ignore Guard.",
                       "image":  "assets/cards/web/elf/17_wispcaller.jpg"
                   },
                   {
@@ -170,7 +170,7 @@
                       "cost":  6,
                       "power":  5,
                       "defense":  6,
-                      "text":  "PRECISE: This unit\u0027s attacks ignore Guard.",
+                      "text":  "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
                       "image":  "assets/cards/web/elf/19_war_maiden.jpg"
                   },
                   {
@@ -188,7 +188,7 @@
                       "cost":  6,
                       "power":  4,
                       "defense":  7,
-                      "text":  "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
+                      "text":  "PRECISE: This unit\u0027s attacks ignore Guard.",
                       "image":  "assets/cards/web/elf/21_heartwood_ram.jpg"
                   },
                   {
@@ -206,7 +206,7 @@
                       "cost":  7,
                       "power":  8,
                       "defense":  4,
-                      "text":  "FORMATION: +1 DMG while adjacent to another Elf unit.",
+                      "text":  "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
                       "image":  "assets/cards/web/elf/23_phoenix.jpg"
                   },
                   {
@@ -215,7 +215,7 @@
                       "cost":  8,
                       "power":  9,
                       "defense":  5,
-                      "text":  "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
+                      "text":  "DESPERATE: Gains +2 DMG while your castle is below half HP.",
                       "image":  "assets/cards/web/elf/24_archmage.jpg"
                   },
                   {
@@ -224,7 +224,7 @@
                       "cost":  9,
                       "power":  6,
                       "defense":  9,
-                      "text":  "PRECISE: This unit\u0027s attacks ignore Guard. (This unit is a rare, high-impact threat.)",
+                      "text":  "DESPERATE: Gains +2 DMG while your castle is below half HP. (This unit is a rare, high-impact threat.)",
                       "image":  "assets/cards/web/elf/25_elder_treant.jpg"
                   },
                   {
@@ -233,7 +233,7 @@
                       "cost":  10,
                       "power":  6,
                       "defense":  11,
-                      "text":  "FORMATION: +1 DMG while adjacent to another Elf unit. (This unit is a rare, high-impact threat.)",
+                      "text":  "DESPERATE: Gains +2 DMG while your castle is below half HP. (This unit is a rare, high-impact threat.)",
                       "image":  "assets/cards/web/elf/26_storm_giant.jpg"
                   }
               ]

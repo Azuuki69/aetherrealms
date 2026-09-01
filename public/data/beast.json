@@ -35,7 +35,7 @@
                       "cost":  2,
                       "power":  2,
                       "defense":  3,
-                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "text":  "RALLY: Adjacent Beast allies gain +1 DMG.",
                       "image":  "assets/cards/web/beast/04_quillboar.jpg"
                   },
                   {
@@ -44,7 +44,7 @@
                       "cost":  2,
                       "power":  2,
                       "defense":  3,
-                      "text":  "FORMATION: +1 DMG while adjacent to another Beast unit.",
+                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
                       "image":  "assets/cards/web/beast/05_centaur_lancer.jpg"
                   },
                   {
@@ -53,7 +53,7 @@
                       "cost":  2,
                       "power":  3,
                       "defense":  2,
-                      "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
+                      "text":  "FORMATION: +1 DMG while adjacent to another Beast unit.",
                       "image":  "assets/cards/web/beast/06_assassin.jpg"
                   },
                   {
@@ -71,7 +71,7 @@
                       "cost":  3,
                       "power":  3,
                       "defense":  3,
-                      "text":  "FORMATION: +1 DMG while adjacent to another Beast unit.",
+                      "text":  "RALLY: Adjacent Beast allies gain +1 DMG.",
                       "image":  "assets/cards/web/beast/08_pixie.jpg"
                   },
                   {
@@ -80,7 +80,7 @@
                       "cost":  3,
                       "power":  3,
                       "defense":  3,
-                      "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
+                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
                       "image":  "assets/cards/web/beast/09_mossback.jpg"
                   },
                   {
@@ -89,7 +89,7 @@
                       "cost":  3,
                       "power":  3,
                       "defense":  3,
-                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "text":  "FORMATION: +1 DMG while adjacent to another Beast unit.",
                       "image":  "assets/cards/web/beast/10_pack_alpha.jpg"
                   },
                   {
@@ -98,7 +98,7 @@
                       "cost":  3,
                       "power":  3,
                       "defense":  3,
-                      "text":  "FORMATION: +1 DMG while adjacent to another Beast unit.",
+                      "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
                       "image":  "assets/cards/web/beast/11_satyr_piper.jpg"
                   },
                   {
@@ -107,7 +107,7 @@
                       "cost":  4,
                       "power":  4,
                       "defense":  4,
-                      "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
+                      "text":  "RALLY: Adjacent Beast allies gain +1 DMG.",
                       "image":  "assets/cards/web/beast/12_minotaur.jpg"
                   },
                   {
@@ -143,7 +143,7 @@
                       "cost":  5,
                       "power":  4,
                       "defense":  5,
-                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "text":  "RALLY: Adjacent Beast allies gain +1 DMG.",
                       "image":  "assets/cards/web/beast/16_harpy.jpg"
                   },
                   {
@@ -152,7 +152,7 @@
                       "cost":  5,
                       "power":  4,
                       "defense":  5,
-                      "text":  "FORMATION: +1 DMG while adjacent to another Beast unit.",
+                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
                       "image":  "assets/cards/web/beast/17_great_bear.jpg"
                   },
                   {
@@ -161,7 +161,7 @@
                       "cost":  5,
                       "power":  3,
                       "defense":  6,
-                      "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
+                      "text":  "FORMATION: +1 DMG while adjacent to another Beast unit.",
                       "image":  "assets/cards/web/beast/18_cave_troll.jpg"
                   },
                   {
@@ -179,7 +179,7 @@
                       "cost":  6,
                       "power":  7,
                       "defense":  4,
-                      "text":  "FORMATION: +1 DMG while adjacent to another Beast unit.",
+                      "text":  "RALLY: Adjacent Beast allies gain +1 DMG.",
                       "image":  "assets/cards/web/beast/20_drake.jpg"
                   },
                   {
@@ -188,7 +188,7 @@
                       "cost":  6,
                       "power":  5,
                       "defense":  6,
-                      "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
+                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
                       "image":  "assets/cards/web/beast/21_manticore.jpg"
                   },
                   {
@@ -197,7 +197,7 @@
                       "cost":  7,
                       "power":  8,
                       "defense":  4,
-                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "text":  "FORMATION: +1 DMG while adjacent to another Beast unit.",
                       "image":  "assets/cards/web/beast/22_thunderbird.jpg"
                   },
                   {
@@ -215,7 +215,7 @@
                       "cost":  8,
                       "power":  7,
                       "defense":  7,
-                      "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
+                      "text":  "RALLY: Adjacent Beast allies gain +1 DMG.",
                       "image":  "assets/cards/web/beast/24_hydra.jpg"
                   },
                   {
@@ -224,7 +224,7 @@
                       "cost":  9,
                       "power":  7,
                       "defense":  8,
-                      "text":  "PACK HUNT: +1 DMG for each other Beast you control. (This unit is a rare, high-impact threat.)",
+                      "text":  "RALLY: Adjacent Beast allies gain +1 DMG. (This unit is a rare, high-impact threat.)",
                       "image":  "assets/cards/web/beast/25_chimera.jpg"
                   },
                   {
@@ -233,7 +233,7 @@
                       "cost":  10,
                       "power":  8,
                       "defense":  9,
-                      "text":  "FORMATION: +1 DMG while adjacent to another Beast unit. (This unit is a rare, high-impact threat.)",
+                      "text":  "RALLY: Adjacent Beast allies gain +1 DMG. (This unit is a rare, high-impact threat.)",
                       "image":  "assets/cards/web/beast/26_roc.jpg"
                   }
               ]

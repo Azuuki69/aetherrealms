@@ -44,7 +44,7 @@
                       "cost":  2,
                       "power":  2,
                       "defense":  3,
-                      "text":  "REAP: Draw a card whenever an enemy unit dies.",
+                      "text":  "SALVAGE: Draw a card whenever an allied unit dies.",
                       "image":  "assets/cards/web/fallen/05_ray_splitter.jpg"
                   },
                   {
@@ -53,7 +53,7 @@
                       "cost":  2,
                       "power":  2,
                       "defense":  3,
-                      "text":  "SHIELD: Absorbs the next instance of combat damage entirely, then is consumed.",
+                      "text":  "REAP: Draw a card whenever an enemy unit dies.",
                       "image":  "assets/cards/web/fallen/06_watcher.jpg"
                   },
                   {
@@ -62,7 +62,7 @@
                       "cost":  2,
                       "power":  2,
                       "defense":  3,
-                      "text":  "SALVAGE: Draw a card whenever an allied unit dies.",
+                      "text":  "SHIELD: Absorbs the next instance of combat damage entirely, then is consumed.",
                       "image":  "assets/cards/web/fallen/07_flare_crew.jpg"
                   },
                   {
@@ -71,7 +71,7 @@
                       "cost":  3,
                       "power":  3,
                       "defense":  3,
-                      "text":  "REAP: Draw a card whenever an enemy unit dies.",
+                      "text":  "HOARDER: +1 DMG for each card in your hand beyond 3 (max +3).",
                       "image":  "assets/cards/web/fallen/08_hullbreaker.jpg"
                   },
                   {
@@ -80,7 +80,7 @@
                       "cost":  3,
                       "power":  3,
                       "defense":  3,
-                      "text":  "SHIELD: Absorbs the next instance of combat damage entirely, then is consumed.",
+                      "text":  "SALVAGE: Draw a card whenever an allied unit dies.",
                       "image":  "assets/cards/web/fallen/09_prybar.jpg"
                   },
                   {
@@ -98,7 +98,7 @@
                       "cost":  3,
                       "power":  3,
                       "defense":  3,
-                      "text":  "REAP: Draw a card whenever an enemy unit dies.",
+                      "text":  "SHIELD: Absorbs the next instance of combat damage entirely, then is consumed.",
                       "image":  "assets/cards/web/fallen/11_hauler.jpg"
                   },
                   {
@@ -107,7 +107,7 @@
                       "cost":  4,
                       "power":  4,
                       "defense":  4,
-                      "text":  "SHIELD: Absorbs the next instance of combat damage entirely, then is consumed.",
+                      "text":  "HOARDER: +1 DMG for each card in your hand beyond 3 (max +3).",
                       "image":  "assets/cards/web/fallen/12_breachjack.jpg"
                   },
                   {
@@ -152,7 +152,7 @@
                       "cost":  5,
                       "power":  4,
                       "defense":  5,
-                      "text":  "REAP: Draw a card whenever an enemy unit dies.",
+                      "text":  "SALVAGE: Draw a card whenever an allied unit dies.",
                       "image":  "assets/cards/web/fallen/17_fieldwright.jpg"
                   },
                   {
@@ -161,7 +161,7 @@
                       "cost":  5,
                       "power":  4,
                       "defense":  5,
-                      "text":  "SHIELD: Absorbs the next instance of combat damage entirely, then is consumed.",
+                      "text":  "REAP: Draw a card whenever an enemy unit dies.",
                       "image":  "assets/cards/web/fallen/18_starcaller.jpg"
                   },
                   {
@@ -197,7 +197,7 @@
                       "cost":  7,
                       "power":  4,
                       "defense":  8,
-                      "text":  "SALVAGE: Draw a card whenever an allied unit dies.",
+                      "text":  "REAP: Draw a card whenever an enemy unit dies.",
                       "image":  "assets/cards/web/fallen/22_lantern_engine.jpg"
                   },
                   {
@@ -206,7 +206,7 @@
                       "cost":  7,
                       "power":  6,
                       "defense":  6,
-                      "text":  "REAP: Draw a card whenever an enemy unit dies.",
+                      "text":  "SHIELD: Absorbs the next instance of combat damage entirely, then is consumed.",
                       "image":  "assets/cards/web/fallen/23_grav_sled.jpg"
                   },
                   {
@@ -215,7 +215,7 @@
                       "cost":  8,
                       "power":  7,
                       "defense":  7,
-                      "text":  "SHIELD: Absorbs the next instance of combat damage entirely, then is consumed.",
+                      "text":  "HOARDER: +1 DMG for each card in your hand beyond 3 (max +3).",
                       "image":  "assets/cards/web/fallen/24_salvage_walker.jpg"
                   },
                   {
@@ -224,7 +224,7 @@
                       "cost":  9,
                       "power":  7,
                       "defense":  8,
-                      "text":  "SALVAGE: Draw a card whenever an allied unit dies. (This unit is a rare, high-impact threat.)",
+                      "text":  "HOARDER: +1 DMG for each card in your hand beyond 3 (max +3). (This unit is a rare, high-impact threat.)",
                       "image":  "assets/cards/web/fallen/25_the_last_lander.jpg"
                   },
                   {
@@ -233,7 +233,7 @@
                       "cost":  10,
                       "power":  8,
                       "defense":  9,
-                      "text":  "REAP: Draw a card whenever an enemy unit dies. (This unit is a rare, high-impact threat.)",
+                      "text":  "HOARDER: +1 DMG for each card in your hand beyond 3 (max +3). (This unit is a rare, high-impact threat.)",
                       "image":  "assets/cards/web/fallen/26_the_prow.jpg"
                   }
               ]

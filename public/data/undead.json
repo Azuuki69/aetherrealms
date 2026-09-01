@@ -44,7 +44,7 @@
                       "cost":  2,
                       "power":  2,
                       "defense":  3,
-                      "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
+                      "text":  "REAP: Draw a card whenever an enemy unit dies.",
                       "image":  "assets/cards/web/undead/05_barrow_wight.jpg"
                   },
                   {
@@ -53,7 +53,7 @@
                       "cost":  2,
                       "power":  2,
                       "defense":  3,
-                      "text":  "FORTIFY: Gains +1 HP after surviving combat.",
+                      "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
                       "image":  "assets/cards/web/undead/06_dread_knight.jpg"
                   },
                   {
@@ -71,7 +71,7 @@
                       "cost":  3,
                       "power":  4,
                       "defense":  2,
-                      "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
+                      "text":  "CURSE: Deals 1 DMG to a random enemy at the end of your turn.",
                       "image":  "assets/cards/web/undead/08_crypt_stalker.jpg"
                   },
                   {
@@ -98,7 +98,7 @@
                       "cost":  3,
                       "power":  3,
                       "defense":  3,
-                      "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
+                      "text":  "FORTIFY: Gains +1 HP after surviving combat.",
                       "image":  "assets/cards/web/undead/11_dirge_piper.jpg"
                   },
                   {
@@ -107,7 +107,7 @@
                       "cost":  4,
                       "power":  4,
                       "defense":  4,
-                      "text":  "FORTIFY: Gains +1 HP after surviving combat.",
+                      "text":  "CURSE: Deals 1 DMG to a random enemy at the end of your turn.",
                       "image":  "assets/cards/web/undead/12_bone_shaper.jpg"
                   },
                   {
@@ -152,7 +152,7 @@
                       "cost":  5,
                       "power":  4,
                       "defense":  5,
-                      "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
+                      "text":  "REAP: Draw a card whenever an enemy unit dies.",
                       "image":  "assets/cards/web/undead/17_voidcaller.jpg"
                   },
                   {
@@ -179,7 +179,7 @@
                       "cost":  6,
                       "power":  4,
                       "defense":  7,
-                      "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
+                      "text":  "CURSE: Deals 1 DMG to a random enemy at the end of your turn.",
                       "image":  "assets/cards/web/undead/20_charnel_ram.jpg"
                   },
                   {
@@ -215,7 +215,7 @@
                       "cost":  8,
                       "power":  7,
                       "defense":  7,
-                      "text":  "FORTIFY: Gains +1 HP after surviving combat.",
+                      "text":  "CURSE: Deals 1 DMG to a random enemy at the end of your turn.",
                       "image":  "assets/cards/web/undead/24_sandworm.jpg"
                   },
                   {

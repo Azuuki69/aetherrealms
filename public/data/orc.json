@@ -53,7 +53,7 @@
                       "cost":  2,
                       "power":  2,
                       "defense":  3,
-                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own castle. Draw a card.",
+                      "text":  "TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
                       "image":  "assets/cards/web/orc/06_maceman.jpg"
                   },
                   {
@@ -62,7 +62,7 @@
                       "cost":  2,
                       "power":  2,
                       "defense":  3,
-                      "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG.",
+                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own castle. Draw a card.",
                       "image":  "assets/cards/web/orc/07_tusk_breaker.jpg"
                   },
                   {
@@ -89,7 +89,7 @@
                       "cost":  3,
                       "power":  3,
                       "defense":  3,
-                      "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG.",
+                      "text":  "TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
                       "image":  "assets/cards/web/orc/10_ravager.jpg"
                   },
                   {
@@ -98,7 +98,7 @@
                       "cost":  3,
                       "power":  3,
                       "defense":  3,
-                      "text":  "TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
+                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own castle. Draw a card.",
                       "image":  "assets/cards/web/orc/11_raider.jpg"
                   },
                   {
@@ -107,7 +107,7 @@
                       "cost":  4,
                       "power":  4,
                       "defense":  4,
-                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own castle. Draw a card.",
+                      "text":  "SLAYER: Whenever this destroys an enemy unit in combat, permanently gain +1 DMG.",
                       "image":  "assets/cards/web/orc/12_marauder.jpg"
                   },
                   {
@@ -152,7 +152,7 @@
                       "cost":  5,
                       "power":  6,
                       "defense":  3,
-                      "text":  "TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
+                      "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG.",
                       "image":  "assets/cards/web/orc/17_sand_mage.jpg"
                   },
                   {
@@ -161,7 +161,7 @@
                       "cost":  5,
                       "power":  4,
                       "defense":  5,
-                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own castle. Draw a card.",
+                      "text":  "TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
                       "image":  "assets/cards/web/orc/18_hexer.jpg"
                   },
                   {
@@ -170,7 +170,7 @@
                       "cost":  6,
                       "power":  5,
                       "defense":  6,
-                      "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG.",
+                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own castle. Draw a card.",
                       "image":  "assets/cards/web/orc/19_warlord.jpg"
                   },
                   {
@@ -215,7 +215,7 @@
                       "cost":  8,
                       "power":  9,
                       "defense":  5,
-                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own castle. Draw a card.",
+                      "text":  "SLAYER: Whenever this destroys an enemy unit in combat, permanently gain +1 DMG.",
                       "image":  "assets/cards/web/orc/24_wyrm.jpg"
                   },
                   {
@@ -233,7 +233,7 @@
                       "cost":  10,
                       "power":  11,
                       "defense":  6,
-                      "text":  "TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it. (This unit is a rare, high-impact threat.)",
+                      "text":  "SLAYER: Whenever this destroys an enemy unit in combat, permanently gain +1 DMG. (This unit is a rare, high-impact threat.)",
                       "image":  "assets/cards/web/orc/26_fire_giant.jpg"
                   }
               ]

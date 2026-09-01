@@ -219,20 +219,31 @@ h1 span {
 .ranking-table .empty-row td { text-align: center; color: var(--dim); padding: 0.8rem; }
 
 /* ---------- Game ---------- */
+/* A fluid grid, not a fixed-resolution canvas scaled to fit — each row takes
+   only the height it actually needs, so the board (the one flexible row)
+   claims whatever is left over, at any viewport shape or aspect ratio. */
 #game {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  width: 1600px;
-  height: 950px;
-  flex-shrink: 0;
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto auto auto;
+  grid-template-areas: "topbar" "tips" "board" "controls" "hand" "log";
+  width: min(98vw, 1900px);
+  height: min(96vh, 1080px);
+  max-width: 100%;
+  max-height: 100%;
   overflow: hidden;
-  transform-origin: center center;
-  padding: 0.5rem 0.8rem;
+  gap: clamp(4px, 0.6vh, 8px);
+  padding: clamp(4px, 0.5vh, 10px) clamp(6px, 0.8vw, 14px);
   background:
     radial-gradient(ellipse 900px 700px at 50% 45%, #2e2313 0%, transparent 65%),
     radial-gradient(ellipse at 50% 50%, transparent 55%, #000 100%);
 }
+#topBar { grid-area: topbar; }
+#tutorialTips { grid-area: tips; }
+.board-wrap { grid-area: board; min-height: 0; }
+.controls { grid-area: controls; }
+#hand { grid-area: hand; }
+#log { grid-area: log; }
 
 #topBar {
   display: flex;
@@ -250,7 +261,7 @@ h1 span {
 .hp-panel .name { font-weight: bold; color: var(--gold); min-width: 90px; font-size: 1.05rem; }
 
 /* ---------- Castle (base HP) ---------- */
-.castle-wrap { position: relative; width: 64px; height: 64px; flex-shrink: 0; }
+.castle-wrap { position: relative; width: clamp(48px, 5vw, 72px); height: clamp(48px, 5vw, 72px); flex-shrink: 0; }
 .castle-img {
   width: 100%;
   height: 100%;
@@ -333,7 +344,9 @@ h1 span {
 }
 .panel-icon { font-size: 1.2rem; }
 .board-area {
-  flex: 0 0 1200px;
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: min(82vw, 1400px);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -374,9 +387,8 @@ h1 span {
 
 .slot {
   position: relative;
-  height: 100%;
-  max-height: 210px;
-  min-height: 100px;
+  height: clamp(70px, 15vh, 180px);
+  min-height: 60px;
   aspect-ratio: 2 / 3;
   width: auto;
   flex-shrink: 1;
@@ -415,8 +427,9 @@ h1 span {
 
 .card {
   position: relative;
-  width: 128px;
-  height: 192px;
+  width: clamp(84px, 8vw, 128px);
+  aspect-ratio: 2 / 3;
+  height: auto;
   border-radius: 8px;
   overflow: hidden;
   border: 2px solid #1a140c;
@@ -522,12 +535,12 @@ h1 span {
   gap: 8px;
   justify-content: center;
   padding: 6px 0;
-  min-height: 200px;
+  min-height: clamp(110px, 16vh, 200px);
   overflow-x: auto;
 }
 
 .log {
-  max-height: 84px;
+  max-height: clamp(50px, 8vh, 100px);
   overflow-y: auto;
   font-size: 0.85rem;
   color: var(--dim);

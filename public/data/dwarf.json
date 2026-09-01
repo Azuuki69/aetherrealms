@@ -35,7 +35,7 @@
                       "cost":  2,
                       "power":  2,
                       "defense":  3,
-                      "text":  "STALWART: Takes 1 less DMG from attacks.",
+                      "text":  "VIGIL: Heals 1 HP at the start of your turn.",
                       "image":  "assets/cards/web/dwarf/04_arbalest.jpg"
                   },
                   {
@@ -62,7 +62,7 @@
                       "cost":  2,
                       "power":  2,
                       "defense":  3,
-                      "text":  "STALWART: Takes 1 less DMG from attacks.",
+                      "text":  "FORMATION: +1 DMG while adjacent to another Dwarf unit.",
                       "image":  "assets/cards/web/dwarf/07_gyrocopter.jpg"
                   },
                   {
@@ -71,7 +71,7 @@
                       "cost":  3,
                       "power":  3,
                       "defense":  3,
-                      "text":  "FORTIFY: Gains +1 HP after surviving combat.",
+                      "text":  "VIGIL: Heals 1 HP at the start of your turn.",
                       "image":  "assets/cards/web/dwarf/08_pikeman.jpg"
                   },
                   {
@@ -80,7 +80,7 @@
                       "cost":  3,
                       "power":  2,
                       "defense":  4,
-                      "text":  "FORMATION: +1 DMG while adjacent to another Dwarf unit.",
+                      "text":  "STALWART: Takes 1 less DMG from attacks.",
                       "image":  "assets/cards/web/dwarf/09_shieldbreaker.jpg"
                   },
                   {
@@ -89,7 +89,7 @@
                       "cost":  3,
                       "power":  3,
                       "defense":  3,
-                      "text":  "STALWART: Takes 1 less DMG from attacks.",
+                      "text":  "FORTIFY: Gains +1 HP after surviving combat.",
                       "image":  "assets/cards/web/dwarf/10_sapper.jpg"
                   },
                   {
@@ -98,7 +98,7 @@
                       "cost":  3,
                       "power":  3,
                       "defense":  3,
-                      "text":  "FORTIFY: Gains +1 HP after surviving combat.",
+                      "text":  "FORMATION: +1 DMG while adjacent to another Dwarf unit.",
                       "image":  "assets/cards/web/dwarf/11_executioner.jpg"
                   },
                   {
@@ -107,7 +107,7 @@
                       "cost":  4,
                       "power":  4,
                       "defense":  4,
-                      "text":  "FORMATION: +1 DMG while adjacent to another Dwarf unit.",
+                      "text":  "VIGIL: Heals 1 HP at the start of your turn.",
                       "image":  "assets/cards/web/dwarf/12_standard_bearer.jpg"
                   },
                   {
@@ -143,7 +143,7 @@
                       "cost":  5,
                       "power":  4,
                       "defense":  5,
-                      "text":  "STALWART: Takes 1 less DMG from attacks.",
+                      "text":  "VIGIL: Heals 1 HP at the start of your turn.",
                       "image":  "assets/cards/web/dwarf/16_geomancer.jpg"
                   },
                   {
@@ -170,7 +170,7 @@
                       "cost":  6,
                       "power":  5,
                       "defense":  6,
-                      "text":  "STALWART: Takes 1 less DMG from attacks.",
+                      "text":  "FORMATION: +1 DMG while adjacent to another Dwarf unit.",
                       "image":  "assets/cards/web/dwarf/19_onager.jpg"
                   },
                   {
@@ -179,7 +179,7 @@
                       "cost":  6,
                       "power":  5,
                       "defense":  6,
-                      "text":  "FORTIFY: Gains +1 HP after surviving combat.",
+                      "text":  "VIGIL: Heals 1 HP at the start of your turn.",
                       "image":  "assets/cards/web/dwarf/20_bombard.jpg"
                   },
                   {
@@ -224,7 +224,7 @@
                       "cost":  9,
                       "power":  6,
                       "defense":  9,
-                      "text":  "STALWART: Takes 1 less DMG from attacks. (This unit is a rare, high-impact threat.)",
+                      "text":  "VIGIL: Heals 1 HP at the start of your turn. (This unit is a rare, high-impact threat.)",
                       "image":  "assets/cards/web/dwarf/25_mountain_giant.jpg"
                   },
                   {
@@ -233,7 +233,7 @@
                       "cost":  10,
                       "power":  6,
                       "defense":  11,
-                      "text":  "FORTIFY: Gains +1 HP after surviving combat. (This unit is a rare, high-impact threat.)",
+                      "text":  "VIGIL: Heals 1 HP at the start of your turn. (This unit is a rare, high-impact threat.)",
                       "image":  "assets/cards/web/dwarf/26_frost_giant.jpg"
                   }
               ]

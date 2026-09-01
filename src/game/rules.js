@@ -45,6 +45,16 @@ function detectKeywords(text) {
   if (/shield/.test(t)) kw.push('shield');
   if (/lifesteal/.test(t)) kw.push('lifesteal');
   if (/venom/.test(t)) kw.push('venom');
+  if (/rally/.test(t)) kw.push('rally');
+  if (/growing/.test(t)) kw.push('growing');
+  if (/cull/.test(t)) kw.push('cull');
+  if (/vigil/.test(t)) kw.push('vigil');
+  if (/parting gift/.test(t)) kw.push('partinggift');
+  if (/desperate/.test(t)) kw.push('desperate');
+  if (/hoarder/.test(t)) kw.push('hoarder');
+  if (/war cry/.test(t)) kw.push('warcry');
+  if (/slayer/.test(t)) kw.push('slayer');
+  if (/curse/.test(t)) kw.push('curse');
   return kw;
 }
 
@@ -105,6 +115,7 @@ function makeCardInstance(card) {
     faction: card.id.split('_')[0],
     usedRebirth: false,
     usedRage: false,
+    tempPowerBonus: 0,
     countdown: /countdown/i.test(card.text || '') ? firstNumber(card.text, 1) : null,
   };
 }
@@ -185,14 +196,31 @@ function isFormationActive(game, owner, lane, slotIndex) {
   return [left, right].some((n) => n && n.faction === unit.faction);
 }
 
+// Rally is granted OUTWARD to neighbors rather than to the Rally-bearer
+// itself — a support unit rather than a self-buffer like Formation. Two
+// adjacent Rally units correctly buff each other.
+function hasRallyBonus(game, owner, lane, slotIndex) {
+  const unit = game.players[owner].board[lane][slotIndex];
+  if (!unit) return false;
+  const row = game.players[owner].board[lane];
+  const left = slotIndex > 0 ? row[slotIndex - 1] : null;
+  const right = slotIndex < LANES - 1 ? row[slotIndex + 1] : null;
+  return [left, right].some((n) => n && n.faction === unit.faction && n.keywords.includes('rally'));
+}
+
 function effectivePower(game, owner, lane, slotIndex) {
   const unit = game.players[owner].board[lane][slotIndex];
   if (!unit) return 0;
+  const player = game.players[owner];
   let power = unit.power;
   if (isFormationActive(game, owner, lane, slotIndex)) power += 1;
+  if (hasRallyBonus(game, owner, lane, slotIndex)) power += 1;
   if (unit.keywords.includes('packhunt')) {
-    power += allUnits(game.players[owner]).filter((u) => u.instanceId !== unit.instanceId && u.faction === unit.faction).length;
+    power += allUnits(player).filter((u) => u.instanceId !== unit.instanceId && u.faction === unit.faction).length;
   }
+  if (unit.keywords.includes('desperate') && player.hp < player.maxHp / 2) power += 2;
+  if (unit.keywords.includes('hoarder')) power += Math.min(3, Math.max(0, player.hand.length - 3));
+  power += unit.tempPowerBonus || 0;
   return power;
 }
 
@@ -257,6 +285,18 @@ function destroyUnit(game, owner, lane, slotIndex) {
     for (let i = 0; i < n; i++) draw(player);
     game.log.push(`${owner} draws ${n} card(s) (Last Breath).`);
   }
+  if (unit.keywords.includes('partinggift')) {
+    const enemyPlayer = game.players[opponentOf(owner)];
+    const enemyUnits = allUnits(enemyPlayer);
+    if (enemyUnits.length > 0) {
+      const target = enemyUnits[Math.floor(Math.random() * enemyUnits.length)];
+      const loc = findLaneOf(enemyPlayer, target.instanceId);
+      target.defense -= 2;
+      game.log.push(`${unit.name}'s Parting Gift deals 2 to ${target.name}.`);
+      if (target.defense <= 0) destroyUnit(game, opponentOf(owner), loc.lane, loc.idx);
+    }
+    checkWinner(game);
+  }
   onUnitDestroyed(game, owner);
 }
 
@@ -264,12 +304,22 @@ export function startTurn(game, owner) {
   const player = game.players[owner];
   player.maxMana = Math.min(MAX_MANA, player.maxMana + 1);
   player.mana = player.maxMana;
-  const drew = draw(player);
   for (const lane of ['vanguard', 'rearguard']) {
     player.board[lane].forEach((unit, idx) => {
       if (!unit) return;
       unit.sick = false;
       unit.attackedThisTurn = false;
+      unit.tempPowerBonus = 0;
+      if (unit.keywords.includes('vigil')) {
+        const before = unit.defense;
+        unit.defense = Math.min(unit.maxDefense, unit.defense + 1);
+        if (unit.defense > before) game.log.push(`${unit.name} heals 1 HP (Vigil).`);
+      }
+      if (unit.keywords.includes('growing')) {
+        unit.maxDefense += 1;
+        unit.defense += 1;
+        game.log.push(`${unit.name} grows, gaining +1 HP.`);
+      }
       if (unit.countdown !== null) {
         unit.countdown -= 1;
         if (unit.countdown <= 0) {
@@ -281,11 +331,6 @@ export function startTurn(game, owner) {
   }
   game.turn = owner;
   game.phase = 'deployment';
-  if (!drew) {
-    game.winner = opponentOf(owner);
-    game.phase = 'gameover';
-    game.log.push(`${owner}'s deck and graveyard are both empty — ${owner} decks out and loses!`);
-  }
 }
 
 function resolveCountdown(game, owner, lane, slotIndex) {
@@ -334,6 +379,37 @@ export function playCard(game, owner, cardInstanceId, lane, slotIndex) {
       const n = firstNumber(unit.text, 2);
       target.defense = Math.min(target.maxDefense, target.defense + n);
       game.log.push(`${unit.name} mends ${target.name} for ${n}.`);
+    }
+  }
+  if (unit.keywords.includes('warcry')) {
+    const row = player.board[lane];
+    row.forEach((ally) => {
+      if (ally && ally.instanceId !== unit.instanceId) {
+        ally.tempPowerBonus = (ally.tempPowerBonus || 0) + 1;
+      }
+    });
+    game.log.push(`${unit.name}'s War Cry rallies allies in this row.`);
+  }
+  if (unit.keywords.includes('cull')) {
+    const allies = allUnits(player).filter((u) => u.instanceId !== unit.instanceId);
+    if (allies.length > 0) {
+      allies.sort((a, b) => a.defense - b.defense);
+      const victim = allies[0];
+      const victimLoc = findLaneOf(player, victim.instanceId);
+      destroyUnit(game, owner, victimLoc.lane, victimLoc.idx);
+      const opponentPlayer = game.players[opponentOf(owner)];
+      const enemyUnits = allUnits(opponentPlayer);
+      if (enemyUnits.length > 0) {
+        const target = enemyUnits[Math.floor(Math.random() * enemyUnits.length)];
+        const targetLoc = findLaneOf(opponentPlayer, target.instanceId);
+        target.defense -= 2;
+        game.log.push(`${unit.name}'s Cull sacrifices ${victim.name} to deal 2 to ${target.name}.`);
+        if (target.defense <= 0) destroyUnit(game, opponentOf(owner), targetLoc.lane, targetLoc.idx);
+      } else {
+        opponentPlayer.hp -= 2;
+        game.log.push(`${unit.name}'s Cull sacrifices ${victim.name} to deal 2 to the enemy castle.`);
+      }
+      checkWinner(game);
     }
   }
   if (unit.keywords.includes('bloodprice')) {
@@ -504,6 +580,16 @@ export function attack(game, owner, attackerLane, attackerSlot, targetLane) {
   if (!isRanged && !backShielded && attackerSurvived && unit.keywords.includes('rage')) applyRage(unit);
   if (!isRanged && !backShielded && attackerSurvived && unit.keywords.includes('fortify')) applyFortify(unit);
 
+  // Slayer is a kill-trigger, not a survive-trigger like Rage — it rewards
+  // landing the finishing blow, from either direction of the exchange.
+  const applySlayer = (killer, victimName) => {
+    killer.power += 1;
+    killer.basePower += 1;
+    game.log.push(`${killer.name} slays ${victimName}, permanently gaining +1 DMG.`);
+  };
+  if (!targetSurvived && unit.keywords.includes('slayer')) applySlayer(unit, targetUnit.name);
+  if (!isRanged && !attackerSurvived && targetUnit.keywords.includes('slayer')) applySlayer(targetUnit, unit.name);
+
   if (!targetSurvived) {
     const overflow = -targetUnit.defense;
     destroyUnit(game, opponentKey, targetLane, attackerSlot);
@@ -542,9 +628,42 @@ export function attack(game, owner, attackerLane, attackerSlot, targetLane) {
 export function endTurn(game, owner) {
   requireActive(game, owner);
   game.phase = 'end';
+  const player = game.players[owner];
+  const opponent = game.players[opponentOf(owner)];
+
+  // End-of-turn triggers for the player whose turn is ending (Curse).
+  for (const unit of allUnits(player)) {
+    if (unit.keywords.includes('curse')) {
+      const enemyUnits = allUnits(opponent);
+      if (enemyUnits.length > 0) {
+        const target = enemyUnits[Math.floor(Math.random() * enemyUnits.length)];
+        const loc = findLaneOf(opponent, target.instanceId);
+        target.defense -= 1;
+        game.log.push(`${unit.name}'s Curse deals 1 to ${target.name}.`);
+        if (target.defense <= 0) destroyUnit(game, opponentOf(owner), loc.lane, loc.idx);
+      } else {
+        opponent.hp -= 1;
+        game.log.push(`${unit.name}'s Curse deals 1 to the enemy castle.`);
+      }
+    }
+  }
+  checkWinner(game);
+  if (game.winner) return game;
+
+  // The player whose turn just ended draws exactly 1 card.
+  const drew = draw(player);
+  if (!drew) {
+    game.winner = opponentOf(owner);
+    game.phase = 'gameover';
+    game.log.push(`${owner}'s deck and graveyard are both empty — ${owner} decks out and loses!`);
+    return game;
+  }
+  game.log.push(`${owner} draws a card.`);
+
   const next = opponentOf(owner);
   game.turnNumber += 1;
   startTurn(game, next);
+  return game;
 }
 
 // Repositioning (front/back OR left/right) costs the unit's action for the

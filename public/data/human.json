@@ -62,7 +62,7 @@
                       "cost":  2,
                       "power":  2,
                       "defense":  3,
-                      "text":  "RESOLVE: Gains +1 HP after surviving combat.",
+                      "text":  "FORMATION: +1 DMG while adjacent to another Human unit.",
                       "image":  "assets/cards/web/human/07_halberdier.jpg"
                   },
                   {
@@ -71,7 +71,7 @@
                       "cost":  3,
                       "power":  2,
                       "defense":  4,
-                      "text":  "GUARD: Enemies in this lane must attack this unit first.",
+                      "text":  "WAR CRY: When played, allied units in this row gain +1 DMG until your next turn.",
                       "image":  "assets/cards/web/human/08_knight.jpg"
                   },
                   {
@@ -80,7 +80,7 @@
                       "cost":  3,
                       "power":  3,
                       "defense":  3,
-                      "text":  "FORMATION: +1 DMG while adjacent to another Human unit.",
+                      "text":  "RESOLVE: Gains +1 HP after surviving combat.",
                       "image":  "assets/cards/web/human/09_lancer.jpg"
                   },
                   {
@@ -89,7 +89,7 @@
                       "cost":  3,
                       "power":  3,
                       "defense":  3,
-                      "text":  "RESOLVE: Gains +1 HP after surviving combat.",
+                      "text":  "GUARD: Enemies in this lane must attack this unit first.",
                       "image":  "assets/cards/web/human/10_cataphract.jpg"
                   },
                   {
@@ -98,7 +98,7 @@
                       "cost":  3,
                       "power":  3,
                       "defense":  3,
-                      "text":  "GUARD: Enemies in this lane must attack this unit first.",
+                      "text":  "FORMATION: +1 DMG while adjacent to another Human unit.",
                       "image":  "assets/cards/web/human/11_duelist.jpg"
                   },
                   {
@@ -143,7 +143,7 @@
                       "cost":  5,
                       "power":  4,
                       "defense":  5,
-                      "text":  "RESOLVE: Gains +1 HP after surviving combat.",
+                      "text":  "WAR CRY: When played, allied units in this row gain +1 DMG until your next turn.",
                       "image":  "assets/cards/web/human/16_inquisitor.jpg"
                   },
                   {
@@ -152,7 +152,7 @@
                       "cost":  5,
                       "power":  4,
                       "defense":  5,
-                      "text":  "GUARD: Enemies in this lane must attack this unit first.",
+                      "text":  "RESOLVE: Gains +1 HP after surviving combat.",
                       "image":  "assets/cards/web/human/17_templar.jpg"
                   },
                   {
@@ -215,7 +215,7 @@
                       "cost":  8,
                       "power":  7,
                       "defense":  7,
-                      "text":  "FORMATION: +1 DMG while adjacent to another Human unit.",
+                      "text":  "WAR CRY: When played, allied units in this row gain +1 DMG until your next turn.",
                       "image":  "assets/cards/web/human/24_valkyrie.jpg"
                   },
                   {
@@ -224,7 +224,7 @@
                       "cost":  9,
                       "power":  7,
                       "defense":  8,
-                      "text":  "RESOLVE: Gains +1 HP after surviving combat. (This unit is a rare, high-impact threat.)",
+                      "text":  "WAR CRY: When played, allied units in this row gain +1 DMG until your next turn. (This unit is a rare, high-impact threat.)",
                       "image":  "assets/cards/web/human/25_seraph.jpg"
                   },
                   {
@@ -233,7 +233,7 @@
                       "cost":  10,
                       "power":  8,
                       "defense":  9,
-                      "text":  "GUARD: Enemies in this lane must attack this unit first. (This unit is a rare, high-impact threat.)",
+                      "text":  "WAR CRY: When played, allied units in this row gain +1 DMG until your next turn. (This unit is a rare, high-impact threat.)",
                       "image":  "assets/cards/web/human/26_titan.jpg"
                   }
               ]
