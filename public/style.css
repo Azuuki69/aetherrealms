@@ -249,7 +249,7 @@ h1 span {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 0.5rem 1rem;
+  padding: 0.4rem 1rem;
   background: linear-gradient(180deg, #2a2013c0, #1a140dc0);
   border: 1px solid #4a3a2270;
   border-radius: 10px;
@@ -397,32 +397,32 @@ h1 span {
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 16px;
   padding: 4px;
   border-radius: 10px;
   width: 100%;
   flex: 1;
   min-height: 0;
-  /* Faint per-column separators so the 7 lanes read as distinct at a glance,
+  /* Faint per-column separators so the 5 lanes read as distinct at a glance,
      without drawing a border around every individual slot. */
   background-image: repeating-linear-gradient(
     90deg,
     transparent 0,
-    transparent calc((100% / 7) - 1px),
-    #d9b25c22 calc((100% / 7) - 1px),
-    #d9b25c22 calc(100% / 7)
+    transparent calc((100% / 5) - 1px),
+    #d9b25c22 calc((100% / 5) - 1px),
+    #d9b25c22 calc(100% / 5)
   );
 }
 #oppRearguard, #youRearguard {
   background-color: transparent;
   background-image:
-    repeating-linear-gradient(90deg, transparent 0, transparent calc((100% / 7) - 1px), #d9b25c22 calc((100% / 7) - 1px), #d9b25c22 calc(100% / 7)),
+    repeating-linear-gradient(90deg, transparent 0, transparent calc((100% / 5) - 1px), #d9b25c22 calc((100% / 5) - 1px), #d9b25c22 calc(100% / 5)),
     linear-gradient(180deg, var(--rearguard), transparent);
 }
 #oppVanguard, #youVanguard {
   background-color: transparent;
   background-image:
-    repeating-linear-gradient(90deg, transparent 0, transparent calc((100% / 7) - 1px), #d9b25c22 calc((100% / 7) - 1px), #d9b25c22 calc(100% / 7)),
+    repeating-linear-gradient(90deg, transparent 0, transparent calc((100% / 5) - 1px), #d9b25c22 calc((100% / 5) - 1px), #d9b25c22 calc(100% / 5)),
     linear-gradient(180deg, var(--vanguard), transparent);
 }
 /* The actual front line where the two sides meet — given a slow pulse
@@ -444,7 +444,7 @@ h1 span {
 .slot {
   position: relative;
   height: 100%;
-  max-height: 220px;
+  max-height: 260px;
   min-height: 60px;
   aspect-ratio: 2 / 3;
   width: auto;
@@ -484,7 +484,7 @@ h1 span {
 
 .card {
   position: relative;
-  width: clamp(84px, 8vw, 128px);
+  width: clamp(78px, 7.5vw, 112px);
   aspect-ratio: 2 / 3;
   height: auto;
   border-radius: 8px;
@@ -574,13 +574,13 @@ h1 span {
   100% { filter: none; opacity: 1; }
 }
 
-.controls { display: flex; gap: 1rem; justify-content: center; padding: 0.5rem; }
+.controls { display: flex; gap: 1rem; justify-content: center; padding: 0.35rem; }
 .controls button, #hand .end-icons button {
   background: linear-gradient(#e7c877, #b8912f);
   border: 1px solid #5c4419;
   color: #241c12;
   font-weight: bold;
-  padding: 0.5rem 1.4rem;
+  padding: 0.4rem 1.4rem;
   border-radius: 6px;
   cursor: pointer;
   font-size: 0.95rem;
@@ -592,12 +592,12 @@ h1 span {
   gap: 8px;
   justify-content: center;
   padding: 6px 0;
-  min-height: clamp(110px, 16vh, 200px);
+  min-height: clamp(100px, 14vh, 170px);
   overflow-x: auto;
 }
 
 .log {
-  max-height: clamp(50px, 8vh, 100px);
+  max-height: clamp(36px, 5vh, 70px);
   overflow-y: auto;
   font-size: 0.85rem;
   color: var(--dim);
