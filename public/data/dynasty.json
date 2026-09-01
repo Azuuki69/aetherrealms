@@ -58,7 +58,7 @@
                   },
                   {
                       "id":  "dynasty_07",
-                      "name":  "Naginata Guard",
+                      "name":  "Naginata Sentry",
                       "cost":  2,
                       "power":  2,
                       "defense":  3,
@@ -193,7 +193,7 @@
                   },
                   {
                       "id":  "dynasty_22",
-                      "name":  "Terracotta Guard",
+                      "name":  "Terracotta Warrior",
                       "cost":  7,
                       "power":  4,
                       "defense":  8,
