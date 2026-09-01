@@ -48,7 +48,7 @@ function initLobby() {
     if (!selectedFaction) return setStatus('Pick a faction first.');
     const res = await fetch('api/room', { method: 'POST' });
     const { code } = await res.json();
-    el('createdCode').textContent = code;
+    el('createdCodeText').textContent = code;
     el('createdCode').classList.remove('hidden');
     setStatus('Share this code with your opponent. Waiting for them to join...');
     connect(code);
@@ -59,6 +59,23 @@ function initLobby() {
     const code = el('joinCode').value.trim().toUpperCase();
     if (!code) return setStatus('Enter a room code.');
     connect(code);
+  });
+
+  el('copyCodeBtn').addEventListener('click', async () => {
+    const code = el('createdCodeText').textContent;
+    if (!code) return;
+    try {
+      await navigator.clipboard.writeText(code);
+    } catch {
+      return; // clipboard permission denied or unavailable — button just won't confirm
+    }
+    const btn = el('copyCodeBtn');
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copy';
+      btn.classList.remove('copied');
+    }, 1500);
   });
 }
 

@@ -115,6 +115,7 @@ h1 span {
   margin: 2rem 0;
 }
 .faction-card {
+  --accent: var(--gold);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -129,8 +130,28 @@ h1 span {
   cursor: pointer;
   transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
 }
-.faction-card:hover { transform: translateY(-3px); border-color: var(--gold); box-shadow: 0 6px 16px #0008; }
-.faction-card.selected { border-color: var(--gold); background: linear-gradient(#3a2c14, #241c12); box-shadow: 0 0 12px #00000080 inset, 0 0 10px #d9b25c80; }
+/* One shared component, themed per faction via a custom property keyed
+   off the same data-faction attribute already used to pick a deck. */
+.faction-card[data-faction="beast"] { --accent: #4f8a3a; }
+.faction-card[data-faction="clock"] { --accent: #c17a2e; }
+.faction-card[data-faction="damned"] { --accent: #8a1f2b; }
+.faction-card[data-faction="dwarf"] { --accent: #d4a017; }
+.faction-card[data-faction="dynasty"] { --accent: #2f9e6e; }
+.faction-card[data-faction="elf"] { --accent: #3f9eae; }
+.faction-card[data-faction="fallen"] { --accent: #7a4fc4; }
+.faction-card[data-faction="human"] { --accent: #3c6fd0; }
+.faction-card[data-faction="orc"] { --accent: #b5432e; }
+.faction-card[data-faction="undead"] { --accent: #8a9e4a; }
+.faction-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent);
+  box-shadow: 0 6px 16px #0008, 0 0 14px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+.faction-card.selected {
+  border-color: var(--accent);
+  background: linear-gradient(#3a2c14, #241c12);
+  box-shadow: 0 0 12px #00000080 inset, 0 0 14px color-mix(in srgb, var(--accent) 60%, transparent);
+}
 .faction-card .thumb {
   position: relative;
   width: 84px;
@@ -142,7 +163,10 @@ h1 span {
   box-shadow: inset 0 0 10px #000a;
   transition: border-color 0.15s, box-shadow 0.15s;
 }
-.faction-card:hover .thumb, .faction-card.selected .thumb { border-color: var(--gold); box-shadow: 0 0 12px #d9b25c80; }
+.faction-card:hover .thumb, .faction-card.selected .thumb {
+  border-color: var(--accent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 55%, transparent);
+}
 .faction-card .thumb img { width: 100%; height: 100%; object-fit: contain; }
 .faction-card .label { font-family: var(--font-display); font-weight: 600; font-size: 0.85rem; text-align: center; letter-spacing: 0.5px; }
 
@@ -152,23 +176,46 @@ h1 span {
   gap: 1.5rem;
 }
 .lobby-panel {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  position: relative;
+  background: linear-gradient(180deg, #2a2115, var(--panel));
+  border: 2px solid color-mix(in srgb, var(--gold) 45%, var(--border));
+  border-radius: 10px;
   padding: 1.2rem 1.4rem;
+  box-shadow: inset 0 0 24px #00000060, 0 6px 18px #0007;
 }
+.lobby-panel::before, .lobby-panel::after,
+.account-panel::before, .account-panel::after,
+.rankings-panel::before, .rankings-panel::after {
+  content: '';
+  position: absolute;
+  width: 9px;
+  height: 9px;
+  background: var(--gold);
+  opacity: 0.7;
+  transform: rotate(45deg);
+  box-shadow: 0 0 6px #d9b25c90;
+  pointer-events: none;
+}
+.lobby-panel::before, .account-panel::before, .rankings-panel::before { top: -4px; left: -4px; }
+.lobby-panel::after, .account-panel::after, .rankings-panel::after { bottom: -4px; right: -4px; }
 .lobby-panel h2 { margin-top: 0; color: var(--gold); font-family: var(--font-display); font-weight: 600; font-size: 1.2rem; letter-spacing: 0.5px; }
 .lobby-panel p { color: var(--dim); font-size: 0.9rem; }
 .lobby-panel button, #hand button { cursor: pointer; }
 .lobby-panel button {
   background: linear-gradient(#e7c877, #b8912f);
   border: 1px solid #5c4419;
+  box-shadow: inset 0 1px 0 #ffe9b380, 0 3px 8px #0006;
   color: #241c12;
   font-weight: bold;
   padding: 0.6rem 1.2rem;
   border-radius: 6px;
   font-size: 1rem;
+  transition: box-shadow 0.15s, transform 0.15s;
 }
+.lobby-panel button:hover:not(:disabled) {
+  box-shadow: inset 0 1px 0 #ffe9b380, 0 3px 10px #0007, 0 0 12px color-mix(in srgb, var(--gold) 50%, transparent);
+}
+.lobby-panel button:active:not(:disabled) { transform: translateY(1px); box-shadow: inset 0 1px 3px #00000060; }
 .lobby-panel input {
   width: 100%;
   padding: 0.6rem;
@@ -184,24 +231,48 @@ h1 span {
 }
 .room-code {
   margin-top: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  font-family: var(--font-display);
+  font-weight: 700;
   font-size: 1.6rem;
-  letter-spacing: 4px;
-  color: var(--gold);
+  letter-spacing: 5px;
+  color: var(--gold-bright);
   text-align: center;
-  border: 1px dashed var(--gold);
-  padding: 0.5rem;
-  border-radius: 6px;
+  background: radial-gradient(ellipse at center, #3a2c1480, #1c150d80);
+  border: 1px solid var(--gold);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--gold) 35%, transparent) inset, 0 0 10px color-mix(in srgb, var(--gold) 25%, transparent);
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
 }
+.room-code .copy-code-btn {
+  flex-shrink: 0;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--dim);
+  font-size: 0.85rem;
+  letter-spacing: 0;
+  padding: 0.3rem 0.5rem;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.room-code .copy-code-btn:hover { border-color: var(--gold); color: var(--gold); }
+.room-code .copy-code-btn.copied { border-color: var(--success); color: var(--success); }
 .lobby-status { text-align: center; margin-top: 1.5rem; color: var(--dim); min-height: 1.5em; }
 
 /* ---------- Account panel ---------- */
 .account-panel {
+  position: relative;
   max-width: 420px;
   margin: 1.2rem auto 0;
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  background: linear-gradient(180deg, #2a2115, var(--panel));
+  border: 2px solid color-mix(in srgb, var(--gold) 45%, var(--border));
+  border-radius: 10px;
   padding: 0.9rem 1.1rem;
+  box-shadow: inset 0 0 20px #00000060, 0 6px 16px #0007;
 }
 .account-view { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
 .account-view.hidden { display: none; }
@@ -219,13 +290,19 @@ h1 span {
 .account-form button[type="submit"] {
   background: linear-gradient(#e7c877, #b8912f);
   border: 1px solid #5c4419;
+  box-shadow: inset 0 1px 0 #ffe9b380, 0 3px 8px #0006;
   color: #241c12;
   font-weight: bold;
   padding: 0.5rem 1.1rem;
   border-radius: 6px;
   font-size: 0.9rem;
   cursor: pointer;
+  transition: box-shadow 0.15s, transform 0.15s;
 }
+.account-form button[type="submit"]:hover {
+  box-shadow: inset 0 1px 0 #ffe9b380, 0 3px 10px #0007, 0 0 12px color-mix(in srgb, var(--gold) 50%, transparent);
+}
+.account-form button[type="submit"]:active { transform: translateY(1px); box-shadow: inset 0 1px 3px #00000060; }
 .link-btn {
   background: none;
   border: none;
@@ -242,12 +319,14 @@ h1 span {
 
 /* ---------- Rankings panel ---------- */
 .rankings-panel {
+  position: relative;
   max-width: 560px;
   margin: 1.5rem auto 0;
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  background: linear-gradient(180deg, #2a2115, var(--panel));
+  border: 2px solid color-mix(in srgb, var(--gold) 45%, var(--border));
+  border-radius: 10px;
   padding: 1rem 1.2rem;
+  box-shadow: inset 0 0 20px #00000060, 0 6px 16px #0007;
 }
 .ranking-tabs { display: flex; gap: 0.5rem; margin-bottom: 0.8rem; }
 .ranking-tab {
