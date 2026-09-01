@@ -4,12 +4,23 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Aether Realms: Clash of Armies</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
 <div id="lobby" class="screen">
-  <h1>Aether Realms<span>Clash of Armies</span></h1>
+  <div class="logo">
+    <svg class="logo-sigil" viewBox="0 0 56 56" aria-hidden="true">
+      <circle cx="28" cy="28" r="25" fill="none" stroke="var(--border)" stroke-width="1.5" />
+      <circle cx="28" cy="28" r="20" fill="none" stroke="var(--gold)" stroke-width="1" opacity="0.6" />
+      <rect x="19" y="19" width="18" height="18" fill="var(--gold)" opacity="0.9" transform="rotate(45 28 28)" />
+      <rect x="23" y="23" width="10" height="10" fill="var(--bg)" transform="rotate(45 28 28)" />
+    </svg>
+    <h1>Aether Realms<span>Clash of Armies</span></h1>
+  </div>
 
   <div class="account-panel" id="accountPanel">
     <div id="accountLoggedOut" class="account-view">
