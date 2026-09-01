@@ -176,13 +176,18 @@ function buildCardEl(instance, { context = 'board' } = {}) {
   const cost = document.createElement('span');
   cost.className = 'card-badge cost-badge';
   cost.textContent = instance.cost;
-  const dmg = document.createElement('span');
-  dmg.className = 'card-badge dmg-badge';
-  dmg.textContent = instance.displayPower ?? instance.power;
-  const hp = document.createElement('span');
-  hp.className = 'card-badge hp-badge';
-  hp.textContent = instance.defense;
-  wrap.append(cost, dmg, hp);
+  wrap.append(cost);
+  if (instance.type === 'spell') {
+    wrap.classList.add('spell-card');
+  } else {
+    const dmg = document.createElement('span');
+    dmg.className = 'card-badge dmg-badge';
+    dmg.textContent = instance.displayPower ?? instance.power;
+    const hp = document.createElement('span');
+    hp.className = 'card-badge hp-badge';
+    hp.textContent = instance.defense;
+    wrap.append(dmg, hp);
+  }
 
   if (instance.countdown !== null && instance.countdown !== undefined) {
     const cd = document.createElement('span');
@@ -464,6 +469,12 @@ function renderHand(hand, interactive) {
 function onHandCardClick(card) {
   if (currentView.you.mana < card.cost) return;
   selectedUnit = null;
+  if (card.type === 'spell') {
+    selectedHandCardId = null;
+    send({ type: 'play_card', cardInstanceId: card.instanceId });
+    render();
+    return;
+  }
   selectedHandCardId = selectedHandCardId === card.instanceId ? null : card.instanceId;
   render();
 }

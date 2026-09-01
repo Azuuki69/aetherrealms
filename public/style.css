@@ -698,6 +698,10 @@ h1 span {
 .card.attacked { filter: brightness(0.55); }
 .card.unaffordable { filter: grayscale(0.8) brightness(0.5); cursor: not-allowed; }
 .card.has-taunt { box-shadow: 0 0 0 2px var(--success), 0 2px 6px #000a; }
+.card.spell-card { box-shadow: 0 0 0 2px var(--magic), 0 2px 6px #000a; }
+.card.spell-card.hand-card:not(.unaffordable):hover {
+  box-shadow: 0 12px 20px #000c, 0 0 14px var(--magic);
+}
 /* A quiet, static outline (not box-shadow, so it layers cleanly with
    .has-taunt/.selected instead of overriding them) marking every unit of
    yours that could currently act — left unanimated since several of these

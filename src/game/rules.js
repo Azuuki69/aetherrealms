@@ -356,17 +356,43 @@ function resolveCountdown(game, owner, lane, slotIndex) {
   checkWinner(game);
 }
 
+// Spell effects are parsed from the printed text the same way keywords are —
+// no per-card handler to maintain, any future "Draw N cards" spell just works.
+function resolveSpell(game, owner, card) {
+  const player = game.players[owner];
+  const drawMatch = (card.text || '').match(/draw (\d+) cards?/i);
+  if (drawMatch) {
+    const n = parseInt(drawMatch[1], 10);
+    let drew = 0;
+    for (let i = 0; i < n; i++) {
+      if (draw(player)) drew++;
+    }
+    game.log.push(`${owner} draws ${drew} card(s) (${card.name}).`);
+  }
+}
+
 export function playCard(game, owner, cardInstanceId, lane, slotIndex) {
   requireActive(game, owner);
   if (game.phase !== 'deployment') throw new Error('Cards can only be played during the Deployment phase.');
-  if (lane !== 'vanguard' && lane !== 'rearguard') throw new Error('Invalid lane.');
-  if (slotIndex < 0 || slotIndex >= LANES) throw new Error('Invalid slot.');
   const player = game.players[owner];
-  if (player.board[lane][slotIndex]) throw new Error('That slot is already occupied.');
   const idx = player.hand.findIndex((c) => c.instanceId === cardInstanceId);
   if (idx === -1) throw new Error('Card not in hand.');
   const card = player.hand[idx];
   if (card.cost > player.mana) throw new Error('Not enough mana.');
+
+  if (card.type === 'spell') {
+    player.hand.splice(idx, 1);
+    player.mana -= card.cost;
+    game.log.push(`${owner} casts ${card.name}.`);
+    resolveSpell(game, owner, card);
+    player.graveyard.push(card);
+    checkWinner(game);
+    return card;
+  }
+
+  if (lane !== 'vanguard' && lane !== 'rearguard') throw new Error('Invalid lane.');
+  if (slotIndex < 0 || slotIndex >= LANES) throw new Error('Invalid slot.');
+  if (player.board[lane][slotIndex]) throw new Error('That slot is already occupied.');
   player.hand.splice(idx, 1);
   player.mana -= card.cost;
   const unit = { ...card, sick: !card.keywords.includes('charge'), attackedThisTurn: false };
