@@ -426,27 +426,12 @@ h1 span {
   width: 100%;
   flex: 1;
   min-height: 0;
-  /* Faint per-column separators so the 5 lanes read as distinct at a glance,
-     without drawing a border around every individual slot. */
-  background-image: repeating-linear-gradient(
-    90deg,
-    transparent 0,
-    transparent calc((100% / 5) - 1px),
-    #d9b25c22 calc((100% / 5) - 1px),
-    #d9b25c22 calc(100% / 5)
-  );
 }
 #oppRearguard, #youRearguard {
-  background-color: transparent;
-  background-image:
-    repeating-linear-gradient(90deg, transparent 0, transparent calc((100% / 5) - 1px), #d9b25c22 calc((100% / 5) - 1px), #d9b25c22 calc(100% / 5)),
-    linear-gradient(180deg, var(--rearguard), transparent);
+  background: linear-gradient(180deg, var(--rearguard), transparent);
 }
 #oppVanguard, #youVanguard {
-  background-color: transparent;
-  background-image:
-    repeating-linear-gradient(90deg, transparent 0, transparent calc((100% / 5) - 1px), #d9b25c22 calc((100% / 5) - 1px), #d9b25c22 calc(100% / 5)),
-    linear-gradient(180deg, var(--vanguard), transparent);
+  background: linear-gradient(180deg, var(--vanguard), transparent);
 }
 /* The actual front line where the two sides meet — given a slow pulse
    (reusing the existing pulse-gold keyframes at low intensity) so it reads
