@@ -8,7 +8,7 @@
                       "cost":  1,
                       "power":  1,
                       "defense":  2,
-                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own castle. Draw a card.",
                       "image":  "assets/cards/web/damned/01_thrall.jpg"
                   },
                   {
@@ -17,7 +17,7 @@
                       "cost":  1,
                       "power":  1,
                       "defense":  2,
-                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "text":  "REAP: Draw a card whenever an enemy unit dies.",
                       "image":  "assets/cards/web/damned/02_penitent.jpg"
                   },
                   {
@@ -26,7 +26,7 @@
                       "cost":  1,
                       "power":  1,
                       "defense":  2,
-                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "text":  "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
                       "image":  "assets/cards/web/damned/03_emberling.jpg"
                   },
                   {
@@ -35,7 +35,7 @@
                       "cost":  2,
                       "power":  2,
                       "defense":  3,
-                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own castle. Draw a card.",
                       "image":  "assets/cards/web/damned/04_screamer.jpg"
                   },
                   {
@@ -44,7 +44,7 @@
                       "cost":  2,
                       "power":  2,
                       "defense":  3,
-                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "text":  "REAP: Draw a card whenever an enemy unit dies.",
                       "image":  "assets/cards/web/damned/05_hound_of_the_pact.jpg"
                   },
                   {
@@ -62,7 +62,7 @@
                       "cost":  2,
                       "power":  2,
                       "defense":  3,
-                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own castle. Draw a card.",
                       "image":  "assets/cards/web/damned/07_flenser.jpg"
                   },
                   {
@@ -71,7 +71,7 @@
                       "cost":  3,
                       "power":  3,
                       "defense":  3,
-                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "text":  "REAP: Draw a card whenever an enemy unit dies.",
                       "image":  "assets/cards/web/damned/08_gnasher.jpg"
                   },
                   {
@@ -80,7 +80,7 @@
                       "cost":  3,
                       "power":  3,
                       "defense":  3,
-                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "text":  "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
                       "image":  "assets/cards/web/damned/09_wrathborn.jpg"
                   },
                   {
@@ -89,7 +89,7 @@
                       "cost":  3,
                       "power":  3,
                       "defense":  3,
-                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own castle. Draw a card.",
                       "image":  "assets/cards/web/damned/10_scourgeling.jpg"
                   },
                   {
@@ -98,7 +98,7 @@
                       "cost":  3,
                       "power":  3,
                       "defense":  3,
-                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "text":  "REAP: Draw a card whenever an enemy unit dies.",
                       "image":  "assets/cards/web/damned/11_shardbreaker.jpg"
                   },
                   {
@@ -107,7 +107,7 @@
                       "cost":  4,
                       "power":  4,
                       "defense":  4,
-                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "text":  "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
                       "image":  "assets/cards/web/damned/12_yoke_bearer.jpg"
                   },
                   {
@@ -116,7 +116,7 @@
                       "cost":  4,
                       "power":  4,
                       "defense":  4,
-                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own castle. Draw a card.",
                       "image":  "assets/cards/web/damned/13_confessor.jpg"
                   },
                   {
@@ -125,7 +125,7 @@
                       "cost":  4,
                       "power":  4,
                       "defense":  4,
-                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "text":  "REAP: Draw a card whenever an enemy unit dies.",
                       "image":  "assets/cards/web/damned/14_ledger_keeper.jpg"
                   },
                   {
@@ -134,7 +134,7 @@
                       "cost":  4,
                       "power":  4,
                       "defense":  4,
-                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "text":  "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
                       "image":  "assets/cards/web/damned/15_brimstone_caller.jpg"
                   },
                   {
@@ -152,7 +152,7 @@
                       "cost":  5,
                       "power":  4,
                       "defense":  5,
-                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "text":  "REAP: Draw a card whenever an enemy unit dies.",
                       "image":  "assets/cards/web/damned/17_soul_broker.jpg"
                   },
                   {
@@ -161,7 +161,7 @@
                       "cost":  5,
                       "power":  4,
                       "defense":  5,
-                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "text":  "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
                       "image":  "assets/cards/web/damned/18_dread_champion.jpg"
                   },
                   {
@@ -179,7 +179,7 @@
                       "cost":  6,
                       "power":  4,
                       "defense":  7,
-                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "text":  "REAP: Draw a card whenever an enemy unit dies.",
                       "image":  "assets/cards/web/damned/20_harrow_knight.jpg"
                   },
                   {
@@ -197,7 +197,7 @@
                       "cost":  7,
                       "power":  6,
                       "defense":  6,
-                      "text":  "LIFESTEAL: Heals your Commander for the DMG this unit deals in combat.",
+                      "text":  "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
                       "image":  "assets/cards/web/damned/22_maw.jpg"
                   },
                   {
@@ -206,7 +206,7 @@
                       "cost":  7,
                       "power":  6,
                       "defense":  6,
-                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "text":  "REAP: Draw a card whenever an enemy unit dies.",
                       "image":  "assets/cards/web/damned/23_carrion_wing.jpg"
                   },
                   {
@@ -215,7 +215,7 @@
                       "cost":  8,
                       "power":  5,
                       "defense":  9,
-                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card.",
+                      "text":  "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
                       "image":  "assets/cards/web/damned/24_bone_engine.jpg"
                   },
                   {
@@ -224,7 +224,7 @@
                       "cost":  5,
                       "power":  5,
                       "defense":  5,
-                      "text":  "BLOODPRICE 2: When played, deal 2 DMG to your own Commander. LAST BREATH: Draw 2 cards.",
+                      "text":  "BLOODPRICE 2: When played, deal 2 DMG to your own castle. LAST BREATH: Draw 2 cards.",
                       "image":  "assets/cards/web/damned/25_the_creditor.jpg"
                   },
                   {
@@ -233,7 +233,7 @@
                       "cost":  10,
                       "power":  8,
                       "defense":  9,
-                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own Commander. Draw a card. (This unit is a rare, high-impact threat.)",
+                      "text":  "REAP: Draw a card whenever an enemy unit dies. (This unit is a rare, high-impact threat.)",
                       "image":  "assets/cards/web/damned/26_the_foreclosure.jpg"
                   }
               ]

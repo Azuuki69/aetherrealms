@@ -79,6 +79,21 @@ export class MatchRoom {
       }
       const wasOver = !!game.winner;
 
+      if (game.phase === 'coinflip') {
+        if (msg.type !== 'coinflip_ack') {
+          return this.sendTo(ws, { type: 'error', message: 'Waiting for the coin flip to resolve.' });
+        }
+        game.coinFlipAcks = game.coinFlipAcks || { A: false, B: false };
+        game.coinFlipAcks[owner] = true;
+        if (game.coinFlipAcks.A && game.coinFlipAcks.B) {
+          game.phase = 'deployment';
+          game.log.push(`Coin flip complete — Player ${game.turn} goes first.`);
+        }
+        await this.state.storage.put('game', game);
+        this.broadcastState(game);
+        return;
+      }
+
       switch (msg.type) {
         case 'chat': {
           const text = (msg.text ?? '').toString().trim().slice(0, 240);
@@ -100,7 +115,7 @@ export class MatchRoom {
           attack(game, owner, msg.attackerLane, msg.attackerSlot, msg.targetLane);
           break;
         case 'move_unit':
-          moveUnit(game, owner, msg.lane, msg.slotIndex);
+          moveUnit(game, owner, msg.fromLane, msg.fromSlot, msg.toLane, msg.toSlot);
           break;
         case 'end_turn':
           endTurn(game, owner);
@@ -171,7 +186,8 @@ export class MatchRoom {
 
     const otherSeat = seat === 'seatA' ? 'seatB' : 'seatA';
     if (factions[otherSeat]) {
-      const game = createGame(factions.seatA, factions.seatB);
+      const firstPlayer = crypto.getRandomValues(new Uint32Array(1))[0] % 2 === 0 ? 'A' : 'B';
+      const game = createGame(factions.seatA, factions.seatB, firstPlayer);
       await this.state.storage.put('game', game);
       this.broadcastState(game);
     } else {

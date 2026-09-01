@@ -17,7 +17,7 @@
                       "cost":  1,
                       "power":  1,
                       "defense":  2,
-                      "text":  "RESOLVE: Gains +1 HP after surviving combat.",
+                      "text":  "GUARD: Enemies in this lane must attack this unit first.",
                       "image":  "assets/cards/web/human/02_spearman.jpg"
                   },
                   {
@@ -26,7 +26,7 @@
                       "cost":  1,
                       "power":  1,
                       "defense":  2,
-                      "text":  "RESOLVE: Gains +1 HP after surviving combat.",
+                      "text":  "FORMATION: +1 DMG while adjacent to another Human unit.",
                       "image":  "assets/cards/web/human/03_sergeant.jpg"
                   },
                   {
@@ -35,7 +35,7 @@
                       "cost":  2,
                       "power":  3,
                       "defense":  2,
-                      "text":  "VOLLEY: May attack the enemy Commander directly even through blockers.",
+                      "text":  "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
                       "image":  "assets/cards/web/human/04_archer.jpg"
                   },
                   {
@@ -44,7 +44,7 @@
                       "cost":  2,
                       "power":  3,
                       "defense":  2,
-                      "text":  "VOLLEY: May attack the enemy Commander directly even through blockers.",
+                      "text":  "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
                       "image":  "assets/cards/web/human/05_crossbowman.jpg"
                   },
                   {
@@ -53,7 +53,7 @@
                       "cost":  2,
                       "power":  3,
                       "defense":  2,
-                      "text":  "VOLLEY: May attack the enemy Commander directly even through blockers.",
+                      "text":  "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
                       "image":  "assets/cards/web/human/06_longbowman.jpg"
                   },
                   {
@@ -71,7 +71,7 @@
                       "cost":  3,
                       "power":  2,
                       "defense":  4,
-                      "text":  "RESOLVE: Gains +1 HP after surviving combat.",
+                      "text":  "GUARD: Enemies in this lane must attack this unit first.",
                       "image":  "assets/cards/web/human/08_knight.jpg"
                   },
                   {
@@ -80,7 +80,7 @@
                       "cost":  3,
                       "power":  3,
                       "defense":  3,
-                      "text":  "RESOLVE: Gains +1 HP after surviving combat.",
+                      "text":  "FORMATION: +1 DMG while adjacent to another Human unit.",
                       "image":  "assets/cards/web/human/09_lancer.jpg"
                   },
                   {
@@ -98,7 +98,7 @@
                       "cost":  3,
                       "power":  3,
                       "defense":  3,
-                      "text":  "RESOLVE: Gains +1 HP after surviving combat.",
+                      "text":  "GUARD: Enemies in this lane must attack this unit first.",
                       "image":  "assets/cards/web/human/11_duelist.jpg"
                   },
                   {
@@ -134,7 +134,7 @@
                       "cost":  4,
                       "power":  4,
                       "defense":  4,
-                      "text":  "RESOLVE: Gains +1 HP after surviving combat.",
+                      "text":  "FORMATION: +1 DMG while adjacent to another Human unit.",
                       "image":  "assets/cards/web/human/15_stormcaller.jpg"
                   },
                   {
@@ -152,7 +152,7 @@
                       "cost":  5,
                       "power":  4,
                       "defense":  5,
-                      "text":  "RESOLVE: Gains +1 HP after surviving combat.",
+                      "text":  "GUARD: Enemies in this lane must attack this unit first.",
                       "image":  "assets/cards/web/human/17_templar.jpg"
                   },
                   {
@@ -188,7 +188,7 @@
                       "cost":  6,
                       "power":  5,
                       "defense":  6,
-                      "text":  "SIEGE: May only attack the enemy Commander directly.",
+                      "text":  "SIEGE: A siege weapon that deals damage without risking retaliation.",
                       "image":  "assets/cards/web/human/21_siege_tower.jpg"
                   },
                   {
@@ -197,7 +197,7 @@
                       "cost":  7,
                       "power":  6,
                       "defense":  6,
-                      "text":  "SIEGE: May only attack the enemy Commander directly.",
+                      "text":  "SIEGE: A siege weapon that deals damage without risking retaliation.",
                       "image":  "assets/cards/web/human/22_mangonel.jpg"
                   },
                   {
@@ -206,7 +206,7 @@
                       "cost":  7,
                       "power":  6,
                       "defense":  6,
-                      "text":  "SIEGE: May only attack the enemy Commander directly.",
+                      "text":  "SIEGE: A siege weapon that deals damage without risking retaliation.",
                       "image":  "assets/cards/web/human/23_trebuchet.jpg"
                   },
                   {
@@ -215,7 +215,7 @@
                       "cost":  8,
                       "power":  7,
                       "defense":  7,
-                      "text":  "RESOLVE: Gains +1 HP after surviving combat.",
+                      "text":  "FORMATION: +1 DMG while adjacent to another Human unit.",
                       "image":  "assets/cards/web/human/24_valkyrie.jpg"
                   },
                   {
@@ -233,7 +233,7 @@
                       "cost":  10,
                       "power":  8,
                       "defense":  9,
-                      "text":  "RESOLVE: Gains +1 HP after surviving combat. (This unit is a rare, high-impact threat.)",
+                      "text":  "GUARD: Enemies in this lane must attack this unit first. (This unit is a rare, high-impact threat.)",
                       "image":  "assets/cards/web/human/26_titan.jpg"
                   }
               ]

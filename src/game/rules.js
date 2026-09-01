@@ -10,7 +10,7 @@ import orc from '../../public/data/orc.json';
 import undead from '../../public/data/undead.json';
 
 export const FACTIONS = { beast, clock, damned, dwarf, dynasty, elf, fallen, human, orc, undead };
-export const LANES = 5;
+export const LANES = 7;
 export const STARTING_HP = 50;
 export const MAX_MANA = 10;
 export const STARTING_HAND_SIZE = 5;
@@ -27,7 +27,9 @@ function detectKeywords(text) {
   if (/siege|building/.test(t)) kw.push('siege');
   if (/trample|cleave/.test(t)) kw.push('trample');
   if (/charge/.test(t)) kw.push('charge');
-  if (/guard/.test(t)) kw.push('guard');
+  // A card whose only mention of "guard" is "ignores Guard" (Precise's own
+  // wording) must not also become a real Guard blocker itself.
+  if (/guard/.test(t) && !/ignores? guard/.test(t)) kw.push('guard');
   if (/precise|ignores? guard/.test(t)) kw.push('precise');
   if (/mend/.test(t)) kw.push('mend');
   if (/rage/.test(t)) kw.push('rage');
@@ -115,7 +117,7 @@ export function opponentOf(owner) {
   return owner === 'A' ? 'B' : 'A';
 }
 
-export function createGame(factionA, factionB) {
+export function createGame(factionA, factionB, firstPlayer = 'A') {
   const deckA = buildDeck(factionA);
   const deckB = buildDeck(factionB);
   const players = {
@@ -146,16 +148,23 @@ export function createGame(factionA, factionB) {
   };
   return {
     players,
-    turn: 'A',
-    phase: 'deployment',
+    turn: firstPlayer,
+    phase: 'coinflip',
     turnNumber: 1,
     winner: null,
-    log: ['Match started. Player A goes first.'],
+    log: ['Match created — flipping a coin to see who goes first...'],
   };
 }
 
+// Falls back to shuffling the graveyard back into the deck once the deck runs
+// dry, so a long match never stalls out just because the draw pile emptied —
+// only losing when there are truly no cards left anywhere.
 function draw(player) {
-  if (player.deck.length === 0) return false;
+  if (player.deck.length === 0) {
+    if (player.graveyard.length === 0) return false;
+    player.deck = shuffle(player.graveyard);
+    player.graveyard = [];
+  }
   player.hand.push(player.deck.shift());
   return true;
 }
@@ -275,7 +284,7 @@ export function startTurn(game, owner) {
   if (!drew) {
     game.winner = opponentOf(owner);
     game.phase = 'gameover';
-    game.log.push(`${owner}'s deck is empty — ${owner} decks out and loses!`);
+    game.log.push(`${owner}'s deck and graveyard are both empty — ${owner} decks out and loses!`);
   }
 }
 
@@ -293,7 +302,7 @@ function resolveCountdown(game, owner, lane, slotIndex) {
     if (target.defense <= 0) destroyUnit(game, opponentOf(owner), loc.lane, loc.idx);
   } else {
     opponent.hp -= dmg;
-    game.log.push(`${unit.name}'s Countdown deals ${dmg} to the enemy Commander.`);
+    game.log.push(`${unit.name}'s Countdown deals ${dmg} to the enemy castle.`);
   }
   if (/draw a card/i.test(unit.text)) {
     draw(game.players[owner]);
@@ -334,7 +343,7 @@ export function playCard(game, owner, cardInstanceId, lane, slotIndex) {
     const clause = unit.text.match(/bloodprice\s*(\d+)/i) || unit.text.match(/deal (\d+) dmg to (?:your own|its own) commander/i);
     const n = clause ? parseInt(clause[1], 10) : 1;
     player.hp -= n;
-    game.log.push(`${unit.name}'s Bloodprice deals ${n} to ${owner}'s own Commander.`);
+    game.log.push(`${unit.name}'s Bloodprice deals ${n} to ${owner}'s own castle.`);
     if (/draw a card/i.test(unit.text)) {
       draw(player);
       game.log.push(`${owner} draws a card (Bloodprice).`);
@@ -355,11 +364,12 @@ export function moveToCombat(game, owner) {
 // from only-Vanguard-blocks, since these individual character cards carry
 // Guard as a property of the card rather than of the row it's standing in.
 // Volley/Ranged units ignore Guard entirely (their own printed text says so).
+// There is no commander-bypass for any keyword (including Siege) — the only
+// way to hit the castle is a genuinely undefended lane, available to anyone.
 export function getLegalTargetLanes(game, owner, attackerLane, attackerSlot) {
   const player = game.players[owner];
   const unit = player.board[attackerLane][attackerSlot];
   if (!unit) return [];
-  if (unit.keywords.includes('siege')) return ['commander'];
   const oppBoard = game.players[opponentOf(owner)].board;
   const vanguard = oppBoard.vanguard[attackerSlot];
   const rearguard = oppBoard.rearguard[attackerSlot];
@@ -382,6 +392,15 @@ export function getLegalTargetLanes(game, owner, attackerLane, attackerSlot) {
   return ['commander'];
 }
 
+// Heals `healOwnerKey`'s castle for `dmgDealt` if `sourceUnit` has Lifesteal.
+function applyLifestealIfAny(game, healOwnerKey, sourceUnit, dmgDealt) {
+  if (!sourceUnit.keywords.includes('lifesteal') || dmgDealt <= 0) return;
+  const player = game.players[healOwnerKey];
+  const before = player.hp;
+  player.hp = Math.min(player.maxHp, player.hp + dmgDealt);
+  if (player.hp > before) game.log.push(`${healOwnerKey} heals ${player.hp - before} (Lifesteal).`);
+}
+
 export function attack(game, owner, attackerLane, attackerSlot, targetLane) {
   requireActive(game, owner);
   if (game.phase !== 'combat') throw new Error('Attacks can only happen during the Combat phase.');
@@ -393,78 +412,125 @@ export function attack(game, owner, attackerLane, attackerSlot, targetLane) {
   const legal = getLegalTargetLanes(game, owner, attackerLane, attackerSlot);
   if (!legal.includes(targetLane)) throw new Error('Illegal target for this attack.');
 
-  const opponent = game.players[opponentOf(owner)];
+  const opponentKey = opponentOf(owner);
+  const opponent = game.players[opponentKey];
   unit.attackedThisTurn = true;
   const attackPower = effectivePower(game, owner, attackerLane, attackerSlot);
 
+  // Undefended-lane fallthrough: the one way to reach the castle, available
+  // to any attacker, not a special ability of any keyword.
   if (targetLane === 'commander') {
     opponent.hp -= attackPower;
-    game.log.push(`${owner}'s ${unit.name} hits the enemy Commander for ${attackPower}.`);
-    if (unit.keywords.includes('lifesteal') && attackPower > 0) {
-      const before = player.hp;
-      player.hp = Math.min(STARTING_HP, player.hp + attackPower);
-      if (player.hp > before) game.log.push(`${owner} heals ${player.hp - before} (Lifesteal).`);
-    }
+    game.log.push(`${owner}'s ${unit.name} breaks through and hits the enemy castle for ${attackPower}.`);
+    applyLifestealIfAny(game, owner, unit, attackPower);
     checkWinner(game);
     return game;
   }
 
+  // Unit vs unit, with symmetric retaliation. Ranged attacks (Volley/Siege)
+  // deal damage without risking any back — everything else trades both ways,
+  // MTG-style: both hits are computed from pre-combat stats and applied at
+  // the same instant, so two units can kill each other in one exchange.
   const targetUnit = opponent.board[targetLane][attackerSlot];
+  const isRanged = unit.keywords.includes('volley') || unit.keywords.includes('siege');
+  const defenderPower = isRanged ? 0 : effectivePower(game, opponentKey, targetLane, attackerSlot);
 
+  let fwdShielded = false;
+  let backShielded = false;
   if (targetUnit.hasShield) {
     targetUnit.hasShield = false;
+    fwdShielded = true;
     game.log.push(`${targetUnit.name}'s Shield absorbs the hit from ${unit.name}.`);
-    checkWinner(game);
-    return game;
+  }
+  if (!isRanged && unit.hasShield) {
+    unit.hasShield = false;
+    backShielded = true;
+    game.log.push(`${unit.name}'s Shield absorbs the retaliation from ${targetUnit.name}.`);
   }
 
-  let dmg = attackPower;
-  if (targetUnit.keywords.includes('phalanx')) dmg = Math.max(0, dmg - 1);
-  if (hasFormationToughness(game, opponentOf(owner), targetLane, attackerSlot)) dmg = Math.max(0, dmg - 1);
-  targetUnit.defense -= dmg;
-  game.log.push(`${owner}'s ${unit.name} hits ${targetUnit.name} for ${dmg}.`);
-
-  if (unit.keywords.includes('lifesteal') && dmg > 0) {
-    const before = player.hp;
-    player.hp = Math.min(STARTING_HP, player.hp + dmg);
-    if (player.hp > before) game.log.push(`${owner} heals ${player.hp - before} (Lifesteal).`);
+  let fwdDmg = 0;
+  if (!fwdShielded) {
+    fwdDmg = attackPower;
+    if (targetUnit.keywords.includes('phalanx')) fwdDmg = Math.max(0, fwdDmg - 1);
+    if (hasFormationToughness(game, opponentKey, targetLane, attackerSlot)) fwdDmg = Math.max(0, fwdDmg - 1);
   }
-  if (unit.keywords.includes('venom') && dmg > 0 && targetUnit.defense > 0) {
+  let backDmg = 0;
+  if (!isRanged && !backShielded) {
+    backDmg = defenderPower;
+    if (unit.keywords.includes('phalanx')) backDmg = Math.max(0, backDmg - 1);
+    if (hasFormationToughness(game, owner, attackerLane, attackerSlot)) backDmg = Math.max(0, backDmg - 1);
+  }
+
+  targetUnit.defense -= fwdDmg;
+  unit.defense -= backDmg;
+  if (fwdDmg > 0) game.log.push(`${owner}'s ${unit.name} hits ${targetUnit.name} for ${fwdDmg}.`);
+  if (backDmg > 0) game.log.push(`${targetUnit.name} retaliates against ${unit.name} for ${backDmg}.`);
+
+  applyLifestealIfAny(game, owner, unit, fwdDmg);
+  if (!isRanged) applyLifestealIfAny(game, opponentKey, targetUnit, backDmg);
+
+  if (unit.keywords.includes('venom') && fwdDmg > 0 && targetUnit.defense > 0) {
     targetUnit.defense = 0;
     game.log.push(`${targetUnit.name} succumbs to Venom.`);
   }
-
-  const survived = targetUnit.defense > 0;
-  // Rage is repeatable ("whenever") unless the card's own text says "first
-  // time" (the Orc faction default is the one-time, weaker variant).
-  if (survived && targetUnit.keywords.includes('rage')) {
-    const onceOnly = /first time/i.test(targetUnit.text);
-    if (!onceOnly || !targetUnit.usedRage) {
-      const n = firstNumber(targetUnit.text, 1);
-      targetUnit.power += n;
-      targetUnit.basePower += n;
-      targetUnit.usedRage = true;
-      game.log.push(`${targetUnit.name} enters a Rage, permanently gaining +${n} DMG.`);
-    }
-  }
-  if (survived && targetUnit.keywords.includes('fortify')) {
-    targetUnit.maxDefense += 1;
-    targetUnit.defense += 1;
-    game.log.push(`${targetUnit.name} is Fortified, gaining +1 HP.`);
+  if (!isRanged && targetUnit.keywords.includes('venom') && backDmg > 0 && unit.defense > 0) {
+    unit.defense = 0;
+    game.log.push(`${unit.name} succumbs to Venom.`);
   }
 
-  if (!survived) {
+  const targetSurvived = targetUnit.defense > 0;
+  const attackerSurvived = unit.defense > 0;
+
+  // Rage/Fortify on-survive triggers fire symmetrically for whichever side(s)
+  // survived being hit — gated on "wasn't shielded" to match the pre-existing
+  // rule that an absorbed hit never triggers these. Rage is repeatable
+  // ("whenever") unless the card's own text says "first time".
+  const applyRage = (target) => {
+    const onceOnly = /first time/i.test(target.text);
+    if (onceOnly && target.usedRage) return;
+    const n = firstNumber(target.text, 1);
+    target.power += n;
+    target.basePower += n;
+    target.usedRage = true;
+    game.log.push(`${target.name} enters a Rage, permanently gaining +${n} DMG.`);
+  };
+  const applyFortify = (target) => {
+    target.maxDefense += 1;
+    target.defense += 1;
+    game.log.push(`${target.name} is Fortified, gaining +1 HP.`);
+  };
+  if (!fwdShielded && targetSurvived && targetUnit.keywords.includes('rage')) applyRage(targetUnit);
+  if (!fwdShielded && targetSurvived && targetUnit.keywords.includes('fortify')) applyFortify(targetUnit);
+  if (!isRanged && !backShielded && attackerSurvived && unit.keywords.includes('rage')) applyRage(unit);
+  if (!isRanged && !backShielded && attackerSurvived && unit.keywords.includes('fortify')) applyFortify(unit);
+
+  if (!targetSurvived) {
     const overflow = -targetUnit.defense;
-    destroyUnit(game, opponentOf(owner), targetLane, attackerSlot);
+    destroyUnit(game, opponentKey, targetLane, attackerSlot);
     if (unit.keywords.includes('trample') && overflow > 0) {
       const behind = targetLane === 'vanguard' ? opponent.board.rearguard[attackerSlot] : null;
       if (behind) {
         behind.defense -= overflow;
         game.log.push(`Trample carries ${overflow} to ${behind.name}.`);
-        if (behind.defense <= 0) destroyUnit(game, opponentOf(owner), 'rearguard', attackerSlot);
+        if (behind.defense <= 0) destroyUnit(game, opponentKey, 'rearguard', attackerSlot);
       } else {
         opponent.hp -= overflow;
-        game.log.push(`Trample carries ${overflow} to the enemy Commander.`);
+        game.log.push(`Trample carries ${overflow} to the enemy castle.`);
+      }
+    }
+  }
+  if (!isRanged && !attackerSurvived) {
+    const overflow = -unit.defense;
+    destroyUnit(game, owner, attackerLane, attackerSlot);
+    if (targetUnit.keywords.includes('trample') && overflow > 0) {
+      const behind = attackerLane === 'vanguard' ? player.board.rearguard[attackerSlot] : null;
+      if (behind) {
+        behind.defense -= overflow;
+        game.log.push(`Trample carries ${overflow} to ${behind.name}.`);
+        if (behind.defense <= 0) destroyUnit(game, owner, 'rearguard', attackerSlot);
+      } else {
+        player.hp -= overflow;
+        game.log.push(`Trample carries ${overflow} to the ${owner}'s castle.`);
       }
     }
   }
@@ -481,24 +547,45 @@ export function endTurn(game, owner) {
   startTurn(game, next);
 }
 
-// Repositioning to the row behind/in front of a unit costs its action for the
-// turn (same attackedThisTurn flag attacking sets), so it's a straight
-// alternative to attacking rather than a free extra move.
-export function moveUnit(game, owner, lane, slotIndex) {
+// Repositioning (front/back OR left/right) costs the unit's action for the
+// turn (same attackedThisTurn flag attacking sets) — a straight alternative
+// to attacking, not a free extra move. Exactly one orthogonal step is legal:
+// same lane + adjacent slot (lateral), or same slot + different lane
+// (front/back). No diagonals, no multi-step hops, no swapping into an
+// occupied slot.
+export function moveUnit(game, owner, fromLane, fromSlot, toLane, toSlot) {
   requireActive(game, owner);
   if (game.phase !== 'combat') throw new Error('Units can only reposition during the Combat phase.');
-  if (lane !== 'vanguard' && lane !== 'rearguard') throw new Error('Invalid lane.');
+  if (fromLane !== 'vanguard' && fromLane !== 'rearguard') throw new Error('Invalid lane.');
+  if (toLane !== 'vanguard' && toLane !== 'rearguard') throw new Error('Invalid lane.');
+  if (toSlot < 0 || toSlot >= LANES) throw new Error('Invalid slot.');
+
   const player = game.players[owner];
-  const unit = player.board[lane][slotIndex];
+  const unit = player.board[fromLane][fromSlot];
   if (!unit) throw new Error('No unit in that slot.');
   if (unit.sick) throw new Error('That unit has summoning sickness.');
   if (unit.attackedThisTurn) throw new Error('That unit has already used its action this turn.');
-  const targetLane = lane === 'vanguard' ? 'rearguard' : 'vanguard';
-  if (player.board[targetLane][slotIndex]) throw new Error('The row next to it is occupied.');
-  player.board[lane][slotIndex] = null;
-  player.board[targetLane][slotIndex] = unit;
+
+  const sameLane = toLane === fromLane;
+  const sameSlot = toSlot === fromSlot;
+  if (sameLane && sameSlot) throw new Error('Unit is already in that slot.');
+
+  const isLateral = sameLane && Math.abs(toSlot - fromSlot) === 1;
+  const isFrontBack = !sameLane && sameSlot;
+  if (!isLateral && !isFrontBack) {
+    throw new Error('Units may move exactly one step: forward/back in the same column, or one slot left/right in the same row.');
+  }
+  if (player.board[toLane][toSlot]) throw new Error('That slot is already occupied.');
+
+  player.board[fromLane][fromSlot] = null;
+  player.board[toLane][toSlot] = unit;
   unit.attackedThisTurn = true;
-  game.log.push(`${owner}'s ${unit.name} moves to the ${targetLane}.`);
+
+  if (isFrontBack) {
+    game.log.push(`${owner}'s ${unit.name} moves to the ${toLane}.`);
+  } else {
+    game.log.push(`${owner}'s ${unit.name} moves ${toSlot > fromSlot ? 'right' : 'left'}.`);
+  }
   return game;
 }
 

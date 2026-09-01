@@ -75,18 +75,22 @@
 
 <div id="game" class="screen hidden">
   <header id="topBar">
-    <div class="hp-panel" id="oppInfo">
+    <div class="hp-panel castle-panel" id="oppInfo">
       <span class="name"></span>
-      <div class="hp-bar"><div class="hp-fill"></div></div>
-      <span class="hp-value"></span>
+      <div class="castle-wrap">
+        <img class="castle-img" alt="" />
+        <div class="castle-hp-value"></div>
+      </div>
       <div class="mana-crystals"></div>
       <span class="mana"></span>
     </div>
     <div class="turn-indicator" id="turnIndicator"></div>
-    <div class="hp-panel" id="youInfo">
+    <div class="hp-panel castle-panel" id="youInfo">
       <span class="name"></span>
-      <div class="hp-bar"><div class="hp-fill"></div></div>
-      <span class="hp-value"></span>
+      <div class="castle-wrap">
+        <img class="castle-img" alt="" />
+        <div class="castle-hp-value"></div>
+      </div>
       <div class="mana-crystals"></div>
       <span class="mana"></span>
     </div>
@@ -99,11 +103,11 @@
     </div>
     <div id="tipCombat" class="tutorial-tip hidden">
       <span class="tip-close">&times;</span>
-      In Combat, click one of your units to move it to the opposite row instead of attacking. Click Attack All to resolve the rest.
+      In Combat, click one of your units to move it forward/back or left/right instead of attacking. Click Attack All to resolve the rest.
     </div>
     <div id="tipCommander" class="tutorial-tip hidden">
       <span class="tip-close">&times;</span>
-      Guard units are attacked first automatically — if a lane has no Guard blocking it, Attack All hits their Commander directly.
+      Guard units are attacked first automatically — if a lane has no Guard blocking it, Attack All breaks through to their castle.
     </div>
     <div id="tipHover" class="tutorial-tip hidden">
       <span class="tip-close">&times;</span>
@@ -150,6 +154,14 @@
 
 <div id="cardPreview">
   <img id="previewImg" alt="" />
+</div>
+
+<div id="coinFlipOverlay" class="overlay hidden">
+  <div class="overlay-box coin-flip-box">
+    <h2>Coin Flip</h2>
+    <div id="coinFlipCoin" class="coin-flip-coin">🪙</div>
+    <p id="coinFlipResult" class="coin-flip-result"></p>
+  </div>
 </div>
 
 <div id="chatPanel" class="chat-panel collapsed">

@@ -20,9 +20,10 @@ let previousBoardIds = new Set();
 let selectedHandCardId = null;
 let selectedMover = null; // { lane, slot } — your own unit selected to move to the opposite row, in place of attacking
 let tutorialDismissed = false;
-let previousHp = { you: null, opponent: null };
+let previousView = null; // diff source for the combat feedback effect system (computeEffects)
 let combatResolvers = [];
 let autoAttackRunning = false;
+let coinFlipAckSent = false;
 
 const el = (id) => document.getElementById(id);
 
@@ -58,6 +59,7 @@ function setStatus(text) {
 }
 
 function connect(code) {
+  coinFlipAckSent = false;
   const proto = location.protocol === 'https:' ? 'wss' : 'ws';
   ws = new WebSocket(`${proto}://${location.host}/api/room/${code}/ws`);
   ws.addEventListener('message', (ev) => handleMessage(JSON.parse(ev.data)));
@@ -79,7 +81,12 @@ function handleMessage(msg) {
       mySeatKey = msg.you_key;
       selectedHandCardId = null;
       selectedMover = null;
-      render();
+      if (msg.phase === 'coinflip') {
+        renderCoinFlip(msg);
+      } else {
+        el('coinFlipOverlay').classList.add('hidden');
+        render();
+      }
       combatResolvers.splice(0).forEach((r) => r('state'));
       break;
     case 'opponent_disconnected':
@@ -102,6 +109,19 @@ function showGame() {
   el('lobby').classList.add('hidden');
   el('game').classList.remove('hidden');
   document.body.classList.add('in-game');
+}
+
+// The coin flip result is decided server-side (matchRoom.js, at game
+// creation) — this just displays it and, once both players have seen it,
+// acks so the match can move into the deployment phase.
+function renderCoinFlip(view) {
+  el('coinFlipOverlay').classList.remove('hidden');
+  const iAmFirst = view.turn === view.you_key;
+  el('coinFlipResult').textContent = iAmFirst ? 'You go first!' : 'Opponent goes first!';
+  if (!coinFlipAckSent) {
+    coinFlipAckSent = true;
+    setTimeout(() => send({ type: 'coinflip_ack' }), 1600);
+  }
 }
 
 // ---------- Scale-to-fit ----------
@@ -181,35 +201,148 @@ function hidePreview() {
   el('cardPreview').classList.remove('visible');
 }
 
-function flashHpIfDropped(panelId, hp, key) {
-  const prev = previousHp[key];
-  if (prev !== null && hp < prev) {
-    const panel = el(panelId);
-    panel.classList.remove('hp-hit');
-    void panel.offsetWidth; // restart animation
-    panel.classList.add('hp-hit');
+function renderCastle(panelId, hp, maxHp, faction) {
+  const panel = el(panelId);
+  const img = panel.querySelector('.castle-img');
+  img.src = `assets/cards/${faction}castle.png`;
+  img.alt = `${faction} castle`;
+  panel.querySelector('.castle-hp-value').textContent = `${Math.max(0, hp)}/${maxHp}`;
+  const ratio = maxHp > 0 ? hp / maxHp : 0;
+  panel.classList.toggle('castle-damaged', hp > 0 && ratio < 0.66);
+  panel.classList.toggle('castle-critical', hp > 0 && ratio < 0.33);
+  panel.classList.toggle('castle-destroyed', hp <= 0);
+}
+
+// ---------- Combat feedback effects ----------
+// Diffs the previous and current view to find every meaningful state change
+// (damage, healing, buffs, deaths) and turns each into a short floating
+// number/flash spawned directly off that change — never a fake UI-only
+// animation. Follows the same diff-a-previous-snapshot pattern the old
+// flashHpIfDropped()/previousBoardIds used, just generalized.
+function computeEffects(prev, next) {
+  if (!prev) return [];
+  const effects = [];
+  for (const side of ['you', 'opponent']) {
+    const prevP = prev[side];
+    const nextP = next[side];
+    if (!prevP || !nextP) continue;
+
+    if (nextP.hp < prevP.hp) effects.push({ kind: 'castle-damage', side, amount: prevP.hp - nextP.hp });
+    else if (nextP.hp > prevP.hp) effects.push({ kind: 'castle-heal', side, amount: nextP.hp - prevP.hp });
+
+    const prevUnits = new Map();
+    for (const lane of ['vanguard', 'rearguard']) {
+      prevP.board[lane].forEach((u) => { if (u) prevUnits.set(u.instanceId, u); });
+    }
+    const seenIds = new Set();
+    for (const lane of ['vanguard', 'rearguard']) {
+      nextP.board[lane].forEach((u, slot) => {
+        if (!u) return;
+        seenIds.add(u.instanceId);
+        const pu = prevUnits.get(u.instanceId);
+        if (!pu) return; // freshly-played card — already covered by the card-enter animation
+        if (u.defense < pu.defense) effects.push({ kind: 'unit-damage', side, lane, slot, amount: pu.defense - u.defense });
+        else if (u.defense > pu.defense) effects.push({ kind: 'unit-heal', side, lane, slot, amount: u.defense - pu.defense });
+        if (u.power > pu.power) effects.push({ kind: 'unit-buff', side, lane, slot, amount: u.power - pu.power });
+        if (u.maxDefense > pu.maxDefense) effects.push({ kind: 'unit-fortify', side, lane, slot, amount: u.maxDefense - pu.maxDefense });
+      });
+    }
+    // A unit that vanished from the board and isn't explained by a Rebirth
+    // return to hand is a death. Opponent hand contents are hidden, so this
+    // is a best-effort heuristic capped by graveyard growth — worst case is
+    // a missed/extra cosmetic effect on that one edge case, never a game-
+    // state issue.
+    const graveGrowth = Math.max(0, (nextP.graveyard?.length ?? 0) - (prevP.graveyard?.length ?? 0));
+    let deathsShown = 0;
+    for (const [id, pu] of prevUnits) {
+      if (seenIds.has(id) || deathsShown >= graveGrowth) continue;
+      const loc = findPrevLoc(prevP, id);
+      if (loc) effects.push({ kind: 'unit-death', side, lane: loc.lane, slot: loc.slot });
+      deathsShown++;
+    }
   }
-  previousHp[key] = hp;
+  return effects;
+}
+
+function findPrevLoc(playerView, instanceId) {
+  for (const lane of ['vanguard', 'rearguard']) {
+    const idx = playerView.board[lane].findIndex((u) => u && u.instanceId === instanceId);
+    if (idx !== -1) return { lane, slot: idx };
+  }
+  return null;
+}
+
+function findUnitAnchorEl(side, lane, slot) {
+  const containerId = (side === 'you' ? 'you' : 'opp') + (lane === 'vanguard' ? 'Vanguard' : 'Rearguard');
+  const slotEl = document.querySelectorAll(`#${containerId} .slot`)[slot];
+  if (!slotEl) return null;
+  return slotEl.querySelector('.card') || slotEl; // dead units leave an empty (but still positioned) slot
+}
+
+function spawnEffect(fx) {
+  if (fx.kind === 'castle-damage' || fx.kind === 'castle-heal') {
+    const wrap = document.querySelector(`#${fx.side === 'you' ? 'youInfo' : 'oppInfo'} .castle-wrap`);
+    if (!wrap) return;
+    if (fx.kind === 'castle-damage') {
+      floatNumber(wrap, `-${fx.amount}`, 'fx-damage');
+      pulseClass(wrap, 'castle-hit');
+    } else {
+      floatNumber(wrap, `+${fx.amount}`, 'fx-heal');
+    }
+    return;
+  }
+  const anchor = findUnitAnchorEl(fx.side, fx.lane, fx.slot);
+  if (!anchor) return;
+  switch (fx.kind) {
+    case 'unit-damage':
+      floatNumber(anchor, `-${fx.amount}`, 'fx-damage');
+      pulseClass(anchor, 'fx-hit');
+      break;
+    case 'unit-heal':
+      floatNumber(anchor, `+${fx.amount}`, 'fx-heal');
+      break;
+    case 'unit-buff':
+      floatNumber(anchor, `+${fx.amount} DMG`, 'fx-buff');
+      break;
+    case 'unit-fortify':
+      floatNumber(anchor, `+${fx.amount} HP`, 'fx-buff');
+      break;
+    case 'unit-death':
+      floatNumber(anchor, '💀', 'fx-damage');
+      pulseClass(anchor, 'fx-death');
+      break;
+  }
+}
+
+function floatNumber(anchorEl, text, cssClass) {
+  const node = document.createElement('div');
+  node.className = `fx-float ${cssClass}`;
+  node.textContent = text;
+  anchorEl.appendChild(node);
+  node.addEventListener('animationend', () => node.remove());
+}
+
+function pulseClass(elm, cssClass) {
+  elm.classList.remove(cssClass);
+  void elm.offsetWidth; // restart animation
+  elm.classList.add(cssClass);
 }
 
 function render() {
   if (!currentView) return;
+  const effects = computeEffects(previousView, currentView);
   const { you, opponent, turn, phase, turnNumber, winner, log, you_key } = currentView;
   const myTurn = turn === you_key;
 
   el('youInfo').querySelector('.name').textContent = `You (${capitalize(you.faction)})`;
-  el('youInfo').querySelector('.hp-fill').style.width = Math.max(0, (you.hp / you.maxHp) * 100) + '%';
-  el('youInfo').querySelector('.hp-value').textContent = `${Math.max(0, you.hp)}/${you.maxHp}`;
+  renderCastle('youInfo', you.hp, you.maxHp, you.faction);
   el('youInfo').querySelector('.mana').textContent = `${you.mana}/${you.maxMana}`;
   renderManaCrystals(el('youInfo').querySelector('.mana-crystals'), you.mana, you.maxMana);
-  flashHpIfDropped('youInfo', you.hp, 'you');
 
   el('oppInfo').querySelector('.name').textContent = `Opponent (${capitalize(opponent.faction)})`;
-  el('oppInfo').querySelector('.hp-fill').style.width = Math.max(0, (opponent.hp / opponent.maxHp) * 100) + '%';
-  el('oppInfo').querySelector('.hp-value').textContent = `${Math.max(0, opponent.hp)}/${opponent.maxHp}`;
+  renderCastle('oppInfo', opponent.hp, opponent.maxHp, opponent.faction);
   el('oppInfo').querySelector('.mana').textContent = `${opponent.mana}/${opponent.maxMana}`;
   renderManaCrystals(el('oppInfo').querySelector('.mana-crystals'), opponent.mana, opponent.maxMana);
-  flashHpIfDropped('oppInfo', opponent.hp, 'opponent');
 
   el('turnIndicator').textContent = winner
     ? 'Game Over'
@@ -246,6 +379,9 @@ function render() {
     el('gameOverOverlay').classList.remove('hidden');
     el('gameOverText').textContent = winner === you_key ? 'Victory!' : 'Defeat...';
   }
+
+  effects.forEach(spawnEffect);
+  previousView = JSON.parse(JSON.stringify(currentView));
 }
 
 function collectBoardIds(you, opponent) {
@@ -312,21 +448,42 @@ function onHandCardClick(card) {
   render();
 }
 
+// Every empty slot a currently-selected mover could legally step into:
+// opposite row same column (front/back), or one slot left/right in the same
+// row (lateral) — driven by row.length, never a hardcoded column count.
+function legalMoveDestinations(mover) {
+  const { you } = currentView;
+  const { lane, slot } = mover;
+  const row = you.board[lane];
+  const oppositeLane = lane === 'vanguard' ? 'rearguard' : 'vanguard';
+  const destinations = [];
+  if (!you.board[oppositeLane][slot]) destinations.push({ lane: oppositeLane, slot });
+  if (slot > 0 && !row[slot - 1]) destinations.push({ lane, slot: slot - 1 });
+  if (slot < row.length - 1 && !row[slot + 1]) destinations.push({ lane, slot: slot + 1 });
+  return destinations;
+}
+
 function onEmptySlotClick(side, lane, slotIndex) {
   if (side !== 'you') return;
   if (selectedHandCardId) {
     send({ type: 'play_card', cardInstanceId: selectedHandCardId, lane, slotIndex });
     return;
   }
-  if (
-    selectedMover &&
-    currentView.phase === 'combat' &&
-    lane !== selectedMover.lane &&
-    slotIndex === selectedMover.slot
-  ) {
-    send({ type: 'move_unit', lane: selectedMover.lane, slotIndex: selectedMover.slot });
-    selectedMover = null;
-    render();
+  if (selectedMover && currentView.phase === 'combat') {
+    const isLegal = legalMoveDestinations(selectedMover).some(
+      (d) => d.lane === lane && d.slot === slotIndex
+    );
+    if (isLegal) {
+      send({
+        type: 'move_unit',
+        fromLane: selectedMover.lane,
+        fromSlot: selectedMover.slot,
+        toLane: lane,
+        toSlot: slotIndex,
+      });
+      selectedMover = null;
+      render();
+    }
   }
 }
 
@@ -347,12 +504,13 @@ function onBoardCardClick(side, lane, slotIndex) {
 
 // Mirrors getLegalTargetLanes() in src/game/rules.js — Guard forces an
 // attacker to target it from either row; a plain Rearguard occupant without
-// Guard never blocks a hit on the Commander; Volley ignores Guard entirely.
+// Guard never blocks a hit on the castle; Volley ignores Guard entirely.
+// There is no commander/castle bypass for any keyword — the castle is only
+// ever reachable through a genuinely undefended lane.
 function legalTargetLanes(attacker) {
   const { you, opponent } = currentView;
   const unit = you.board[attacker.lane][attacker.slot];
   if (!unit) return [];
-  if (unit.keywords.includes('siege')) return ['commander'];
   const col = attacker.slot;
   const vanguard = opponent.board.vanguard[col];
   const rearguard = opponent.board.rearguard[col];
@@ -380,13 +538,11 @@ function highlightSelections() {
   }
 
   if (selectedMover) {
-    const { you } = currentView;
-    const targetLane = selectedMover.lane === 'vanguard' ? 'rearguard' : 'vanguard';
-    if (!you.board[targetLane][selectedMover.slot]) {
-      const containerId = targetLane === 'vanguard' ? 'youVanguard' : 'youRearguard';
-      const slot = document.querySelectorAll(`#${containerId} .slot`)[selectedMover.slot];
-      if (slot) slot.classList.add('legal-target');
-    }
+    legalMoveDestinations(selectedMover).forEach(({ lane, slot }) => {
+      const containerId = lane === 'vanguard' ? 'youVanguard' : 'youRearguard';
+      const slotEl = document.querySelectorAll(`#${containerId} .slot`)[slot];
+      if (slotEl) slotEl.classList.add('legal-target');
+    });
   }
 }
 

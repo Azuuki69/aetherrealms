@@ -17,7 +17,7 @@
                       "cost":  1,
                       "power":  1,
                       "defense":  2,
-                      "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG.",
+                      "text":  "TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
                       "image":  "assets/cards/web/orc/02_conscript.jpg"
                   },
                   {
@@ -26,7 +26,7 @@
                       "cost":  1,
                       "power":  2,
                       "defense":  1,
-                      "text":  "VOLLEY: May attack the enemy Commander directly even through blockers.",
+                      "text":  "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
                       "image":  "assets/cards/web/orc/03_slinger.jpg"
                   },
                   {
@@ -35,7 +35,7 @@
                       "cost":  2,
                       "power":  3,
                       "defense":  2,
-                      "text":  "VOLLEY: May attack the enemy Commander directly even through blockers.",
+                      "text":  "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
                       "image":  "assets/cards/web/orc/04_javelineer.jpg"
                   },
                   {
@@ -44,7 +44,7 @@
                       "cost":  2,
                       "power":  3,
                       "defense":  2,
-                      "text":  "VOLLEY: May attack the enemy Commander directly even through blockers.",
+                      "text":  "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
                       "image":  "assets/cards/web/orc/05_spike_hurler.jpg"
                   },
                   {
@@ -53,7 +53,7 @@
                       "cost":  2,
                       "power":  2,
                       "defense":  3,
-                      "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG.",
+                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own castle. Draw a card.",
                       "image":  "assets/cards/web/orc/06_maceman.jpg"
                   },
                   {
@@ -98,7 +98,7 @@
                       "cost":  3,
                       "power":  3,
                       "defense":  3,
-                      "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG.",
+                      "text":  "TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
                       "image":  "assets/cards/web/orc/11_raider.jpg"
                   },
                   {
@@ -107,7 +107,7 @@
                       "cost":  4,
                       "power":  4,
                       "defense":  4,
-                      "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG.",
+                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own castle. Draw a card.",
                       "image":  "assets/cards/web/orc/12_marauder.jpg"
                   },
                   {
@@ -125,7 +125,7 @@
                       "cost":  4,
                       "power":  4,
                       "defense":  4,
-                      "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG.",
+                      "text":  "TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
                       "image":  "assets/cards/web/orc/14_warhorn_bearer.jpg"
                   },
                   {
@@ -152,7 +152,7 @@
                       "cost":  5,
                       "power":  6,
                       "defense":  3,
-                      "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG.",
+                      "text":  "TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
                       "image":  "assets/cards/web/orc/17_sand_mage.jpg"
                   },
                   {
@@ -161,7 +161,7 @@
                       "cost":  5,
                       "power":  4,
                       "defense":  5,
-                      "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG.",
+                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own castle. Draw a card.",
                       "image":  "assets/cards/web/orc/18_hexer.jpg"
                   },
                   {
@@ -179,7 +179,7 @@
                       "cost":  6,
                       "power":  4,
                       "defense":  7,
-                      "text":  "SIEGE: May only attack the enemy Commander directly.",
+                      "text":  "SIEGE: A siege weapon that deals damage without risking retaliation.",
                       "image":  "assets/cards/web/orc/20_battering_ram.jpg"
                   },
                   {
@@ -188,7 +188,7 @@
                       "cost":  6,
                       "power":  5,
                       "defense":  6,
-                      "text":  "SIEGE: May only attack the enemy Commander directly.",
+                      "text":  "SIEGE: A siege weapon that deals damage without risking retaliation.",
                       "image":  "assets/cards/web/orc/21_catapult.jpg"
                   },
                   {
@@ -197,7 +197,7 @@
                       "cost":  7,
                       "power":  4,
                       "defense":  8,
-                      "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG.",
+                      "text":  "TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
                       "image":  "assets/cards/web/orc/22_ogre.jpg"
                   },
                   {
@@ -215,7 +215,7 @@
                       "cost":  8,
                       "power":  9,
                       "defense":  5,
-                      "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG.",
+                      "text":  "BLOODPRICE: When played, deal 1 DMG to your own castle. Draw a card.",
                       "image":  "assets/cards/web/orc/24_wyrm.jpg"
                   },
                   {
@@ -224,7 +224,7 @@
                       "cost":  9,
                       "power":  7,
                       "defense":  8,
-                      "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG. (This unit is a rare, high-impact threat.)",
+                      "text":  "TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
                       "image":  "assets/cards/web/orc/25_cyclops.jpg"
                   },
                   {
@@ -233,7 +233,7 @@
                       "cost":  10,
                       "power":  11,
                       "defense":  6,
-                      "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG. (This unit is a rare, high-impact threat.)",
+                      "text":  "TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it. (This unit is a rare, high-impact threat.)",
                       "image":  "assets/cards/web/orc/26_fire_giant.jpg"
                   }
               ]

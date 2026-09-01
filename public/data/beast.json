@@ -17,7 +17,7 @@
                       "cost":  1,
                       "power":  2,
                       "defense":  1,
-                      "text":  "VOLLEY: May attack the enemy Commander directly even through blockers.",
+                      "text":  "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
                       "image":  "assets/cards/web/beast/02_gnome_slinger.jpg"
                   },
                   {
@@ -26,7 +26,7 @@
                       "cost":  1,
                       "power":  1,
                       "defense":  2,
-                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
                       "image":  "assets/cards/web/beast/03_ravenkin.jpg"
                   },
                   {
@@ -44,7 +44,7 @@
                       "cost":  2,
                       "power":  2,
                       "defense":  3,
-                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "text":  "FORMATION: +1 DMG while adjacent to another Beast unit.",
                       "image":  "assets/cards/web/beast/05_centaur_lancer.jpg"
                   },
                   {
@@ -53,7 +53,7 @@
                       "cost":  2,
                       "power":  3,
                       "defense":  2,
-                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
                       "image":  "assets/cards/web/beast/06_assassin.jpg"
                   },
                   {
@@ -71,7 +71,7 @@
                       "cost":  3,
                       "power":  3,
                       "defense":  3,
-                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "text":  "FORMATION: +1 DMG while adjacent to another Beast unit.",
                       "image":  "assets/cards/web/beast/08_pixie.jpg"
                   },
                   {
@@ -80,7 +80,7 @@
                       "cost":  3,
                       "power":  3,
                       "defense":  3,
-                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
                       "image":  "assets/cards/web/beast/09_mossback.jpg"
                   },
                   {
@@ -98,7 +98,7 @@
                       "cost":  3,
                       "power":  3,
                       "defense":  3,
-                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "text":  "FORMATION: +1 DMG while adjacent to another Beast unit.",
                       "image":  "assets/cards/web/beast/11_satyr_piper.jpg"
                   },
                   {
@@ -107,7 +107,7 @@
                       "cost":  4,
                       "power":  4,
                       "defense":  4,
-                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
                       "image":  "assets/cards/web/beast/12_minotaur.jpg"
                   },
                   {
@@ -125,7 +125,7 @@
                       "cost":  4,
                       "power":  4,
                       "defense":  4,
-                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "text":  "FORMATION: +1 DMG while adjacent to another Beast unit.",
                       "image":  "assets/cards/web/beast/14_ettin.jpg"
                   },
                   {
@@ -134,7 +134,7 @@
                       "cost":  3,
                       "power":  4,
                       "defense":  3,
-                      "text":  "PACK HUNT: Gains +1 DMG for each other Beast you control.",
+                      "text":  "PACK HUNT: Gains +1 DMG for each other Beast you control. CHARGE: Can attack the turn it is played.",
                       "image":  "assets/cards/web/beast/15_dire_wolf.jpg"
                   },
                   {
@@ -152,7 +152,7 @@
                       "cost":  5,
                       "power":  4,
                       "defense":  5,
-                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "text":  "FORMATION: +1 DMG while adjacent to another Beast unit.",
                       "image":  "assets/cards/web/beast/17_great_bear.jpg"
                   },
                   {
@@ -161,7 +161,7 @@
                       "cost":  5,
                       "power":  3,
                       "defense":  6,
-                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
                       "image":  "assets/cards/web/beast/18_cave_troll.jpg"
                   },
                   {
@@ -179,7 +179,7 @@
                       "cost":  6,
                       "power":  7,
                       "defense":  4,
-                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "text":  "FORMATION: +1 DMG while adjacent to another Beast unit.",
                       "image":  "assets/cards/web/beast/20_drake.jpg"
                   },
                   {
@@ -188,7 +188,7 @@
                       "cost":  6,
                       "power":  5,
                       "defense":  6,
-                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
                       "image":  "assets/cards/web/beast/21_manticore.jpg"
                   },
                   {
@@ -206,7 +206,7 @@
                       "cost":  7,
                       "power":  4,
                       "defense":  8,
-                      "text":  "TRAMPLE: Excess damage from a killing blow carries to the unit or Commander behind it.",
+                      "text":  "TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
                       "image":  "assets/cards/web/beast/23_behemoth.jpg"
                   },
                   {
@@ -215,7 +215,7 @@
                       "cost":  8,
                       "power":  7,
                       "defense":  7,
-                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
+                      "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
                       "image":  "assets/cards/web/beast/24_hydra.jpg"
                   },
                   {
@@ -233,7 +233,7 @@
                       "cost":  10,
                       "power":  8,
                       "defense":  9,
-                      "text":  "PACK HUNT: +1 DMG for each other Beast you control. (This unit is a rare, high-impact threat.)",
+                      "text":  "FORMATION: +1 DMG while adjacent to another Beast unit. (This unit is a rare, high-impact threat.)",
                       "image":  "assets/cards/web/beast/26_roc.jpg"
                   }
               ]
