@@ -17,7 +17,7 @@
                       "cost":  1,
                       "power":  1,
                       "defense":  2,
-                      "text":  "GUARD: Enemies in this lane must attack this unit first.",
+                      "text":  "TAUNT: Enemies must attack this unit first.",
                       "image":  "assets/cards/web/human/02_spearman.jpg"
                   },
                   {
@@ -89,7 +89,7 @@
                       "cost":  3,
                       "power":  3,
                       "defense":  3,
-                      "text":  "GUARD: Enemies in this lane must attack this unit first.",
+                      "text":  "TAUNT: Enemies must attack this unit first.",
                       "image":  "assets/cards/web/human/10_cataphract.jpg"
                   },
                   {
@@ -161,7 +161,7 @@
                       "cost":  5,
                       "power":  4,
                       "defense":  6,
-                      "text":  "ADAPTIVE: This unit has Guard and Charge.",
+                      "text":  "ADAPTIVE: This unit has Taunt and Charge.",
                       "image":  "assets/cards/web/human/18_paladin.jpg"
                   },
                   {
@@ -179,7 +179,7 @@
                       "cost":  6,
                       "power":  4,
                       "defense":  7,
-                      "text":  "GUARD: Enemies in this lane must attack this unit first.",
+                      "text":  "TAUNT: Enemies must attack this unit first.",
                       "image":  "assets/cards/web/human/20_royal_guard.jpg"
                   },
                   {

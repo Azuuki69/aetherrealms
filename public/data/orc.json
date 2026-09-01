@@ -197,7 +197,7 @@
                       "cost":  7,
                       "power":  4,
                       "defense":  8,
-                      "text":  "TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
+                      "text":  "TAUNT: Enemies must attack this unit first. TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
                       "image":  "assets/cards/web/orc/22_ogre.jpg"
                   },
                   {

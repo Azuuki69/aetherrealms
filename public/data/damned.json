@@ -170,7 +170,7 @@
                       "cost":  6,
                       "power":  4,
                       "defense":  7,
-                      "text":  "GUARD: Enemies in this lane must attack this unit first.",
+                      "text":  "TAUNT: Enemies must attack this unit first.",
                       "image":  "assets/cards/web/damned/19_gate_warden.jpg"
                   },
                   {

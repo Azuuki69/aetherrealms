@@ -152,7 +152,7 @@
                       "cost":  4,
                       "power":  2,
                       "defense":  8,
-                      "text":  "GUARD: Enemies in this lane must attack this unit first. FORTIFY: Gains +1 HP whenever it blocks an attack.",
+                      "text":  "TAUNT: Enemies must attack this unit first. FORTIFY: Gains +1 HP whenever it blocks an attack.",
                       "image":  "assets/cards/web/dwarf/17_warden.jpg"
                   },
                   {
@@ -161,7 +161,7 @@
                       "cost":  5,
                       "power":  3,
                       "defense":  6,
-                      "text":  "GUARD: Enemies in this lane must attack this unit first.",
+                      "text":  "TAUNT: Enemies must attack this unit first.",
                       "image":  "assets/cards/web/dwarf/18_vanguard.jpg"
                   },
                   {

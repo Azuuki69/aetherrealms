@@ -697,9 +697,9 @@ h1 span {
 .card.sick { filter: grayscale(0.6) brightness(0.7); }
 .card.attacked { filter: brightness(0.55); }
 .card.unaffordable { filter: grayscale(0.8) brightness(0.5); cursor: not-allowed; }
-.card.has-guard { box-shadow: 0 0 0 2px var(--success), 0 2px 6px #000a; }
+.card.has-taunt { box-shadow: 0 0 0 2px var(--success), 0 2px 6px #000a; }
 /* A quiet, static outline (not box-shadow, so it layers cleanly with
-   .has-guard/.selected instead of overriding them) marking every unit of
+   .has-taunt/.selected instead of overriding them) marking every unit of
    yours that could currently act — left unanimated since several of these
    can be visible at once and a field of pulsing cards would be noisy. */
 .card.attack-ready { outline: 2px solid color-mix(in srgb, var(--gold) 65%, transparent); outline-offset: 1px; }

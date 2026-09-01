@@ -161,7 +161,7 @@
                       "cost":  5,
                       "power":  3,
                       "defense":  6,
-                      "text":  "FORMATION: +1 DMG while adjacent to another Beast unit.",
+                      "text":  "TAUNT: Enemies must attack this unit first. FORMATION: +1 DMG while adjacent to another Beast unit.",
                       "image":  "assets/cards/web/beast/18_cave_troll.jpg"
                   },
                   {

@@ -17,7 +17,7 @@
                       "cost":  1,
                       "power":  1,
                       "defense":  2,
-                      "text":  "PRECISE: This unit\u0027s attacks ignore Guard.",
+                      "text":  "PRECISE: This unit\u0027s attacks ignore Taunt.",
                       "image":  "assets/cards/web/dynasty/02_soldier.jpg"
                   },
                   {
@@ -62,7 +62,7 @@
                       "cost":  2,
                       "power":  2,
                       "defense":  3,
-                      "text":  "GUARD: Enemies in this lane must attack this unit first.",
+                      "text":  "TAUNT: Enemies must attack this unit first.",
                       "image":  "assets/cards/web/dynasty/07_naginata_guard.jpg"
                   },
                   {
@@ -125,7 +125,7 @@
                       "cost":  4,
                       "power":  4,
                       "defense":  4,
-                      "text":  "PRECISE: This unit\u0027s attacks ignore Guard.",
+                      "text":  "PRECISE: This unit\u0027s attacks ignore Taunt.",
                       "image":  "assets/cards/web/dynasty/14_sohei.jpg"
                   },
                   {
@@ -197,7 +197,7 @@
                       "cost":  7,
                       "power":  4,
                       "defense":  8,
-                      "text":  "GUARD: Enemies in this lane must attack this unit first.",
+                      "text":  "TAUNT: Enemies must attack this unit first.",
                       "image":  "assets/cards/web/dynasty/22_terracotta_guard.jpg"
                   },
                   {

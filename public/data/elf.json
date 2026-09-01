@@ -8,7 +8,7 @@
                       "cost":  1,
                       "power":  1,
                       "defense":  2,
-                      "text":  "GUARD: Enemies in this lane must attack this unit first.",
+                      "text":  "TAUNT: Enemies must attack this unit first.",
                       "image":  "assets/cards/web/elf/01_thornguard.jpg"
                   },
                   {
@@ -44,7 +44,7 @@
                       "cost":  3,
                       "power":  4,
                       "defense":  2,
-                      "text":  "VOLLEY: May choose to strike either enemy row, without risking retaliation. Ignores Guard entirely.",
+                      "text":  "VOLLEY: May choose to strike either enemy row, without risking retaliation. Ignores Taunt entirely.",
                       "image":  "assets/cards/web/elf/05_sharpshooter.jpg"
                   },
                   {
@@ -80,7 +80,7 @@
                       "cost":  3,
                       "power":  3,
                       "defense":  3,
-                      "text":  "PRECISE: This unit\u0027s attacks ignore Guard.",
+                      "text":  "PRECISE: This unit\u0027s attacks ignore Taunt.",
                       "image":  "assets/cards/web/elf/09_myrmidon.jpg"
                   },
                   {
@@ -116,7 +116,7 @@
                       "cost":  4,
                       "power":  4,
                       "defense":  4,
-                      "text":  "PRECISE: This unit\u0027s attacks ignore Guard.",
+                      "text":  "PRECISE: This unit\u0027s attacks ignore Taunt.",
                       "image":  "assets/cards/web/elf/13_war_piper.jpg"
                   },
                   {
@@ -152,7 +152,7 @@
                       "cost":  5,
                       "power":  4,
                       "defense":  5,
-                      "text":  "PRECISE: This unit\u0027s attacks ignore Guard.",
+                      "text":  "PRECISE: This unit\u0027s attacks ignore Taunt.",
                       "image":  "assets/cards/web/elf/17_wispcaller.jpg"
                   },
                   {
@@ -161,7 +161,7 @@
                       "cost":  5,
                       "power":  3,
                       "defense":  6,
-                      "text":  "GUARD: Enemies in this lane must attack this unit first.",
+                      "text":  "TAUNT: Enemies must attack this unit first.",
                       "image":  "assets/cards/web/elf/18_sentinel.jpg"
                   },
                   {
@@ -188,7 +188,7 @@
                       "cost":  6,
                       "power":  4,
                       "defense":  7,
-                      "text":  "PRECISE: This unit\u0027s attacks ignore Guard.",
+                      "text":  "PRECISE: This unit\u0027s attacks ignore Taunt.",
                       "image":  "assets/cards/web/elf/21_heartwood_ram.jpg"
                   },
                   {

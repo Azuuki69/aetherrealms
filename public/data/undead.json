@@ -161,7 +161,7 @@
                       "cost":  5,
                       "power":  3,
                       "defense":  6,
-                      "text":  "GUARD: Enemies in this lane must attack this unit first.",
+                      "text":  "TAUNT: Enemies must attack this unit first.",
                       "image":  "assets/cards/web/undead/18_grave_guard.jpg"
                   },
                   {

@@ -27,10 +27,7 @@ function detectKeywords(text) {
   if (/siege|building/.test(t)) kw.push('siege');
   if (/trample|cleave/.test(t)) kw.push('trample');
   if (/charge/.test(t)) kw.push('charge');
-  // A card whose only mention of "guard" is "ignores Guard" (Precise's own
-  // wording) must not also become a real Guard blocker itself.
-  if (/guard/.test(t) && !/ignores? guard/.test(t)) kw.push('guard');
-  if (/precise|ignores? guard/.test(t)) kw.push('precise');
+  if (/precise|ignores? taunt/.test(t)) kw.push('precise');
   if (/mend/.test(t)) kw.push('mend');
   if (/rage/.test(t)) kw.push('rage');
   if (/rebirth/.test(t)) kw.push('rebirth');
@@ -437,15 +434,6 @@ export function moveToCombat(game, owner) {
   game.phase = 'combat';
 }
 
-// A column can route to the castle only when it's genuinely undefended: no
-// Vanguard standing in it, and no unbypassed Guard Rearguard forcing itself
-// as the mandatory target for that column instead.
-function columnOpensCastleRoute(oppBoard, col, hasPrecise) {
-  if (oppBoard.vanguard[col]) return false;
-  const r = oppBoard.rearguard[col];
-  return !(r && r.keywords.includes('guard') && !hasPrecise);
-}
-
 // Single source of truth for "can this attacker legally hit this target" —
 // used by attack()'s validation, the client's target highlighting, and the
 // Attack-All auto-combat loop. Returns a flat list of concrete targets:
@@ -454,9 +442,10 @@ function columnOpensCastleRoute(oppBoard, col, hasPrecise) {
 // Vanguard is always targetable regardless of column (no more same-slot
 // lock). A Rearguard is targetable once its OWN column's Vanguard is gone,
 // or by a Volley/Ranged attacker regardless. The castle is targetable once
-// at least one column is fully undefended. Taunt overrides all of this: any
+// at least one column has no Vanguard. Taunt overrides all of this: any
 // reachable Taunt unit becomes the only legal target, including over the
-// castle, until no reachable Taunt remains.
+// castle, until no reachable Taunt remains — unless the attacker is Precise,
+// which ignores Taunt entirely and targets as if none were up.
 export function getLegalAttackTargets(game, owner, attackerLane, attackerSlot) {
   const unit = game.players[owner].board[attackerLane][attackerSlot];
   if (!unit) return [];
@@ -464,15 +453,17 @@ export function getLegalAttackTargets(game, owner, attackerLane, attackerSlot) {
   const isRanged = unit.keywords.includes('volley');
   const hasPrecise = unit.keywords.includes('precise');
 
-  const taunts = [];
-  for (const lane of ['vanguard', 'rearguard']) {
-    oppBoard[lane].forEach((u, slot) => {
-      if (!u || !u.keywords.includes('taunt')) return;
-      const reachable = lane === 'vanguard' || isRanged || !oppBoard.vanguard[slot];
-      if (reachable) taunts.push({ type: 'unit', lane, slot });
-    });
+  if (!hasPrecise) {
+    const taunts = [];
+    for (const lane of ['vanguard', 'rearguard']) {
+      oppBoard[lane].forEach((u, slot) => {
+        if (!u || !u.keywords.includes('taunt')) return;
+        const reachable = lane === 'vanguard' || isRanged || !oppBoard.vanguard[slot];
+        if (reachable) taunts.push({ type: 'unit', lane, slot });
+      });
+    }
+    if (taunts.length > 0) return taunts;
   }
-  if (taunts.length > 0) return taunts;
 
   const targets = [];
   let castleReachable = false;
@@ -481,7 +472,7 @@ export function getLegalAttackTargets(game, owner, attackerLane, attackerSlot) {
     if (oppBoard.rearguard[col] && (isRanged || !oppBoard.vanguard[col])) {
       targets.push({ type: 'unit', lane: 'rearguard', slot: col });
     }
-    if (columnOpensCastleRoute(oppBoard, col, hasPrecise)) castleReachable = true;
+    if (!oppBoard.vanguard[col]) castleReachable = true;
   }
   if (castleReachable) targets.push({ type: 'castle' });
   return targets;

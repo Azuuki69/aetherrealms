@@ -435,7 +435,7 @@ function renderLane(containerId, laneArr, side, laneName) {
     if (unit) {
       const cardEl = buildCardEl(unit, { context: 'board' });
       if (!previousBoardIds.has(unit.instanceId)) cardEl.classList.add('card-enter');
-      if (unit.keywords && unit.keywords.includes('guard')) cardEl.classList.add('has-guard');
+      if (unit.keywords && unit.keywords.includes('taunt')) cardEl.classList.add('has-taunt');
       cardEl.addEventListener('click', () => onBoardCardClick(side, laneName, slotIndex));
       cardEl.addEventListener('mousedown', (e) => onCardMouseDown(e, side, laneName, slotIndex));
       slot.appendChild(cardEl);
@@ -687,12 +687,6 @@ document.addEventListener('mouseup', (e) => {
 // of truth for "can this attacker legally hit this target" lives server-
 // side; this mirror only drives which targets get highlighted/clickable.
 // Returns { type: 'unit', lane, slot } or { type: 'castle' } entries.
-function columnOpensCastleRoute(oppBoard, col, hasPrecise) {
-  if (oppBoard.vanguard[col]) return false;
-  const r = oppBoard.rearguard[col];
-  return !(r && r.keywords.includes('guard') && !hasPrecise);
-}
-
 function legalAttackTargets(attacker) {
   const { you, opponent } = currentView;
   const unit = you.board[attacker.lane][attacker.slot];
@@ -701,15 +695,17 @@ function legalAttackTargets(attacker) {
   const isRanged = unit.keywords.includes('volley');
   const hasPrecise = unit.keywords.includes('precise');
 
-  const taunts = [];
-  for (const lane of ['vanguard', 'rearguard']) {
-    oppBoard[lane].forEach((u, slot) => {
-      if (!u || !u.keywords.includes('taunt')) return;
-      const reachable = lane === 'vanguard' || isRanged || !oppBoard.vanguard[slot];
-      if (reachable) taunts.push({ type: 'unit', lane, slot });
-    });
+  if (!hasPrecise) {
+    const taunts = [];
+    for (const lane of ['vanguard', 'rearguard']) {
+      oppBoard[lane].forEach((u, slot) => {
+        if (!u || !u.keywords.includes('taunt')) return;
+        const reachable = lane === 'vanguard' || isRanged || !oppBoard.vanguard[slot];
+        if (reachable) taunts.push({ type: 'unit', lane, slot });
+      });
+    }
+    if (taunts.length > 0) return taunts;
   }
-  if (taunts.length > 0) return taunts;
 
   const targets = [];
   let castleReachable = false;
@@ -718,7 +714,7 @@ function legalAttackTargets(attacker) {
     if (oppBoard.rearguard[col] && (isRanged || !oppBoard.vanguard[col])) {
       targets.push({ type: 'unit', lane: 'rearguard', slot: col });
     }
-    if (columnOpensCastleRoute(oppBoard, col, hasPrecise)) castleReachable = true;
+    if (!oppBoard.vanguard[col]) castleReachable = true;
   }
   if (castleReachable) targets.push({ type: 'castle' });
   return targets;
