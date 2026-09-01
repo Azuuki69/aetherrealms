@@ -850,6 +850,16 @@ function initTutorial() {
   }
 }
 
+// ---------- Log panel ----------
+let logCollapsed = true;
+
+function initLog() {
+  el('logToggle').addEventListener('click', () => {
+    logCollapsed = !logCollapsed;
+    el('logPanel').classList.toggle('collapsed', logCollapsed);
+  });
+}
+
 // ---------- Hand-panel resize ----------
 const HAND_WIDTH_STORAGE_KEY = 'aetherrealms_hand_col_width';
 const HAND_WIDTH_MIN = 160;
@@ -1108,6 +1118,7 @@ function renderFactionThumbnails() {
   initTutorial();
   initChat();
   initHandResize();
+  initLog();
   renderFactionThumbnails();
   loadRankings();
 })();

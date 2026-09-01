@@ -226,13 +226,12 @@ h1 span {
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 8px var(--hand-col-width, 280px);
-  grid-template-rows: auto auto minmax(0, 1fr) auto auto;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
   grid-template-areas:
     "topbar   topbar topbar"
     "board    handle tips"
     "board    handle hand"
-    "controls handle hand"
-    "log      handle hand";
+    "controls handle hand";
   width: min(98vw, 1900px);
   height: min(96vh, 1080px);
   max-width: 100%;
@@ -249,7 +248,6 @@ h1 span {
 #tutorialTips { grid-area: tips; }
 .controls { grid-area: controls; }
 #hand { grid-area: hand; min-height: 0; }
-#log { grid-area: log; }
 
 /* Drag to trade width between the board and the hand panel; the choice
    persists across sessions (see initHandResize() in client.js). */
@@ -281,7 +279,7 @@ h1 span {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 0.4rem 1rem;
+  padding: 0.3rem 1rem;
   background: linear-gradient(180deg, #2a2013c0, #1a140dc0);
   border: 1px solid #4a3a2270;
   border-radius: 10px;
@@ -293,7 +291,7 @@ h1 span {
 .hp-panel.legal-target { border-color: #6fd66a; cursor: pointer; animation: pulse-green 1.3s ease-in-out infinite; }
 
 /* ---------- Castle (base HP) ---------- */
-.castle-wrap { position: relative; width: clamp(48px, 5vw, 72px); height: clamp(48px, 5vw, 72px); flex-shrink: 0; }
+.castle-wrap { position: relative; width: clamp(34px, 3.6vw, 52px); height: clamp(34px, 3.6vw, 52px); flex-shrink: 0; }
 .castle-img {
   width: 100%;
   height: 100%;
@@ -306,12 +304,12 @@ h1 span {
 .castle-panel.castle-destroyed .castle-img { filter: grayscale(1) brightness(0.35); opacity: 0.5; }
 .castle-hp-value {
   position: absolute;
-  bottom: -1.1rem;
+  bottom: -0.9rem;
   left: 50%;
   transform: translateX(-50%);
   font-weight: bold;
   color: #ffdede;
-  font-size: 0.8rem;
+  font-size: 0.72rem;
   text-shadow: 0 1px 3px #000;
   white-space: nowrap;
 }
@@ -632,13 +630,12 @@ body:has(#chatPanel:not(.collapsed)) .hand {
 }
 
 .log {
-  max-height: clamp(36px, 5vh, 70px);
+  max-height: 240px;
   overflow-y: auto;
   font-size: 0.85rem;
   color: var(--dim);
   background: #0000004d;
-  border-top: 1px solid var(--border);
-  padding: 4px 10px;
+  padding: 8px 10px;
 }
 .log div { padding: 1px 0; }
 
@@ -688,6 +685,10 @@ body:has(#chatPanel:not(.collapsed)) .hand {
   pointer-events: none;
   width: 360px;
   height: 540px;
+  /* Centered via top:50%/translateY(-50%), so capping height alone keeps it
+     off the log panel at the bottom-left on short viewports — a shorter box
+     just pulls both edges in symmetrically toward center. */
+  max-height: calc(100vh - 340px);
   border-radius: 16px;
   overflow: hidden;
   border: 3px solid var(--gold);
@@ -724,6 +725,14 @@ body:has(#chatPanel:not(.collapsed)) .hand {
 #arrowHead { fill: var(--gold); filter: drop-shadow(0 0 6px #d9b25c90); }
 #targetArrow.arrow-illegal #arrowPath { stroke: var(--hp); filter: drop-shadow(0 0 6px #b5322f90); }
 #targetArrow.arrow-illegal #arrowHead { fill: var(--hp); filter: drop-shadow(0 0 6px #b5322f90); }
+
+/* ---------- Log panel ---------- */
+/* Same collapsible-floating-panel pattern as #chatPanel below, mirrored to
+   the left edge instead of the right. */
+#logPanel { position: fixed; left: 16px; bottom: 16px; z-index: 400; width: 300px; max-width: calc(100vw - 32px); }
+.log-toggle { display: flex; align-items: center; gap: 6px; width: 100%; background: linear-gradient(#3a2c14, #241c12); border: 1px solid var(--gold); border-radius: 8px; color: var(--gold); font-family: inherit; font-weight: bold; padding: 0.5rem 0.8rem; cursor: pointer; box-shadow: 0 4px 14px #000a; }
+.log-body { margin-top: 6px; background: var(--panel); border: 1px solid var(--gold); border-radius: 8px; box-shadow: 0 8px 24px #000c; overflow: hidden; }
+#logPanel.collapsed .log-body { display: none; }
 
 /* ---------- Chat panel ---------- */
 #chatPanel { position: fixed; right: 16px; bottom: 16px; z-index: 400; width: 300px; max-width: calc(100vw - 32px); }
