@@ -187,7 +187,7 @@ export class MatchRoom {
     const otherSeat = seat === 'seatA' ? 'seatB' : 'seatA';
     if (factions[otherSeat]) {
       const firstPlayer = crypto.getRandomValues(new Uint32Array(1))[0] % 2 === 0 ? 'A' : 'B';
-      const game = createGame(factions.seatA, factions.seatB, firstPlayer);
+      const game = createGame(factions.seatA, factions.seatB, firstPlayer, usernames.seatA, usernames.seatB);
       await this.state.storage.put('game', game);
       this.broadcastState(game);
     } else {

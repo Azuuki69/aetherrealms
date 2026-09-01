@@ -349,13 +349,14 @@ function render() {
   const effects = computeEffects(previousView, currentView);
   const { you, opponent, turn, phase, turnNumber, winner, log, you_key } = currentView;
   const myTurn = turn === you_key;
+  const oppKey = you_key === 'A' ? 'B' : 'A';
 
-  el('youInfo').querySelector('.name').textContent = `You (${capitalize(you.faction)})`;
+  el('youInfo').querySelector('.name').textContent = `${displayName(you, you_key)} (${capitalize(you.faction)})`;
   renderCastle('youInfo', you.hp, you.maxHp, you.faction);
   el('youInfo').querySelector('.mana').textContent = `${you.mana}/${you.maxMana}`;
   renderManaCrystals(el('youInfo').querySelector('.mana-crystals'), you.mana, you.maxMana);
 
-  el('oppInfo').querySelector('.name').textContent = `Opponent (${capitalize(opponent.faction)})`;
+  el('oppInfo').querySelector('.name').textContent = `${displayName(opponent, oppKey)} (${capitalize(opponent.faction)})`;
   renderCastle('oppInfo', opponent.hp, opponent.maxHp, opponent.faction);
   el('oppInfo').querySelector('.mana').textContent = `${opponent.mana}/${opponent.maxMana}`;
   renderManaCrystals(el('oppInfo').querySelector('.mana-crystals'), opponent.mana, opponent.maxMana);
@@ -865,6 +866,12 @@ function capitalize(s) {
   return s ? s[0].toUpperCase() + s.slice(1) : s;
 }
 
+// Guests never set a username at login, so every place a player's name is
+// shown falls back to their seat key rather than a generic "You"/"Opponent".
+function displayName(player, key) {
+  return player?.username || `Player ${key}`;
+}
+
 const TUTORIAL_TIP_IDS = ['tipHand', 'tipCombat', 'tipCommander', 'tipHover'];
 
 function renderTutorial(turnNumber) {
@@ -965,7 +972,8 @@ function addChatMessage(owner, text, mine) {
   line.className = 'chat-line' + (mine ? ' mine' : '');
   const who = document.createElement('span');
   who.className = 'who';
-  who.textContent = mine ? 'You:' : 'Opponent:';
+  const player = mine ? currentView?.you : currentView?.opponent;
+  who.textContent = displayName(player, owner) + ':';
   const body = document.createElement('span');
   body.textContent = text; // textContent only — never innerHTML, text is untrusted opponent input
   line.append(who, body);

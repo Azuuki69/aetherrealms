@@ -126,12 +126,13 @@ export function opponentOf(owner) {
   return owner === 'A' ? 'B' : 'A';
 }
 
-export function createGame(factionA, factionB, firstPlayer = 'A') {
+export function createGame(factionA, factionB, firstPlayer = 'A', usernameA = null, usernameB = null) {
   const deckA = buildDeck(factionA);
   const deckB = buildDeck(factionB);
   const players = {
     A: {
       faction: factionA,
+      username: usernameA,
       deck: deckA,
       hand: deckA.splice(0, STARTING_HAND_SIZE),
       board: emptyBoard(),
@@ -144,6 +145,7 @@ export function createGame(factionA, factionB, firstPlayer = 'A') {
     },
     B: {
       faction: factionB,
+      username: usernameB,
       deck: deckB,
       hand: deckB.splice(0, STARTING_HAND_SIZE),
       board: emptyBoard(),
