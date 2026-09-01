@@ -18,9 +18,11 @@ let mySeatKey = null; // 'A' or 'B', informational only
 let currentView = null;
 let previousBoardIds = new Set();
 let selectedHandCardId = null;
-let selectedAttacker = null; // { lane, slot }
+let selectedMover = null; // { lane, slot } — your own unit selected to move to the opposite row, in place of attacking
 let tutorialDismissed = false;
 let previousHp = { you: null, opponent: null };
+let combatResolvers = [];
+let autoAttackRunning = false;
 
 const el = (id) => document.getElementById(id);
 
@@ -76,8 +78,9 @@ function handleMessage(msg) {
       currentView = msg;
       mySeatKey = msg.you_key;
       selectedHandCardId = null;
-      selectedAttacker = null;
+      selectedMover = null;
       render();
+      combatResolvers.splice(0).forEach((r) => r('state'));
       break;
     case 'opponent_disconnected':
       logLine('Opponent disconnected. They can rejoin with the same room code.');
@@ -87,6 +90,7 @@ function handleMessage(msg) {
       break;
     case 'error':
       logLine('Error: ' + msg.message);
+      combatResolvers.splice(0).forEach((r) => r('error'));
       break;
     case 'chat':
       addChatMessage(msg.owner, msg.text, msg.owner === mySeatKey);
@@ -194,15 +198,15 @@ function render() {
   const myTurn = turn === you_key;
 
   el('youInfo').querySelector('.name').textContent = `You (${capitalize(you.faction)})`;
-  el('youInfo').querySelector('.hp-fill').style.width = Math.max(0, (you.hp / 30) * 100) + '%';
-  el('youInfo').querySelector('.hp-value').textContent = `${Math.max(0, you.hp)}/30`;
+  el('youInfo').querySelector('.hp-fill').style.width = Math.max(0, (you.hp / you.maxHp) * 100) + '%';
+  el('youInfo').querySelector('.hp-value').textContent = `${Math.max(0, you.hp)}/${you.maxHp}`;
   el('youInfo').querySelector('.mana').textContent = `${you.mana}/${you.maxMana}`;
   renderManaCrystals(el('youInfo').querySelector('.mana-crystals'), you.mana, you.maxMana);
   flashHpIfDropped('youInfo', you.hp, 'you');
 
   el('oppInfo').querySelector('.name').textContent = `Opponent (${capitalize(opponent.faction)})`;
-  el('oppInfo').querySelector('.hp-fill').style.width = Math.max(0, (opponent.hp / 30) * 100) + '%';
-  el('oppInfo').querySelector('.hp-value').textContent = `${Math.max(0, opponent.hp)}/30`;
+  el('oppInfo').querySelector('.hp-fill').style.width = Math.max(0, (opponent.hp / opponent.maxHp) * 100) + '%';
+  el('oppInfo').querySelector('.hp-value').textContent = `${Math.max(0, opponent.hp)}/${opponent.maxHp}`;
   el('oppInfo').querySelector('.mana').textContent = `${opponent.mana}/${opponent.maxMana}`;
   renderManaCrystals(el('oppInfo').querySelector('.mana-crystals'), opponent.mana, opponent.maxMana);
   flashHpIfDropped('oppInfo', opponent.hp, 'opponent');
@@ -226,7 +230,8 @@ function render() {
   renderHand(you.hand, myTurn && phase === 'deployment');
 
   el('combatBtn').disabled = !(myTurn && phase === 'deployment');
-  el('endTurnBtn').disabled = !(myTurn && (phase === 'combat' || phase === 'deployment'));
+  el('attackAllBtn').disabled = !(myTurn && phase === 'combat') || autoAttackRunning;
+  el('endTurnBtn').disabled = !(myTurn && (phase === 'combat' || phase === 'deployment')) || autoAttackRunning;
 
   el('log').innerHTML = '';
   for (const line of log) {
@@ -302,40 +307,42 @@ function renderHand(hand, interactive) {
 
 function onHandCardClick(card) {
   if (currentView.you.mana < card.cost) return;
-  selectedAttacker = null;
+  selectedMover = null;
   selectedHandCardId = selectedHandCardId === card.instanceId ? null : card.instanceId;
   render();
 }
 
 function onEmptySlotClick(side, lane, slotIndex) {
-  if (side !== 'you' || !selectedHandCardId) return;
-  send({ type: 'play_card', cardInstanceId: selectedHandCardId, lane, slotIndex });
+  if (side !== 'you') return;
+  if (selectedHandCardId) {
+    send({ type: 'play_card', cardInstanceId: selectedHandCardId, lane, slotIndex });
+    return;
+  }
+  if (
+    selectedMover &&
+    currentView.phase === 'combat' &&
+    lane !== selectedMover.lane &&
+    slotIndex === selectedMover.slot
+  ) {
+    send({ type: 'move_unit', lane: selectedMover.lane, slotIndex: selectedMover.slot });
+    selectedMover = null;
+    render();
+  }
 }
 
 function onBoardCardClick(side, lane, slotIndex) {
+  if (side !== 'you') return; // clicking the opponent's board no longer does anything — Attack All resolves combat
   const { you, turn, phase, you_key } = currentView;
   const myTurn = turn === you_key;
-
-  if (side === 'you') {
-    if (!myTurn || phase !== 'combat') return;
-    const unit = you.board[lane][slotIndex];
-    if (!unit || unit.sick || unit.attackedThisTurn) return;
-    selectedHandCardId = null;
-    selectedAttacker =
-      selectedAttacker && selectedAttacker.lane === lane && selectedAttacker.slot === slotIndex
-        ? null
-        : { lane, slot: slotIndex };
-    render();
-  } else {
-    if (!selectedAttacker) return;
-    if (slotIndex !== selectedAttacker.slot) return;
-    send({
-      type: 'attack',
-      attackerLane: selectedAttacker.lane,
-      attackerSlot: selectedAttacker.slot,
-      targetLane: lane,
-    });
-  }
+  if (!myTurn || phase !== 'combat' || autoAttackRunning) return;
+  const unit = you.board[lane][slotIndex];
+  if (!unit || unit.sick || unit.attackedThisTurn) return;
+  selectedHandCardId = null;
+  selectedMover =
+    selectedMover && selectedMover.lane === lane && selectedMover.slot === slotIndex
+      ? null
+      : { lane, slot: slotIndex };
+  render();
 }
 
 // Mirrors getLegalTargetLanes() in src/game/rules.js — Guard forces an
@@ -365,7 +372,6 @@ function legalTargetLanes(attacker) {
 
 function highlightSelections() {
   document.querySelectorAll('.slot').forEach((s) => s.classList.remove('can-play', 'legal-target'));
-  el('oppInfo').classList.remove('legal-target');
 
   if (selectedHandCardId) {
     document.querySelectorAll('#youVanguard .slot, #youRearguard .slot').forEach((s) => {
@@ -373,36 +379,72 @@ function highlightSelections() {
     });
   }
 
-  if (selectedAttacker) {
-    const legal = legalTargetLanes(selectedAttacker);
-    for (const laneName of legal) {
-      if (laneName === 'commander') {
-        el('oppInfo').classList.add('legal-target');
-      } else {
-        const containerId = laneName === 'vanguard' ? 'oppVanguard' : 'oppRearguard';
-        const slot = document.querySelectorAll(`#${containerId} .slot`)[selectedAttacker.slot];
-        if (slot) slot.classList.add('legal-target');
-      }
+  if (selectedMover) {
+    const { you } = currentView;
+    const targetLane = selectedMover.lane === 'vanguard' ? 'rearguard' : 'vanguard';
+    if (!you.board[targetLane][selectedMover.slot]) {
+      const containerId = targetLane === 'vanguard' ? 'youVanguard' : 'youRearguard';
+      const slot = document.querySelectorAll(`#${containerId} .slot`)[selectedMover.slot];
+      if (slot) slot.classList.add('legal-target');
     }
   }
 }
 
-el('oppInfo')?.addEventListener('click', () => {
-  if (!selectedAttacker) return;
-  const legal = legalTargetLanes(selectedAttacker);
-  if (!legal.includes('commander')) return;
-  send({
-    type: 'attack',
-    attackerLane: selectedAttacker.lane,
-    attackerSlot: selectedAttacker.slot,
-    targetLane: 'commander',
-  });
-});
+function waitForCombatEvent() {
+  return new Promise((resolve) => combatResolvers.push(resolve));
+}
+
+function nextEligibleAttacker() {
+  const { you } = currentView;
+  for (const lane of ['vanguard', 'rearguard']) {
+    const row = you.board[lane];
+    for (let i = 0; i < row.length; i++) {
+      const unit = row[i];
+      if (unit && !unit.sick && !unit.attackedThisTurn) return { lane, slot: i };
+    }
+  }
+  return null;
+}
+
+function pickTarget(legal) {
+  if (legal.includes('vanguard')) return 'vanguard';
+  if (legal.includes('rearguard')) return 'rearguard';
+  return 'commander';
+}
+
+async function runAttackAll() {
+  if (autoAttackRunning) return;
+  autoAttackRunning = true;
+  render();
+  try {
+    for (let guard = 0; guard < 20; guard++) {
+      if (!currentView || currentView.winner || currentView.phase !== 'combat') break;
+      if (!ws || ws.readyState !== WebSocket.OPEN) break;
+      const attacker = nextEligibleAttacker();
+      if (!attacker) break;
+      const legal = legalTargetLanes(attacker);
+      if (legal.length === 0) break;
+      send({
+        type: 'attack',
+        attackerLane: attacker.lane,
+        attackerSlot: attacker.slot,
+        targetLane: pickTarget(legal),
+      });
+      const result = await waitForCombatEvent();
+      if (result === 'error') break;
+      await new Promise((r) => setTimeout(r, 500)); // pacing so the player can follow each hit
+    }
+  } finally {
+    autoAttackRunning = false;
+    render();
+  }
+}
 
 el('combatBtn')?.addEventListener('click', () => send({ type: 'move_to_combat' }));
+el('attackAllBtn')?.addEventListener('click', runAttackAll);
 el('endTurnBtn')?.addEventListener('click', () => {
   selectedHandCardId = null;
-  selectedAttacker = null;
+  selectedMover = null;
   send({ type: 'end_turn' });
 });
 

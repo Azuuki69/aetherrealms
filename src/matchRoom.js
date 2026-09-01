@@ -1,4 +1,4 @@
-import { createGame, playCard, moveToCombat, attack, endTurn, viewFor } from './game/rules.js';
+import { createGame, playCard, moveToCombat, attack, moveUnit, endTurn, viewFor } from './game/rules.js';
 
 const SEATS = ['seatA', 'seatB'];
 
@@ -96,6 +96,9 @@ export class MatchRoom {
           break;
         case 'attack':
           attack(game, owner, msg.attackerLane, msg.attackerSlot, msg.targetLane);
+          break;
+        case 'move_unit':
+          moveUnit(game, owner, msg.lane, msg.slotIndex);
           break;
         case 'end_turn':
           endTurn(game, owner);

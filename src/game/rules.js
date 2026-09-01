@@ -11,7 +11,7 @@ import undead from '../../public/data/undead.json';
 
 export const FACTIONS = { beast, clock, damned, dwarf, dynasty, elf, fallen, human, orc, undead };
 export const LANES = 5;
-export const STARTING_HP = 30;
+export const STARTING_HP = 50;
 export const MAX_MANA = 10;
 export const STARTING_HAND_SIZE = 5;
 
@@ -126,6 +126,7 @@ export function createGame(factionA, factionB) {
       board: emptyBoard(),
       graveyard: [],
       hp: STARTING_HP,
+      maxHp: STARTING_HP,
       maxMana: 1,
       mana: 1,
       connected: false,
@@ -137,6 +138,7 @@ export function createGame(factionA, factionB) {
       board: emptyBoard(),
       graveyard: [],
       hp: STARTING_HP,
+      maxHp: STARTING_HP,
       maxMana: 1,
       mana: 1,
       connected: false,
@@ -477,6 +479,27 @@ export function endTurn(game, owner) {
   const next = opponentOf(owner);
   game.turnNumber += 1;
   startTurn(game, next);
+}
+
+// Repositioning to the row behind/in front of a unit costs its action for the
+// turn (same attackedThisTurn flag attacking sets), so it's a straight
+// alternative to attacking rather than a free extra move.
+export function moveUnit(game, owner, lane, slotIndex) {
+  requireActive(game, owner);
+  if (game.phase !== 'combat') throw new Error('Units can only reposition during the Combat phase.');
+  if (lane !== 'vanguard' && lane !== 'rearguard') throw new Error('Invalid lane.');
+  const player = game.players[owner];
+  const unit = player.board[lane][slotIndex];
+  if (!unit) throw new Error('No unit in that slot.');
+  if (unit.sick) throw new Error('That unit has summoning sickness.');
+  if (unit.attackedThisTurn) throw new Error('That unit has already used its action this turn.');
+  const targetLane = lane === 'vanguard' ? 'rearguard' : 'vanguard';
+  if (player.board[targetLane][slotIndex]) throw new Error('The row next to it is occupied.');
+  player.board[lane][slotIndex] = null;
+  player.board[targetLane][slotIndex] = unit;
+  unit.attackedThisTurn = true;
+  game.log.push(`${owner}'s ${unit.name} moves to the ${targetLane}.`);
+  return game;
 }
 
 function checkWinner(game) {
