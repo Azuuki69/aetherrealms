@@ -850,6 +850,42 @@ function initTutorial() {
   }
 }
 
+// ---------- Hand-panel resize ----------
+const HAND_WIDTH_STORAGE_KEY = 'aetherrealms_hand_col_width';
+const HAND_WIDTH_MIN = 160;
+const HAND_WIDTH_MAX_RATIO = 0.55;
+
+function initHandResize() {
+  const handle = el('boardHandResize');
+  const game = el('game');
+  if (!handle || !game) return;
+
+  const saved = Number(localStorage.getItem(HAND_WIDTH_STORAGE_KEY));
+  if (saved) game.style.setProperty('--hand-col-width', `${saved}px`);
+
+  let dragging = false;
+  handle.addEventListener('mousedown', (e) => {
+    dragging = true;
+    handle.classList.add('dragging');
+    e.preventDefault();
+  });
+  document.addEventListener('mousemove', (e) => {
+    if (!dragging) return;
+    const gameRect = game.getBoundingClientRect();
+    const padRight = parseFloat(getComputedStyle(game).paddingRight) || 0;
+    let width = gameRect.right - padRight - e.clientX - 8; // 8 = handle width
+    width = Math.max(HAND_WIDTH_MIN, Math.min(gameRect.width * HAND_WIDTH_MAX_RATIO, width));
+    game.style.setProperty('--hand-col-width', `${width}px`);
+  });
+  document.addEventListener('mouseup', () => {
+    if (!dragging) return;
+    dragging = false;
+    handle.classList.remove('dragging');
+    const px = parseFloat(game.style.getPropertyValue('--hand-col-width'));
+    if (px) localStorage.setItem(HAND_WIDTH_STORAGE_KEY, String(Math.round(px)));
+  });
+}
+
 // ---------- Chat ----------
 // Independent of render()/#log on purpose: render() destructively rebuilds
 // #log from currentView.log on every 'state' push, which would wipe any
@@ -1071,6 +1107,7 @@ function renderFactionThumbnails() {
   initRankingTabs();
   initTutorial();
   initChat();
+  initHandResize();
   renderFactionThumbnails();
   loadRankings();
 })();

@@ -225,14 +225,14 @@ h1 span {
 #game {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) clamp(150px, 11vw, 200px);
+  grid-template-columns: minmax(0, 1fr) 8px var(--hand-col-width, 280px);
   grid-template-rows: auto auto minmax(0, 1fr) auto auto;
   grid-template-areas:
-    "topbar   topbar"
-    "board    tips"
-    "board    hand"
-    "controls hand"
-    "log      hand";
+    "topbar   topbar topbar"
+    "board    handle tips"
+    "board    handle hand"
+    "controls handle hand"
+    "log      handle hand";
   width: min(98vw, 1900px);
   height: min(96vh, 1080px);
   max-width: 100%;
@@ -250,6 +250,31 @@ h1 span {
 .controls { grid-area: controls; }
 #hand { grid-area: hand; min-height: 0; }
 #log { grid-area: log; }
+
+/* Drag to trade width between the board and the hand panel; the choice
+   persists across sessions (see initHandResize() in client.js). */
+.col-resize-handle {
+  grid-area: handle;
+  cursor: col-resize;
+  position: relative;
+  border-radius: 4px;
+  background: linear-gradient(180deg, transparent, #7a5c2e50, transparent);
+  transition: background 0.15s ease;
+}
+.col-resize-handle:hover, .col-resize-handle.dragging {
+  background: linear-gradient(180deg, transparent, var(--gold), transparent);
+}
+.col-resize-handle::before {
+  content: '⋮';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--gold);
+  font-size: 14px;
+  opacity: 0.8;
+  line-height: 1;
+}
 
 #topBar {
   display: flex;
@@ -325,7 +350,6 @@ h1 span {
   flex: 1;
   min-height: 0;
   align-items: stretch;
-  justify-content: center;
   gap: 8px;
 }
 /* Was flex:1 — sharing board-wrap's width equally with .board-area meant
@@ -361,7 +385,7 @@ h1 span {
 .panel-icon { font-size: 1.2rem; }
 .board-area {
   position: relative;
-  flex: 0 1 auto;
+  flex: 1 1 auto;
   min-width: 0;
   max-width: min(92vw, 1650px);
   display: flex;
@@ -485,7 +509,7 @@ h1 span {
 
 .card {
   position: relative;
-  width: calc(100% - 12px);
+  width: 100%;
   aspect-ratio: 2 / 3;
   height: auto;
   border-radius: 8px;
@@ -589,11 +613,15 @@ h1 span {
 .controls button:disabled { opacity: 0.4; cursor: not-allowed; }
 
 .hand {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+  align-content: start;
   gap: 8px;
-  justify-content: flex-start;
-  padding: 6px 0;
+  padding: 10px;
+  border-radius: 14px;
+  background: radial-gradient(ellipse at center, #1c150d 0%, #100c07 100%);
+  border: 2px solid #7a5c2e80;
+  box-shadow: inset 0 0 30px #000c;
   overflow-y: auto;
 }
 /* Reserve room for the chat panel only while it's actually open — otherwise
