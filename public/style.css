@@ -225,8 +225,14 @@ h1 span {
 #game {
   position: relative;
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto auto auto;
-  grid-template-areas: "topbar" "board" "controls" "hand" "log";
+  grid-template-columns: minmax(0, 1fr) clamp(150px, 11vw, 200px);
+  grid-template-rows: auto auto minmax(0, 1fr) auto auto;
+  grid-template-areas:
+    "topbar   topbar"
+    "board    tips"
+    "board    hand"
+    "controls hand"
+    "log      hand";
   width: min(98vw, 1900px);
   height: min(96vh, 1080px);
   max-width: 100%;
@@ -240,8 +246,9 @@ h1 span {
 }
 #topBar { grid-area: topbar; }
 .board-wrap { grid-area: board; min-height: 0; }
+#tutorialTips { grid-area: tips; }
 .controls { grid-area: controls; }
-#hand { grid-area: hand; }
+#hand { grid-area: hand; min-height: 0; }
 #log { grid-area: log; }
 
 #topBar {
@@ -320,13 +327,6 @@ h1 span {
   align-items: stretch;
   justify-content: center;
   gap: 8px;
-}
-/* While any tip is visible (first few turns), the floating tips column on the
-   right would otherwise sit on top of the board's last lane — reserve that
-   width only for as long as a tip is actually showing, so the board still
-   reclaims full width for the rest of the match once tips are dismissed. */
-#game:has(.tutorial-tip:not(.hidden)) .board-wrap {
-  padding-right: 264px;
 }
 /* Was flex:1 — sharing board-wrap's width equally with .board-area meant
    these two thin stat-pill columns were claiming a full quarter of the
@@ -485,7 +485,7 @@ h1 span {
 
 .card {
   position: relative;
-  width: clamp(78px, 7.5vw, 112px);
+  width: calc(100% - 12px);
   aspect-ratio: 2 / 3;
   height: auto;
   border-radius: 8px;
@@ -590,11 +590,17 @@ h1 span {
 
 .hand {
   display: flex;
+  flex-direction: column;
   gap: 8px;
-  justify-content: center;
+  justify-content: flex-start;
   padding: 6px 0;
-  min-height: clamp(100px, 14vh, 170px);
-  overflow-x: auto;
+  overflow-y: auto;
+}
+/* Reserve room for the chat panel only while it's actually open — otherwise
+   its expanded window (up to ~340px tall) would sit on top of whichever
+   hand card happens to be at the bottom of this dock. */
+body:has(#chatPanel:not(.collapsed)) .hand {
+  padding-bottom: 340px;
 }
 
 .log {
@@ -707,20 +713,21 @@ h1 span {
 .chat-form button { background: linear-gradient(#e7c877, #b8912f); border: none; padding: 0 14px; font-weight: bold; cursor: pointer; }
 
 /* ---------- Tutorial tips ---------- */
-/* Floats beside the board rather than taking its own row above it, so the
-   board keeps the full space once tips are dismissed instead of a grid row
-   sitting empty for the rest of the match — same fixed-panel pattern as
-   #chatPanel/#cardPreview. */
+/* An in-flow grid cell stacked above the hand dock in the same right-hand
+   column — since .board-wrap spans both this row and the top of the hand
+   row, the board's total height is unaffected by whether tips are showing;
+   only the hand dock's height flexes a little (smaller while tips show). */
 .tutorial-tips {
-  position: fixed;
-  right: 16px;
-  top: 130px;
-  width: 240px;
-  max-width: calc(100vw - 32px);
   display: flex;
   flex-direction: column;
   gap: 8px;
-  z-index: 450;
+  /* The "tips" grid row is auto-sized to fit this element's content — at the
+     dock's narrow width, wrapped tip text can otherwise inflate that row
+     enough to starve the board/hand of their shared height budget. Capping
+     it and letting it scroll internally keeps that content-driven growth
+     from ever forcing the grid itself to overflow. */
+  max-height: clamp(80px, 20vh, 220px);
+  overflow-y: auto;
 }
 .tutorial-tip {
   position: relative;
