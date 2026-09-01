@@ -101,6 +101,30 @@ h1 span {
   -webkit-text-fill-color: var(--dim);
 }
 
+/* ---------- Buttons ---------- */
+/* One shared primary/gold treatment, used everywhere a call-to-action
+   button appears (lobby, account form, game controls, game-over overlay)
+   instead of the same gradient/border/shadow declared five separate times.
+   Context-specific selectors below only adjust sizing where needed. */
+.btn {
+  background: linear-gradient(#e7c877, #b8912f);
+  border: 1px solid #5c4419;
+  box-shadow: inset 0 1px 0 #ffe9b380, 0 3px 8px #0006;
+  color: #241c12;
+  font-family: inherit;
+  font-weight: bold;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: box-shadow 0.15s, transform 0.15s;
+}
+.btn:hover:not(:disabled) {
+  box-shadow: inset 0 1px 0 #ffe9b380, 0 3px 10px #0007, 0 0 12px color-mix(in srgb, var(--gold) 50%, transparent);
+}
+.btn:active:not(:disabled) { transform: translateY(1px); box-shadow: inset 0 1px 3px #00000060; }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
 /* ---------- Lobby ---------- */
 #lobby {
   max-width: 900px;
@@ -201,22 +225,6 @@ h1 span {
 .lobby-panel::after, .account-panel::after, .rankings-panel::after { bottom: -4px; right: -4px; }
 .lobby-panel h2 { margin-top: 0; color: var(--gold); font-family: var(--font-display); font-weight: 600; font-size: 1.2rem; letter-spacing: 0.5px; }
 .lobby-panel p { color: var(--dim); font-size: 0.9rem; }
-.lobby-panel button, #hand button { cursor: pointer; }
-.lobby-panel button {
-  background: linear-gradient(#e7c877, #b8912f);
-  border: 1px solid #5c4419;
-  box-shadow: inset 0 1px 0 #ffe9b380, 0 3px 8px #0006;
-  color: #241c12;
-  font-weight: bold;
-  padding: 0.6rem 1.2rem;
-  border-radius: 6px;
-  font-size: 1rem;
-  transition: box-shadow 0.15s, transform 0.15s;
-}
-.lobby-panel button:hover:not(:disabled) {
-  box-shadow: inset 0 1px 0 #ffe9b380, 0 3px 10px #0007, 0 0 12px color-mix(in srgb, var(--gold) 50%, transparent);
-}
-.lobby-panel button:active:not(:disabled) { transform: translateY(1px); box-shadow: inset 0 1px 3px #00000060; }
 .lobby-panel input {
   width: 100%;
   padding: 0.6rem;
@@ -288,22 +296,7 @@ h1 span {
   font-family: inherit;
   font-size: 0.95rem;
 }
-.account-form button[type="submit"] {
-  background: linear-gradient(#e7c877, #b8912f);
-  border: 1px solid #5c4419;
-  box-shadow: inset 0 1px 0 #ffe9b380, 0 3px 8px #0006;
-  color: #241c12;
-  font-weight: bold;
-  padding: 0.5rem 1.1rem;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  cursor: pointer;
-  transition: box-shadow 0.15s, transform 0.15s;
-}
-.account-form button[type="submit"]:hover {
-  box-shadow: inset 0 1px 0 #ffe9b380, 0 3px 10px #0007, 0 0 12px color-mix(in srgb, var(--gold) 50%, transparent);
-}
-.account-form button[type="submit"]:active { transform: translateY(1px); box-shadow: inset 0 1px 3px #00000060; }
+.account-form .btn { padding: 0.5rem 1.1rem; font-size: 0.9rem; }
 .link-btn {
   background: none;
   border: none;
@@ -751,17 +744,7 @@ h1 span {
 }
 
 .controls { display: flex; gap: 1rem; justify-content: center; padding: 0.35rem; }
-.controls button, #hand .end-icons button {
-  background: linear-gradient(#e7c877, #b8912f);
-  border: 1px solid #5c4419;
-  color: #241c12;
-  font-weight: bold;
-  padding: 0.4rem 1.4rem;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 0.95rem;
-}
-.controls button:disabled { opacity: 0.4; cursor: not-allowed; }
+.controls .btn { padding: 0.4rem 1.4rem; font-size: 0.95rem; }
 
 .hand {
   display: grid;
@@ -805,15 +788,7 @@ body:has(#chatPanel:not(.collapsed)) .hand {
   text-align: center;
 }
 .overlay-box h2 { color: var(--gold); }
-.overlay-box button {
-  margin-top: 1rem;
-  background: linear-gradient(#e7c877, #b8912f);
-  border: 1px solid #5c4419;
-  padding: 0.6rem 1.4rem;
-  border-radius: 6px;
-  font-weight: bold;
-  cursor: pointer;
-}
+.overlay-box .btn { margin-top: 1rem; padding: 0.6rem 1.4rem; }
 
 #coinFlipOverlay { position: fixed; z-index: 600; }
 .coin-flip-box { min-width: 260px; }

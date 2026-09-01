@@ -27,7 +27,7 @@
       <form id="accountForm" class="account-form">
         <input id="accountUsername" placeholder="Username" autocomplete="username" maxlength="20" />
         <input id="accountPassword" type="password" placeholder="Password" autocomplete="current-password" maxlength="60" />
-        <button id="accountSubmitBtn" type="submit">Log In</button>
+        <button id="accountSubmitBtn" type="submit" class="btn">Log In</button>
         <button id="accountToggleModeBtn" type="button" class="link-btn">Need an account? Register</button>
       </form>
       <div id="accountStatus" class="account-status"></div>
@@ -55,7 +55,7 @@
     <div class="lobby-panel">
       <h2>Create a Match</h2>
       <p>Pick a faction above, then create a room and share the code.</p>
-      <button id="createBtn">Create Match</button>
+      <button id="createBtn" class="btn">Create Match</button>
       <div id="createdCode" class="room-code hidden">
         <span id="createdCodeText"></span>
         <button type="button" id="copyCodeBtn" class="copy-code-btn">Copy</button>
@@ -65,7 +65,7 @@
       <h2>Join a Match</h2>
       <p>Pick a faction above, then enter your friend's room code.</p>
       <input id="joinCode" maxlength="6" placeholder="ROOM CODE" autocomplete="off" />
-      <button id="joinBtn">Join Match</button>
+      <button id="joinBtn" class="btn">Join Match</button>
     </div>
   </div>
 
@@ -150,9 +150,9 @@
   </div>
 
   <div class="controls">
-    <button id="combatBtn">Go to Combat</button>
-    <button id="attackAllBtn">Attack All</button>
-    <button id="endTurnBtn">End Turn</button>
+    <button id="combatBtn" class="btn">Go to Combat</button>
+    <button id="attackAllBtn" class="btn">Attack All</button>
+    <button id="endTurnBtn" class="btn">End Turn</button>
   </div>
 
   <div id="hand" class="hand"></div>
@@ -160,7 +160,7 @@
   <div id="gameOverOverlay" class="overlay hidden">
     <div class="overlay-box">
       <h2 id="gameOverText"></h2>
-      <button onclick="location.reload()">Back to Lobby</button>
+      <button onclick="location.reload()" class="btn">Back to Lobby</button>
     </div>
   </div>
 
