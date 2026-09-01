@@ -225,8 +225,8 @@ h1 span {
 #game {
   position: relative;
   display: grid;
-  grid-template-rows: auto auto minmax(0, 1fr) auto auto auto;
-  grid-template-areas: "topbar" "tips" "board" "controls" "hand" "log";
+  grid-template-rows: auto minmax(0, 1fr) auto auto auto;
+  grid-template-areas: "topbar" "board" "controls" "hand" "log";
   width: min(98vw, 1900px);
   height: min(96vh, 1080px);
   max-width: 100%;
@@ -239,7 +239,6 @@ h1 span {
     radial-gradient(ellipse at 50% 50%, transparent 55%, #000 100%);
 }
 #topBar { grid-area: topbar; }
-#tutorialTips { grid-area: tips; }
 .board-wrap { grid-area: board; min-height: 0; }
 .controls { grid-area: controls; }
 #hand { grid-area: hand; }
@@ -321,13 +320,28 @@ h1 span {
   align-items: stretch;
   gap: 8px;
 }
+/* While any tip is visible (first few turns), the floating tips column on the
+   right would otherwise sit on top of the board's last lane — reserve that
+   width only for as long as a tip is actually showing, so the board still
+   reclaims full width for the rest of the match once tips are dismissed. */
+#game:has(.tutorial-tip:not(.hidden)) .board-wrap {
+  padding-right: 264px;
+}
+/* Was flex:1 — sharing board-wrap's width equally with .board-area meant
+   these two thin stat-pill columns were claiming a full quarter of the
+   board's width each. They only need enough room for .panel-stat itself. */
 .side-panel {
-  flex: 1;
+  flex: 0 0 auto;
+  width: clamp(70px, 6vw, 110px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 12px;
+  padding: 10px 4px;
+  border-radius: 14px;
+  background: radial-gradient(ellipse at center, #1c150d60 0%, transparent 70%);
+  border: 1px solid #4a3a2250;
 }
 .panel-stat {
   display: flex;
@@ -345,9 +359,10 @@ h1 span {
 }
 .panel-icon { font-size: 1.2rem; }
 .board-area {
+  position: relative;
   flex: 1 1 auto;
   min-width: 0;
-  max-width: min(82vw, 1400px);
+  max-width: min(92vw, 1650px);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -357,9 +372,26 @@ h1 span {
   padding: 10px 8px;
   border-radius: 16px;
   background: radial-gradient(ellipse at center, #1c150d 0%, #100c07 100%);
-  box-shadow: inset 0 0 50px #000c, inset 0 0 0 1px #6b5330, 0 8px 30px #0009;
-  border: 1px solid #4a3a2280;
+  box-shadow: inset 0 0 60px #000d, inset 0 0 0 1px #6b5330, 0 10px 34px #000a;
+  border: 2px solid #7a5c2e80;
 }
+/* Small gold corner ornaments (diagonal corners only — a single element only
+   has two pseudo-elements to spend), echoing the diamond mana-crystal motif
+   already used in #topBar, so the board frame reads as a "war table" rather
+   than a plain box. */
+.board-area::before, .board-area::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: var(--gold);
+  opacity: 0.7;
+  transform: rotate(45deg);
+  box-shadow: 0 0 6px #d9b25c90;
+  pointer-events: none;
+}
+.board-area::before { top: -5px; left: -5px; }
+.board-area::after { bottom: -5px; right: -5px; }
 .lane-row {
   display: flex;
   flex-direction: row;
@@ -371,25 +403,48 @@ h1 span {
   width: 100%;
   flex: 1;
   min-height: 0;
+  /* Faint per-column separators so the 7 lanes read as distinct at a glance,
+     without drawing a border around every individual slot. */
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent 0,
+    transparent calc((100% / 7) - 1px),
+    #d9b25c22 calc((100% / 7) - 1px),
+    #d9b25c22 calc(100% / 7)
+  );
 }
 #oppRearguard, #youRearguard {
-  background: linear-gradient(180deg, var(--rearguard), transparent);
+  background-color: transparent;
+  background-image:
+    repeating-linear-gradient(90deg, transparent 0, transparent calc((100% / 7) - 1px), #d9b25c22 calc((100% / 7) - 1px), #d9b25c22 calc(100% / 7)),
+    linear-gradient(180deg, var(--rearguard), transparent);
 }
 #oppVanguard, #youVanguard {
-  background: linear-gradient(180deg, var(--vanguard), transparent);
+  background-color: transparent;
+  background-image:
+    repeating-linear-gradient(90deg, transparent 0, transparent calc((100% / 7) - 1px), #d9b25c22 calc((100% / 7) - 1px), #d9b25c22 calc(100% / 7)),
+    linear-gradient(180deg, var(--vanguard), transparent);
 }
+/* The actual front line where the two sides meet — given a slow pulse
+   (reusing the existing pulse-gold keyframes at low intensity) so it reads
+   as the battle line rather than a static rule between two boxes. */
 .lane-divider {
-  height: 2px;
+  height: 3px;
   background: linear-gradient(90deg, transparent, var(--gold), transparent);
   margin: 2px 0;
-  opacity: 0.6;
-  box-shadow: 0 0 8px var(--gold);
+  opacity: 0.75;
+  box-shadow: 0 0 10px var(--gold);
+  animation: pulse-divider 3s ease-in-out infinite;
+}
+@keyframes pulse-divider {
+  0%, 100% { box-shadow: 0 0 8px var(--gold); opacity: 0.65; }
+  50% { box-shadow: 0 0 16px var(--gold); opacity: 0.9; }
 }
 
 .slot {
   position: relative;
   height: 100%;
-  max-height: 180px;
+  max-height: 220px;
   min-height: 60px;
   aspect-ratio: 2 / 3;
   width: auto;
@@ -651,17 +706,24 @@ h1 span {
 .chat-form button { background: linear-gradient(#e7c877, #b8912f); border: none; padding: 0 14px; font-weight: bold; cursor: pointer; }
 
 /* ---------- Tutorial tips ---------- */
+/* Floats beside the board rather than taking its own row above it, so the
+   board keeps the full space once tips are dismissed instead of a grid row
+   sitting empty for the rest of the match — same fixed-panel pattern as
+   #chatPanel/#cardPreview. */
 .tutorial-tips {
+  position: fixed;
+  right: 16px;
+  top: 130px;
+  width: 240px;
+  max-width: calc(100vw - 32px);
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 6px;
-  margin-bottom: 4px;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 450;
 }
 .tutorial-tip {
   position: relative;
-  max-width: 220px;
-  flex: 1 1 200px;
+  max-width: none;
   background: linear-gradient(#3a2c14, #241c12);
   border: 1px solid var(--gold);
   border-radius: 8px;
