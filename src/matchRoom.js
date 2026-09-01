@@ -112,7 +112,7 @@ export class MatchRoom {
           moveToCombat(game, owner);
           break;
         case 'attack':
-          attack(game, owner, msg.attackerLane, msg.attackerSlot, msg.targetLane);
+          attack(game, owner, msg.attackerLane, msg.attackerSlot, msg.targetLane, msg.targetSlot);
           break;
         case 'move_unit':
           moveUnit(game, owner, msg.fromLane, msg.fromSlot, msg.toLane, msg.toSlot);

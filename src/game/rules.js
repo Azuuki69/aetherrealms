@@ -55,6 +55,7 @@ function detectKeywords(text) {
   if (/war cry/.test(t)) kw.push('warcry');
   if (/slayer/.test(t)) kw.push('slayer');
   if (/curse/.test(t)) kw.push('curse');
+  if (/taunt/.test(t)) kw.push('taunt');
   return kw;
 }
 
@@ -436,36 +437,54 @@ export function moveToCombat(game, owner) {
   game.phase = 'combat';
 }
 
-// Guard forces attackers to target it first, from either row — a change
-// from only-Vanguard-blocks, since these individual character cards carry
-// Guard as a property of the card rather than of the row it's standing in.
-// Volley/Ranged units ignore Guard entirely (their own printed text says so).
-// There is no commander-bypass for any keyword (including Siege) — the only
-// way to hit the castle is a genuinely undefended lane, available to anyone.
-export function getLegalTargetLanes(game, owner, attackerLane, attackerSlot) {
-  const player = game.players[owner];
-  const unit = player.board[attackerLane][attackerSlot];
+// A column can route to the castle only when it's genuinely undefended: no
+// Vanguard standing in it, and no unbypassed Guard Rearguard forcing itself
+// as the mandatory target for that column instead.
+function columnOpensCastleRoute(oppBoard, col, hasPrecise) {
+  if (oppBoard.vanguard[col]) return false;
+  const r = oppBoard.rearguard[col];
+  return !(r && r.keywords.includes('guard') && !hasPrecise);
+}
+
+// Single source of truth for "can this attacker legally hit this target" —
+// used by attack()'s validation, the client's target highlighting, and the
+// Attack-All auto-combat loop. Returns a flat list of concrete targets:
+// { type: 'unit', lane, slot } or { type: 'castle' }.
+//
+// Vanguard is always targetable regardless of column (no more same-slot
+// lock). A Rearguard is targetable once its OWN column's Vanguard is gone,
+// or by a Volley/Ranged attacker regardless. The castle is targetable once
+// at least one column is fully undefended. Taunt overrides all of this: any
+// reachable Taunt unit becomes the only legal target, including over the
+// castle, until no reachable Taunt remains.
+export function getLegalAttackTargets(game, owner, attackerLane, attackerSlot) {
+  const unit = game.players[owner].board[attackerLane][attackerSlot];
   if (!unit) return [];
   const oppBoard = game.players[opponentOf(owner)].board;
-  const vanguard = oppBoard.vanguard[attackerSlot];
-  const rearguard = oppBoard.rearguard[attackerSlot];
-  const hasVolley = unit.keywords.includes('volley');
+  const isRanged = unit.keywords.includes('volley');
   const hasPrecise = unit.keywords.includes('precise');
 
-  if (hasVolley) {
-    // Volley/Ranged ignores Guard and forced blocking entirely — it may
-    // choose either occupied row, or the Commander if the lane is empty.
-    const opts = [];
-    if (vanguard) opts.push('vanguard');
-    if (rearguard) opts.push('rearguard');
-    if (opts.length === 0) opts.push('commander');
-    return opts;
+  const taunts = [];
+  for (const lane of ['vanguard', 'rearguard']) {
+    oppBoard[lane].forEach((u, slot) => {
+      if (!u || !u.keywords.includes('taunt')) return;
+      const reachable = lane === 'vanguard' || isRanged || !oppBoard.vanguard[slot];
+      if (reachable) taunts.push({ type: 'unit', lane, slot });
+    });
   }
-  // Precise only ignores a Guard blocker specifically — an ordinary occupied
-  // Vanguard still stops it like anyone else.
-  if (vanguard) return ['vanguard'];
-  if (rearguard && rearguard.keywords.includes('guard') && !hasPrecise) return ['rearguard'];
-  return ['commander'];
+  if (taunts.length > 0) return taunts;
+
+  const targets = [];
+  let castleReachable = false;
+  for (let col = 0; col < LANES; col++) {
+    if (oppBoard.vanguard[col]) targets.push({ type: 'unit', lane: 'vanguard', slot: col });
+    if (oppBoard.rearguard[col] && (isRanged || !oppBoard.vanguard[col])) {
+      targets.push({ type: 'unit', lane: 'rearguard', slot: col });
+    }
+    if (columnOpensCastleRoute(oppBoard, col, hasPrecise)) castleReachable = true;
+  }
+  if (castleReachable) targets.push({ type: 'castle' });
+  return targets;
 }
 
 // Heals `healOwnerKey`'s castle for `dmgDealt` if `sourceUnit` has Lifesteal.
@@ -477,7 +496,7 @@ function applyLifestealIfAny(game, healOwnerKey, sourceUnit, dmgDealt) {
   if (player.hp > before) game.log.push(`${healOwnerKey} heals ${player.hp - before} (Lifesteal).`);
 }
 
-export function attack(game, owner, attackerLane, attackerSlot, targetLane) {
+export function attack(game, owner, attackerLane, attackerSlot, targetLane, targetSlot) {
   requireActive(game, owner);
   if (game.phase !== 'combat') throw new Error('Attacks can only happen during the Combat phase.');
   const player = game.players[owner];
@@ -485,17 +504,22 @@ export function attack(game, owner, attackerLane, attackerSlot, targetLane) {
   if (!unit) throw new Error('No unit in that slot.');
   if (unit.sick) throw new Error('That unit has summoning sickness.');
   if (unit.attackedThisTurn) throw new Error('That unit already attacked this turn.');
-  const legal = getLegalTargetLanes(game, owner, attackerLane, attackerSlot);
-  if (!legal.includes(targetLane)) throw new Error('Illegal target for this attack.');
+
+  const isCastleTarget = targetLane === 'commander';
+  const legal = getLegalAttackTargets(game, owner, attackerLane, attackerSlot);
+  const legalMatch = legal.find((t) =>
+    isCastleTarget ? t.type === 'castle' : t.type === 'unit' && t.lane === targetLane && t.slot === targetSlot
+  );
+  if (!legalMatch) throw new Error('Illegal target for this attack.');
 
   const opponentKey = opponentOf(owner);
   const opponent = game.players[opponentKey];
   unit.attackedThisTurn = true;
   const attackPower = effectivePower(game, owner, attackerLane, attackerSlot);
 
-  // Undefended-lane fallthrough: the one way to reach the castle, available
+  // Undefended-column fallthrough: the one way to reach the castle, available
   // to any attacker, not a special ability of any keyword.
-  if (targetLane === 'commander') {
+  if (isCastleTarget) {
     opponent.hp -= attackPower;
     game.log.push(`${owner}'s ${unit.name} breaks through and hits the enemy castle for ${attackPower}.`);
     applyLifestealIfAny(game, owner, unit, attackPower);
@@ -507,9 +531,12 @@ export function attack(game, owner, attackerLane, attackerSlot, targetLane) {
   // deal damage without risking any back — everything else trades both ways,
   // MTG-style: both hits are computed from pre-combat stats and applied at
   // the same instant, so two units can kill each other in one exchange.
-  const targetUnit = opponent.board[targetLane][attackerSlot];
+  // NOTE: the attacker and target can now be in different columns, so every
+  // lookup into the OPPONENT's board below must use targetSlot, never
+  // attackerSlot — only lookups into the ATTACKER's own board stay attackerSlot.
+  const targetUnit = opponent.board[targetLane][targetSlot];
   const isRanged = unit.keywords.includes('volley') || unit.keywords.includes('siege');
-  const defenderPower = isRanged ? 0 : effectivePower(game, opponentKey, targetLane, attackerSlot);
+  const defenderPower = isRanged ? 0 : effectivePower(game, opponentKey, targetLane, targetSlot);
 
   let fwdShielded = false;
   let backShielded = false;
@@ -528,7 +555,7 @@ export function attack(game, owner, attackerLane, attackerSlot, targetLane) {
   if (!fwdShielded) {
     fwdDmg = attackPower;
     if (targetUnit.keywords.includes('phalanx')) fwdDmg = Math.max(0, fwdDmg - 1);
-    if (hasFormationToughness(game, opponentKey, targetLane, attackerSlot)) fwdDmg = Math.max(0, fwdDmg - 1);
+    if (hasFormationToughness(game, opponentKey, targetLane, targetSlot)) fwdDmg = Math.max(0, fwdDmg - 1);
   }
   let backDmg = 0;
   if (!isRanged && !backShielded) {
@@ -592,13 +619,13 @@ export function attack(game, owner, attackerLane, attackerSlot, targetLane) {
 
   if (!targetSurvived) {
     const overflow = -targetUnit.defense;
-    destroyUnit(game, opponentKey, targetLane, attackerSlot);
+    destroyUnit(game, opponentKey, targetLane, targetSlot);
     if (unit.keywords.includes('trample') && overflow > 0) {
-      const behind = targetLane === 'vanguard' ? opponent.board.rearguard[attackerSlot] : null;
+      const behind = targetLane === 'vanguard' ? opponent.board.rearguard[targetSlot] : null;
       if (behind) {
         behind.defense -= overflow;
         game.log.push(`Trample carries ${overflow} to ${behind.name}.`);
-        if (behind.defense <= 0) destroyUnit(game, opponentKey, 'rearguard', attackerSlot);
+        if (behind.defense <= 0) destroyUnit(game, opponentKey, 'rearguard', targetSlot);
       } else {
         opponent.hp -= overflow;
         game.log.push(`Trample carries ${overflow} to the enemy castle.`);

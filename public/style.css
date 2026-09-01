@@ -259,6 +259,7 @@ h1 span {
 }
 .hp-panel { display: flex; align-items: center; gap: 0.6rem; min-width: 240px; border: 2px solid transparent; border-radius: 8px; padding: 4px 8px; margin: -4px -8px; }
 .hp-panel .name { font-weight: bold; color: var(--gold); min-width: 90px; font-size: 1.05rem; }
+.hp-panel.legal-target { border-color: #6fd66a; cursor: pointer; animation: pulse-green 1.3s ease-in-out infinite; }
 
 /* ---------- Castle (base HP) ---------- */
 .castle-wrap { position: relative; width: clamp(48px, 5vw, 72px); height: clamp(48px, 5vw, 72px); flex-shrink: 0; }

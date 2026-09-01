@@ -18,7 +18,7 @@ let mySeatKey = null; // 'A' or 'B', informational only
 let currentView = null;
 let previousBoardIds = new Set();
 let selectedHandCardId = null;
-let selectedMover = null; // { lane, slot } — your own unit selected to move to the opposite row, in place of attacking
+let selectedUnit = null; // { lane, slot } — your own unit selected as the acting unit for this turn: clicking a legal move destination moves it, clicking a legal enemy target/the castle attacks with it
 let tutorialDismissed = false;
 let previousView = null; // diff source for the combat feedback effect system (computeEffects)
 let combatResolvers = [];
@@ -80,7 +80,7 @@ function handleMessage(msg) {
       currentView = msg;
       mySeatKey = msg.you_key;
       selectedHandCardId = null;
-      selectedMover = null;
+      selectedUnit = null;
       if (msg.phase === 'coinflip') {
         renderCoinFlip(msg);
       } else {
@@ -425,7 +425,7 @@ function renderHand(hand, interactive) {
 
 function onHandCardClick(card) {
   if (currentView.you.mana < card.cost) return;
-  selectedMover = null;
+  selectedUnit = null;
   selectedHandCardId = selectedHandCardId === card.instanceId ? null : card.instanceId;
   render();
 }
@@ -451,67 +451,116 @@ function onEmptySlotClick(side, lane, slotIndex) {
     send({ type: 'play_card', cardInstanceId: selectedHandCardId, lane, slotIndex });
     return;
   }
-  if (selectedMover && currentView.phase === 'combat') {
-    const isLegal = legalMoveDestinations(selectedMover).some(
+  if (selectedUnit && currentView.phase === 'combat') {
+    const isLegal = legalMoveDestinations(selectedUnit).some(
       (d) => d.lane === lane && d.slot === slotIndex
     );
     if (isLegal) {
       send({
         type: 'move_unit',
-        fromLane: selectedMover.lane,
-        fromSlot: selectedMover.slot,
+        fromLane: selectedUnit.lane,
+        fromSlot: selectedUnit.slot,
         toLane: lane,
         toSlot: slotIndex,
       });
-      selectedMover = null;
+      selectedUnit = null;
       render();
     }
   }
 }
 
 function onBoardCardClick(side, lane, slotIndex) {
-  if (side !== 'you') return; // clicking the opponent's board no longer does anything — Attack All resolves combat
-  const { you, turn, phase, you_key } = currentView;
+  const { turn, phase, you_key } = currentView;
   const myTurn = turn === you_key;
   if (!myTurn || phase !== 'combat' || autoAttackRunning) return;
-  const unit = you.board[lane][slotIndex];
-  if (!unit || unit.sick || unit.attackedThisTurn) return;
-  selectedHandCardId = null;
-  selectedMover =
-    selectedMover && selectedMover.lane === lane && selectedMover.slot === slotIndex
-      ? null
-      : { lane, slot: slotIndex };
-  render();
+
+  if (side === 'you') {
+    const unit = currentView.you.board[lane][slotIndex];
+    if (!unit || unit.sick || unit.attackedThisTurn) return;
+    selectedHandCardId = null;
+    selectedUnit =
+      selectedUnit && selectedUnit.lane === lane && selectedUnit.slot === slotIndex
+        ? null
+        : { lane, slot: slotIndex };
+    render();
+    return;
+  }
+
+  // Clicking an enemy unit attacks it, but only if it's an actually legal
+  // target for the currently-selected attacker.
+  if (!selectedUnit) return;
+  const isLegal = legalAttackTargets(selectedUnit).some(
+    (t) => t.type === 'unit' && t.lane === lane && t.slot === slotIndex
+  );
+  if (!isLegal) return;
+  send({
+    type: 'attack',
+    attackerLane: selectedUnit.lane,
+    attackerSlot: selectedUnit.slot,
+    targetLane: lane,
+    targetSlot: slotIndex,
+  });
+  selectedUnit = null;
 }
 
-// Mirrors getLegalTargetLanes() in src/game/rules.js — Guard forces an
-// attacker to target it from either row; a plain Rearguard occupant without
-// Guard never blocks a hit on the castle; Volley ignores Guard entirely.
-// There is no commander/castle bypass for any keyword — the castle is only
-// ever reachable through a genuinely undefended lane.
-function legalTargetLanes(attacker) {
+function onCastleClick() {
+  const { turn, phase, you_key } = currentView;
+  if (turn !== you_key || phase !== 'combat' || autoAttackRunning || !selectedUnit) return;
+  const isLegal = legalAttackTargets(selectedUnit).some((t) => t.type === 'castle');
+  if (!isLegal) return;
+  send({
+    type: 'attack',
+    attackerLane: selectedUnit.lane,
+    attackerSlot: selectedUnit.slot,
+    targetLane: 'commander',
+  });
+  selectedUnit = null;
+}
+
+// Mirrors getLegalAttackTargets() in src/game/rules.js — the single source
+// of truth for "can this attacker legally hit this target" lives server-
+// side; this mirror only drives which targets get highlighted/clickable.
+// Returns { type: 'unit', lane, slot } or { type: 'castle' } entries.
+function columnOpensCastleRoute(oppBoard, col, hasPrecise) {
+  if (oppBoard.vanguard[col]) return false;
+  const r = oppBoard.rearguard[col];
+  return !(r && r.keywords.includes('guard') && !hasPrecise);
+}
+
+function legalAttackTargets(attacker) {
   const { you, opponent } = currentView;
   const unit = you.board[attacker.lane][attacker.slot];
   if (!unit) return [];
-  const col = attacker.slot;
-  const vanguard = opponent.board.vanguard[col];
-  const rearguard = opponent.board.rearguard[col];
-  const hasVolley = unit.keywords.includes('volley');
+  const oppBoard = opponent.board;
+  const isRanged = unit.keywords.includes('volley');
   const hasPrecise = unit.keywords.includes('precise');
-  if (hasVolley) {
-    const opts = [];
-    if (vanguard) opts.push('vanguard');
-    if (rearguard) opts.push('rearguard');
-    if (opts.length === 0) opts.push('commander');
-    return opts;
+
+  const taunts = [];
+  for (const lane of ['vanguard', 'rearguard']) {
+    oppBoard[lane].forEach((u, slot) => {
+      if (!u || !u.keywords.includes('taunt')) return;
+      const reachable = lane === 'vanguard' || isRanged || !oppBoard.vanguard[slot];
+      if (reachable) taunts.push({ type: 'unit', lane, slot });
+    });
   }
-  if (vanguard) return ['vanguard'];
-  if (rearguard && rearguard.keywords.includes('guard') && !hasPrecise) return ['rearguard'];
-  return ['commander'];
+  if (taunts.length > 0) return taunts;
+
+  const targets = [];
+  let castleReachable = false;
+  for (let col = 0; col < oppBoard.vanguard.length; col++) {
+    if (oppBoard.vanguard[col]) targets.push({ type: 'unit', lane: 'vanguard', slot: col });
+    if (oppBoard.rearguard[col] && (isRanged || !oppBoard.vanguard[col])) {
+      targets.push({ type: 'unit', lane: 'rearguard', slot: col });
+    }
+    if (columnOpensCastleRoute(oppBoard, col, hasPrecise)) castleReachable = true;
+  }
+  if (castleReachable) targets.push({ type: 'castle' });
+  return targets;
 }
 
 function highlightSelections() {
   document.querySelectorAll('.slot').forEach((s) => s.classList.remove('can-play', 'legal-target'));
+  el('oppInfo').classList.remove('legal-target');
 
   if (selectedHandCardId) {
     document.querySelectorAll('#youVanguard .slot, #youRearguard .slot').forEach((s) => {
@@ -519,10 +568,19 @@ function highlightSelections() {
     });
   }
 
-  if (selectedMover) {
-    legalMoveDestinations(selectedMover).forEach(({ lane, slot }) => {
+  if (selectedUnit) {
+    legalMoveDestinations(selectedUnit).forEach(({ lane, slot }) => {
       const containerId = lane === 'vanguard' ? 'youVanguard' : 'youRearguard';
       const slotEl = document.querySelectorAll(`#${containerId} .slot`)[slot];
+      if (slotEl) slotEl.classList.add('legal-target');
+    });
+    legalAttackTargets(selectedUnit).forEach((t) => {
+      if (t.type === 'castle') {
+        el('oppInfo').classList.add('legal-target');
+        return;
+      }
+      const containerId = t.lane === 'vanguard' ? 'oppVanguard' : 'oppRearguard';
+      const slotEl = document.querySelectorAll(`#${containerId} .slot`)[t.slot];
       if (slotEl) slotEl.classList.add('legal-target');
     });
   }
@@ -544,10 +602,18 @@ function nextEligibleAttacker() {
   return null;
 }
 
+// Convenience auto-target for Attack All: Vanguard preferred over Rearguard
+// over the castle, and among several same-tier choices, the lowest-current-
+// HP enemy unit (finish off the weakest first). Taunt already narrows the
+// legal list to just the mandatory target(s) before this ever runs.
 function pickTarget(legal) {
-  if (legal.includes('vanguard')) return 'vanguard';
-  if (legal.includes('rearguard')) return 'rearguard';
-  return 'commander';
+  const { opponent } = currentView;
+  const unitDefense = (t) => opponent.board[t.lane][t.slot].defense;
+  const vanguardTargets = legal.filter((t) => t.type === 'unit' && t.lane === 'vanguard');
+  const rearguardTargets = legal.filter((t) => t.type === 'unit' && t.lane === 'rearguard');
+  const pool = vanguardTargets.length ? vanguardTargets : rearguardTargets;
+  if (pool.length) return pool.slice().sort((a, b) => unitDefense(a) - unitDefense(b))[0];
+  return legal.find((t) => t.type === 'castle') || null;
 }
 
 async function runAttackAll() {
@@ -560,13 +626,16 @@ async function runAttackAll() {
       if (!ws || ws.readyState !== WebSocket.OPEN) break;
       const attacker = nextEligibleAttacker();
       if (!attacker) break;
-      const legal = legalTargetLanes(attacker);
+      const legal = legalAttackTargets(attacker);
       if (legal.length === 0) break;
+      const target = pickTarget(legal);
+      if (!target) break;
       send({
         type: 'attack',
         attackerLane: attacker.lane,
         attackerSlot: attacker.slot,
-        targetLane: pickTarget(legal),
+        targetLane: target.type === 'castle' ? 'commander' : target.lane,
+        targetSlot: target.type === 'castle' ? undefined : target.slot,
       });
       const result = await waitForCombatEvent();
       if (result === 'error') break;
@@ -578,11 +647,12 @@ async function runAttackAll() {
   }
 }
 
+el('oppInfo')?.addEventListener('click', onCastleClick);
 el('combatBtn')?.addEventListener('click', () => send({ type: 'move_to_combat' }));
 el('attackAllBtn')?.addEventListener('click', runAttackAll);
 el('endTurnBtn')?.addEventListener('click', () => {
   selectedHandCardId = null;
-  selectedMover = null;
+  selectedUnit = null;
   send({ type: 'end_turn' });
 });
 
