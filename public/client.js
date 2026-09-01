@@ -726,7 +726,22 @@ function legalAttackTargets(attacker) {
 
 function highlightSelections() {
   document.querySelectorAll('.slot').forEach((s) => s.classList.remove('can-play', 'legal-target'));
+  document.querySelectorAll('.card.attack-ready').forEach((c) => c.classList.remove('attack-ready'));
   el('oppInfo').classList.remove('legal-target');
+
+  // A quiet glow on every unit of yours that could currently act, so
+  // "which of my units can attack" reads at a glance instead of requiring
+  // a click-by-click check of sick/attacked state.
+  const { phase, turn, you_key } = currentView;
+  if (phase === 'combat' && turn === you_key) {
+    for (const lane of ['vanguard', 'rearguard']) {
+      document.querySelectorAll(`#you${capitalize(lane)} .slot`).forEach((slotEl) => {
+        const unit = currentView.you.board[lane][Number(slotEl.dataset.slot)];
+        const cardEl = slotEl.querySelector('.card');
+        if (cardEl && unit && !unit.sick && !unit.attackedThisTurn) cardEl.classList.add('attack-ready');
+      });
+    }
+  }
 
   if (selectedHandCardId) {
     document.querySelectorAll('#youVanguard .slot, #youRearguard .slot').forEach((s) => {
