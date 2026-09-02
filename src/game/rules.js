@@ -146,6 +146,7 @@ export function createGame(factionA, factionB, firstPlayer = 'A', usernameA = nu
       connected: false,
       castleShield: 0,
       turnDamageReduction: 0,
+      diedThisTurn: 0,
     },
     B: {
       faction: factionB,
@@ -161,6 +162,7 @@ export function createGame(factionA, factionB, firstPlayer = 'A', usernameA = nu
       connected: false,
       castleShield: 0,
       turnDamageReduction: 0,
+      diedThisTurn: 0,
     },
   };
   return {
@@ -304,8 +306,24 @@ function revertEndOfTurnBuffs(game, owner) {
         unit.defense -= unit.turnDefenseBonus;
         unit.maxDefense -= unit.turnDefenseBonus;
         unit.turnDefenseBonus = 0;
-        if (unit.defense <= 0) destroyUnit(game, owner, lane, idx);
+        if (unit.defense <= 0) {
+          destroyUnit(game, owner, lane, idx); // may be saved by an active deathWard
+          return;
+        }
       }
+      if (unit.pendingSelfDamage) {
+        const amount = unit.pendingSelfDamage;
+        unit.pendingSelfDamage = 0;
+        unit.defense -= amount;
+        game.log.push(`${unit.name} takes ${amount} recoil damage.`);
+        if (unit.defense <= 0) {
+          destroyUnit(game, owner, lane, idx);
+          return;
+        }
+      }
+      // An unused death ward (Bone Ward) only protects through the turn it
+      // was cast on — whatever's left over expires here, not indefinitely.
+      unit.deathWard = false;
     });
   }
 
@@ -387,6 +405,15 @@ function destroyUnit(game, owner, lane, slotIndex) {
   const player = game.players[owner];
   const unit = player.board[lane][slotIndex];
   if (!unit) return;
+  if (unit.deathWard) {
+    unit.deathWard = false;
+    unit.defense = 1;
+    unit.power = unit.basePower;
+    player.board[lane][slotIndex] = null;
+    player.hand.push(unit);
+    game.log.push(`${unit.name} returns to ${owner}'s hand at 1 HP (warded).`);
+    return;
+  }
   if (unit.keywords.includes('rebirth') && !unit.usedRebirth) {
     unit.usedRebirth = true;
     unit.defense = 1;
@@ -398,6 +425,7 @@ function destroyUnit(game, owner, lane, slotIndex) {
   }
   player.board[lane][slotIndex] = null;
   player.graveyard.push(unit);
+  player.diedThisTurn = (player.diedThisTurn || 0) + 1;
   game.log.push(`${unit.name} is destroyed.`);
   if (unit.keywords.includes('lastbreath')) {
     // Scope the number to the clause after "Last Breath" specifically —
@@ -428,6 +456,7 @@ export function startTurn(game, owner) {
   player.mana = player.maxMana;
   player.castleShield = 0;
   player.turnDamageReduction = 0;
+  player.diedThisTurn = 0;
   processPendingEffects(game, owner);
   for (const lane of ['vanguard', 'rearguard']) {
     player.board[lane].forEach((unit, idx) => {
@@ -692,6 +721,56 @@ function resolveSpellEffect(game, owner, card, target) {
           amount: eff.amount,
           sourceName: card.name,
         });
+      }
+      break;
+    }
+    case 'death_ward': {
+      const unit = player.board[target.lane][target.slot];
+      if (unit) {
+        unit.deathWard = true;
+        game.log.push(`${unit.name} is warded by ${card.name} — its next death this turn is prevented.`);
+      }
+      break;
+    }
+    case 'reclaim_graveyard': {
+      const reclaimed = player.graveyard.pop();
+      if (reclaimed) {
+        player.hand.push(reclaimed);
+        game.log.push(`${card.name} returns ${reclaimed.name} from ${owner}'s graveyard to hand.`);
+      } else {
+        game.log.push(`${card.name} finds nothing in ${owner}'s graveyard.`);
+      }
+      break;
+    }
+    case 'damage_and_heal_castle': {
+      dealDamageToUnit(game, targetOwnerKey, target.lane, target.slot, eff.amount);
+      const before = player.hp;
+      player.hp = Math.min(player.maxHp, player.hp + eff.healAmount);
+      game.log.push(`${card.name} deals ${eff.amount} damage and heals ${owner} for ${player.hp - before}.`);
+      break;
+    }
+    case 'buff_power_then_recoil': {
+      const unit = player.board[target.lane][target.slot];
+      if (unit) {
+        unit.turnPowerBonus = (unit.turnPowerBonus || 0) + eff.powerAmount;
+        unit.pendingSelfDamage = (unit.pendingSelfDamage || 0) + eff.recoilAmount;
+        game.log.push(`${card.name} gives ${unit.name} +${eff.powerAmount} DMG, but it will take ${eff.recoilAmount} recoil damage at the end of the turn.`);
+      }
+      break;
+    }
+    case 'draw_per_death': {
+      const n = Math.max(eff.minimum, player.diedThisTurn || 0);
+      let drew = 0;
+      for (let i = 0; i < n; i++) if (draw(player)) drew++;
+      game.log.push(`${owner} draws ${drew} card(s) (${card.name}).`);
+      break;
+    }
+    case 'damage_then_draw_on_kill': {
+      dealDamageToUnit(game, targetOwnerKey, target.lane, target.slot, eff.amount);
+      const stillThere = game.players[targetOwnerKey].board[target.lane][target.slot];
+      game.log.push(`${card.name} deals ${eff.amount} damage.`);
+      if (!stillThere) {
+        if (draw(player)) game.log.push(`${owner} draws a card (${card.name}).`);
       }
       break;
     }

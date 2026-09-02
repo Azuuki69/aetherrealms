@@ -244,6 +244,116 @@
                       "copies":  3,
                       "text":  "Draw 4 cards.",
                       "image":  "assets/cards/web/undead/27_ancient_wisdom.jpg"
+                  },
+                  {
+                      "id":  "undead_28",
+                      "name":  "Withering Touch",
+                      "cost":  1,
+                      "type":  "spell",
+                      "copies":  3,
+                      "target":  "enemy_unit",
+                      "effect":  { "kind": "damage_then_draw_on_kill", "amount": 1 },
+                      "text":  "Deal 1 damage to an enemy unit. If it dies, draw a card.",
+                      "image":  "assets/cards/web/undead/28_withering_touch.jpg"
+                  },
+                  {
+                      "id":  "undead_29",
+                      "name":  "Bone Ward",
+                      "cost":  1,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "ally_unit",
+                      "effect":  { "kind": "death_ward" },
+                      "text":  "If target allied unit would die this turn, it returns to your hand at 1 HP instead.",
+                      "image":  "assets/cards/web/undead/29_bone_ward.jpg"
+                  },
+                  {
+                      "id":  "undead_30",
+                      "name":  "Rotting Curse",
+                      "cost":  2,
+                      "type":  "spell",
+                      "copies":  3,
+                      "target":  "enemy_unit",
+                      "effect":  { "kind": "damage_then_delayed", "amount": 1, "delayedAmount": 1 },
+                      "text":  "Deal 1 damage to an enemy unit now, and 1 more at the start of your next turn.",
+                      "image":  "assets/cards/web/undead/30_rotting_curse.jpg"
+                  },
+                  {
+                      "id":  "undead_31",
+                      "name":  "Grave Chill",
+                      "cost":  2,
+                      "type":  "spell",
+                      "copies":  3,
+                      "target":  "enemy_unit",
+                      "effect":  { "kind": "damage", "amount": 3 },
+                      "text":  "Deal 3 damage to an enemy unit.",
+                      "image":  "assets/cards/web/undead/31_grave_chill.jpg"
+                  },
+                  {
+                      "id":  "undead_32",
+                      "name":  "Unquiet Grave",
+                      "cost":  2,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "none",
+                      "effect":  { "kind": "reclaim_graveyard" },
+                      "text":  "Return the most recently destroyed unit from your graveyard to your hand.",
+                      "image":  "assets/cards/web/undead/32_unquiet_grave.jpg"
+                  },
+                  {
+                      "id":  "undead_33",
+                      "name":  "Undying Pact",
+                      "cost":  2,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "ally_unit",
+                      "effect":  { "kind": "buff_power_then_recoil", "powerAmount": 2, "recoilAmount": 1 },
+                      "text":  "Target allied unit gains +2 DMG until end of turn, then takes 1 recoil damage at the end of the turn.",
+                      "image":  "assets/cards/web/undead/33_undying_pact.jpg"
+                  },
+                  {
+                      "id":  "undead_34",
+                      "name":  "Soul Siphon",
+                      "cost":  3,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "enemy_unit",
+                      "effect":  { "kind": "damage_and_heal_castle", "amount": 2, "healAmount": 2 },
+                      "text":  "Deal 2 damage to an enemy unit and heal your castle for 2.",
+                      "image":  "assets/cards/web/undead/34_soul_siphon.jpg"
+                  },
+                  {
+                      "id":  "undead_35",
+                      "name":  "Reap the Fallen",
+                      "cost":  3,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "none",
+                      "effect":  { "kind": "draw_per_death", "minimum": 1 },
+                      "text":  "Draw a card for each allied unit that died this turn (minimum 1).",
+                      "image":  "assets/cards/web/undead/35_reap_the_fallen.jpg"
+                  },
+                  {
+                      "id":  "undead_36",
+                      "name":  "Plague Wind",
+                      "cost":  4,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "none",
+                      "effect":  { "kind": "damage_all_enemies", "amount": 1 },
+                      "text":  "Deal 1 damage to all enemy units.",
+                      "image":  "assets/cards/web/undead/36_plague_wind.jpg"
+                  },
+                  {
+                      "id":  "undead_37",
+                      "name":  "Grave Shroud",
+                      "cost":  1,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "ally_unit",
+                      "effect":  { "kind": "buff_defense", "amount": 2 },
+                      "text":  "Target allied unit gains +0/+2 until end of turn.",
+                      "image":  "assets/cards/web/undead/37_grave_shroud.jpg"
                   }
               ]
 }
