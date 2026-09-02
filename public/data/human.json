@@ -343,6 +343,17 @@
                       "effect":  { "kind": "damage_castle", "amount": 4 },
                       "text":  "Deal 4 damage directly to the enemy castle, without risking retaliation.",
                       "image":  "assets/cards/web/human/36_siege_bolt.jpg"
+                  },
+                  {
+                      "id":  "human_37",
+                      "name":  "Quick Bandage",
+                      "cost":  1,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "ally_unit",
+                      "effect":  { "kind": "heal", "amount": 2 },
+                      "text":  "Heal an allied unit for 2.",
+                      "image":  "assets/cards/web/human/37_quick_bandage.jpg"
                   }
               ]
 }

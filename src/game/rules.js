@@ -485,6 +485,17 @@ function resolveSpellEffect(game, owner, card, target) {
       }
       break;
     }
+    case 'heal_castle': {
+      const before = player.hp;
+      player.hp = Math.min(player.maxHp, player.hp + eff.amount);
+      game.log.push(`${card.name} heals ${owner} for ${player.hp - before}.`);
+      break;
+    }
+    case 'damage': {
+      dealDamageToUnit(game, targetOwnerKey, target.lane, target.slot, eff.amount);
+      game.log.push(`${card.name} deals ${eff.amount} damage.`);
+      break;
+    }
     case 'grant_shield': {
       const unit = game.players[targetOwnerKey].board[target.lane][target.slot];
       if (unit) {
