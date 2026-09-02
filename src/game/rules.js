@@ -272,6 +272,10 @@ function dealDamageToUnit(game, ownerKey, lane, slot, amount) {
   const player = game.players[ownerKey];
   const unit = player.board[lane][slot];
   if (!unit) return 0;
+  if (unit.damageImmune) {
+    game.log.push(`${unit.name} is warded against all damage — the hit does nothing.`);
+    return 0;
+  }
   if (unit.hasShield) {
     unit.hasShield = false;
     game.log.push(`${unit.name}'s Shield absorbs the hit.`);
@@ -483,6 +487,16 @@ export function startTurn(game, owner) {
       unit.attackedThisTurn = false;
       unit.tempPowerBonus = 0;
       unit.damageAbsorb = 0;
+      unit.damageImmune = false;
+      if (unit.tempDefenseBonus) {
+        unit.defense -= unit.tempDefenseBonus;
+        unit.maxDefense -= unit.tempDefenseBonus;
+        unit.tempDefenseBonus = 0;
+        if (unit.defense <= 0) {
+          destroyUnit(game, owner, lane, idx);
+          return;
+        }
+      }
       if (unit.keywords.includes('vigil')) {
         const before = unit.defense;
         unit.defense = Math.min(unit.maxDefense, unit.defense + 1);
@@ -855,6 +869,57 @@ function resolveSpellEffect(game, owner, card, target) {
       }
       break;
     }
+    case 'scry_and_draw': {
+      if (player.deck.length === 0) {
+        if (draw(player)) game.log.push(`${owner} draws a card (${card.name}).`);
+        break;
+      }
+      const top = player.deck[0];
+      if (top.cost <= eff.maxCostToKeep) {
+        draw(player);
+        game.log.push(`${card.name} keeps the top card and draws it.`);
+      } else {
+        player.deck.push(player.deck.shift());
+        draw(player);
+        game.log.push(`${card.name} sends a costly card to the bottom and draws the next one.`);
+      }
+      break;
+    }
+    case 'delayed_damage': {
+      const targetUnit = game.players[targetOwnerKey].board[target.lane][target.slot];
+      if (targetUnit) {
+        game.pendingEffects.push({
+          owner,
+          turnsRemaining: 1,
+          kind: 'damage_unit',
+          amount: eff.amount,
+          targetOwner: targetOwnerKey,
+          targetInstanceId: targetUnit.instanceId,
+          sourceName: card.name,
+        });
+        game.log.push(`${card.name} will strike ${targetUnit.name} for ${eff.amount} at the start of ${owner}'s next turn.`);
+      }
+      break;
+    }
+    case 'buff_power_and_defense_long': {
+      const unit = player.board[target.lane][target.slot];
+      if (unit) {
+        unit.tempPowerBonus = (unit.tempPowerBonus || 0) + eff.powerAmount;
+        unit.defense += eff.defenseAmount;
+        unit.maxDefense += eff.defenseAmount;
+        unit.tempDefenseBonus = (unit.tempDefenseBonus || 0) + eff.defenseAmount;
+        game.log.push(`${card.name} gives ${unit.name} +${eff.powerAmount}/+${eff.defenseAmount} until ${owner}'s next turn.`);
+      }
+      break;
+    }
+    case 'damage_immunity': {
+      const unit = player.board[target.lane][target.slot];
+      if (unit) {
+        unit.damageImmune = true;
+        game.log.push(`${card.name} wards ${unit.name} against all damage until ${owner}'s next turn.`);
+      }
+      break;
+    }
     default:
       break;
   }
@@ -1109,7 +1174,7 @@ export function attack(game, owner, attackerLane, attackerSlot, targetLane, targ
   }
 
   let fwdDmg = 0;
-  if (!fwdShielded) {
+  if (!fwdShielded && !targetUnit.damageImmune) {
     fwdDmg = attackPower + (targetUnit.vulnerableBonus || 0);
     if (targetUnit.keywords.includes('phalanx')) fwdDmg = Math.max(0, fwdDmg - 1);
     if (hasFormationToughness(game, opponentKey, targetLane, targetSlot)) fwdDmg = Math.max(0, fwdDmg - 1);
@@ -1121,7 +1186,7 @@ export function attack(game, owner, attackerLane, attackerSlot, targetLane, targ
     }
   }
   let backDmg = 0;
-  if (!isRanged && !backShielded) {
+  if (!isRanged && !backShielded && !unit.damageImmune) {
     backDmg = defenderPower + (unit.vulnerableBonus || 0);
     if (unit.keywords.includes('phalanx')) backDmg = Math.max(0, backDmg - 1);
     if (hasFormationToughness(game, owner, attackerLane, attackerSlot)) backDmg = Math.max(0, backDmg - 1);

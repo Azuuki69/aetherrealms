@@ -244,6 +244,116 @@
                       "copies":  3,
                       "text":  "Draw 4 cards.",
                       "image":  "assets/cards/web/clock/27_ancient_wisdom.jpg"
+                  },
+                  {
+                      "id":  "clock_28",
+                      "name":  "Tick Forward",
+                      "cost":  1,
+                      "type":  "spell",
+                      "copies":  3,
+                      "target":  "none",
+                      "effect":  { "kind": "scry_and_draw", "maxCostToKeep": 5 },
+                      "text":  "Look at the top card of your deck. If it costs 5 or more, put it on the bottom and draw the next card instead.",
+                      "image":  "assets/cards/web/clock/28_tick_forward.jpg"
+                  },
+                  {
+                      "id":  "clock_29",
+                      "name":  "Pressure Valve",
+                      "cost":  1,
+                      "type":  "spell",
+                      "copies":  3,
+                      "target":  "enemy_unit",
+                      "effect":  { "kind": "damage", "amount": 2 },
+                      "text":  "Deal 2 damage to an enemy unit.",
+                      "image":  "assets/cards/web/clock/29_pressure_valve.jpg"
+                  },
+                  {
+                      "id":  "clock_30",
+                      "name":  "Clockwork Shield",
+                      "cost":  2,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "ally_unit",
+                      "effect":  { "kind": "grant_shield" },
+                      "text":  "Target allied unit gains Shield until your next turn.",
+                      "image":  "assets/cards/web/clock/30_clockwork_shield.jpg"
+                  },
+                  {
+                      "id":  "clock_31",
+                      "name":  "Recalibrate",
+                      "cost":  2,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "ally_unit",
+                      "effect":  { "kind": "bounce" },
+                      "text":  "Return an allied unit to your hand.",
+                      "image":  "assets/cards/web/clock/31_recalibrate.jpg"
+                  },
+                  {
+                      "id":  "clock_32",
+                      "name":  "Delayed Fuse",
+                      "cost":  2,
+                      "type":  "spell",
+                      "copies":  3,
+                      "target":  "enemy_unit",
+                      "effect":  { "kind": "delayed_damage", "amount": 4 },
+                      "text":  "Deal 4 damage to an enemy unit at the start of your next turn.",
+                      "image":  "assets/cards/web/clock/32_delayed_fuse.jpg"
+                  },
+                  {
+                      "id":  "clock_33",
+                      "name":  "Overwind",
+                      "cost":  2,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "ally_unit",
+                      "effect":  { "kind": "buff_power", "amount": 2 },
+                      "text":  "Target allied unit gains +2 DMG until end of turn.",
+                      "image":  "assets/cards/web/clock/33_overwind.jpg"
+                  },
+                  {
+                      "id":  "clock_34",
+                      "name":  "Gear Up",
+                      "cost":  3,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "ally_unit",
+                      "effect":  { "kind": "buff_power_and_defense_long", "powerAmount": 2, "defenseAmount": 2 },
+                      "text":  "Target allied unit gains +2/+2 until your next turn.",
+                      "image":  "assets/cards/web/clock/34_gear_up.jpg"
+                  },
+                  {
+                      "id":  "clock_35",
+                      "name":  "Steam Burst",
+                      "cost":  3,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "none",
+                      "effect":  { "kind": "damage_all_enemies", "amount": 2 },
+                      "text":  "Deal 2 damage to all enemy units.",
+                      "image":  "assets/cards/web/clock/35_steam_burst.jpg"
+                  },
+                  {
+                      "id":  "clock_36",
+                      "name":  "Temporal Ward",
+                      "cost":  4,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "ally_unit",
+                      "effect":  { "kind": "damage_immunity" },
+                      "text":  "Prevent all damage to target allied unit until your next turn.",
+                      "image":  "assets/cards/web/clock/36_temporal_ward.jpg"
+                  },
+                  {
+                      "id":  "clock_37",
+                      "name":  "Cog Ward",
+                      "cost":  1,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "ally_unit",
+                      "effect":  { "kind": "grant_shield" },
+                      "text":  "Target allied unit gains Shield until your next turn.",
+                      "image":  "assets/cards/web/clock/37_cog_ward.jpg"
                   }
               ]
 }
