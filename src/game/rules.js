@@ -52,7 +52,7 @@ function detectKeywords(text) {
   if (/war cry/.test(t)) kw.push('warcry');
   if (/slayer/.test(t)) kw.push('slayer');
   if (/curse/.test(t)) kw.push('curse');
-  if (/taunt/.test(t)) kw.push('taunt');
+  if (/taunt/.test(t) && !/ignores? taunt/.test(t)) kw.push('taunt');
   return kw;
 }
 
