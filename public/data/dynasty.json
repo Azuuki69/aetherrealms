@@ -244,6 +244,116 @@
                       "copies":  3,
                       "text":  "Draw 4 cards.",
                       "image":  "assets/cards/web/dynasty/27_ancient_wisdom.jpg"
+                  },
+                  {
+                      "id":  "dynasty_28",
+                      "name":  "Disciplined Strike",
+                      "cost":  1,
+                      "type":  "spell",
+                      "copies":  3,
+                      "target":  "enemy_unit",
+                      "effect":  { "kind": "damage", "amount": 2 },
+                      "text":  "Deal 2 damage to an enemy unit.",
+                      "image":  "assets/cards/web/dynasty/28_disciplined_strike.jpg"
+                  },
+                  {
+                      "id":  "dynasty_29",
+                      "name":  "Honor Guard",
+                      "cost":  1,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "ally_unit",
+                      "effect":  { "kind": "buff_defense", "amount": 2 },
+                      "text":  "Target allied unit gains +0/+2 until end of turn.",
+                      "image":  "assets/cards/web/dynasty/29_honor_guard.jpg"
+                  },
+                  {
+                      "id":  "dynasty_30",
+                      "name":  "Formation Drill",
+                      "cost":  2,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "ally_unit",
+                      "effect":  { "kind": "buff_power_and_formation_neighbors", "amount": 1 },
+                      "text":  "Target allied unit and each Dynasty unit adjacent to it gain +1 DMG until end of turn.",
+                      "image":  "assets/cards/web/dynasty/30_formation_drill.jpg"
+                  },
+                  {
+                      "id":  "dynasty_31",
+                      "name":  "Steady the Line",
+                      "cost":  2,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "ally_unit",
+                      "effect":  { "kind": "heal", "amount": 3 },
+                      "text":  "Heal an allied unit for 3.",
+                      "image":  "assets/cards/web/dynasty/31_steady_the_line.jpg"
+                  },
+                  {
+                      "id":  "dynasty_32",
+                      "name":  "Parting Blade",
+                      "cost":  2,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "enemy_unit",
+                      "effect":  { "kind": "damage_then_splash_on_kill", "amount": 3, "splashAmount": 1 },
+                      "text":  "Deal 3 damage to an enemy unit. If it dies, deal 1 damage to a random other enemy unit.",
+                      "image":  "assets/cards/web/dynasty/32_parting_blade.jpg"
+                  },
+                  {
+                      "id":  "dynasty_33",
+                      "name":  "Piercing Resolve",
+                      "cost":  3,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "enemy_unit",
+                      "effect":  { "kind": "damage", "amount": 4 },
+                      "text":  "Deal 4 damage to an enemy unit. This spell ignores Taunt when choosing its target.",
+                      "image":  "assets/cards/web/dynasty/33_piercing_resolve.jpg"
+                  },
+                  {
+                      "id":  "dynasty_34",
+                      "name":  "Iron Formation",
+                      "cost":  3,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "ally_row",
+                      "effect":  { "kind": "buff_defense_row_long", "amount": 2 },
+                      "text":  "Allied units in one row gain +0/+2 until your next turn.",
+                      "image":  "assets/cards/web/dynasty/34_iron_formation.jpg"
+                  },
+                  {
+                      "id":  "dynasty_35",
+                      "name":  "Field Command",
+                      "cost":  3,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "ally_row",
+                      "effect":  { "kind": "draw_per_row_unit", "maxDraws": 3 },
+                      "text":  "Draw a card for each Dynasty unit in the targeted row (maximum 3).",
+                      "image":  "assets/cards/web/dynasty/35_field_command.jpg"
+                  },
+                  {
+                      "id":  "dynasty_36",
+                      "name":  "Vengeful Spirits",
+                      "cost":  4,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "none",
+                      "effect":  { "kind": "death_trigger_damage_until_eot", "amount": 1 },
+                      "text":  "Until end of turn, whenever an allied unit dies, deal 1 damage to a random enemy unit.",
+                      "image":  "assets/cards/web/dynasty/36_vengeful_spirits.jpg"
+                  },
+                  {
+                      "id":  "dynasty_37",
+                      "name":  "Scholar's Insight",
+                      "cost":  2,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "none",
+                      "effect":  { "kind": "draw", "amount": 2 },
+                      "text":  "Draw 2 cards.",
+                      "image":  "assets/cards/web/dynasty/37_scholars_insight.jpg"
                   }
               ]
 }

@@ -147,6 +147,7 @@ export function createGame(factionA, factionB, firstPlayer = 'A', usernameA = nu
       castleShield: 0,
       turnDamageReduction: 0,
       diedThisTurn: 0,
+      vengefulUntilEndOfTurn: 0,
     },
     B: {
       faction: factionB,
@@ -163,6 +164,7 @@ export function createGame(factionA, factionB, firstPlayer = 'A', usernameA = nu
       castleShield: 0,
       turnDamageReduction: 0,
       diedThisTurn: 0,
+      vengefulUntilEndOfTurn: 0,
     },
   };
   return {
@@ -320,6 +322,7 @@ function dealDamageToCastle(game, targetOwnerKey, amount) {
 // separately tracked in game.turnEffects, tagged with who cast them.
 function revertEndOfTurnBuffs(game, owner) {
   const player = game.players[owner];
+  player.vengefulUntilEndOfTurn = 0;
   for (const lane of ['vanguard', 'rearguard']) {
     player.board[lane].forEach((unit, idx) => {
       if (!unit) return;
@@ -449,6 +452,17 @@ function destroyUnit(game, owner, lane, slotIndex) {
   player.graveyard.push(unit);
   player.diedThisTurn = (player.diedThisTurn || 0) + 1;
   game.log.push(`${unit.name} is destroyed.`);
+  if (player.vengefulUntilEndOfTurn) {
+    const enemyPlayer = game.players[opponentOf(owner)];
+    const enemyUnits = allUnits(enemyPlayer);
+    if (enemyUnits.length > 0) {
+      const victim = enemyUnits[Math.floor(Math.random() * enemyUnits.length)];
+      const loc = findLaneOf(enemyPlayer, victim.instanceId);
+      victim.defense -= player.vengefulUntilEndOfTurn;
+      game.log.push(`Vengeful Spirits deals ${player.vengefulUntilEndOfTurn} to ${victim.name}.`);
+      if (victim.defense <= 0) destroyUnit(game, opponentOf(owner), loc.lane, loc.idx);
+    }
+  }
   if (unit.keywords.includes('lastbreath')) {
     // Scope the number to the clause after "Last Breath" specifically —
     // compound card text (e.g. "Bloodprice 2: ... Last Breath: Draw 2
@@ -996,6 +1010,70 @@ function resolveSpellEffect(game, owner, card, target) {
         destroyUnit(game, targetOwnerKey, target.lane, target.slot);
         game.log.push(`${card.name} costs ${owner} ${eff.selfAmount} and destroys ${name}.`);
       }
+      break;
+    }
+    case 'buff_power_and_formation_neighbors': {
+      const row = player.board[target.lane];
+      const unit = row[target.slot];
+      if (unit) {
+        unit.turnPowerBonus = (unit.turnPowerBonus || 0) + eff.amount;
+        const left = target.slot > 0 ? row[target.slot - 1] : null;
+        const right = target.slot < LANES - 1 ? row[target.slot + 1] : null;
+        let buffed = 1;
+        for (const n of [left, right]) {
+          if (n && n.faction === unit.faction) {
+            n.turnPowerBonus = (n.turnPowerBonus || 0) + eff.amount;
+            buffed++;
+          }
+        }
+        game.log.push(`${card.name} gives ${buffed} unit(s) +${eff.amount} DMG until end of turn.`);
+      }
+      break;
+    }
+    case 'damage_then_splash_on_kill': {
+      dealDamageToUnit(game, targetOwnerKey, target.lane, target.slot, eff.amount);
+      game.log.push(`${card.name} deals ${eff.amount} damage.`);
+      const stillThere = game.players[targetOwnerKey].board[target.lane][target.slot];
+      if (!stillThere) {
+        const others = allUnits(game.players[targetOwnerKey]);
+        if (others.length > 0) {
+          const victim = others[Math.floor(Math.random() * others.length)];
+          const loc = findLaneOf(game.players[targetOwnerKey], victim.instanceId);
+          dealDamageToUnit(game, targetOwnerKey, loc.lane, loc.idx, eff.splashAmount);
+          game.log.push(`${card.name} splashes ${eff.splashAmount} to ${victim.name}.`);
+        }
+      }
+      break;
+    }
+    case 'buff_defense_row_long': {
+      const row = player.board[target.lane];
+      row.forEach((u) => {
+        if (u) {
+          u.defense += eff.amount;
+          u.maxDefense += eff.amount;
+          u.tempDefenseBonus = (u.tempDefenseBonus || 0) + eff.amount;
+        }
+      });
+      game.log.push(`${card.name} gives ${owner}'s ${target.lane} +${eff.amount} HP until ${owner}'s next turn.`);
+      break;
+    }
+    case 'draw_per_row_unit': {
+      const count = player.board[target.lane].filter(Boolean).length;
+      const n = Math.min(eff.maxDraws, count);
+      let drew = 0;
+      for (let i = 0; i < n; i++) if (draw(player)) drew++;
+      game.log.push(`${owner} draws ${drew} card(s) (${card.name}).`);
+      break;
+    }
+    case 'death_trigger_damage_until_eot': {
+      player.vengefulUntilEndOfTurn = (player.vengefulUntilEndOfTurn || 0) + eff.amount;
+      game.log.push(`${card.name} readies ${owner}'s fallen to strike back until end of turn.`);
+      break;
+    }
+    case 'draw': {
+      let drew = 0;
+      for (let i = 0; i < eff.amount; i++) if (draw(player)) drew++;
+      game.log.push(`${owner} draws ${drew} card(s) (${card.name}).`);
       break;
     }
     default:
