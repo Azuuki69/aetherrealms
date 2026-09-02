@@ -244,6 +244,116 @@
                       "copies":  3,
                       "text":  "Draw 4 cards.",
                       "image":  "assets/cards/web/orc/27_ancient_wisdom.jpg"
+                  },
+                  {
+                      "id":  "orc_28",
+                      "name":  "Reckless Swing",
+                      "cost":  1,
+                      "type":  "spell",
+                      "copies":  3,
+                      "target":  "enemy_unit",
+                      "effect":  { "kind": "self_damage_then_damage", "selfAmount": 1, "amount": 2 },
+                      "text":  "Deal 1 damage to your own castle. Deal 2 damage to an enemy unit.",
+                      "image":  "assets/cards/web/orc/28_reckless_swing.jpg"
+                  },
+                  {
+                      "id":  "orc_29",
+                      "name":  "War Paint",
+                      "cost":  1,
+                      "type":  "spell",
+                      "copies":  3,
+                      "target":  "ally_unit",
+                      "effect":  { "kind": "buff_power", "amount": 2 },
+                      "text":  "Target allied unit gains +2 DMG until end of turn.",
+                      "image":  "assets/cards/web/orc/29_war_paint.jpg"
+                  },
+                  {
+                      "id":  "orc_30",
+                      "name":  "Firebrand",
+                      "cost":  2,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "enemy_unit",
+                      "effect":  { "kind": "damage", "amount": 3 },
+                      "text":  "Deal 3 damage to an enemy unit.",
+                      "image":  "assets/cards/web/orc/30_firebrand.jpg"
+                  },
+                  {
+                      "id":  "orc_31",
+                      "name":  "Blood Frenzy",
+                      "cost":  2,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "none",
+                      "effect":  { "kind": "self_damage_then_draw", "selfAmount": 1, "drawAmount": 1 },
+                      "text":  "Deal 1 damage to your own castle. Draw a card.",
+                      "image":  "assets/cards/web/orc/31_blood_frenzy.jpg"
+                  },
+                  {
+                      "id":  "orc_32",
+                      "name":  "Frenzy",
+                      "cost":  2,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "ally_unit",
+                      "effect":  { "kind": "buff_power_conditional_retain", "turnAmount": 2, "retainAmount": 1 },
+                      "text":  "Target allied unit gains +2 DMG this turn. If it deals damage this turn, it keeps +1 DMG until your next turn.",
+                      "image":  "assets/cards/web/orc/32_frenzy.jpg"
+                  },
+                  {
+                      "id":  "orc_33",
+                      "name":  "Warpath",
+                      "cost":  3,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "none",
+                      "effect":  { "kind": "damage_castle_conditional_attacked", "amount": 2, "bonusAmount": 4 },
+                      "text":  "Deal 2 damage to the enemy castle. Deal 4 instead if any of your units attacked last turn.",
+                      "image":  "assets/cards/web/orc/33_warpath.jpg"
+                  },
+                  {
+                      "id":  "orc_34",
+                      "name":  "Siege Barrage",
+                      "cost":  3,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "none",
+                      "effect":  { "kind": "damage_castle", "amount": 4 },
+                      "text":  "Deal 4 damage directly to the enemy castle, without risking retaliation.",
+                      "image":  "assets/cards/web/orc/34_siege_barrage.jpg"
+                  },
+                  {
+                      "id":  "orc_35",
+                      "name":  "Bloodlust",
+                      "cost":  3,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "none",
+                      "effect":  { "kind": "self_damage_then_buff_power_all", "selfAmount": 2, "amount": 1 },
+                      "text":  "Deal 2 damage to your own castle. All allied units gain +1 DMG until end of turn.",
+                      "image":  "assets/cards/web/orc/35_bloodlust.jpg"
+                  },
+                  {
+                      "id":  "orc_36",
+                      "name":  "Crushing Blow",
+                      "cost":  4,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "enemy_unit",
+                      "effect":  { "kind": "self_damage_then_destroy", "selfAmount": 2, "maxTargetPower": 5 },
+                      "text":  "Deal 2 damage to your own castle. Destroy target enemy unit with 5 or less DMG.",
+                      "image":  "assets/cards/web/orc/36_crushing_blow.jpg"
+                  },
+                  {
+                      "id":  "orc_37",
+                      "name":  "Thick Hide",
+                      "cost":  1,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "ally_unit",
+                      "effect":  { "kind": "buff_defense", "amount": 2 },
+                      "text":  "Target allied unit gains +0/+2 until end of turn.",
+                      "image":  "assets/cards/web/orc/37_thick_hide.jpg"
                   }
               ]
 }

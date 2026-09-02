@@ -149,6 +149,7 @@ export function createGame(factionA, factionB, firstPlayer = 'A', usernameA = nu
       diedThisTurn: 0,
       vengefulUntilEndOfTurn: 0,
       nextUnitDiscount: 0,
+      attackedLastTurn: false,
     },
     B: {
       faction: factionB,
@@ -167,6 +168,7 @@ export function createGame(factionA, factionB, firstPlayer = 'A', usernameA = nu
       diedThisTurn: 0,
       vengefulUntilEndOfTurn: 0,
       nextUnitDiscount: 0,
+      attackedLastTurn: false,
     },
   };
   return {
@@ -329,6 +331,11 @@ function revertEndOfTurnBuffs(game, owner) {
   for (const lane of ['vanguard', 'rearguard']) {
     player.board[lane].forEach((unit, idx) => {
       if (!unit) return;
+      if (unit.frenzyRetainAmount && unit.dealtDamageThisTurn) {
+        unit.tempPowerBonus = (unit.tempPowerBonus || 0) + unit.frenzyRetainAmount;
+        game.log.push(`${unit.name} keeps +${unit.frenzyRetainAmount} DMG from Frenzy until ${owner}'s next turn.`);
+      }
+      unit.frenzyRetainAmount = 0;
       unit.turnPowerBonus = 0;
       if (unit.turnDefenseBonus) {
         unit.defense -= unit.turnDefenseBonus;
@@ -496,12 +503,17 @@ export function startTurn(game, owner) {
   player.castleShield = 0;
   player.turnDamageReduction = 0;
   player.diedThisTurn = 0;
+  // Captured before the reset loop below clears it — reflects whatever
+  // happened in this player's own combat phase last turn, since the
+  // opponent's turn in between never touches these units' flags.
+  player.attackedLastTurn = allUnits(player).some((u) => u.attackedThisTurn);
   processPendingEffects(game, owner);
   for (const lane of ['vanguard', 'rearguard']) {
     player.board[lane].forEach((unit, idx) => {
       if (!unit) return;
       unit.sick = false;
       unit.attackedThisTurn = false;
+      unit.dealtDamageThisTurn = false;
       unit.tempPowerBonus = 0;
       unit.damageAbsorb = 0;
       unit.damageImmune = false;
@@ -1100,6 +1112,35 @@ function resolveSpellEffect(game, owner, card, target) {
       game.log.push(`${card.name} gives ${owner}'s ${buffed} unit(s) +${eff.amount} DMG until end of turn.`);
       break;
     }
+    case 'buff_power_conditional_retain': {
+      const unit = player.board[target.lane][target.slot];
+      if (unit) {
+        unit.turnPowerBonus = (unit.turnPowerBonus || 0) + eff.turnAmount;
+        unit.frenzyRetainAmount = (unit.frenzyRetainAmount || 0) + eff.retainAmount;
+        game.log.push(
+          `${card.name} gives ${unit.name} +${eff.turnAmount} DMG this turn, keeping +${eff.retainAmount} until ${owner}'s next turn if it deals damage.`
+        );
+      }
+      break;
+    }
+    case 'damage_castle_conditional_attacked': {
+      const amount = player.attackedLastTurn ? eff.bonusAmount : eff.amount;
+      dealDamageToCastle(game, opponentOf(owner), amount);
+      game.log.push(`${card.name} deals ${amount} to the enemy castle.`);
+      break;
+    }
+    case 'self_damage_then_buff_power_all': {
+      player.hp -= eff.selfAmount;
+      let buffed = 0;
+      for (const u of allUnits(player)) {
+        u.turnPowerBonus = (u.turnPowerBonus || 0) + eff.amount;
+        buffed++;
+      }
+      game.log.push(
+        `${card.name} costs ${owner} ${eff.selfAmount} and gives ${owner}'s ${buffed} unit(s) +${eff.amount} DMG until end of turn.`
+      );
+      break;
+    }
     default:
       break;
   }
@@ -1331,6 +1372,7 @@ export function attack(game, owner, attackerLane, attackerSlot, targetLane, targ
   if (isCastleTarget) {
     const dealt = dealDamageToCastle(game, opponentKey, attackPower);
     game.log.push(`${owner}'s ${unit.name} breaks through and hits the enemy castle for ${attackPower}.`);
+    if (dealt > 0) unit.dealtDamageThisTurn = true;
     applyLifestealIfAny(game, owner, unit, dealt);
     checkWinner(game);
     return game;
@@ -1397,7 +1439,10 @@ export function attack(game, owner, attackerLane, attackerSlot, targetLane, targ
 
   targetUnit.defense -= fwdDmg;
   unit.defense -= backDmg;
-  if (fwdDmg > 0) game.log.push(`${owner}'s ${unit.name} hits ${targetUnit.name} for ${fwdDmg}.`);
+  if (fwdDmg > 0) {
+    unit.dealtDamageThisTurn = true;
+    game.log.push(`${owner}'s ${unit.name} hits ${targetUnit.name} for ${fwdDmg}.`);
+  }
   if (backDmg > 0) game.log.push(`${targetUnit.name} retaliates against ${unit.name} for ${backDmg}.`);
 
   applyLifestealIfAny(game, owner, unit, fwdDmg);
