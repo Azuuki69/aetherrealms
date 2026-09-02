@@ -190,6 +190,18 @@ function draw(player) {
   return true;
 }
 
+// Fallen's spells discard without a card-picker UI (none exists yet), so the
+// discarded card is chosen at random from whatever's left in hand — the
+// spell itself has already been removed by the time this runs. Discards go
+// to the graveyard, same pile combat deaths use.
+function discardRandomCard(player) {
+  if (player.hand.length === 0) return null;
+  const idx = Math.floor(Math.random() * player.hand.length);
+  const [card] = player.hand.splice(idx, 1);
+  player.graveyard.push(card);
+  return card;
+}
+
 function allUnits(player) {
   return [...player.board.vanguard, ...player.board.rearguard].filter(Boolean);
 }
@@ -265,7 +277,13 @@ function dealDamageToUnit(game, ownerKey, lane, slot, amount) {
     game.log.push(`${unit.name}'s Shield absorbs the hit.`);
     return 0;
   }
-  const total = Math.max(0, amount + (unit.vulnerableBonus || 0) - (player.turnDamageReduction || 0));
+  let total = Math.max(0, amount + (unit.vulnerableBonus || 0) - (player.turnDamageReduction || 0));
+  if (unit.damageAbsorb) {
+    const absorbed = Math.min(unit.damageAbsorb, total);
+    unit.damageAbsorb -= absorbed;
+    total -= absorbed;
+    if (absorbed > 0) game.log.push(`${unit.name}'s ward absorbs ${absorbed} damage.`);
+  }
   unit.defense -= total;
   if (unit.defense <= 0) destroyUnit(game, ownerKey, lane, slot);
   return total;
@@ -464,6 +482,7 @@ export function startTurn(game, owner) {
       unit.sick = false;
       unit.attackedThisTurn = false;
       unit.tempPowerBonus = 0;
+      unit.damageAbsorb = 0;
       if (unit.keywords.includes('vigil')) {
         const before = unit.defense;
         unit.defense = Math.min(unit.maxDefense, unit.defense + 1);
@@ -774,6 +793,68 @@ function resolveSpellEffect(game, owner, card, target) {
       }
       break;
     }
+    case 'discard_then_draw': {
+      const discarded = discardRandomCard(player);
+      draw(player);
+      game.log.push(
+        discarded
+          ? `${card.name} discards ${discarded.name} and draws a card.`
+          : `${card.name} draws a card (nothing left to discard).`
+      );
+      break;
+    }
+    case 'draw_conditional_death': {
+      const n = (player.diedThisTurn || 0) > 0 ? eff.base + eff.bonus : eff.base;
+      let drew = 0;
+      for (let i = 0; i < n; i++) if (draw(player)) drew++;
+      game.log.push(`${owner} draws ${drew} card(s) (${card.name}).`);
+      break;
+    }
+    case 'damage_prevent': {
+      const unit = player.board[target.lane][target.slot];
+      if (unit) {
+        unit.damageAbsorb = (unit.damageAbsorb || 0) + eff.amount;
+        game.log.push(`${card.name} wards ${unit.name} against the next ${eff.amount} damage until ${owner}'s next turn.`);
+      }
+      break;
+    }
+    case 'damage_then_discard': {
+      dealDamageToUnit(game, targetOwnerKey, target.lane, target.slot, eff.amount);
+      const discarded = discardRandomCard(player);
+      game.log.push(
+        `${card.name} deals ${eff.amount} damage` + (discarded ? ` and discards ${discarded.name}.` : '.')
+      );
+      break;
+    }
+    case 'buff_power_and_defense': {
+      const unit = player.board[target.lane][target.slot];
+      if (unit) {
+        unit.turnPowerBonus = (unit.turnPowerBonus || 0) + eff.powerAmount;
+        unit.defense += eff.defenseAmount;
+        unit.maxDefense += eff.defenseAmount;
+        unit.turnDefenseBonus = (unit.turnDefenseBonus || 0) + eff.defenseAmount;
+        game.log.push(`${card.name} gives ${unit.name} +${eff.powerAmount}/+${eff.defenseAmount} until end of turn.`);
+      }
+      break;
+    }
+    case 'damage_scaling_hand': {
+      const excess = Math.max(0, player.hand.length - eff.threshold);
+      const amount = Math.min(eff.maxAmount, excess * eff.perCard);
+      dealDamageToUnit(game, targetOwnerKey, target.lane, target.slot, amount);
+      game.log.push(`${card.name} deals ${amount} damage.`);
+      break;
+    }
+    case 'castle_damage_or_draw': {
+      if (player.hand.length >= eff.threshold) {
+        dealDamageToCastle(game, opponentOf(owner), eff.damageAmount);
+        game.log.push(`${card.name} deals ${eff.damageAmount} to the enemy castle.`);
+      } else {
+        let drew = 0;
+        for (let i = 0; i < eff.drawAmount; i++) if (draw(player)) drew++;
+        game.log.push(`${owner} draws ${drew} card(s) (${card.name}).`);
+      }
+      break;
+    }
     default:
       break;
   }
@@ -1033,6 +1114,11 @@ export function attack(game, owner, attackerLane, attackerSlot, targetLane, targ
     if (targetUnit.keywords.includes('phalanx')) fwdDmg = Math.max(0, fwdDmg - 1);
     if (hasFormationToughness(game, opponentKey, targetLane, targetSlot)) fwdDmg = Math.max(0, fwdDmg - 1);
     fwdDmg = Math.max(0, fwdDmg - (opponent.turnDamageReduction || 0));
+    if (targetUnit.damageAbsorb) {
+      const absorbed = Math.min(targetUnit.damageAbsorb, fwdDmg);
+      targetUnit.damageAbsorb -= absorbed;
+      fwdDmg -= absorbed;
+    }
   }
   let backDmg = 0;
   if (!isRanged && !backShielded) {
@@ -1040,6 +1126,11 @@ export function attack(game, owner, attackerLane, attackerSlot, targetLane, targ
     if (unit.keywords.includes('phalanx')) backDmg = Math.max(0, backDmg - 1);
     if (hasFormationToughness(game, owner, attackerLane, attackerSlot)) backDmg = Math.max(0, backDmg - 1);
     backDmg = Math.max(0, backDmg - (player.turnDamageReduction || 0));
+    if (unit.damageAbsorb) {
+      const absorbed = Math.min(unit.damageAbsorb, backDmg);
+      unit.damageAbsorb -= absorbed;
+      backDmg -= absorbed;
+    }
   }
 
   targetUnit.defense -= fwdDmg;

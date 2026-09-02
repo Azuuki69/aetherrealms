@@ -244,6 +244,116 @@
                       "copies":  3,
                       "text":  "Draw 4 cards.",
                       "image":  "assets/cards/web/fallen/27_ancient_wisdom.jpg"
+                  },
+                  {
+                      "id":  "fallen_28",
+                      "name":  "Scrap Shield",
+                      "cost":  1,
+                      "type":  "spell",
+                      "copies":  3,
+                      "target":  "ally_unit",
+                      "effect":  { "kind": "grant_shield" },
+                      "text":  "Target allied unit gains Shield until your next turn.",
+                      "image":  "assets/cards/web/fallen/28_scrap_shield.jpg"
+                  },
+                  {
+                      "id":  "fallen_29",
+                      "name":  "Cast-Off Parts",
+                      "cost":  1,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "none",
+                      "effect":  { "kind": "discard_then_draw" },
+                      "text":  "Discard a card, then draw a card.",
+                      "image":  "assets/cards/web/fallen/29_castoff_parts.jpg"
+                  },
+                  {
+                      "id":  "fallen_30",
+                      "name":  "Jury-Rig",
+                      "cost":  1,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "ally_unit",
+                      "effect":  { "kind": "heal", "amount": 3 },
+                      "text":  "Heal an allied unit for 3.",
+                      "image":  "assets/cards/web/fallen/30_juryrig.jpg"
+                  },
+                  {
+                      "id":  "fallen_31",
+                      "name":  "Salvage Run",
+                      "cost":  2,
+                      "type":  "spell",
+                      "copies":  3,
+                      "target":  "none",
+                      "effect":  { "kind": "draw_conditional_death", "base": 1, "bonus": 1 },
+                      "text":  "Draw a card. If an allied unit died this turn, draw two instead.",
+                      "image":  "assets/cards/web/fallen/31_salvage_run.jpg"
+                  },
+                  {
+                      "id":  "fallen_32",
+                      "name":  "Emergency Patch",
+                      "cost":  2,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "ally_unit",
+                      "effect":  { "kind": "damage_prevent", "amount": 4 },
+                      "text":  "Prevent the next 4 damage to target allied unit until your next turn.",
+                      "image":  "assets/cards/web/fallen/32_emergency_patch.jpg"
+                  },
+                  {
+                      "id":  "fallen_33",
+                      "name":  "Overcharge Coil",
+                      "cost":  2,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "enemy_unit",
+                      "effect":  { "kind": "damage_then_discard", "amount": 3 },
+                      "text":  "Deal 3 damage to an enemy unit. Discard a card.",
+                      "image":  "assets/cards/web/fallen/33_overcharge_coil.jpg"
+                  },
+                  {
+                      "id":  "fallen_34",
+                      "name":  "Barricade Wreck",
+                      "cost":  3,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "ally_unit",
+                      "effect":  { "kind": "buff_power_and_defense", "powerAmount": 2, "defenseAmount": 2 },
+                      "text":  "Target allied unit gains +2/+2 until end of turn.",
+                      "image":  "assets/cards/web/fallen/34_barricade_wreck.jpg"
+                  },
+                  {
+                      "id":  "fallen_35",
+                      "name":  "Scrapheap Salvo",
+                      "cost":  3,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "enemy_unit",
+                      "effect":  { "kind": "damage_scaling_hand", "perCard": 2, "threshold": 3, "maxAmount": 6 },
+                      "text":  "Deal 2 damage to an enemy unit for each card in your hand beyond 3, up to 6.",
+                      "image":  "assets/cards/web/fallen/35_scrapheap_salvo.jpg"
+                  },
+                  {
+                      "id":  "fallen_36",
+                      "name":  "Overflow Vent",
+                      "cost":  3,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "none",
+                      "effect":  { "kind": "castle_damage_or_draw", "threshold": 6, "damageAmount": 4, "drawAmount": 1 },
+                      "text":  "If you have 6 or more cards in hand, deal 4 damage to the enemy castle. Otherwise, draw a card.",
+                      "image":  "assets/cards/web/fallen/36_overflow_vent.jpg"
+                  },
+                  {
+                      "id":  "fallen_37",
+                      "name":  "Patch the Hull",
+                      "cost":  2,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "none",
+                      "effect":  { "kind": "heal_castle", "amount": 4 },
+                      "text":  "Heal your castle for 4.",
+                      "image":  "assets/cards/web/fallen/37_patch_the_hull.jpg"
                   }
               ]
 }
