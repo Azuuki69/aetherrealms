@@ -32,6 +32,8 @@ export class AccountsRegistry {
       if (url.pathname === '/api/rankings' && request.method === 'GET') return this.handleRankings();
       if (url.pathname === '/resolve-session' && request.method === 'POST') return this.handleResolveSession(request);
       if (url.pathname === '/record-result' && request.method === 'POST') return this.handleRecordResult(request);
+      if (url.pathname === '/api/hud-layout/save' && request.method === 'POST') return this.handleSaveHudLayout(request);
+      if (url.pathname === '/api/hud-layout/load' && request.method === 'POST') return this.handleLoadHudLayout(request);
       return json({ error: 'Not found' }, 404);
     } catch (err) {
       return json({ error: err.message || String(err) }, 500);
@@ -104,6 +106,34 @@ export class AccountsRegistry {
     const ranked = rows.filter((f) => f.games >= MIN_FACTION_GAMES).sort((a, b) => b.winRate - a.winRate || b.games - a.games);
     const unranked = rows.filter((f) => f.games < MIN_FACTION_GAMES).sort((a, b) => b.games - a.games);
     return json({ players, factions: [...ranked, ...unranked], minFactionGames: MIN_FACTION_GAMES });
+  }
+
+  async resolveUsernameFromToken(token) {
+    if (!token) return null;
+    const sessions = (await this.state.storage.get('sessions')) || {};
+    return sessions[token] || null;
+  }
+
+  async handleSaveHudLayout(request) {
+    const body = await request.json().catch(() => ({}));
+    const token = (body.token || '').toString();
+    const layout = body.layout;
+    const username = await this.resolveUsernameFromToken(token);
+    if (!username) return json({ error: 'Not logged in.' }, 401);
+    if (!layout || typeof layout !== 'object') return json({ error: 'Missing layout.' }, 400);
+    const hudLayouts = (await this.state.storage.get('hudLayouts')) || {};
+    hudLayouts[username.toLowerCase()] = layout;
+    await this.state.storage.put('hudLayouts', hudLayouts);
+    return json({ ok: true });
+  }
+
+  async handleLoadHudLayout(request) {
+    const body = await request.json().catch(() => ({}));
+    const token = (body.token || '').toString();
+    const username = await this.resolveUsernameFromToken(token);
+    if (!username) return json({ layout: null });
+    const hudLayouts = (await this.state.storage.get('hudLayouts')) || {};
+    return json({ layout: hudLayouts[username.toLowerCase()] || null });
   }
 
   async handleRecordResult(request) {

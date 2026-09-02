@@ -26,6 +26,7 @@ let combatResolvers = [];
 let autoAttackRunning = false;
 let coinFlipAckSent = false;
 let hudLayoutInitialized = false; // true once the HUD layout manager's default geometry has been captured
+let hudAccountSyncedForToken; // undefined = never checked; tracks which login (if any) the layout was last synced for
 
 // ---------- Drag-to-target arrow ----------
 let dragCandidate = null; // { lane, slot, startX, startY } — set on mousedown, before the drag threshold is crossed
@@ -445,6 +446,7 @@ function render() {
     hudLayoutInitialized = true;
     initHudLayout();
   }
+  syncHudLayoutWithAccount();
 }
 
 // ---------- Turn timer ----------
@@ -1262,6 +1264,56 @@ function persistHudLayout() {
   const toSave = {};
   for (const { id } of HUD_PANELS) toSave[id] = hudCurrentLayout[id];
   saveHudLayoutStorage(toSave);
+  saveHudLayoutToAccount(toSave);
+}
+
+// ---------- HUD layout <-> account sync ----------
+// Local-first: every drag/resize always saves to localStorage instantly
+// (persistHudLayout above), so the layout never depends on network access.
+// When logged in, the same save is best-effort mirrored to the account so it
+// follows the player across browsers/devices; on login (checked once per
+// render() via syncHudLayoutWithAccount, keyed off the current token so it
+// only actually fires again when the logged-in account changes) whatever
+// the account has saved overrides the local copy.
+function saveHudLayoutToAccount(panels) {
+  const { token } = getStoredAccount();
+  if (!token) return;
+  fetch('api/hud-layout/save', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ token, layout: { v: HUD_LAYOUT_VERSION, panels } }),
+  }).catch(() => {
+    /* best-effort — account sync failing should never break the local layout */
+  });
+}
+
+async function loadHudLayoutFromAccount(token) {
+  try {
+    const res = await fetch('api/hud-layout/load', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ token }),
+    });
+    const data = await res.json();
+    const saved = data && data.layout && data.layout.v === HUD_LAYOUT_VERSION ? data.layout.panels : null;
+    if (!saved || !hudDefaultLayout) return;
+    hudCurrentLayout = {};
+    for (const panel of HUD_PANELS) {
+      hudCurrentLayout[panel.id] = { ...hudDefaultLayout[panel.id], ...(saved[panel.id] || {}) };
+    }
+    for (const panel of HUD_PANELS) applyPanelGeometry(panel);
+    saveHudLayoutStorage(saved); // keep the local cache in sync with the account
+  } catch {
+    /* best-effort — no account layout yet, or the request failed */
+  }
+}
+
+function syncHudLayoutWithAccount() {
+  if (!hudLayoutInitialized) return;
+  const { token } = getStoredAccount();
+  if (token === hudAccountSyncedForToken) return;
+  hudAccountSyncedForToken = token;
+  if (token) loadHudLayoutFromAccount(token);
 }
 
 function toggleHudEditing() {

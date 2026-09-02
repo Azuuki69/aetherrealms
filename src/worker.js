@@ -36,7 +36,9 @@ export default {
     if (
       (url.pathname === '/api/register' && request.method === 'POST') ||
       (url.pathname === '/api/login' && request.method === 'POST') ||
-      (url.pathname === '/api/rankings' && request.method === 'GET')
+      (url.pathname === '/api/rankings' && request.method === 'GET') ||
+      (url.pathname === '/api/hud-layout/save' && request.method === 'POST') ||
+      (url.pathname === '/api/hud-layout/load' && request.method === 'POST')
     ) {
       return accountsStub(env).fetch(request);
     }
