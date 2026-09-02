@@ -229,8 +229,10 @@ function renderCastle(panelId, hp, maxHp, faction) {
   const img = panel.querySelector('.castle-img');
   img.src = `assets/cards/${faction}castle.png`;
   img.alt = `${faction} castle`;
-  panel.querySelector('.castle-hp-value').textContent = `${Math.max(0, hp)}/${maxHp}`;
-  const ratio = maxHp > 0 ? hp / maxHp : 0;
+  const clampedHp = Math.max(0, hp);
+  panel.querySelector('.castle-hp-value').textContent = `${clampedHp} / ${maxHp}`;
+  const ratio = maxHp > 0 ? Math.max(0, hp / maxHp) : 0;
+  panel.querySelector('.castle-hp-bar-fill').style.width = `${ratio * 100}%`;
   panel.classList.toggle('castle-damaged', hp > 0 && ratio < 0.66);
   panel.classList.toggle('castle-critical', hp > 0 && ratio < 0.33);
   panel.classList.toggle('castle-destroyed', hp <= 0);
@@ -304,11 +306,14 @@ function findUnitAnchorEl(side, lane, slot) {
 
 function spawnEffect(fx) {
   if (fx.kind === 'castle-damage' || fx.kind === 'castle-heal') {
-    const wrap = document.querySelector(`#${fx.side === 'you' ? 'youInfo' : 'oppInfo'} .castle-wrap`);
+    const panelId = fx.side === 'you' ? 'youInfo' : 'oppInfo';
+    const wrap = document.querySelector(`#${panelId} .castle-wrap`);
     if (!wrap) return;
     if (fx.kind === 'castle-damage') {
       floatNumber(wrap, `-${fx.amount}`, 'fx-damage');
       pulseClass(wrap, 'castle-hit');
+      const barFill = document.querySelector(`#${panelId} .castle-hp-bar-fill`);
+      if (barFill) pulseClass(barFill, 'bar-hit');
     } else {
       floatNumber(wrap, `+${fx.amount}`, 'fx-heal');
     }
