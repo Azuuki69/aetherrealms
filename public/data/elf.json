@@ -244,6 +244,116 @@
                       "copies":  3,
                       "text":  "Draw 4 cards.",
                       "image":  "assets/cards/web/elf/27_ancient_wisdom.jpg"
+                  },
+                  {
+                      "id":  "elf_28",
+                      "name":  "Hunter's Mark",
+                      "cost":  1,
+                      "type":  "spell",
+                      "copies":  3,
+                      "target":  "enemy_unit",
+                      "effect":  { "kind": "vulnerable", "amount": 1 },
+                      "text":  "Target enemy unit takes +1 damage from all sources until end of turn.",
+                      "image":  "assets/cards/web/elf/28_hunters_mark.jpg"
+                  },
+                  {
+                      "id":  "elf_29",
+                      "name":  "Quick Draw",
+                      "cost":  1,
+                      "type":  "spell",
+                      "copies":  3,
+                      "target":  "enemy_unit",
+                      "effect":  { "kind": "damage", "amount": 2 },
+                      "text":  "Deal 2 damage to an enemy unit.",
+                      "image":  "assets/cards/web/elf/29_quick_draw.jpg"
+                  },
+                  {
+                      "id":  "elf_30",
+                      "name":  "Sylvan Reflexes",
+                      "cost":  1,
+                      "type":  "spell",
+                      "copies":  3,
+                      "target":  "ally_unit",
+                      "effect":  { "kind": "buff_power", "amount": 2 },
+                      "text":  "Target allied unit gains +2 DMG until end of turn.",
+                      "image":  "assets/cards/web/elf/30_sylvan_reflexes.jpg"
+                  },
+                  {
+                      "id":  "elf_31",
+                      "name":  "Moonlit Step",
+                      "cost":  2,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "ally_unit",
+                      "effect":  { "kind": "bounce" },
+                      "text":  "Return target allied unit to your hand.",
+                      "image":  "assets/cards/web/elf/31_moonlit_step.jpg"
+                  },
+                  {
+                      "id":  "elf_32",
+                      "name":  "Woodland Ward",
+                      "cost":  2,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "ally_unit",
+                      "effect":  { "kind": "buff_defense", "amount": 3 },
+                      "text":  "Target allied unit gains +0/+3 until end of turn.",
+                      "image":  "assets/cards/web/elf/32_woodland_ward.jpg"
+                  },
+                  {
+                      "id":  "elf_33",
+                      "name":  "Piercing Shot",
+                      "cost":  3,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "enemy_unit",
+                      "effect":  { "kind": "damage_conditional_hp", "amount": 3, "lowHpAmount": 5 },
+                      "text":  "Deal 3 damage to an enemy unit. If your castle is below half HP, deal 5 instead.",
+                      "image":  "assets/cards/web/elf/33_piercing_shot.jpg"
+                  },
+                  {
+                      "id":  "elf_34",
+                      "name":  "Elder Renewal",
+                      "cost":  3,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "none",
+                      "effect":  { "kind": "heal_castle", "amount": 4 },
+                      "text":  "Heal your castle for 4.",
+                      "image":  "assets/cards/web/elf/34_elder_renewal.jpg"
+                  },
+                  {
+                      "id":  "elf_35",
+                      "name":  "Twin Fang",
+                      "cost":  3,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "multi_enemy_unit_distinct",
+                      "effect":  { "kind": "multi_damage", "amount": 2, "count": 2 },
+                      "text":  "Deal 2 damage to two different enemy units.",
+                      "image":  "assets/cards/web/elf/35_twin_fang.jpg"
+                  },
+                  {
+                      "id":  "elf_36",
+                      "name":  "Second Wind",
+                      "cost":  4,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "none",
+                      "effect":  { "kind": "draw_conditional_hp", "amount": 2, "lowHpAmount": 3 },
+                      "text":  "Draw 2 cards. If your castle is below half HP, draw 3 instead.",
+                      "image":  "assets/cards/web/elf/36_second_wind.jpg"
+                  },
+                  {
+                      "id":  "elf_37",
+                      "name":  "Fleetfoot Ward",
+                      "cost":  1,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "ally_unit",
+                      "effect":  { "kind": "buff_defense", "amount": 2 },
+                      "text":  "Target allied unit gains +0/+2 until end of turn.",
+                      "image":  "assets/cards/web/elf/37_fleetfoot_ward.jpg"
                   }
               ]
 }

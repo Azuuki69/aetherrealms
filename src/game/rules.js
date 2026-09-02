@@ -167,6 +167,7 @@ export function createGame(factionA, factionB, firstPlayer = 'A', usernameA = nu
     winner: null,
     log: ['Match created — flipping a coin to see who goes first...'],
     pendingEffects: [],
+    turnEffects: [],
   };
 }
 
@@ -257,16 +258,19 @@ function dealDamageToUnit(game, ownerKey, lane, slot, amount) {
     game.log.push(`${unit.name}'s Shield absorbs the hit.`);
     return 0;
   }
-  unit.defense -= amount;
+  const total = amount + (unit.vulnerableBonus || 0);
+  unit.defense -= total;
   if (unit.defense <= 0) destroyUnit(game, ownerKey, lane, slot);
-  return amount;
+  return total;
 }
 
 // "Until end of turn" spell buffs (as opposed to War Cry-style "until your
 // next turn" buffs, which already persist via tempPowerBonus/startTurn) live
 // in their own turnPowerBonus/turnDefenseBonus fields so they can be rolled
 // back the moment the casting player's own turn ends, before the opponent
-// ever has to deal with them.
+// ever has to deal with them. Debuffs placed on an ENEMY unit (e.g. Hunter's
+// Mark) can't be found by scanning the caster's own board, so those are
+// separately tracked in game.turnEffects, tagged with who cast them.
 function revertEndOfTurnBuffs(game, owner) {
   const player = game.players[owner];
   for (const lane of ['vanguard', 'rearguard']) {
@@ -281,6 +285,21 @@ function revertEndOfTurnBuffs(game, owner) {
       }
     });
   }
+
+  const remaining = [];
+  for (const te of game.turnEffects) {
+    if (te.casterOwner !== owner) {
+      remaining.push(te);
+      continue;
+    }
+    const targetPlayer = game.players[te.targetOwner];
+    const loc = findLaneOf(targetPlayer, te.targetInstanceId);
+    if (loc) {
+      const unit = targetPlayer.board[loc.lane][loc.idx];
+      unit[te.field] = Math.max(0, (unit[te.field] || 0) - te.amount);
+    }
+  }
+  game.turnEffects = remaining;
 }
 
 // Delayed spell effects (e.g. "deal 1 more damage at the start of your next
@@ -455,7 +474,9 @@ function resolveSpellEffect(game, owner, card, target) {
   const opponent = game.players[opponentOf(owner)];
   const eff = card.effect;
   const targetOwnerKey =
-    card.target === 'enemy_unit' || card.target === 'multi_enemy_unit' ? opponentOf(owner) : owner;
+    card.target === 'enemy_unit' || card.target === 'multi_enemy_unit' || card.target === 'multi_enemy_unit_distinct'
+      ? opponentOf(owner)
+      : owner;
 
   switch (eff.kind) {
     case 'buff_power': {
@@ -548,6 +569,59 @@ function resolveSpellEffect(game, owner, card, target) {
       game.log.push(`${card.name} splits ${target.hits.length} damage among enemy units.`);
       break;
     }
+    case 'multi_damage': {
+      for (const hit of target.hits) {
+        dealDamageToUnit(game, targetOwnerKey, hit.lane, hit.slot, eff.amount);
+      }
+      game.log.push(`${card.name} deals ${eff.amount} damage to each of ${target.hits.length} enemy units.`);
+      break;
+    }
+    case 'vulnerable': {
+      const unit = game.players[targetOwnerKey].board[target.lane][target.slot];
+      if (unit) {
+        unit.vulnerableBonus = (unit.vulnerableBonus || 0) + eff.amount;
+        game.turnEffects.push({
+          casterOwner: owner,
+          targetOwner: targetOwnerKey,
+          targetInstanceId: unit.instanceId,
+          field: 'vulnerableBonus',
+          amount: eff.amount,
+        });
+        game.log.push(`${card.name} makes ${unit.name} take +${eff.amount} damage until end of turn.`);
+      }
+      break;
+    }
+    case 'bounce': {
+      const unit = player.board[target.lane][target.slot];
+      if (unit) {
+        player.board[target.lane][target.slot] = null;
+        unit.defense = unit.maxDefense;
+        unit.power = unit.basePower;
+        unit.tempPowerBonus = 0;
+        unit.turnPowerBonus = 0;
+        unit.turnDefenseBonus = 0;
+        unit.vulnerableBonus = 0;
+        unit.hasShield = unit.keywords.includes('shield');
+        delete unit.sick;
+        delete unit.attackedThisTurn;
+        player.hand.push(unit);
+        game.log.push(`${card.name} returns ${unit.name} to ${owner}'s hand.`);
+      }
+      break;
+    }
+    case 'damage_conditional_hp': {
+      const amount = player.hp < player.maxHp / 2 ? eff.lowHpAmount : eff.amount;
+      dealDamageToUnit(game, targetOwnerKey, target.lane, target.slot, amount);
+      game.log.push(`${card.name} deals ${amount} damage.`);
+      break;
+    }
+    case 'draw_conditional_hp': {
+      const n = player.hp < player.maxHp / 2 ? eff.lowHpAmount : eff.amount;
+      let drew = 0;
+      for (let i = 0; i < n; i++) if (draw(player)) drew++;
+      game.log.push(`${owner} draws ${drew} card(s) (${card.name}).`);
+      break;
+    }
     default:
       break;
   }
@@ -579,6 +653,16 @@ function validateSpellTarget(game, owner, card, target) {
     if (distinct.size > eff.maxTargets) throw new Error('Too many different targets for this spell.');
     for (const h of target.hits) {
       if (!opp.board[h.lane]?.[h.slot]) throw new Error('Invalid target in split damage.');
+    }
+  } else if (kind === 'multi_enemy_unit_distinct') {
+    const eff = card.effect;
+    if (!target || !Array.isArray(target.hits) || target.hits.length !== eff.count) {
+      throw new Error('Choose valid targets for this spell.');
+    }
+    const distinct = new Set(target.hits.map((h) => `${h.lane}:${h.slot}`));
+    if (distinct.size !== target.hits.length) throw new Error('Targets must be different units.');
+    for (const h of target.hits) {
+      if (!opp.board[h.lane]?.[h.slot]) throw new Error('Invalid target.');
     }
   }
 }
@@ -789,13 +873,13 @@ export function attack(game, owner, attackerLane, attackerSlot, targetLane, targ
 
   let fwdDmg = 0;
   if (!fwdShielded) {
-    fwdDmg = attackPower;
+    fwdDmg = attackPower + (targetUnit.vulnerableBonus || 0);
     if (targetUnit.keywords.includes('phalanx')) fwdDmg = Math.max(0, fwdDmg - 1);
     if (hasFormationToughness(game, opponentKey, targetLane, targetSlot)) fwdDmg = Math.max(0, fwdDmg - 1);
   }
   let backDmg = 0;
   if (!isRanged && !backShielded) {
-    backDmg = defenderPower;
+    backDmg = defenderPower + (unit.vulnerableBonus || 0);
     if (unit.keywords.includes('phalanx')) backDmg = Math.max(0, backDmg - 1);
     if (hasFormationToughness(game, owner, attackerLane, attackerSlot)) backDmg = Math.max(0, backDmg - 1);
   }

@@ -530,6 +530,19 @@ function handleSpellTargetClick(side, lane, slotIndex) {
     }
     return true;
   }
+  if (kind === 'multi_enemy_unit_distinct' && side === 'opp' && opp.board[lane][slotIndex]) {
+    const eff = card.effect;
+    const already = pendingSpell.hits.some((h) => h.lane === lane && h.slot === slotIndex);
+    if (already) return true; // must pick different units, this one's already chosen
+    pendingSpell.hits.push({ lane, slot: slotIndex });
+    if (pendingSpell.hits.length >= eff.count) {
+      sendSpellTarget({ hits: pendingSpell.hits });
+    } else {
+      logLine(`${card.name}: choose ${eff.count - pendingSpell.hits.length} more different target(s).`);
+      render();
+    }
+    return true;
+  }
   return false;
 }
 
@@ -843,7 +856,7 @@ function highlightSelections() {
       document.querySelectorAll('#youVanguard .slot, #youRearguard .slot').forEach((s) => {
         if (s.children.length > 0) s.classList.add('spell-target');
       });
-    } else if (kind === 'enemy_unit' || kind === 'multi_enemy_unit') {
+    } else if (kind === 'enemy_unit' || kind === 'multi_enemy_unit' || kind === 'multi_enemy_unit_distinct') {
       document.querySelectorAll('#oppVanguard .slot, #oppRearguard .slot').forEach((s) => {
         if (s.children.length > 0) s.classList.add('spell-target');
       });
