@@ -857,9 +857,14 @@ function highlightSelections() {
         if (s.children.length > 0) s.classList.add('spell-target');
       });
     } else if (kind === 'enemy_unit' || kind === 'multi_enemy_unit' || kind === 'multi_enemy_unit_distinct') {
-      document.querySelectorAll('#oppVanguard .slot, #oppRearguard .slot').forEach((s) => {
-        if (s.children.length > 0) s.classList.add('spell-target');
-      });
+      const maxTargetPower = pendingSpell.card.effect?.maxTargetPower;
+      for (const laneName of ['vanguard', 'rearguard']) {
+        const containerId = laneName === 'vanguard' ? 'oppVanguard' : 'oppRearguard';
+        document.querySelectorAll(`#${containerId} .slot`).forEach((s, idx) => {
+          const u = currentView.opponent.board[laneName][idx];
+          if (u && (maxTargetPower === undefined || u.power <= maxTargetPower)) s.classList.add('spell-target');
+        });
+      }
     } else if (kind === 'ally_row') {
       document.querySelectorAll('#youVanguard .slot, #youRearguard .slot').forEach((s) => {
         s.classList.add('spell-target');

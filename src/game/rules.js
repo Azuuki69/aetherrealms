@@ -144,6 +144,8 @@ export function createGame(factionA, factionB, firstPlayer = 'A', usernameA = nu
       maxMana: 1,
       mana: 1,
       connected: false,
+      castleShield: 0,
+      turnDamageReduction: 0,
     },
     B: {
       faction: factionB,
@@ -157,6 +159,8 @@ export function createGame(factionA, factionB, firstPlayer = 'A', usernameA = nu
       maxMana: 1,
       mana: 1,
       connected: false,
+      castleShield: 0,
+      turnDamageReduction: 0,
     },
   };
   return {
@@ -251,17 +255,36 @@ function findLaneOf(player, instanceId) {
 // consistently protected everywhere, not just against attacks. Returns the
 // amount actually dealt (0 if absorbed).
 function dealDamageToUnit(game, ownerKey, lane, slot, amount) {
-  const unit = game.players[ownerKey].board[lane][slot];
+  const player = game.players[ownerKey];
+  const unit = player.board[lane][slot];
   if (!unit) return 0;
   if (unit.hasShield) {
     unit.hasShield = false;
     game.log.push(`${unit.name}'s Shield absorbs the hit.`);
     return 0;
   }
-  const total = amount + (unit.vulnerableBonus || 0);
+  const total = Math.max(0, amount + (unit.vulnerableBonus || 0) - (player.turnDamageReduction || 0));
   unit.defense -= total;
   if (unit.defense <= 0) destroyUnit(game, ownerKey, lane, slot);
   return total;
+}
+
+// Shared entry point for any damage aimed at a player's CASTLE (rather than a
+// unit) so a castle ward (Runic Ward) is consistently respected wherever
+// castle HP is reduced — combat breakthroughs, Countdown/Curse triggers, and
+// castle-damage spells alike. Self-inflicted costs (Bloodprice) intentionally
+// bypass this and hit player.hp directly — a player's own ward shouldn't
+// block a price they chose to pay themselves.
+function dealDamageToCastle(game, targetOwnerKey, amount) {
+  const player = game.players[targetOwnerKey];
+  const absorbed = Math.min(player.castleShield || 0, amount);
+  if (absorbed > 0) {
+    player.castleShield -= absorbed;
+    game.log.push(`${targetOwnerKey}'s castle ward absorbs ${absorbed} damage.`);
+  }
+  const remaining = amount - absorbed;
+  player.hp -= remaining;
+  return remaining;
 }
 
 // "Until end of turn" spell buffs (as opposed to War Cry-style "until your
@@ -330,6 +353,12 @@ function processPendingEffects(game, owner) {
         game.log.push(`${pe.sourceName}'s delayed effect fizzles — the target is gone.`);
       }
     }
+    if (pe.kind === 'heal_castle_delayed') {
+      const healPlayer = game.players[owner];
+      const before = healPlayer.hp;
+      healPlayer.hp = Math.min(healPlayer.maxHp, healPlayer.hp + pe.amount);
+      game.log.push(`${pe.sourceName} heals ${owner} for ${healPlayer.hp - before}.`);
+    }
   }
   checkWinner(game);
 }
@@ -397,6 +426,8 @@ export function startTurn(game, owner) {
   const player = game.players[owner];
   player.maxMana = Math.min(MAX_MANA, player.maxMana + 1);
   player.mana = player.maxMana;
+  player.castleShield = 0;
+  player.turnDamageReduction = 0;
   processPendingEffects(game, owner);
   for (const lane of ['vanguard', 'rearguard']) {
     player.board[lane].forEach((unit, idx) => {
@@ -440,7 +471,7 @@ function resolveCountdown(game, owner, lane, slotIndex) {
     game.log.push(`${unit.name}'s Countdown deals ${dmg} to ${target.name}.`);
     if (target.defense <= 0) destroyUnit(game, opponentOf(owner), loc.lane, loc.idx);
   } else {
-    opponent.hp -= dmg;
+    dealDamageToCastle(game, opponentOf(owner), dmg);
     game.log.push(`${unit.name}'s Countdown deals ${dmg} to the enemy castle.`);
   }
   if (/draw a card/i.test(unit.text)) {
@@ -558,7 +589,7 @@ function resolveSpellEffect(game, owner, card, target) {
       break;
     }
     case 'damage_castle': {
-      opponent.hp -= eff.amount;
+      dealDamageToCastle(game, opponentOf(owner), eff.amount);
       game.log.push(`${card.name} deals ${eff.amount} to the enemy castle.`);
       break;
     }
@@ -622,6 +653,48 @@ function resolveSpellEffect(game, owner, card, target) {
       game.log.push(`${owner} draws ${drew} card(s) (${card.name}).`);
       break;
     }
+    case 'grant_castle_shield': {
+      player.castleShield = (player.castleShield || 0) + eff.amount;
+      game.log.push(`${card.name} wards ${owner}'s castle against the next ${eff.amount} damage.`);
+      break;
+    }
+    case 'heal_all_allies': {
+      let healedAny = false;
+      for (const u of allUnits(player)) {
+        if (u.defense < u.maxDefense) {
+          u.defense = Math.min(u.maxDefense, u.defense + eff.amount);
+          healedAny = true;
+        }
+      }
+      game.log.push(`${card.name} heals ${owner}'s units for ${eff.amount}${healedAny ? '' : ' (none were hurt)'}.`);
+      break;
+    }
+    case 'damage_reduction_team': {
+      player.turnDamageReduction = (player.turnDamageReduction || 0) + eff.amount;
+      game.log.push(`${card.name} makes ${owner}'s units take ${eff.amount} less damage until ${owner}'s next turn.`);
+      break;
+    }
+    case 'damage_all_enemies': {
+      for (const lane of ['vanguard', 'rearguard']) {
+        opponent.board[lane].forEach((u, idx) => {
+          if (u) dealDamageToUnit(game, opponentOf(owner), lane, idx, eff.amount);
+        });
+      }
+      game.log.push(`${card.name} deals ${eff.amount} damage to all of ${opponentOf(owner)}'s units.`);
+      break;
+    }
+    case 'delayed_heal_castle_repeat': {
+      for (let i = 1; i <= eff.times; i++) {
+        game.pendingEffects.push({
+          owner,
+          turnsRemaining: i,
+          kind: 'heal_castle_delayed',
+          amount: eff.amount,
+          sourceName: card.name,
+        });
+      }
+      break;
+    }
     default:
       break;
   }
@@ -639,7 +712,11 @@ function validateSpellTarget(game, owner, card, target) {
   if (kind === 'ally_unit') {
     if (!target || !you.board[target.lane]?.[target.slot]) throw new Error('Choose a valid allied unit to target.');
   } else if (kind === 'enemy_unit') {
-    if (!target || !opp.board[target.lane]?.[target.slot]) throw new Error('Choose a valid enemy unit to target.');
+    const targetUnit = target && opp.board[target.lane]?.[target.slot];
+    if (!targetUnit) throw new Error('Choose a valid enemy unit to target.');
+    if (card.effect?.maxTargetPower !== undefined && targetUnit.power > card.effect.maxTargetPower) {
+      throw new Error(`This spell can only target units with ${card.effect.maxTargetPower} or less DMG.`);
+    }
   } else if (kind === 'ally_row') {
     if (!target || (target.lane !== 'vanguard' && target.lane !== 'rearguard')) {
       throw new Error('Choose a row to target.');
@@ -733,7 +810,7 @@ export function playCard(game, owner, cardInstanceId, lane, slotIndex, spellTarg
         game.log.push(`${unit.name}'s Cull sacrifices ${victim.name} to deal 2 to ${target.name}.`);
         if (target.defense <= 0) destroyUnit(game, opponentOf(owner), targetLoc.lane, targetLoc.idx);
       } else {
-        opponentPlayer.hp -= 2;
+        dealDamageToCastle(game, opponentOf(owner), 2);
         game.log.push(`${unit.name}'s Cull sacrifices ${victim.name} to deal 2 to the enemy castle.`);
       }
       checkWinner(game);
@@ -840,9 +917,9 @@ export function attack(game, owner, attackerLane, attackerSlot, targetLane, targ
   // Undefended-column fallthrough: the one way to reach the castle, available
   // to any attacker, not a special ability of any keyword.
   if (isCastleTarget) {
-    opponent.hp -= attackPower;
+    const dealt = dealDamageToCastle(game, opponentKey, attackPower);
     game.log.push(`${owner}'s ${unit.name} breaks through and hits the enemy castle for ${attackPower}.`);
-    applyLifestealIfAny(game, owner, unit, attackPower);
+    applyLifestealIfAny(game, owner, unit, dealt);
     checkWinner(game);
     return game;
   }
@@ -876,12 +953,14 @@ export function attack(game, owner, attackerLane, attackerSlot, targetLane, targ
     fwdDmg = attackPower + (targetUnit.vulnerableBonus || 0);
     if (targetUnit.keywords.includes('phalanx')) fwdDmg = Math.max(0, fwdDmg - 1);
     if (hasFormationToughness(game, opponentKey, targetLane, targetSlot)) fwdDmg = Math.max(0, fwdDmg - 1);
+    fwdDmg = Math.max(0, fwdDmg - (opponent.turnDamageReduction || 0));
   }
   let backDmg = 0;
   if (!isRanged && !backShielded) {
     backDmg = defenderPower + (unit.vulnerableBonus || 0);
     if (unit.keywords.includes('phalanx')) backDmg = Math.max(0, backDmg - 1);
     if (hasFormationToughness(game, owner, attackerLane, attackerSlot)) backDmg = Math.max(0, backDmg - 1);
+    backDmg = Math.max(0, backDmg - (player.turnDamageReduction || 0));
   }
 
   targetUnit.defense -= fwdDmg;
@@ -947,7 +1026,7 @@ export function attack(game, owner, attackerLane, attackerSlot, targetLane, targ
         game.log.push(`Trample carries ${overflow} to ${behind.name}.`);
         if (behind.defense <= 0) destroyUnit(game, opponentKey, 'rearguard', targetSlot);
       } else {
-        opponent.hp -= overflow;
+        dealDamageToCastle(game, opponentKey, overflow);
         game.log.push(`Trample carries ${overflow} to the enemy castle.`);
       }
     }
@@ -962,7 +1041,7 @@ export function attack(game, owner, attackerLane, attackerSlot, targetLane, targ
         game.log.push(`Trample carries ${overflow} to ${behind.name}.`);
         if (behind.defense <= 0) destroyUnit(game, owner, 'rearguard', attackerSlot);
       } else {
-        player.hp -= overflow;
+        dealDamageToCastle(game, owner, overflow);
         game.log.push(`Trample carries ${overflow} to the ${owner}'s castle.`);
       }
     }
@@ -991,7 +1070,7 @@ export function endTurn(game, owner) {
         game.log.push(`${unit.name}'s Curse deals 1 to ${target.name}.`);
         if (target.defense <= 0) destroyUnit(game, opponentOf(owner), loc.lane, loc.idx);
       } else {
-        opponent.hp -= 1;
+        dealDamageToCastle(game, opponentOf(owner), 1);
         game.log.push(`${unit.name}'s Curse deals 1 to the enemy castle.`);
       }
     }
