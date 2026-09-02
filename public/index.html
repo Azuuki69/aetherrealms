@@ -95,11 +95,6 @@
       <div class="castle-wrap">
         <img class="castle-img" alt="" />
       </div>
-      <div class="castle-hp-block">
-        <div class="castle-owner-label">Enemy Castle</div>
-        <div class="castle-hp-bar"><div class="castle-hp-bar-fill"></div></div>
-        <div class="castle-hp-value"></div>
-      </div>
       <div class="mana-crystals"></div>
       <span class="mana"></span>
     </div>
@@ -111,11 +106,6 @@
       <span class="name"></span>
       <div class="castle-wrap">
         <img class="castle-img" alt="" />
-      </div>
-      <div class="castle-hp-block">
-        <div class="castle-owner-label">Your Castle</div>
-        <div class="castle-hp-bar"><div class="castle-hp-bar-fill"></div></div>
-        <div class="castle-hp-value"></div>
       </div>
       <div class="mana-crystals"></div>
       <span class="mana"></span>
@@ -144,7 +134,12 @@
   </div>
 
   <div class="board-wrap">
-    <div class="side-panel" id="oppPanel">
+    <div class="side-panel castle-panel" id="oppPanel">
+      <div class="castle-hp-block">
+        <div class="castle-owner-label">Enemy HP</div>
+        <div class="castle-hp-bar"><div class="castle-hp-bar-fill"></div></div>
+        <div class="castle-hp-value"></div>
+      </div>
       <div class="panel-stat"><span class="panel-icon">🎴</span><span id="oppDeckCount">0</span></div>
       <div class="panel-stat"><span class="panel-icon">💀</span><span id="oppGraveCount">0</span></div>
     </div>
@@ -159,7 +154,12 @@
         <img id="cardRevealImg" class="card-reveal-img" alt="" />
       </div>
     </div>
-    <div class="side-panel" id="youPanel">
+    <div class="side-panel castle-panel" id="youPanel">
+      <div class="castle-hp-block">
+        <div class="castle-owner-label">Your HP</div>
+        <div class="castle-hp-bar"><div class="castle-hp-bar-fill"></div></div>
+        <div class="castle-hp-value"></div>
+      </div>
       <div class="panel-stat"><span class="panel-icon">🎴</span><span id="youDeckCount">0</span></div>
       <div class="panel-stat"><span class="panel-icon">💀</span><span id="youGraveCount">0</span></div>
     </div>

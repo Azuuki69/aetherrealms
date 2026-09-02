@@ -224,18 +224,24 @@ function hidePreview() {
   el('cardPreview').classList.remove('visible');
 }
 
-function renderCastle(panelId, hp, maxHp, faction) {
-  const panel = el(panelId);
-  const img = panel.querySelector('.castle-img');
+function renderCastle(headerPanelId, sidePanelId, hp, maxHp, faction) {
+  const headerPanel = el(headerPanelId);
+  const sidePanel = el(sidePanelId);
+  const img = headerPanel.querySelector('.castle-img');
   img.src = `assets/cards/${faction}castle.png`;
   img.alt = `${faction} castle`;
   const clampedHp = Math.max(0, hp);
-  panel.querySelector('.castle-hp-value').textContent = `${clampedHp} / ${maxHp}`;
+  sidePanel.querySelector('.castle-hp-value').textContent = `${clampedHp} / ${maxHp}`;
   const ratio = maxHp > 0 ? Math.max(0, hp / maxHp) : 0;
-  panel.querySelector('.castle-hp-bar-fill').style.width = `${ratio * 100}%`;
-  panel.classList.toggle('castle-damaged', hp > 0 && ratio < 0.66);
-  panel.classList.toggle('castle-critical', hp > 0 && ratio < 0.33);
-  panel.classList.toggle('castle-destroyed', hp <= 0);
+  sidePanel.querySelector('.castle-hp-bar-fill').style.width = `${ratio * 100}%`;
+  const damaged = hp > 0 && ratio < 0.66;
+  const critical = hp > 0 && ratio < 0.33;
+  const destroyed = hp <= 0;
+  for (const panel of [headerPanel, sidePanel]) {
+    panel.classList.toggle('castle-damaged', damaged);
+    panel.classList.toggle('castle-critical', critical);
+    panel.classList.toggle('castle-destroyed', destroyed);
+  }
 }
 
 // ---------- Combat feedback effects ----------
@@ -311,13 +317,14 @@ function findUnitAnchorEl(side, lane, slot) {
 
 function spawnEffect(fx) {
   if (fx.kind === 'castle-damage' || fx.kind === 'castle-heal') {
-    const panelId = fx.side === 'you' ? 'youInfo' : 'oppInfo';
-    const wrap = document.querySelector(`#${panelId} .castle-wrap`);
+    const headerPanelId = fx.side === 'you' ? 'youInfo' : 'oppInfo';
+    const sidePanelId = fx.side === 'you' ? 'youPanel' : 'oppPanel';
+    const wrap = document.querySelector(`#${headerPanelId} .castle-wrap`);
     if (!wrap) return;
     if (fx.kind === 'castle-damage') {
       floatNumber(wrap, `-${fx.amount}`, 'fx-damage');
       pulseClass(wrap, 'castle-hit');
-      const barFill = document.querySelector(`#${panelId} .castle-hp-bar-fill`);
+      const barFill = document.querySelector(`#${sidePanelId} .castle-hp-bar-fill`);
       if (barFill) pulseClass(barFill, 'bar-hit');
     } else {
       floatNumber(wrap, `+${fx.amount}`, 'fx-heal');
@@ -379,12 +386,12 @@ function render() {
   const oppKey = you_key === 'A' ? 'B' : 'A';
 
   el('youInfo').querySelector('.name').textContent = `${displayName(you, you_key)} (${capitalize(you.faction)})`;
-  renderCastle('youInfo', you.hp, you.maxHp, you.faction);
+  renderCastle('youInfo', 'youPanel', you.hp, you.maxHp, you.faction);
   el('youInfo').querySelector('.mana').textContent = `${you.mana}/${you.maxMana}`;
   renderManaCrystals(el('youInfo').querySelector('.mana-crystals'), you.mana, you.maxMana);
 
   el('oppInfo').querySelector('.name').textContent = `${displayName(opponent, oppKey)} (${capitalize(opponent.faction)})`;
-  renderCastle('oppInfo', opponent.hp, opponent.maxHp, opponent.faction);
+  renderCastle('oppInfo', 'oppPanel', opponent.hp, opponent.maxHp, opponent.faction);
   el('oppInfo').querySelector('.mana').textContent = `${opponent.mana}/${opponent.maxMana}`;
   renderManaCrystals(el('oppInfo').querySelector('.mana-crystals'), opponent.mana, opponent.maxMana);
 
