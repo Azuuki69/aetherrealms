@@ -920,6 +920,84 @@ function resolveSpellEffect(game, owner, card, target) {
       }
       break;
     }
+    case 'self_damage_then_damage': {
+      player.hp -= eff.selfAmount;
+      dealDamageToUnit(game, targetOwnerKey, target.lane, target.slot, eff.amount);
+      game.log.push(`${card.name} costs ${owner} ${eff.selfAmount} and deals ${eff.amount} damage.`);
+      break;
+    }
+    case 'self_damage_then_buff_power': {
+      player.hp -= eff.selfAmount;
+      const unit = player.board[target.lane][target.slot];
+      if (unit) {
+        unit.turnPowerBonus = (unit.turnPowerBonus || 0) + eff.powerAmount;
+        game.log.push(`${card.name} costs ${owner} ${eff.selfAmount} and gives ${unit.name} +${eff.powerAmount} DMG until end of turn.`);
+      }
+      break;
+    }
+    case 'self_damage_then_draw': {
+      player.hp -= eff.selfAmount;
+      let drew = 0;
+      for (let i = 0; i < eff.drawAmount; i++) if (draw(player)) drew++;
+      game.log.push(`${card.name} costs ${owner} ${eff.selfAmount} and draws ${drew} card(s).`);
+      break;
+    }
+    case 'sacrifice_then_draw': {
+      const unit = player.board[target.lane][target.slot];
+      if (unit) {
+        const name = unit.name;
+        destroyUnit(game, owner, target.lane, target.slot);
+        let drew = 0;
+        for (let i = 0; i < eff.drawAmount; i++) if (draw(player)) drew++;
+        game.log.push(`${card.name} sacrifices ${name} and draws ${drew} card(s).`);
+      }
+      break;
+    }
+    case 'damage_then_weaken': {
+      const targetUnit = game.players[targetOwnerKey].board[target.lane][target.slot];
+      if (targetUnit) {
+        dealDamageToUnit(game, targetOwnerKey, target.lane, target.slot, eff.amount);
+        const stillThere = game.players[targetOwnerKey].board[target.lane][target.slot];
+        if (stillThere) {
+          stillThere.combatDamageReduction = eff.reduction;
+          game.turnEffects.push({
+            casterOwner: owner,
+            targetOwner: targetOwnerKey,
+            targetInstanceId: stillThere.instanceId,
+            field: 'combatDamageReduction',
+            amount: eff.reduction,
+          });
+        }
+        game.log.push(`${card.name} deals ${eff.amount} damage and weakens its next hit this turn.`);
+      }
+      break;
+    }
+    case 'self_damage_then_death_ward': {
+      player.hp -= eff.selfAmount;
+      const unit = player.board[target.lane][target.slot];
+      if (unit) {
+        unit.deathWard = true;
+        game.log.push(`${card.name} costs ${owner} ${eff.selfAmount} and wards ${unit.name} against death this turn.`);
+      }
+      break;
+    }
+    case 'heal_castle_per_death': {
+      const amount = Math.min(eff.maxAmount, (player.diedThisTurn || 0) * eff.perDeath);
+      const before = player.hp;
+      player.hp = Math.min(player.maxHp, player.hp + amount);
+      game.log.push(`${card.name} heals ${owner} for ${player.hp - before}.`);
+      break;
+    }
+    case 'self_damage_then_destroy': {
+      player.hp -= eff.selfAmount;
+      const targetUnit = game.players[targetOwnerKey].board[target.lane][target.slot];
+      if (targetUnit) {
+        const name = targetUnit.name;
+        destroyUnit(game, targetOwnerKey, target.lane, target.slot);
+        game.log.push(`${card.name} costs ${owner} ${eff.selfAmount} and destroys ${name}.`);
+      }
+      break;
+    }
     default:
       break;
   }
@@ -935,7 +1013,11 @@ function validateSpellTarget(game, owner, card, target) {
   const opp = game.players[opponentOf(owner)];
   const you = game.players[owner];
   if (kind === 'ally_unit') {
-    if (!target || !you.board[target.lane]?.[target.slot]) throw new Error('Choose a valid allied unit to target.');
+    const targetUnit = target && you.board[target.lane]?.[target.slot];
+    if (!targetUnit) throw new Error('Choose a valid allied unit to target.');
+    if (card.effect?.maxTargetPower !== undefined && targetUnit.power > card.effect.maxTargetPower) {
+      throw new Error(`This spell can only target units with ${card.effect.maxTargetPower} or less DMG.`);
+    }
   } else if (kind === 'enemy_unit') {
     const targetUnit = target && opp.board[target.lane]?.[target.slot];
     if (!targetUnit) throw new Error('Choose a valid enemy unit to target.');
@@ -1184,6 +1266,12 @@ export function attack(game, owner, attackerLane, attackerSlot, targetLane, targ
       targetUnit.damageAbsorb -= absorbed;
       fwdDmg -= absorbed;
     }
+    // Cursed Blade-style one-shot: consumed the instant this unit next deals
+    // any combat damage, attacking or retaliating — not merely on a turn timer.
+    if (unit.combatDamageReduction) {
+      fwdDmg = Math.max(0, fwdDmg - unit.combatDamageReduction);
+      unit.combatDamageReduction = 0;
+    }
   }
   let backDmg = 0;
   if (!isRanged && !backShielded && !unit.damageImmune) {
@@ -1195,6 +1283,10 @@ export function attack(game, owner, attackerLane, attackerSlot, targetLane, targ
       const absorbed = Math.min(unit.damageAbsorb, backDmg);
       unit.damageAbsorb -= absorbed;
       backDmg -= absorbed;
+    }
+    if (targetUnit.combatDamageReduction) {
+      backDmg = Math.max(0, backDmg - targetUnit.combatDamageReduction);
+      targetUnit.combatDamageReduction = 0;
     }
   }
 
