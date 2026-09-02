@@ -106,7 +106,7 @@ export class MatchRoom {
           return;
         }
         case 'play_card':
-          playCard(game, owner, msg.cardInstanceId, msg.lane, msg.slotIndex);
+          playCard(game, owner, msg.cardInstanceId, msg.lane, msg.slotIndex, msg.spellTarget);
           break;
         case 'move_to_combat':
           moveToCombat(game, owner);

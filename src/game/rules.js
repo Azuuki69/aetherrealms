@@ -115,6 +115,8 @@ function makeCardInstance(card) {
     usedRage: false,
     tempPowerBonus: 0,
     countdown: /countdown/i.test(card.text || '') ? firstNumber(card.text, 1) : null,
+    target: card.target || null,
+    effect: card.effect || null,
   };
 }
 
@@ -164,6 +166,7 @@ export function createGame(factionA, factionB, firstPlayer = 'A', usernameA = nu
     turnNumber: 1,
     winner: null,
     log: ['Match created — flipping a coin to see who goes first...'],
+    pendingEffects: [],
   };
 }
 
@@ -221,6 +224,7 @@ function effectivePower(game, owner, lane, slotIndex) {
   if (unit.keywords.includes('desperate') && player.hp < player.maxHp / 2) power += 2;
   if (unit.keywords.includes('hoarder')) power += Math.min(3, Math.max(0, player.hand.length - 3));
   power += unit.tempPowerBonus || 0;
+  power += unit.turnPowerBonus || 0;
   return power;
 }
 
@@ -239,6 +243,76 @@ function findLaneOf(player, instanceId) {
     if (idx !== -1) return { lane, idx };
   }
   return null;
+}
+
+// Shared entry point for any non-combat source of damage to a unit (spells,
+// mainly) — mirrors combat's Shield-absorption rule so a Shielded unit is
+// consistently protected everywhere, not just against attacks. Returns the
+// amount actually dealt (0 if absorbed).
+function dealDamageToUnit(game, ownerKey, lane, slot, amount) {
+  const unit = game.players[ownerKey].board[lane][slot];
+  if (!unit) return 0;
+  if (unit.hasShield) {
+    unit.hasShield = false;
+    game.log.push(`${unit.name}'s Shield absorbs the hit.`);
+    return 0;
+  }
+  unit.defense -= amount;
+  if (unit.defense <= 0) destroyUnit(game, ownerKey, lane, slot);
+  return amount;
+}
+
+// "Until end of turn" spell buffs (as opposed to War Cry-style "until your
+// next turn" buffs, which already persist via tempPowerBonus/startTurn) live
+// in their own turnPowerBonus/turnDefenseBonus fields so they can be rolled
+// back the moment the casting player's own turn ends, before the opponent
+// ever has to deal with them.
+function revertEndOfTurnBuffs(game, owner) {
+  const player = game.players[owner];
+  for (const lane of ['vanguard', 'rearguard']) {
+    player.board[lane].forEach((unit, idx) => {
+      if (!unit) return;
+      unit.turnPowerBonus = 0;
+      if (unit.turnDefenseBonus) {
+        unit.defense -= unit.turnDefenseBonus;
+        unit.maxDefense -= unit.turnDefenseBonus;
+        unit.turnDefenseBonus = 0;
+        if (unit.defense <= 0) destroyUnit(game, owner, lane, idx);
+      }
+    });
+  }
+}
+
+// Delayed spell effects (e.g. "deal 1 more damage at the start of your next
+// turn") are queued here rather than tied to a unit's own countdown, since
+// the source is a one-shot spell, not a persistent unit. Resolves whenever
+// `owner`'s turn comes back around, however many turns that takes.
+function processPendingEffects(game, owner) {
+  const due = [];
+  const remaining = [];
+  for (const pe of game.pendingEffects) {
+    if (pe.owner !== owner) {
+      remaining.push(pe);
+      continue;
+    }
+    pe.turnsRemaining -= 1;
+    if (pe.turnsRemaining <= 0) due.push(pe);
+    else remaining.push(pe);
+  }
+  game.pendingEffects = remaining;
+  for (const pe of due) {
+    if (pe.kind === 'damage_unit') {
+      const targetPlayer = game.players[pe.targetOwner];
+      const loc = findLaneOf(targetPlayer, pe.targetInstanceId);
+      if (loc) {
+        dealDamageToUnit(game, pe.targetOwner, loc.lane, loc.idx, pe.amount);
+        game.log.push(`${pe.sourceName}'s delayed effect deals ${pe.amount} more damage.`);
+      } else {
+        game.log.push(`${pe.sourceName}'s delayed effect fizzles — the target is gone.`);
+      }
+    }
+  }
+  checkWinner(game);
 }
 
 function mostDamagedAlly(player) {
@@ -304,6 +378,7 @@ export function startTurn(game, owner) {
   const player = game.players[owner];
   player.maxMana = Math.min(MAX_MANA, player.maxMana + 1);
   player.mana = player.maxMana;
+  processPendingEffects(game, owner);
   for (const lane of ['vanguard', 'rearguard']) {
     player.board[lane].forEach((unit, idx) => {
       if (!unit) return;
@@ -371,7 +446,133 @@ function resolveSpell(game, owner, card) {
   }
 }
 
-export function playCard(game, owner, cardInstanceId, lane, slotIndex) {
+// Structured spell effects (as opposed to the legacy text-parsed
+// resolveSpell() above, kept for cards with no `effect` field, e.g. Ancient
+// Wisdom) — one `kind` per mechanical shape, each keyed off `card.target`
+// to know whose board `target.lane`/`target.slot` refers to.
+function resolveSpellEffect(game, owner, card, target) {
+  const player = game.players[owner];
+  const opponent = game.players[opponentOf(owner)];
+  const eff = card.effect;
+  const targetOwnerKey =
+    card.target === 'enemy_unit' || card.target === 'multi_enemy_unit' ? opponentOf(owner) : owner;
+
+  switch (eff.kind) {
+    case 'buff_power': {
+      const unit = game.players[targetOwnerKey].board[target.lane][target.slot];
+      if (unit) {
+        unit.turnPowerBonus = (unit.turnPowerBonus || 0) + eff.amount;
+        game.log.push(`${card.name} gives ${unit.name} +${eff.amount} DMG until end of turn.`);
+      }
+      break;
+    }
+    case 'buff_defense': {
+      const unit = game.players[targetOwnerKey].board[target.lane][target.slot];
+      if (unit) {
+        unit.defense += eff.amount;
+        unit.maxDefense += eff.amount;
+        unit.turnDefenseBonus = (unit.turnDefenseBonus || 0) + eff.amount;
+        game.log.push(`${card.name} gives ${unit.name} +${eff.amount} HP until end of turn.`);
+      }
+      break;
+    }
+    case 'heal': {
+      const unit = game.players[targetOwnerKey].board[target.lane][target.slot];
+      if (unit) {
+        const before = unit.defense;
+        unit.defense = Math.min(unit.maxDefense, unit.defense + eff.amount);
+        game.log.push(`${card.name} heals ${unit.name} for ${unit.defense - before}.`);
+      }
+      break;
+    }
+    case 'grant_shield': {
+      const unit = game.players[targetOwnerKey].board[target.lane][target.slot];
+      if (unit) {
+        unit.hasShield = true;
+        game.log.push(`${unit.name} gains Shield from ${card.name}.`);
+      }
+      break;
+    }
+    case 'draw_conditional': {
+      const n = allUnits(player).length >= eff.threshold ? eff.base + eff.bonus : eff.base;
+      let drew = 0;
+      for (let i = 0; i < n; i++) if (draw(player)) drew++;
+      game.log.push(`${owner} draws ${drew} card(s) (${card.name}).`);
+      break;
+    }
+    case 'buff_power_row': {
+      const row = player.board[target.lane];
+      row.forEach((u) => {
+        if (u) u.tempPowerBonus = (u.tempPowerBonus || 0) + eff.amount;
+      });
+      game.log.push(`${card.name} gives ${owner}'s ${target.lane} +${eff.amount} DMG until ${owner}'s next turn.`);
+      break;
+    }
+    case 'damage_then_delayed': {
+      dealDamageToUnit(game, targetOwnerKey, target.lane, target.slot, eff.amount);
+      game.log.push(`${card.name} deals ${eff.amount} damage.`);
+      const stillAlive = game.players[targetOwnerKey].board[target.lane][target.slot];
+      if (stillAlive) {
+        game.pendingEffects.push({
+          owner,
+          turnsRemaining: 1,
+          kind: 'damage_unit',
+          amount: eff.delayedAmount,
+          targetOwner: targetOwnerKey,
+          targetInstanceId: stillAlive.instanceId,
+          sourceName: card.name,
+        });
+      }
+      break;
+    }
+    case 'damage_castle': {
+      opponent.hp -= eff.amount;
+      game.log.push(`${card.name} deals ${eff.amount} to the enemy castle.`);
+      break;
+    }
+    case 'split_damage': {
+      for (const hit of target.hits) {
+        dealDamageToUnit(game, targetOwnerKey, hit.lane, hit.slot, 1);
+      }
+      game.log.push(`${card.name} splits ${target.hits.length} damage among enemy units.`);
+      break;
+    }
+    default:
+      break;
+  }
+  checkWinner(game);
+}
+
+// Confirms `target` is a legal choice for `card.target` before any mana is
+// spent or state changes — the single gate every spell cast passes through,
+// mirroring how getLegalAttackTargets() gates attacks.
+function validateSpellTarget(game, owner, card, target) {
+  const kind = card.target || 'none';
+  if (kind === 'none') return;
+  const opp = game.players[opponentOf(owner)];
+  const you = game.players[owner];
+  if (kind === 'ally_unit') {
+    if (!target || !you.board[target.lane]?.[target.slot]) throw new Error('Choose a valid allied unit to target.');
+  } else if (kind === 'enemy_unit') {
+    if (!target || !opp.board[target.lane]?.[target.slot]) throw new Error('Choose a valid enemy unit to target.');
+  } else if (kind === 'ally_row') {
+    if (!target || (target.lane !== 'vanguard' && target.lane !== 'rearguard')) {
+      throw new Error('Choose a row to target.');
+    }
+  } else if (kind === 'multi_enemy_unit') {
+    const eff = card.effect;
+    if (!target || !Array.isArray(target.hits) || target.hits.length !== eff.total) {
+      throw new Error('Choose valid targets for this spell.');
+    }
+    const distinct = new Set(target.hits.map((h) => `${h.lane}:${h.slot}`));
+    if (distinct.size > eff.maxTargets) throw new Error('Too many different targets for this spell.');
+    for (const h of target.hits) {
+      if (!opp.board[h.lane]?.[h.slot]) throw new Error('Invalid target in split damage.');
+    }
+  }
+}
+
+export function playCard(game, owner, cardInstanceId, lane, slotIndex, spellTarget) {
   requireActive(game, owner);
   if (game.phase !== 'deployment') throw new Error('Cards can only be played during the Deployment phase.');
   const player = game.players[owner];
@@ -381,10 +582,15 @@ export function playCard(game, owner, cardInstanceId, lane, slotIndex) {
   if (card.cost > player.mana) throw new Error('Not enough mana.');
 
   if (card.type === 'spell') {
+    validateSpellTarget(game, owner, card, spellTarget);
     player.hand.splice(idx, 1);
     player.mana -= card.cost;
     game.log.push(`${owner} casts ${card.name}.`);
-    resolveSpell(game, owner, card);
+    if (card.effect) {
+      resolveSpellEffect(game, owner, card, spellTarget);
+    } else {
+      resolveSpell(game, owner, card);
+    }
     player.graveyard.push(card);
     checkWinner(game);
     return card;
@@ -676,6 +882,8 @@ export function endTurn(game, owner) {
   game.phase = 'end';
   const player = game.players[owner];
   const opponent = game.players[opponentOf(owner)];
+
+  revertEndOfTurnBuffs(game, owner);
 
   // End-of-turn triggers for the player whose turn is ending (Curse).
   for (const unit of allUnits(player)) {

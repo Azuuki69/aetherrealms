@@ -244,6 +244,105 @@
                       "copies":  3,
                       "text":  "Draw 4 cards.",
                       "image":  "assets/cards/web/human/27_ancient_wisdom.jpg"
+                  },
+                  {
+                      "id":  "human_28",
+                      "name":  "Rally Cry",
+                      "cost":  1,
+                      "type":  "spell",
+                      "copies":  3,
+                      "target":  "ally_unit",
+                      "effect":  { "kind": "buff_power", "amount": 1 },
+                      "text":  "Target allied unit gains +1 DMG until end of turn.",
+                      "image":  "assets/cards/web/human/28_rally_cry.jpg"
+                  },
+                  {
+                      "id":  "human_29",
+                      "name":  "Guard Formation",
+                      "cost":  1,
+                      "type":  "spell",
+                      "copies":  3,
+                      "target":  "ally_unit",
+                      "effect":  { "kind": "buff_defense", "amount": 2 },
+                      "text":  "Target allied unit gains +0/+2 until end of turn.",
+                      "image":  "assets/cards/web/human/29_guard_formation.jpg"
+                  },
+                  {
+                      "id":  "human_30",
+                      "name":  "Muster",
+                      "cost":  1,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "none",
+                      "effect":  { "kind": "draw_conditional", "base": 1, "bonus": 1, "threshold": 3 },
+                      "text":  "Draw a card. If you control 3 or more units, draw two instead.",
+                      "image":  "assets/cards/web/human/30_muster.jpg"
+                  },
+                  {
+                      "id":  "human_31",
+                      "name":  "Field Medic",
+                      "cost":  2,
+                      "type":  "spell",
+                      "copies":  3,
+                      "target":  "ally_unit",
+                      "effect":  { "kind": "heal", "amount": 3 },
+                      "text":  "Heal an allied unit for 3.",
+                      "image":  "assets/cards/web/human/31_field_medic.jpg"
+                  },
+                  {
+                      "id":  "human_32",
+                      "name":  "Shieldwall Order",
+                      "cost":  2,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "ally_unit",
+                      "effect":  { "kind": "grant_shield" },
+                      "text":  "Target allied unit gains Shield until your next turn.",
+                      "image":  "assets/cards/web/human/32_shieldwall_order.jpg"
+                  },
+                  {
+                      "id":  "human_33",
+                      "name":  "Disciplined Line",
+                      "cost":  2,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "ally_row",
+                      "effect":  { "kind": "buff_power_row", "amount": 1 },
+                      "text":  "Allied units in one row gain +1 DMG until your next turn.",
+                      "image":  "assets/cards/web/human/33_disciplined_line.jpg"
+                  },
+                  {
+                      "id":  "human_34",
+                      "name":  "Marked for Justice",
+                      "cost":  2,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "enemy_unit",
+                      "effect":  { "kind": "damage_then_delayed", "amount": 2, "delayedAmount": 1 },
+                      "text":  "Deal 2 damage to an enemy unit now. If it survives, deal 1 more damage at the start of your next turn.",
+                      "image":  "assets/cards/web/human/34_marked_for_justice.jpg"
+                  },
+                  {
+                      "id":  "human_35",
+                      "name":  "Volley Command",
+                      "cost":  3,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "multi_enemy_unit",
+                      "effect":  { "kind": "split_damage", "total": 3, "maxTargets": 2 },
+                      "text":  "Deal 3 damage, split as you choose between up to two enemy units.",
+                      "image":  "assets/cards/web/human/35_volley_command.jpg"
+                  },
+                  {
+                      "id":  "human_36",
+                      "name":  "Siege Bolt",
+                      "cost":  3,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "none",
+                      "effect":  { "kind": "damage_castle", "amount": 4 },
+                      "text":  "Deal 4 damage directly to the enemy castle, without risking retaliation.",
+                      "image":  "assets/cards/web/human/36_siege_bolt.jpg"
                   }
               ]
 }

@@ -19,6 +19,7 @@ let currentView = null;
 let previousBoardIds = new Set();
 let selectedHandCardId = null;
 let selectedUnit = null; // { lane, slot } — your own unit selected as the acting unit for this turn: clicking a legal move destination moves it, clicking a legal enemy target/the castle attacks with it
+let pendingSpell = null; // { card, hits: [] } — a hand spell awaiting a target click; hits accumulates split-damage picks
 let tutorialDismissed = false;
 let previousView = null; // diff source for the combat feedback effect system (computeEffects)
 let combatResolvers = [];
@@ -106,6 +107,7 @@ function handleMessage(msg) {
       mySeatKey = msg.you_key;
       selectedHandCardId = null;
       selectedUnit = null;
+      pendingSpell = null;
       if (msg.phase === 'coinflip') {
         renderCoinFlip(msg);
       } else {
@@ -470,12 +472,71 @@ function onHandCardClick(card) {
   if (currentView.you.mana < card.cost) return;
   selectedUnit = null;
   if (card.type === 'spell') {
-    selectedHandCardId = null;
-    send({ type: 'play_card', cardInstanceId: card.instanceId });
+    if (!card.target || card.target === 'none') {
+      selectedHandCardId = null;
+      pendingSpell = null;
+      send({ type: 'play_card', cardInstanceId: card.instanceId });
+      render();
+      return;
+    }
+    // Needs a target: arm it and wait for a click on a legal target instead
+    // of casting immediately. Clicking the same spell again cancels it.
+    if (pendingSpell && pendingSpell.card.instanceId === card.instanceId) {
+      pendingSpell = null;
+      selectedHandCardId = null;
+    } else {
+      pendingSpell = { card, hits: [] };
+      selectedHandCardId = card.instanceId;
+    }
     render();
     return;
   }
   selectedHandCardId = selectedHandCardId === card.instanceId ? null : card.instanceId;
+  render();
+}
+
+// Resolves a click on a board slot while a targeted spell is armed. Returns
+// true if the click was consumed as a spell target (so callers know not to
+// also treat it as an attack/move/placement click).
+function handleSpellTargetClick(side, lane, slotIndex) {
+  const { card } = pendingSpell;
+  const kind = card.target;
+  const you = currentView.you;
+  const opp = currentView.opponent;
+
+  if (kind === 'ally_unit' && side === 'you' && you.board[lane][slotIndex]) {
+    sendSpellTarget({ lane, slot: slotIndex });
+    return true;
+  }
+  if (kind === 'enemy_unit' && side === 'opp' && opp.board[lane][slotIndex]) {
+    sendSpellTarget({ lane, slot: slotIndex });
+    return true;
+  }
+  if (kind === 'ally_row' && side === 'you') {
+    sendSpellTarget({ lane });
+    return true;
+  }
+  if (kind === 'multi_enemy_unit' && side === 'opp' && opp.board[lane][slotIndex]) {
+    const eff = card.effect;
+    const distinctSoFar = new Set(pendingSpell.hits.map((h) => `${h.lane}:${h.slot}`));
+    const isNewTarget = !distinctSoFar.has(`${lane}:${slotIndex}`);
+    if (isNewTarget && distinctSoFar.size >= eff.maxTargets) return true; // already used up all allowed targets
+    pendingSpell.hits.push({ lane, slot: slotIndex });
+    if (pendingSpell.hits.length >= eff.total) {
+      sendSpellTarget({ hits: pendingSpell.hits });
+    } else {
+      logLine(`${card.name}: ${eff.total - pendingSpell.hits.length} more damage left to assign — click another target.`);
+      render();
+    }
+    return true;
+  }
+  return false;
+}
+
+function sendSpellTarget(target) {
+  send({ type: 'play_card', cardInstanceId: pendingSpell.card.instanceId, spellTarget: target });
+  selectedHandCardId = null;
+  pendingSpell = null;
   render();
 }
 
@@ -496,6 +557,7 @@ function legalMoveDestinations(mover) {
 
 function onEmptySlotClick(side, lane, slotIndex) {
   if (suppressNextClick) { suppressNextClick = false; return; }
+  if (pendingSpell) { handleSpellTargetClick(side, lane, slotIndex); return; }
   if (side !== 'you') return;
   if (selectedHandCardId) {
     send({ type: 'play_card', cardInstanceId: selectedHandCardId, lane, slotIndex });
@@ -521,6 +583,7 @@ function onEmptySlotClick(side, lane, slotIndex) {
 
 function onBoardCardClick(side, lane, slotIndex) {
   if (suppressNextClick) { suppressNextClick = false; return; }
+  if (pendingSpell) { handleSpellTargetClick(side, lane, slotIndex); return; }
   const { turn, phase, you_key } = currentView;
   const myTurn = turn === you_key;
   if (!myTurn || phase !== 'combat' || autoAttackRunning) return;
@@ -733,7 +796,7 @@ function legalAttackTargets(attacker) {
 }
 
 function highlightSelections() {
-  document.querySelectorAll('.slot').forEach((s) => s.classList.remove('can-play', 'legal-target'));
+  document.querySelectorAll('.slot').forEach((s) => s.classList.remove('can-play', 'legal-target', 'spell-target'));
   document.querySelectorAll('.card.attack-ready').forEach((c) => c.classList.remove('attack-ready'));
   el('oppInfo').classList.remove('legal-target');
 
@@ -751,7 +814,7 @@ function highlightSelections() {
     }
   }
 
-  if (selectedHandCardId) {
+  if (selectedHandCardId && !pendingSpell) {
     document.querySelectorAll('#youVanguard .slot, #youRearguard .slot').forEach((s) => {
       if (s.children.length === 0) s.classList.add('can-play');
     });
@@ -772,6 +835,23 @@ function highlightSelections() {
       const slotEl = document.querySelectorAll(`#${containerId} .slot`)[t.slot];
       if (slotEl) slotEl.classList.add('legal-target');
     });
+  }
+
+  if (pendingSpell) {
+    const kind = pendingSpell.card.target;
+    if (kind === 'ally_unit') {
+      document.querySelectorAll('#youVanguard .slot, #youRearguard .slot').forEach((s) => {
+        if (s.children.length > 0) s.classList.add('spell-target');
+      });
+    } else if (kind === 'enemy_unit' || kind === 'multi_enemy_unit') {
+      document.querySelectorAll('#oppVanguard .slot, #oppRearguard .slot').forEach((s) => {
+        if (s.children.length > 0) s.classList.add('spell-target');
+      });
+    } else if (kind === 'ally_row') {
+      document.querySelectorAll('#youVanguard .slot, #youRearguard .slot').forEach((s) => {
+        s.classList.add('spell-target');
+      });
+    }
   }
 }
 
@@ -842,6 +922,7 @@ el('attackAllBtn')?.addEventListener('click', runAttackAll);
 el('endTurnBtn')?.addEventListener('click', () => {
   selectedHandCardId = null;
   selectedUnit = null;
+  pendingSpell = null;
   send({ type: 'end_turn' });
 });
 

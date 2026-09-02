@@ -71,6 +71,7 @@ body::after {
   .hp-panel.active-turn,
   .slot.legal-target,
   .slot.can-play,
+  .slot.spell-target,
   .lane-divider {
     animation: none;
   }
@@ -648,6 +649,13 @@ h1 span {
 .slot.legal-target::before, .slot.legal-target::after { border-color: var(--success); }
 .slot.can-play { border-color: var(--gold); cursor: pointer; animation: pulse-gold 1.3s ease-in-out infinite; }
 .slot.can-play::before, .slot.can-play::after { border-color: var(--gold); }
+.slot.spell-target { border-color: var(--magic); cursor: pointer; animation: pulse-magic 1.3s ease-in-out infinite; }
+.slot.spell-target::before, .slot.spell-target::after { border-color: var(--magic); }
+
+@keyframes pulse-magic {
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--magic) 55%, transparent); }
+  50% { box-shadow: 0 0 10px 3px color-mix(in srgb, var(--magic) 55%, transparent); }
+}
 
 @keyframes pulse-gold {
   0%, 100% { box-shadow: inset 0 0 10px #00000090, 0 0 6px 0 #d9b25c80; }
