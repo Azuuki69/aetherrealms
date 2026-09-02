@@ -396,29 +396,68 @@ h1 span {
 .controls { grid-area: controls; }
 #hand { grid-area: hand; min-height: 0; }
 
-/* Drag to trade width between the board and the hand panel; the choice
-   persists across sessions (see initHandResize() in client.js). */
-.col-resize-handle {
-  grid-area: handle;
-  cursor: col-resize;
-  position: relative;
-  border-radius: 4px;
-  background: linear-gradient(180deg, transparent, #7a5c2e50, transparent);
-  transition: background 0.15s ease;
+/* ---------- HUD layout manager ---------- */
+/* Once initHudLayout() (client.js) runs, every one of the 11 movable panels
+   gets an inline position:absolute + left/top/width/height, which wins over
+   the grid-area rules above (grid-area on an absolutely-positioned grid
+   child is only consulted for its static-position fallback, never reached
+   once explicit inset values are set) — no !important needed anywhere here. */
+.hud-layout-controls {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+  z-index: 500;
+  display: flex;
+  gap: 8px;
 }
-.col-resize-handle:hover, .col-resize-handle.dragging {
-  background: linear-gradient(180deg, transparent, var(--gold), transparent);
-}
-.col-resize-handle::before {
-  content: '⋮';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.hud-edit-toggle, .hud-reset-btn {
+  background: linear-gradient(#3a2c14, #241c12);
+  border: 1px solid var(--gold);
+  border-radius: 8px;
   color: var(--gold);
-  font-size: 14px;
-  opacity: 0.8;
-  line-height: 1;
+  font-family: inherit;
+  font-weight: bold;
+  padding: 0.4rem 0.7rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  box-shadow: 0 4px 14px #000a;
+}
+.hud-edit-toggle.active { background: linear-gradient(var(--gold-bright), var(--gold)); color: #1a140d; }
+
+#hudOverlayLayer { position: absolute; inset: 0; pointer-events: none; z-index: 60; }
+.hud-panel-overlay { position: absolute; display: none; }
+#game.hud-editing .hud-panel-overlay { display: block; outline: 2px dashed var(--gold); outline-offset: 2px; }
+
+.hud-drag-handle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 0.65rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--gold-bright);
+  background: linear-gradient(180deg, #3a2c14ee, #241c12cc);
+  border: 1px solid var(--gold);
+  border-radius: 4px 4px 0 0;
+  cursor: move;
+  pointer-events: auto;
+  user-select: none;
+}
+.hud-resize-grip {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 16px;
+  height: 16px;
+  cursor: nwse-resize;
+  pointer-events: auto;
+  background: linear-gradient(135deg, transparent 50%, var(--gold) 50%);
 }
 
 #topBar {
@@ -832,7 +871,7 @@ h1 span {
   100% { filter: none; opacity: 1; }
 }
 
-.controls { display: flex; gap: 1rem; justify-content: center; padding: 0.35rem; }
+.controls { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; padding: 0.35rem; }
 .controls .btn { padding: 0.4rem 1.4rem; font-size: 0.95rem; }
 
 .hand {
@@ -1037,12 +1076,11 @@ body:has(#chatPanel:not(.collapsed)) .hand {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  /* The "tips" grid row is auto-sized to fit this element's content — at the
-     dock's narrow width, wrapped tip text can otherwise inflate that row
-     enough to starve the board/hand of their shared height budget. Capping
-     it and letting it scroll internally keeps that content-driven growth
-     from ever forcing the grid itself to overflow. */
-  max-height: clamp(80px, 20vh, 220px);
+  /* Sized by the HUD layout manager (see initHudLayout() in client.js) now,
+     not by a grid row — fills whatever box it's given and scrolls
+     internally if the tip text doesn't fit. */
+  height: 100%;
+  min-height: 60px;
   overflow-y: auto;
 }
 .tutorial-tip {

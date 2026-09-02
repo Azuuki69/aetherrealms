@@ -89,6 +89,11 @@
 </div>
 
 <div id="game" class="screen hidden">
+  <div id="hudLayoutControls" class="hud-layout-controls">
+    <button id="hudEditToggle" type="button" class="hud-edit-toggle">✥ Edit HUD Layout</button>
+    <button id="hudResetLayout" type="button" class="hud-reset-btn hidden">Reset Layout</button>
+  </div>
+  <div id="hudOverlayLayer"></div>
   <header id="topBar">
     <div class="hp-panel castle-panel" id="oppInfo">
       <span class="name"></span>
@@ -111,8 +116,6 @@
       <span class="mana"></span>
     </div>
   </header>
-
-  <div id="boardHandResize" class="col-resize-handle" title="Drag to resize the hand panel"></div>
 
   <div id="tutorialTips" class="tutorial-tips">
     <div id="tipHand" class="tutorial-tip hidden">
@@ -143,7 +146,7 @@
       <div class="panel-stat"><span class="panel-icon">🎴</span><span id="oppDeckCount">0</span></div>
       <div class="panel-stat"><span class="panel-icon">💀</span><span id="oppGraveCount">0</span></div>
     </div>
-    <div class="board-area">
+    <div class="board-area" id="boardArea">
       <div class="lane-row" id="oppRearguard"></div>
       <div class="lane-row" id="oppVanguard"></div>
       <div class="lane-divider"></div>
@@ -165,7 +168,7 @@
     </div>
   </div>
 
-  <div class="controls">
+  <div class="controls" id="controls">
     <button id="combatBtn" class="btn">Go to Combat</button>
     <button id="attackAllBtn" class="btn">Attack All</button>
     <button id="endTurnBtn" class="btn">End Turn</button>

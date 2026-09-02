@@ -25,6 +25,7 @@ let previousView = null; // diff source for the combat feedback effect system (c
 let combatResolvers = [];
 let autoAttackRunning = false;
 let coinFlipAckSent = false;
+let hudLayoutInitialized = false; // true once the HUD layout manager's default geometry has been captured
 
 // ---------- Drag-to-target arrow ----------
 let dragCandidate = null; // { lane, slot, startX, startY } — set on mousedown, before the drag threshold is crossed
@@ -435,6 +436,15 @@ function render() {
 
   effects.forEach(spawnEffect);
   previousView = JSON.parse(JSON.stringify(currentView));
+
+  // First real render is the earliest point every panel's actual content
+  // (names, board slots, button labels, hand cards) exists — measuring
+  // default HUD geometry any earlier (e.g. right when #game first becomes
+  // visible) would capture panels that are still empty/collapsed.
+  if (!hudLayoutInitialized) {
+    hudLayoutInitialized = true;
+    initHudLayout();
+  }
 }
 
 // ---------- Turn timer ----------
@@ -1068,40 +1078,254 @@ function initLog() {
   });
 }
 
-// ---------- Hand-panel resize ----------
-const HAND_WIDTH_STORAGE_KEY = 'aetherrealms_hand_col_width';
-const HAND_WIDTH_MIN = 160;
-const HAND_WIDTH_MAX_RATIO = 0.55;
+// ---------- HUD layout manager ----------
+// Every major battle panel is freely movable/resizable while "Edit HUD
+// Layout" mode is on, persisted per-browser. Supersedes the old single-axis
+// hand-column resize (#hand is now just one of these 11 panels).
+const HUD_LAYOUT_STORAGE_KEY = 'aetherrealms_hud_layout';
+const HUD_LAYOUT_VERSION = 1;
 
-function initHandResize() {
-  const handle = el('boardHandResize');
+const HUD_PANELS = [
+  { id: 'oppInfo', label: 'Enemy Info', minW: 150, minH: 50 },
+  { id: 'turnIndicator', label: 'Turn Timer', minW: 120, minH: 40 },
+  { id: 'youInfo', label: 'Your Info', minW: 150, minH: 50 },
+  { id: 'oppPanel', label: 'Enemy Stats', minW: 70, minH: 140 },
+  { id: 'boardArea', label: 'Battlefield', minW: 320, minH: 220 },
+  { id: 'youPanel', label: 'Your Stats', minW: 70, minH: 140 },
+  { id: 'controls', label: 'Controls', minW: 280, minH: 50 },
+  { id: 'hand', label: 'Your Hand', minW: 160, minH: 120 },
+  { id: 'tutorialTips', label: 'Tutorial Tips', minW: 150, minH: 60 },
+  { id: 'logPanel', label: 'Battle Log', minW: 220, minH: 40, noHeight: true },
+  { id: 'chatPanel', label: 'Chat', minW: 220, minH: 40, noHeight: true },
+];
+
+let hudEditing = false;
+let hudDefaultLayout = null; // captured once per page load; Reset replays this, never re-measures
+let hudCurrentLayout = null; // live resolved geometry (defaults merged with saved overrides)
+let hudDragState = null;
+let hudResizeState = null;
+
+function loadHudLayoutStorage() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(HUD_LAYOUT_STORAGE_KEY));
+    return parsed && parsed.v === HUD_LAYOUT_VERSION ? parsed.panels : null;
+  } catch {
+    return null;
+  }
+}
+
+function saveHudLayoutStorage(panels) {
+  try {
+    localStorage.setItem(HUD_LAYOUT_STORAGE_KEY, JSON.stringify({ v: HUD_LAYOUT_VERSION, panels }));
+  } catch {
+    /* localStorage unavailable — layout just won't persist */
+  }
+}
+
+function measurePanelPct(panelEl, gameRect, panel) {
+  const r = panelEl.getBoundingClientRect();
+  // Some panels sit in CSS Grid auto-rows/columns that can collapse toward 0
+  // when a sibling spanning the same track fully absorbs the grid's 1fr
+  // track (a pre-existing quirk of the old layout, invisible before since
+  // overflow:visible let content spill past its own collapsed cell) — floor
+  // the captured default at the content's own natural size and the panel's
+  // configured minimum so a freshly-converted panel is never smaller than
+  // what was actually on screen.
+  const width = Math.max(r.width, panelEl.scrollWidth, panel.minW);
+  const height = Math.max(r.height, panelEl.scrollHeight, panel.minH);
+  return {
+    leftPct: ((r.left - gameRect.left) / gameRect.width) * 100,
+    topPct: ((r.top - gameRect.top) / gameRect.height) * 100,
+    widthPct: (width / gameRect.width) * 100,
+    heightPct: (height / gameRect.height) * 100,
+  };
+}
+
+function applyPanelGeometry(panel) {
+  const panelEl = el(panel.id);
+  const geom = hudCurrentLayout[panel.id];
+  if (!panelEl || !geom) return;
+  panelEl.style.position = 'absolute';
+  // A grid item that becomes position:absolute keeps its assigned grid area
+  // as its containing block for percentage resolution (per spec) unless
+  // fully detached from grid placement — without this, width/height percentages
+  // resolve against the old (possibly collapsed) grid cell instead of #game.
+  panelEl.style.gridArea = 'auto';
+  panelEl.style.left = `${geom.leftPct}%`;
+  panelEl.style.top = `${geom.topPct}%`;
+  panelEl.style.width = `${geom.widthPct}%`;
+  if (!panel.noHeight) {
+    panelEl.style.height = `${geom.heightPct}%`;
+  } else if (geom.bodyMaxHeightPx) {
+    const body = panelEl.querySelector(panel.id === 'logPanel' ? '.log-body' : '.chat-body');
+    if (body) body.style.maxHeight = `${geom.bodyMaxHeightPx}px`;
+  }
+  syncHudOverlay(panel.id);
+}
+
+function syncHudOverlay(id) {
+  const panelEl = el(id);
+  const overlay = document.getElementById(`hudOverlay_${id}`);
   const game = el('game');
-  if (!handle || !game) return;
+  if (!panelEl || !overlay || !game) return;
+  const gameRect = game.getBoundingClientRect();
+  const r = panelEl.getBoundingClientRect();
+  overlay.style.left = `${r.left - gameRect.left}px`;
+  overlay.style.top = `${r.top - gameRect.top}px`;
+  overlay.style.width = `${r.width}px`;
+  overlay.style.height = `${r.height}px`;
+}
 
-  const saved = Number(localStorage.getItem(HAND_WIDTH_STORAGE_KEY));
-  if (saved) game.style.setProperty('--hand-col-width', `${saved}px`);
+function injectHudHandles(panel) {
+  const layer = el('hudOverlayLayer');
+  if (!layer) return;
+  const overlay = document.createElement('div');
+  overlay.className = 'hud-panel-overlay';
+  overlay.id = `hudOverlay_${panel.id}`;
+  overlay.innerHTML = `<div class="hud-drag-handle">${panel.label}</div><div class="hud-resize-grip"></div>`;
+  layer.appendChild(overlay);
+  overlay.querySelector('.hud-drag-handle').addEventListener('mousedown', (e) => startHudDrag(e, panel.id));
+  overlay.querySelector('.hud-resize-grip').addEventListener('mousedown', (e) => startHudResize(e, panel.id));
+}
 
-  let dragging = false;
-  handle.addEventListener('mousedown', (e) => {
-    dragging = true;
-    handle.classList.add('dragging');
-    e.preventDefault();
-  });
-  document.addEventListener('mousemove', (e) => {
-    if (!dragging) return;
-    const gameRect = game.getBoundingClientRect();
-    const padRight = parseFloat(getComputedStyle(game).paddingRight) || 0;
-    let width = gameRect.right - padRight - e.clientX - 8; // 8 = handle width
-    width = Math.max(HAND_WIDTH_MIN, Math.min(gameRect.width * HAND_WIDTH_MAX_RATIO, width));
-    game.style.setProperty('--hand-col-width', `${width}px`);
-  });
-  document.addEventListener('mouseup', () => {
-    if (!dragging) return;
-    dragging = false;
-    handle.classList.remove('dragging');
-    const px = parseFloat(game.style.getPropertyValue('--hand-col-width'));
-    if (px) localStorage.setItem(HAND_WIDTH_STORAGE_KEY, String(Math.round(px)));
-  });
+function startHudDrag(e, id) {
+  if (!hudEditing) return;
+  e.preventDefault();
+  const g = hudCurrentLayout[id];
+  hudDragState = { id, startX: e.clientX, startY: e.clientY, startLeftPct: g.leftPct, startTopPct: g.topPct };
+  el(id).classList.add('hud-dragging');
+}
+
+function startHudResize(e, id) {
+  if (!hudEditing) return;
+  e.preventDefault();
+  e.stopPropagation();
+  const g = hudCurrentLayout[id];
+  hudResizeState = { id, startX: e.clientX, startY: e.clientY, startWidthPct: g.widthPct, startHeightPct: g.heightPct };
+  el(id).classList.add('hud-resizing');
+}
+
+function clampPct(v, min, max) {
+  return Math.max(min, Math.min(max, v));
+}
+
+document.addEventListener('mousemove', (e) => {
+  if (!hudDragState && !hudResizeState) return;
+  const game = el('game');
+  if (!game) return;
+  const gameRect = game.getBoundingClientRect(); // read fresh, like the old hand-resize did
+
+  if (hudDragState) {
+    const { id, startX, startY, startLeftPct, startTopPct } = hudDragState;
+    const r = el(id).getBoundingClientRect();
+    const widthPct = (r.width / gameRect.width) * 100;
+    const heightPct = (r.height / gameRect.height) * 100;
+    const g = hudCurrentLayout[id];
+    g.leftPct = clampPct(startLeftPct + ((e.clientX - startX) / gameRect.width) * 100, 0, Math.max(0, 100 - widthPct));
+    g.topPct = clampPct(startTopPct + ((e.clientY - startY) / gameRect.height) * 100, 0, Math.max(0, 100 - heightPct));
+    applyPanelGeometry(HUD_PANELS.find((p) => p.id === id));
+  }
+  if (hudResizeState) {
+    const { id, startX, startY, startWidthPct, startHeightPct } = hudResizeState;
+    const def = HUD_PANELS.find((p) => p.id === id);
+    const g = hudCurrentLayout[id];
+    const minWPct = (def.minW / gameRect.width) * 100;
+    g.widthPct = clampPct(startWidthPct + ((e.clientX - startX) / gameRect.width) * 100, minWPct, 100 - g.leftPct);
+    if (!def.noHeight) {
+      const minHPct = (def.minH / gameRect.height) * 100;
+      g.heightPct = clampPct(startHeightPct + ((e.clientY - startY) / gameRect.height) * 100, minHPct, 100 - g.topPct);
+    } else {
+      const body = el(id).querySelector(id === 'logPanel' ? '.log-body' : '.chat-body');
+      if (hudResizeState.startBodyH === undefined) {
+        hudResizeState.startBodyH = (body && body.getBoundingClientRect().height) || 240;
+      }
+      g.bodyMaxHeightPx = Math.max(120, Math.min(600, hudResizeState.startBodyH + (e.clientY - startY)));
+    }
+    applyPanelGeometry(def);
+  }
+});
+
+document.addEventListener('mouseup', () => {
+  if (hudDragState) {
+    el(hudDragState.id).classList.remove('hud-dragging');
+    hudDragState = null;
+    persistHudLayout();
+  }
+  if (hudResizeState) {
+    el(hudResizeState.id).classList.remove('hud-resizing');
+    hudResizeState = null;
+    persistHudLayout();
+  }
+});
+
+function persistHudLayout() {
+  const toSave = {};
+  for (const { id } of HUD_PANELS) toSave[id] = hudCurrentLayout[id];
+  saveHudLayoutStorage(toSave);
+}
+
+function toggleHudEditing() {
+  hudEditing = !hudEditing;
+  el('game').classList.toggle('hud-editing', hudEditing);
+  el('hudEditToggle').classList.toggle('active', hudEditing);
+  el('hudEditToggle').textContent = hudEditing ? '✓ Done Editing HUD' : '✥ Edit HUD Layout';
+  el('hudResetLayout').classList.toggle('hidden', !hudEditing);
+}
+
+function resetHudLayout() {
+  hudCurrentLayout = {};
+  for (const { id } of HUD_PANELS) hudCurrentLayout[id] = { ...hudDefaultLayout[id] };
+  for (const panel of HUD_PANELS) {
+    applyPanelGeometry(panel);
+    if (panel.noHeight) {
+      const body = el(panel.id).querySelector(panel.id === 'logPanel' ? '.log-body' : '.chat-body');
+      if (body) body.style.maxHeight = '';
+    }
+  }
+  try {
+    localStorage.removeItem(HUD_LAYOUT_STORAGE_KEY);
+  } catch {
+    /* ignore */
+  }
+}
+
+function initHudLayout() {
+  const game = el('game');
+  if (!game) return;
+
+  // The one deliberate exception to "no reparenting" — these two are
+  // viewport-fixed siblings of #game today, so they need a new containing
+  // block to share the other 9 panels' coordinate space.
+  const logPanel = el('logPanel');
+  const chatPanel = el('chatPanel');
+  if (logPanel && logPanel.parentElement !== game) game.appendChild(logPanel);
+  if (chatPanel && chatPanel.parentElement !== game) game.appendChild(chatPanel);
+
+  // Single measurement pass, BEFORE any panel becomes position:absolute, so
+  // customizing one panel never perturbs another panel's captured default.
+  const gameRect = game.getBoundingClientRect();
+  const defaults = {};
+  for (const panel of HUD_PANELS) {
+    const elm = el(panel.id);
+    if (!elm) continue;
+    const geom = measurePanelPct(elm, gameRect, panel);
+    if (panel.noHeight) delete geom.heightPct;
+    defaults[panel.id] = geom;
+  }
+  hudDefaultLayout = defaults;
+
+  const saved = loadHudLayoutStorage();
+  hudCurrentLayout = {};
+  for (const panel of HUD_PANELS) {
+    hudCurrentLayout[panel.id] = { ...defaults[panel.id], ...((saved && saved[panel.id]) || {}) };
+  }
+
+  for (const panel of HUD_PANELS) applyPanelGeometry(panel);
+  for (const panel of HUD_PANELS) injectHudHandles(panel);
+
+  window.addEventListener('resize', () => HUD_PANELS.forEach((p) => syncHudOverlay(p.id)));
+  el('hudEditToggle')?.addEventListener('click', toggleHudEditing);
+  el('hudResetLayout')?.addEventListener('click', resetHudLayout);
 }
 
 // ---------- Chat ----------
@@ -1326,7 +1550,6 @@ function renderFactionThumbnails() {
   initRankingTabs();
   initTutorial();
   initChat();
-  initHandResize();
   initLog();
   initTurnTimer();
   renderFactionThumbnails();
