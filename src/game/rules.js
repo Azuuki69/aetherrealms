@@ -180,6 +180,8 @@ export function createGame(factionA, factionB, firstPlayer = 'A', usernameA = nu
     log: ['Match created — flipping a coin to see who goes first...'],
     pendingEffects: [],
     turnEffects: [],
+    playSeq: 0,
+    lastPlayedCard: null,
   };
 }
 
@@ -1216,6 +1218,8 @@ export function playCard(game, owner, cardInstanceId, lane, slotIndex, spellTarg
       resolveSpell(game, owner, card);
     }
     player.graveyard.push(card);
+    game.playSeq += 1;
+    game.lastPlayedCard = { seq: game.playSeq, owner, type: 'spell', name: card.name, image: card.image, text: card.text, cost: card.cost };
     checkWinner(game);
     return card;
   }
@@ -1228,6 +1232,8 @@ export function playCard(game, owner, cardInstanceId, lane, slotIndex, spellTarg
   if (discount > 0) player.nextUnitDiscount = 0;
   const unit = { ...card, sick: !card.keywords.includes('charge'), attackedThisTurn: false };
   player.board[lane][slotIndex] = unit;
+  game.playSeq += 1;
+  game.lastPlayedCard = { seq: game.playSeq, owner, type: 'unit', name: card.name, image: card.image, text: card.text, cost: card.cost };
   game.log.push(`${owner} played ${card.name} to ${lane} ${slotIndex + 1}.`);
 
   if (unit.keywords.includes('mend')) {
@@ -1653,5 +1659,7 @@ export function viewFor(game, owner) {
     winner: game.winner,
     log: game.log.slice(-30),
     you_key: owner,
+    lastPlayedCard: game.lastPlayedCard || null,
+    turnDeadlineAt: game.turnDeadlineAt || null,
   };
 }

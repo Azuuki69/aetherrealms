@@ -247,6 +247,11 @@ function renderCastle(panelId, hp, maxHp, faction) {
 function computeEffects(prev, next) {
   if (!prev) return [];
   const effects = [];
+
+  if (next.lastPlayedCard && next.lastPlayedCard.seq !== prev.lastPlayedCard?.seq) {
+    effects.push({ kind: 'card-reveal', owner: next.lastPlayedCard.owner, card: next.lastPlayedCard });
+  }
+
   for (const side of ['you', 'opponent']) {
     const prevP = prev[side];
     const nextP = next[side];
@@ -319,6 +324,16 @@ function spawnEffect(fx) {
     }
     return;
   }
+  if (fx.kind === 'card-reveal') {
+    const isYou = fx.owner === currentView.you_key;
+    const overlay = el('cardRevealOverlay');
+    el('cardRevealImg').src = fx.card.image;
+    el('cardRevealLabel').textContent = isYou ? 'You played' : 'Opponent played';
+    overlay.classList.toggle('reveal-you', isYou);
+    overlay.classList.toggle('reveal-opponent', !isYou);
+    pulseClass(overlay, 'reveal-active');
+    return;
+  }
   const anchor = findUnitAnchorEl(fx.side, fx.lane, fx.slot);
   if (!anchor) return;
   switch (fx.kind) {
@@ -373,7 +388,7 @@ function render() {
   el('oppInfo').querySelector('.mana').textContent = `${opponent.mana}/${opponent.maxMana}`;
   renderManaCrystals(el('oppInfo').querySelector('.mana-crystals'), opponent.mana, opponent.maxMana);
 
-  el('turnIndicator').textContent = winner
+  el('turnIndicatorText').textContent = winner
     ? 'Game Over'
     : `Turn ${turnNumber} — ${myTurn ? 'Your' : "Opponent's"} turn (${phase})`;
   el('youInfo').classList.toggle('active-turn', !winner && myTurn);
@@ -413,6 +428,28 @@ function render() {
 
   effects.forEach(spawnEffect);
   previousView = JSON.parse(JSON.stringify(currentView));
+}
+
+// ---------- Turn timer ----------
+// Ticks locally off currentView.turnDeadlineAt (a server wall-clock
+// timestamp) rather than waiting for a broadcast every second — the
+// server's Durable Object alarm is the actual source of truth for the
+// forfeit itself, this is purely the visible countdown.
+function tickTurnTimer() {
+  const timerEl = el('turnTimer');
+  if (!currentView || !currentView.turnDeadlineAt || currentView.winner || currentView.phase === 'coinflip') {
+    timerEl.classList.add('hidden');
+    return;
+  }
+  const remainingMs = currentView.turnDeadlineAt - Date.now();
+  const remainingSec = Math.max(0, Math.ceil(remainingMs / 1000));
+  timerEl.textContent = `⏱ ${remainingSec}s`;
+  timerEl.classList.remove('hidden');
+  timerEl.classList.toggle('timer-critical', remainingSec <= 10);
+}
+
+function initTurnTimer() {
+  setInterval(tickTurnTimer, 500);
 }
 
 function collectBoardIds(you, opponent) {
@@ -1284,6 +1321,7 @@ function renderFactionThumbnails() {
   initChat();
   initHandResize();
   initLog();
+  initTurnTimer();
   renderFactionThumbnails();
   loadRankings();
 })();

@@ -1,6 +1,7 @@
-import { createGame, playCard, moveToCombat, attack, moveUnit, endTurn, viewFor } from './game/rules.js';
+import { createGame, playCard, moveToCombat, attack, moveUnit, endTurn, viewFor, opponentOf } from './game/rules.js';
 
 const SEATS = ['seatA', 'seatB'];
+const TURN_TIMEOUT_MS = 60_000;
 
 export class MatchRoom {
   constructor(state, env) {
@@ -88,6 +89,8 @@ export class MatchRoom {
         if (game.coinFlipAcks.A && game.coinFlipAcks.B) {
           game.phase = 'deployment';
           game.log.push(`Coin flip complete — Player ${game.turn} goes first.`);
+          game.turnDeadlineAt = Date.now() + TURN_TIMEOUT_MS;
+          await this.state.storage.setAlarm(game.turnDeadlineAt);
         }
         await this.state.storage.put('game', game);
         this.broadcastState(game);
@@ -124,6 +127,12 @@ export class MatchRoom {
           return this.sendTo(ws, { type: 'error', message: `Unknown message type: ${msg.type}` });
       }
 
+      if (!game.winner) {
+        game.turnDeadlineAt = Date.now() + TURN_TIMEOUT_MS;
+        await this.state.storage.setAlarm(game.turnDeadlineAt);
+      } else {
+        await this.state.storage.deleteAlarm();
+      }
       await this.state.storage.put('game', game);
       this.broadcastState(game);
       if (!wasOver && game.winner) await this.reportResult(game);
@@ -217,6 +226,31 @@ export class MatchRoom {
     } catch {
       /* socket already closed */
     }
+  }
+
+  // Server-authoritative turn timer, driven by the Durable Object Alarms API
+  // (never a client-side timer, since a forfeit is match-deciding). Rescheduled
+  // to a fresh deadline by every successful player action (see webSocketMessage
+  // and the coinflip_ack branch above) — this only ever fires when 60s have
+  // passed with zero successful actions from whoever's turn it is, including
+  // if that player disconnected entirely and never comes back.
+  async alarm() {
+    const game = await this.state.storage.get('game');
+    if (!game || game.winner || game.phase === 'coinflip') return;
+    if (Date.now() < game.turnDeadlineAt) {
+      // A newer deadline was set after this alarm was scheduled — reschedule
+      // instead of acting early. setAlarm() should already have replaced this
+      // firing, so this is a defensive guard, not the expected path.
+      await this.state.storage.setAlarm(game.turnDeadlineAt);
+      return;
+    }
+    const loser = game.turn;
+    game.winner = opponentOf(loser);
+    game.phase = 'gameover';
+    game.log.push(`${loser} ran out of time and forfeits the match.`);
+    await this.state.storage.put('game', game);
+    this.broadcastState(game);
+    await this.reportResult(game);
   }
 
   async webSocketClose(ws) {

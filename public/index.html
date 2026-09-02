@@ -103,7 +103,10 @@
       <div class="mana-crystals"></div>
       <span class="mana"></span>
     </div>
-    <div class="turn-indicator" id="turnIndicator"></div>
+    <div class="turn-indicator" id="turnIndicator">
+      <span id="turnIndicatorText"></span>
+      <span id="turnTimer" class="turn-timer hidden"></span>
+    </div>
     <div class="hp-panel castle-panel" id="youInfo">
       <span class="name"></span>
       <div class="castle-wrap">
@@ -151,6 +154,10 @@
       <div class="lane-divider"></div>
       <div class="lane-row" id="youVanguard"></div>
       <div class="lane-row" id="youRearguard"></div>
+      <div id="cardRevealOverlay" class="card-reveal-overlay">
+        <div class="card-reveal-label" id="cardRevealLabel"></div>
+        <img id="cardRevealImg" class="card-reveal-img" alt="" />
+      </div>
     </div>
     <div class="side-panel" id="youPanel">
       <div class="panel-stat"><span class="panel-icon">🎴</span><span id="youDeckCount">0</span></div>

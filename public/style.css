@@ -72,7 +72,8 @@ body::after {
   .slot.legal-target,
   .slot.can-play,
   .slot.spell-target,
-  .lane-divider {
+  .lane-divider,
+  .turn-timer.timer-critical {
     animation: none;
   }
 }
@@ -519,7 +520,32 @@ h1 span {
 }
 .crystal.spent { background: #1a2433; border: 1px solid #2c3b52; }
 .mana { color: #bfe0ff; font-weight: bold; min-width: 38px; font-size: 1rem; text-shadow: 0 1px 3px #000; }
-.turn-indicator { font-size: 1.2rem; color: var(--gold); text-align: center; flex: 1; text-shadow: 0 2px 6px #000; letter-spacing: 1px; }
+.turn-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-size: 1.2rem;
+  color: var(--gold);
+  text-align: center;
+  flex: 1;
+  text-shadow: 0 2px 6px #000;
+  letter-spacing: 1px;
+}
+.turn-timer {
+  font-size: 0.85rem;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  color: var(--dim);
+}
+.turn-timer.timer-critical {
+  color: var(--hp);
+  animation: pulse-timer-critical 1s ease-in-out infinite;
+}
+@keyframes pulse-timer-critical {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
 
 .board-wrap {
   display: flex;
@@ -865,6 +891,57 @@ body:has(#chatPanel:not(.collapsed)) .hand {
   100% { transform: rotateY(1800deg) scale(1); }
 }
 .coin-flip-result { color: var(--text); font-size: 1.1rem; margin: 0; }
+
+/* ---------- Card play reveal ---------- */
+/* Fires once per server-signaled play (client.js computeEffects/spawnEffect,
+   keyed on game.lastPlayedCard.seq) -- a single one-shot animation handles
+   the whole fade-in/hold/fade-out lifecycle, so pulseClass() restarting it
+   on a second rapid play is all the JS needs to do; no timers to clean up. */
+.card-reveal-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  pointer-events: none;
+  opacity: 0;
+}
+.card-reveal-overlay.reveal-active {
+  animation: card-reveal-cycle 2s ease-out;
+}
+@keyframes card-reveal-cycle {
+  0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.7); }
+  12%  { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  78%  { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(0.96); }
+}
+.card-reveal-img {
+  width: clamp(140px, 16vw, 220px);
+  height: auto;
+  border-radius: 14px;
+  border: 3px solid var(--gold);
+  box-shadow: 0 14px 40px #000f, 0 0 32px #d9b25c90;
+  background: #100c08;
+  display: block;
+}
+.card-reveal-label {
+  font-family: var(--font-display);
+  font-weight: bold;
+  font-size: clamp(0.75rem, 1.2vw, 0.95rem);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-shadow: 0 2px 6px #000d, 0 0 10px #000a;
+  background: #100c08cc;
+  padding: 2px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--gold);
+}
+.card-reveal-overlay.reveal-opponent .card-reveal-img { border-color: var(--hp); box-shadow: 0 14px 40px #000f, 0 0 32px #b5322f90; }
+.card-reveal-overlay.reveal-opponent .card-reveal-label { color: var(--hp); border-color: var(--hp); }
 
 /* ---------- Card hover preview ---------- */
 #cardPreview {
