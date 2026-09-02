@@ -244,6 +244,105 @@
                       "copies":  3,
                       "text":  "Draw 4 cards.",
                       "image":  "assets/cards/web/beast/27_ancient_wisdom.jpg"
+                  },
+                  {
+                      "id":  "beast_28",
+                      "name":  "Feral Instinct",
+                      "cost":  1,
+                      "type":  "spell",
+                      "copies":  3,
+                      "target":  "ally_unit",
+                      "effect":  { "kind": "buff_power", "amount": 1 },
+                      "text":  "Target allied unit gains +1 DMG until end of turn.",
+                      "image":  "assets/cards/web/beast/28_feral_instinct.jpg"
+                  },
+                  {
+                      "id":  "beast_29",
+                      "name":  "Thorn Bite",
+                      "cost":  1,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "enemy_unit",
+                      "effect":  { "kind": "damage", "amount": 2 },
+                      "text":  "Deal 2 damage to an enemy unit.",
+                      "image":  "assets/cards/web/beast/29_thorn_bite.jpg"
+                  },
+                  {
+                      "id":  "beast_30",
+                      "name":  "Regenerate",
+                      "cost":  1,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "ally_unit",
+                      "effect":  { "kind": "heal", "amount": 3 },
+                      "text":  "Heal an allied unit for 3.",
+                      "image":  "assets/cards/web/beast/30_regenerate.jpg"
+                  },
+                  {
+                      "id":  "beast_31",
+                      "name":  "Wild Growth",
+                      "cost":  2,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "none",
+                      "effect":  { "kind": "discount_next_unit", "amount": 1 },
+                      "text":  "The next unit you play this turn costs 1 less.",
+                      "image":  "assets/cards/web/beast/31_wild_growth.jpg"
+                  },
+                  {
+                      "id":  "beast_32",
+                      "name":  "Bristling Hide",
+                      "cost":  2,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "ally_unit",
+                      "effect":  { "kind": "buff_defense", "amount": 3 },
+                      "text":  "Target allied unit gains +0/+3 until end of turn.",
+                      "image":  "assets/cards/web/beast/32_bristling_hide.jpg"
+                  },
+                  {
+                      "id":  "beast_33",
+                      "name":  "Savage Rally",
+                      "cost":  2,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "ally_unit",
+                      "effect":  { "kind": "buff_power_and_formation_neighbors", "amount": 2 },
+                      "text":  "Target allied unit and each unit adjacent to it gain +2 DMG until end of turn.",
+                      "image":  "assets/cards/web/beast/33_savage_rally.jpg"
+                  },
+                  {
+                      "id":  "beast_34",
+                      "name":  "Alpha's Call",
+                      "cost":  3,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "none",
+                      "effect":  { "kind": "draw_per_unit_controlled", "maxDraws": 3 },
+                      "text":  "Draw a card for each Beast unit you control (maximum 3).",
+                      "image":  "assets/cards/web/beast/34_alphas_call.jpg"
+                  },
+                  {
+                      "id":  "beast_35",
+                      "name":  "Stampede",
+                      "cost":  4,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "none",
+                      "effect":  { "kind": "buff_power_all_allies", "amount": 1 },
+                      "text":  "All allied units gain +1 DMG until end of turn.",
+                      "image":  "assets/cards/web/beast/35_stampede.jpg"
+                  },
+                  {
+                      "id":  "beast_36",
+                      "name":  "Pack Takedown",
+                      "cost":  2,
+                      "type":  "spell",
+                      "copies":  2,
+                      "target":  "enemy_unit",
+                      "effect":  { "kind": "damage", "amount": 3 },
+                      "text":  "Deal 3 damage to an enemy unit.",
+                      "image":  "assets/cards/web/beast/36_pack_takedown.jpg"
                   }
               ]
 }

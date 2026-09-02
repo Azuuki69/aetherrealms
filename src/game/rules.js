@@ -148,6 +148,7 @@ export function createGame(factionA, factionB, firstPlayer = 'A', usernameA = nu
       turnDamageReduction: 0,
       diedThisTurn: 0,
       vengefulUntilEndOfTurn: 0,
+      nextUnitDiscount: 0,
     },
     B: {
       faction: factionB,
@@ -165,6 +166,7 @@ export function createGame(factionA, factionB, firstPlayer = 'A', usernameA = nu
       turnDamageReduction: 0,
       diedThisTurn: 0,
       vengefulUntilEndOfTurn: 0,
+      nextUnitDiscount: 0,
     },
   };
   return {
@@ -323,6 +325,7 @@ function dealDamageToCastle(game, targetOwnerKey, amount) {
 function revertEndOfTurnBuffs(game, owner) {
   const player = game.players[owner];
   player.vengefulUntilEndOfTurn = 0;
+  player.nextUnitDiscount = 0;
   for (const lane of ['vanguard', 'rearguard']) {
     player.board[lane].forEach((unit, idx) => {
       if (!unit) return;
@@ -1076,6 +1079,27 @@ function resolveSpellEffect(game, owner, card, target) {
       game.log.push(`${owner} draws ${drew} card(s) (${card.name}).`);
       break;
     }
+    case 'discount_next_unit': {
+      player.nextUnitDiscount = (player.nextUnitDiscount || 0) + eff.amount;
+      game.log.push(`${card.name} makes ${owner}'s next unit this turn cost ${eff.amount} less.`);
+      break;
+    }
+    case 'draw_per_unit_controlled': {
+      const n = Math.min(eff.maxDraws, allUnits(player).length);
+      let drew = 0;
+      for (let i = 0; i < n; i++) if (draw(player)) drew++;
+      game.log.push(`${owner} draws ${drew} card(s) (${card.name}).`);
+      break;
+    }
+    case 'buff_power_all_allies': {
+      let buffed = 0;
+      for (const u of allUnits(player)) {
+        u.turnPowerBonus = (u.turnPowerBonus || 0) + eff.amount;
+        buffed++;
+      }
+      game.log.push(`${card.name} gives ${owner}'s ${buffed} unit(s) +${eff.amount} DMG until end of turn.`);
+      break;
+    }
     default:
       break;
   }
@@ -1136,7 +1160,9 @@ export function playCard(game, owner, cardInstanceId, lane, slotIndex, spellTarg
   const idx = player.hand.findIndex((c) => c.instanceId === cardInstanceId);
   if (idx === -1) throw new Error('Card not in hand.');
   const card = player.hand[idx];
-  if (card.cost > player.mana) throw new Error('Not enough mana.');
+  const discount = card.type !== 'spell' ? player.nextUnitDiscount || 0 : 0;
+  const effectiveCost = Math.max(0, card.cost - discount);
+  if (effectiveCost > player.mana) throw new Error('Not enough mana.');
 
   if (card.type === 'spell') {
     validateSpellTarget(game, owner, card, spellTarget);
@@ -1157,7 +1183,8 @@ export function playCard(game, owner, cardInstanceId, lane, slotIndex, spellTarg
   if (slotIndex < 0 || slotIndex >= LANES) throw new Error('Invalid slot.');
   if (player.board[lane][slotIndex]) throw new Error('That slot is already occupied.');
   player.hand.splice(idx, 1);
-  player.mana -= card.cost;
+  player.mana -= effectiveCost;
+  if (discount > 0) player.nextUnitDiscount = 0;
   const unit = { ...card, sick: !card.keywords.includes('charge'), attackedThisTurn: false };
   player.board[lane][slotIndex] = unit;
   game.log.push(`${owner} played ${card.name} to ${lane} ${slotIndex + 1}.`);
