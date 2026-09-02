@@ -20,7 +20,6 @@ let previousBoardIds = new Set();
 let selectedHandCardId = null;
 let selectedUnit = null; // { lane, slot } — your own unit selected as the acting unit for this turn: clicking a legal move destination moves it, clicking a legal enemy target/the castle attacks with it
 let pendingSpell = null; // { card, hits: [] } — a hand spell awaiting a target click; hits accumulates split-damage picks
-let tutorialDismissed = false;
 let previousView = null; // diff source for the combat feedback effect system (computeEffects)
 let combatResolvers = [];
 let autoAttackRunning = false;
@@ -87,12 +86,29 @@ function setStatus(text) {
 }
 
 function connect(code) {
+  // A prior socket (e.g. an abandoned create/join attempt from earlier in
+  // this tab) must be closed, not just overwritten — otherwise it keeps
+  // receiving server messages and mutating the shared currentView/mySeatKey
+  // out from under the connection the player actually cares about now.
+  if (ws) ws.close();
   coinFlipAckSent = false;
+  // Entering the HUD preview from here on would let hand/board clicks send
+  // real game actions over this socket before a real match view ever
+  // arrives — block it until we're either back at the lobby or a real
+  // match has taken over the screen.
+  el('customizeHudBtn').disabled = true;
   const proto = location.protocol === 'https:' ? 'wss' : 'ws';
-  ws = new WebSocket(`${proto}://${location.host}/api/room/${code}/ws`);
-  ws.addEventListener('message', (ev) => handleMessage(JSON.parse(ev.data)));
-  ws.addEventListener('close', () => setStatus('Disconnected from server.'));
-  ws.addEventListener('error', () => setStatus('Connection error.'));
+  const socket = new WebSocket(`${proto}://${location.host}/api/room/${code}/ws`);
+  ws = socket;
+  socket.addEventListener('message', (ev) => handleMessage(JSON.parse(ev.data)));
+  socket.addEventListener('close', () => {
+    setStatus('Disconnected from server.');
+    // Only re-enable if this is still the live connection attempt — an
+    // abandoned socket we just superseded above closing later must not
+    // re-enable the button on behalf of the newer connection in flight.
+    if (ws === socket && !currentView) el('customizeHudBtn').disabled = false;
+  });
+  socket.addEventListener('error', () => setStatus('Connection error.'));
 }
 
 function handleMessage(msg) {
@@ -104,6 +120,18 @@ function handleMessage(msg) {
       setStatus('Waiting for opponent to join...');
       break;
     case 'state':
+      // A real match's first state can arrive while the player is still in
+      // the lobby's HUD preview (e.g. the opponent joined while they were
+      // customizing layout after creating a room). Drop the preview's fake
+      // state and edit-mode UI cleanly so the real match starts fresh
+      // instead of layering a live match under stale preview chrome.
+      if (hudPreviewActive) {
+        hudPreviewActive = false;
+        if (hudEditing) toggleHudEditing();
+        el('hudPreviewExitBtn').classList.add('hidden');
+        previousView = null;
+        previousBoardIds = new Set();
+      }
       showGame();
       currentView = msg;
       mySeatKey = msg.you_key;
@@ -221,6 +249,10 @@ function buildDemoView() {
 }
 
 function enterHudPreview() {
+  // Belt-and-suspenders against the disabled-button guard being bypassed —
+  // a live/connecting match socket must never share the screen with the
+  // fake preview view (see connect()'s comment for why).
+  if (ws && ws.readyState !== WebSocket.CLOSED) return;
   hudPreviewActive = true;
   currentView = buildDemoView();
   previousView = null;
@@ -531,7 +563,6 @@ function render() {
   el('log').scrollTop = el('log').scrollHeight;
 
   highlightSelections();
-  renderTutorial(turnNumber);
 
   if (winner) {
     el('gameOverOverlay').classList.remove('hidden');
@@ -1153,28 +1184,6 @@ function displayName(player, key) {
   return player?.username || `Player ${key}`;
 }
 
-const TUTORIAL_TIP_IDS = ['tipHand', 'tipCombat', 'tipCommander', 'tipHover'];
-
-function renderTutorial(turnNumber) {
-  const show = !tutorialDismissed && turnNumber <= 3;
-  for (const id of TUTORIAL_TIP_IDS) {
-    el(id).classList.toggle('hidden', !show);
-  }
-}
-
-function dismissTutorial() {
-  tutorialDismissed = true;
-  for (const id of TUTORIAL_TIP_IDS) {
-    el(id).classList.add('hidden');
-  }
-}
-
-function initTutorial() {
-  for (const id of TUTORIAL_TIP_IDS) {
-    el(id).querySelector('.tip-close').addEventListener('click', dismissTutorial);
-  }
-}
-
 // ---------- Log panel ----------
 let logCollapsed = true;
 
@@ -1201,7 +1210,6 @@ const HUD_PANELS = [
   { id: 'youPanel', label: 'Your Stats', minW: 70, minH: 140 },
   { id: 'controls', label: 'Controls', minW: 280, minH: 50 },
   { id: 'hand', label: 'Your Hand', minW: 160, minH: 120 },
-  { id: 'tutorialTips', label: 'Tutorial Tips', minW: 150, minH: 60 },
   { id: 'logPanel', label: 'Battle Log', minW: 220, minH: 40, noHeight: true },
   { id: 'chatPanel', label: 'Chat', minW: 220, minH: 40, noHeight: true },
 ];
@@ -1248,22 +1256,72 @@ function measurePanelPct(panelEl, gameRect, panel) {
   };
 }
 
+// Log/Chat float above the whole HUD and must never be clipped by #game's
+// overflow:hidden — before the layout manager they were plain
+// position:fixed siblings of #game, so pinning them absolute (like the
+// other 9 panels) confined them to #game's box and let an expanded
+// .log-body/.chat-body get cut off at its edge instead of overlaying
+// everything, and let opening them affect page layout/scroll. They keep
+// position:fixed here, with left/top/width recomputed as viewport pixels
+// from #game's current rect every time geometry is (re)applied.
+function isFloatingHudPanel(id) {
+  return id === 'logPanel' || id === 'chatPanel';
+}
+
+// logPanel/chatPanel's collapsed (toggle-button-only) height in px, captured
+// once per panel the first time geometry is measured — see the comment in
+// applyPanelGeometry() for why this is the anchor, not their top position.
+let hudFloatingCollapsedHeight = {};
+
 function applyPanelGeometry(panel) {
   const panelEl = el(panel.id);
   const geom = hudCurrentLayout[panel.id];
   if (!panelEl || !geom) return;
-  panelEl.style.position = 'absolute';
-  // A grid item that becomes position:absolute keeps its assigned grid area
-  // as its containing block for percentage resolution (per spec) unless
-  // fully detached from grid placement — without this, width/height percentages
-  // resolve against the old (possibly collapsed) grid cell instead of #game.
-  panelEl.style.gridArea = 'auto';
-  panelEl.style.left = `${geom.leftPct}%`;
-  panelEl.style.top = `${geom.topPct}%`;
-  panelEl.style.width = `${geom.widthPct}%`;
-  if (!panel.noHeight) {
-    panelEl.style.height = `${geom.heightPct}%`;
-  } else if (geom.bodyMaxHeightPx) {
+  if (isFloatingHudPanel(panel.id)) {
+    const gameRect = el('game').getBoundingClientRect();
+    // These open upward from a fixed point near the screen edge (matching
+    // their pre-HUD-manager behavior), so they must be anchored by `bottom`,
+    // not `top`: with `top` pinned, an expanding .log-body/.chat-body pushes
+    // the box's bottom edge (and thus the newly-revealed content) further
+    // down the screen — invisible below the fold for a panel that lives near
+    // the bottom. Anchoring by `bottom` instead means growth pushes the TOP
+    // edge upward, so the expanded panel appears above the toggle button,
+    // in the free space, exactly like before. The anchor point itself is
+    // still whatever `topPct` dragging left it at, converted to a `bottom`
+    // offset using the panel's known COLLAPSED height (not its current,
+    // possibly-expanded one — using the live height here would make the
+    // anchor drift a little further every time it's applied while open).
+    const topPx = gameRect.top + (geom.topPct / 100) * gameRect.height;
+    const collapsedHeight = hudFloatingCollapsedHeight[panel.id] || 0;
+    panelEl.style.position = 'fixed';
+    panelEl.style.left = `${gameRect.left + (geom.leftPct / 100) * gameRect.width}px`;
+    panelEl.style.bottom = `${window.innerHeight - (topPx + collapsedHeight)}px`;
+    panelEl.style.width = `${(geom.widthPct / 100) * gameRect.width}px`;
+    // The stylesheet anchors these to the right/top edge by default —
+    // left+right or top+bottom both set (with height/width auto) stretches
+    // the box per spec, so the offsets we're not using must be cleared.
+    panelEl.style.right = 'auto';
+    panelEl.style.top = 'auto';
+  } else {
+    panelEl.style.position = 'absolute';
+    // A grid item that becomes position:absolute keeps its assigned grid area
+    // as its containing block for percentage resolution (per spec) unless
+    // fully detached from grid placement — without this, width/height percentages
+    // resolve against the old (possibly collapsed) grid cell instead of #game.
+    panelEl.style.gridArea = 'auto';
+    panelEl.style.left = `${geom.leftPct}%`;
+    panelEl.style.top = `${geom.topPct}%`;
+    panelEl.style.width = `${geom.widthPct}%`;
+    if (!panel.noHeight) panelEl.style.height = `${geom.heightPct}%`;
+    // Every in-game panel must paint above the battlefield no matter how
+    // it's dragged. None of these 9 set a z-index, so with position:absolute
+    // and z-index:auto they stack in plain DOM order — and the battlefield
+    // happens to sit between the enemy-stats and player-stats panels in the
+    // markup, silently burying whichever one gets dragged over it while the
+    // one declared after it in the HTML keeps showing through untouched.
+    panelEl.style.zIndex = panel.id === 'boardArea' ? '1' : '2';
+  }
+  if (panel.noHeight && geom.bodyMaxHeightPx) {
     const body = panelEl.querySelector(panel.id === 'logPanel' ? '.log-body' : '.chat-body');
     if (body) body.style.maxHeight = `${geom.bodyMaxHeightPx}px`;
   }
@@ -1468,6 +1526,13 @@ function initHudLayout() {
     const geom = measurePanelPct(elm, gameRect, panel);
     if (panel.noHeight) delete geom.heightPct;
     defaults[panel.id] = geom;
+    // Captured here specifically because log/chat are still governed by
+    // their original stylesheet position (collapsed) at this point in the
+    // very first call — see applyPanelGeometry() for why this height, not
+    // whatever the panel's current height happens to be, is the anchor.
+    if (isFloatingHudPanel(panel.id) && !(panel.id in hudFloatingCollapsedHeight)) {
+      hudFloatingCollapsedHeight[panel.id] = elm.getBoundingClientRect().height;
+    }
   }
   hudDefaultLayout = defaults;
 
@@ -1480,7 +1545,11 @@ function initHudLayout() {
   for (const panel of HUD_PANELS) applyPanelGeometry(panel);
   for (const panel of HUD_PANELS) injectHudHandles(panel);
 
-  window.addEventListener('resize', () => HUD_PANELS.forEach((p) => syncHudOverlay(p.id)));
+  // Re-applies full geometry, not just the overlay sync — the floating
+  // log/chat panels store pixel coordinates derived from #game's rect at
+  // apply-time, so a viewport resize must recompute those pixels or they'd
+  // drift away from the rest of the HUD instead of scaling with it.
+  window.addEventListener('resize', () => HUD_PANELS.forEach((p) => applyPanelGeometry(p)));
   el('hudEditToggle')?.addEventListener('click', toggleHudEditing);
   el('hudResetLayout')?.addEventListener('click', resetHudLayout);
 }
@@ -1705,7 +1774,6 @@ function renderFactionThumbnails() {
   initLobby();
   initAccount();
   initRankingTabs();
-  initTutorial();
   initChat();
   initLog();
   initTurnTimer();
