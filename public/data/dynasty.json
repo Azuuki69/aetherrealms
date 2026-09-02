@@ -235,6 +235,15 @@
                       "defense":  9,
                       "text":  "PARTING GIFT: When this dies, deals 2 DMG to a random enemy unit. (This unit is a rare, high-impact threat.)",
                       "image":  "assets/cards/web/dynasty/26_oni.jpg"
+                  },
+                  {
+                      "id":  "dynasty_27",
+                      "name":  "Ancient Wisdom",
+                      "cost":  5,
+                      "type":  "spell",
+                      "copies":  3,
+                      "text":  "Draw 4 cards.",
+                      "image":  "assets/cards/web/dynasty/27_ancient_wisdom.jpg"
                   }
               ]
 }

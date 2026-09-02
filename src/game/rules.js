@@ -88,7 +88,7 @@ export function buildDeck(factionKey) {
   if (!faction) throw new Error('Unknown faction: ' + factionKey);
   const deck = [];
   for (const card of faction.cards) {
-    const copies = !FLAGSHIP_NAMES.has(card.name) && card.cost <= 3 ? 2 : 1;
+    const copies = card.copies ?? (!FLAGSHIP_NAMES.has(card.name) && card.cost <= 3 ? 2 : 1);
     for (let i = 0; i < copies; i++) deck.push(makeCardInstance(card));
   }
   return shuffle(deck);
