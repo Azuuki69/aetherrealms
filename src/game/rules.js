@@ -470,9 +470,8 @@ function destroyUnit(game, owner, lane, slotIndex) {
     if (enemyUnits.length > 0) {
       const victim = enemyUnits[Math.floor(Math.random() * enemyUnits.length)];
       const loc = findLaneOf(enemyPlayer, victim.instanceId);
-      victim.defense -= player.vengefulUntilEndOfTurn;
+      dealDamageToUnit(game, opponentOf(owner), loc.lane, loc.idx, player.vengefulUntilEndOfTurn);
       game.log.push(`Vengeful Spirits deals ${player.vengefulUntilEndOfTurn} to ${victim.name}.`);
-      if (victim.defense <= 0) destroyUnit(game, opponentOf(owner), loc.lane, loc.idx);
     }
   }
   if (unit.keywords.includes('lastbreath')) {
@@ -489,9 +488,8 @@ function destroyUnit(game, owner, lane, slotIndex) {
     if (enemyUnits.length > 0) {
       const target = enemyUnits[Math.floor(Math.random() * enemyUnits.length)];
       const loc = findLaneOf(enemyPlayer, target.instanceId);
-      target.defense -= 2;
+      dealDamageToUnit(game, opponentOf(owner), loc.lane, loc.idx, 2);
       game.log.push(`${unit.name}'s Parting Gift deals 2 to ${target.name}.`);
-      if (target.defense <= 0) destroyUnit(game, opponentOf(owner), loc.lane, loc.idx);
     }
     checkWinner(game);
   }
@@ -560,9 +558,8 @@ function resolveCountdown(game, owner, lane, slotIndex) {
   if (targets.length > 0) {
     const target = targets[Math.floor(Math.random() * targets.length)];
     const loc = findLaneOf(opponent, target.instanceId);
-    target.defense -= dmg;
+    dealDamageToUnit(game, opponentOf(owner), loc.lane, loc.idx, dmg);
     game.log.push(`${unit.name}'s Countdown deals ${dmg} to ${target.name}.`);
-    if (target.defense <= 0) destroyUnit(game, opponentOf(owner), loc.lane, loc.idx);
   } else {
     dealDamageToCastle(game, opponentOf(owner), dmg);
     game.log.push(`${unit.name}'s Countdown deals ${dmg} to the enemy castle.`);
@@ -1265,9 +1262,8 @@ export function playCard(game, owner, cardInstanceId, lane, slotIndex, spellTarg
       if (enemyUnits.length > 0) {
         const target = enemyUnits[Math.floor(Math.random() * enemyUnits.length)];
         const targetLoc = findLaneOf(opponentPlayer, target.instanceId);
-        target.defense -= 2;
+        dealDamageToUnit(game, opponentOf(owner), targetLoc.lane, targetLoc.idx, 2);
         game.log.push(`${unit.name}'s Cull sacrifices ${victim.name} to deal 2 to ${target.name}.`);
-        if (target.defense <= 0) destroyUnit(game, opponentOf(owner), targetLoc.lane, targetLoc.idx);
       } else {
         dealDamageToCastle(game, opponentOf(owner), 2);
         game.log.push(`${unit.name}'s Cull sacrifices ${victim.name} to deal 2 to the enemy castle.`);
@@ -1505,9 +1501,8 @@ export function attack(game, owner, attackerLane, attackerSlot, targetLane, targ
     if (unit.keywords.includes('trample') && overflow > 0) {
       const behind = targetLane === 'vanguard' ? opponent.board.rearguard[targetSlot] : null;
       if (behind) {
-        behind.defense -= overflow;
+        dealDamageToUnit(game, opponentKey, 'rearguard', targetSlot, overflow);
         game.log.push(`Trample carries ${overflow} to ${behind.name}.`);
-        if (behind.defense <= 0) destroyUnit(game, opponentKey, 'rearguard', targetSlot);
       } else {
         dealDamageToCastle(game, opponentKey, overflow);
         game.log.push(`Trample carries ${overflow} to the enemy castle.`);
@@ -1520,9 +1515,8 @@ export function attack(game, owner, attackerLane, attackerSlot, targetLane, targ
     if (targetUnit.keywords.includes('trample') && overflow > 0) {
       const behind = attackerLane === 'vanguard' ? player.board.rearguard[attackerSlot] : null;
       if (behind) {
-        behind.defense -= overflow;
+        dealDamageToUnit(game, owner, 'rearguard', attackerSlot, overflow);
         game.log.push(`Trample carries ${overflow} to ${behind.name}.`);
-        if (behind.defense <= 0) destroyUnit(game, owner, 'rearguard', attackerSlot);
       } else {
         dealDamageToCastle(game, owner, overflow);
         game.log.push(`Trample carries ${overflow} to the ${owner}'s castle.`);
@@ -1549,9 +1543,8 @@ export function endTurn(game, owner) {
       if (enemyUnits.length > 0) {
         const target = enemyUnits[Math.floor(Math.random() * enemyUnits.length)];
         const loc = findLaneOf(opponent, target.instanceId);
-        target.defense -= 1;
+        dealDamageToUnit(game, opponentOf(owner), loc.lane, loc.idx, 1);
         game.log.push(`${unit.name}'s Curse deals 1 to ${target.name}.`);
-        if (target.defense <= 0) destroyUnit(game, opponentOf(owner), loc.lane, loc.idx);
       } else {
         dealDamageToCastle(game, opponentOf(owner), 1);
         game.log.push(`${unit.name}'s Curse deals 1 to the enemy castle.`);
@@ -1561,15 +1554,21 @@ export function endTurn(game, owner) {
   checkWinner(game);
   if (game.winner) return game;
 
-  // The player whose turn just ended draws exactly 1 card.
-  const drew = draw(player);
-  if (!drew) {
-    game.winner = opponentOf(owner);
-    game.phase = 'gameover';
-    game.log.push(`${owner}'s deck and graveyard are both empty — ${owner} decks out and loses!`);
-    return game;
+  // The player whose turn just ended draws — the amount escalates as the
+  // match runs long (1 through turn 5, 2 through turn 10, 3 from turn 11 on)
+  // so a stalled-out late game doesn't just grind on deck-out attrition.
+  const drawCount = game.turnNumber <= 5 ? 1 : game.turnNumber <= 10 ? 2 : 3;
+  let cardsDrawn = 0;
+  for (let i = 0; i < drawCount; i++) {
+    if (!draw(player)) {
+      game.winner = opponentOf(owner);
+      game.phase = 'gameover';
+      game.log.push(`${owner}'s deck and graveyard are both empty — ${owner} decks out and loses!`);
+      return game;
+    }
+    cardsDrawn += 1;
   }
-  game.log.push(`${owner} draws a card.`);
+  game.log.push(cardsDrawn === 1 ? `${owner} draws a card.` : `${owner} draws ${cardsDrawn} cards.`);
 
   const next = opponentOf(owner);
   game.turnNumber += 1;
