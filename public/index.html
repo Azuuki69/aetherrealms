@@ -52,6 +52,11 @@
     <button class="faction-card" data-faction="undead"><span class="thumb"></span><span class="label">Undead Dominion</span></button>
   </div>
 
+  <div class="lobby-hud-preview">
+    <button id="customizeHudBtn" type="button" class="btn-secondary">🎛 Customize HUD Layout</button>
+    <p>Rearrange and resize every battle panel at your own pace — no match, no turn timer.</p>
+  </div>
+
   <div class="lobby-actions">
     <div class="lobby-panel">
       <h2>Create a Match</h2>
@@ -90,6 +95,7 @@
 
 <div id="game" class="screen hidden">
   <div id="hudLayoutControls" class="hud-layout-controls">
+    <button id="hudPreviewExitBtn" type="button" class="hud-reset-btn hidden">← Back to Lobby</button>
     <button id="hudEditToggle" type="button" class="hud-edit-toggle">✥ Edit HUD Layout</button>
     <button id="hudResetLayout" type="button" class="hud-reset-btn hidden">Reset Layout</button>
   </div>

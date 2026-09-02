@@ -140,6 +140,109 @@ function showGame() {
   document.body.classList.add('in-game');
 }
 
+// ---------- HUD layout preview (no match, no timer) ----------
+// Lets a player customize every panel's position/size from the lobby,
+// without a real opponent or the server-driven 60s turn timer — the timer
+// only ever appears when currentView.turnDeadlineAt is set by a real match's
+// state broadcast, which this demo view deliberately never provides.
+let hudPreviewActive = false;
+
+function demoCardInstance(card, overrides) {
+  return {
+    instanceId: `demo_${card.id}`,
+    cardId: card.id,
+    name: card.name,
+    type: card.type || 'unit',
+    cost: card.cost,
+    power: card.power,
+    displayPower: card.power,
+    basePower: card.power,
+    defense: card.defense,
+    maxDefense: card.defense,
+    text: card.text,
+    image: card.image,
+    target: card.target || null,
+    effect: card.effect || null,
+    keywords: [],
+    countdown: null,
+    sick: false,
+    attackedThisTurn: false,
+    ...overrides,
+  };
+}
+
+function buildDemoView() {
+  const youCards = (factionData.human && factionData.human.cards) || [];
+  const oppCards = (factionData.elf && factionData.elf.cards) || [];
+  const units = (cards) => cards.filter((c) => c.type !== 'spell');
+  const spells = (cards) => cards.filter((c) => c.type === 'spell');
+  const youUnits = units(youCards);
+  const oppUnits = units(oppCards);
+
+  const youVanguard = [youUnits[0], null, youUnits[1], null, null].map((c) => (c ? demoCardInstance(c) : null));
+  const youRearguard = [null, youUnits[2], null, null, null].map((c) => (c ? demoCardInstance(c) : null));
+  const oppVanguard = [null, oppUnits[0], null, oppUnits[1], null].map((c) => (c ? demoCardInstance(c) : null));
+  const oppRearguard = [null, null, oppUnits[2], null, null].map((c) => (c ? demoCardInstance(c) : null));
+
+  const hand = [...units(youCards).slice(3, 6), ...spells(youCards).slice(0, 2)].map((c) => demoCardInstance(c));
+
+  return {
+    you: {
+      faction: 'human',
+      hp: 38,
+      maxHp: 50,
+      mana: 5,
+      maxMana: 5,
+      deck: new Array(32).fill(null),
+      graveyard: new Array(3).fill(null),
+      hand,
+      board: { vanguard: youVanguard, rearguard: youRearguard },
+    },
+    opponent: {
+      faction: 'elf',
+      hp: 44,
+      maxHp: 50,
+      mana: 4,
+      maxMana: 5,
+      deckCount: 29,
+      graveyard: new Array(2).fill(null),
+      hand: new Array(5).fill({ hidden: true }),
+      board: { vanguard: oppVanguard, rearguard: oppRearguard },
+    },
+    turn: 'A',
+    phase: 'deployment',
+    turnNumber: 3,
+    winner: null,
+    log: ['This is a HUD layout preview — nothing here is a real match.'],
+    you_key: 'A',
+    lastPlayedCard: null,
+    turnDeadlineAt: null,
+  };
+}
+
+function enterHudPreview() {
+  hudPreviewActive = true;
+  currentView = buildDemoView();
+  previousView = null;
+  el('lobby').classList.add('hidden');
+  el('game').classList.remove('hidden');
+  document.body.classList.add('in-game');
+  el('hudPreviewExitBtn').classList.remove('hidden');
+  render();
+  if (!hudEditing) toggleHudEditing();
+}
+
+function exitHudPreview() {
+  hudPreviewActive = false;
+  if (hudEditing) toggleHudEditing();
+  el('hudPreviewExitBtn').classList.add('hidden');
+  el('game').classList.add('hidden');
+  el('lobby').classList.remove('hidden');
+  document.body.classList.remove('in-game');
+  currentView = null;
+  previousView = null;
+}
+
 // The coin flip result is decided server-side (matchRoom.js, at game
 // creation) — this just displays it and, once both players have seen it,
 // acks so the match can move into the deployment phase.
@@ -1000,6 +1103,8 @@ async function runAttackAll() {
   }
 }
 
+el('customizeHudBtn')?.addEventListener('click', enterHudPreview);
+el('hudPreviewExitBtn')?.addEventListener('click', exitHudPreview);
 el('oppInfo')?.addEventListener('click', onCastleClick);
 el('combatBtn')?.addEventListener('click', () => send({ type: 'move_to_combat' }));
 el('attackAllBtn')?.addEventListener('click', runAttackAll);

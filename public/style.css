@@ -295,6 +295,28 @@ h1 span {
 .room-code .copy-code-btn.copied { border-color: var(--success); color: var(--success); }
 .lobby-status { text-align: center; margin-top: 1.5rem; color: var(--dim); min-height: 1.5em; }
 
+.lobby-hud-preview {
+  text-align: center;
+  margin: 0.4rem 0 1.4rem;
+  padding: 0.8rem 1rem;
+  border: 1px dashed color-mix(in srgb, var(--gold) 40%, var(--border));
+  border-radius: 10px;
+  background: #1c150d40;
+}
+.lobby-hud-preview p { margin: 0.5rem 0 0; color: var(--dim); font-size: 0.85rem; }
+.btn-secondary {
+  background: linear-gradient(#3a2c14, #241c12);
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-family: inherit;
+  font-weight: bold;
+  padding: 0.55rem 1.1rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+.btn-secondary:hover { background: linear-gradient(var(--gold-bright), var(--gold)); color: #1a140d; }
+
 /* ---------- Account panel ---------- */
 .account-panel {
   position: relative;
