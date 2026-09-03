@@ -283,7 +283,6 @@ h1 span {
 #lobby[data-layout="showcase"] > .lobby-status,
 #lobby[data-layout="sidebar-hud"] > .lobby-status { grid-area: status; }
 #lobby[data-layout="sidebar"] > .rankings-panel,
-#lobby[data-layout="compact"] > .rankings-panel,
 #lobby[data-layout="showcase"] > .rankings-panel,
 #lobby[data-layout="sidebar-hud"] > .rankings-panel { grid-area: rank; }
 
@@ -390,25 +389,31 @@ h1 span {
 .sidebar-widget .admin-loading { padding: 0.3rem 0; font-size: var(--text-xs); }
 
 /* Compact: play options move up ahead of the faction picker — get into a
-   match fast without scrolling past deck browsing you may not need again —
-   and rankings pin to a right-hand column next to the scrollbar rather than
-   sitting at the bottom of the scroll. */
+   match fast without scrolling past deck browsing you may not need again.
+   Everything here stays exactly as wide/centered as Classic — max-width and
+   grid-template-columns are deliberately NOT overridden, unlike the other
+   grid-based layouts, because widening/splitting #lobby itself is exactly
+   what shifted the centered content left last time. Rankings has no
+   grid-area assigned here, so it just falls back to plain auto-placement at
+   the end of the single column (same spot as Classic) by default. */
 #lobby[data-layout="compact"] {
-  max-width: 1100px;
-  grid-template-columns: 1fr 340px;
-  column-gap: 2rem;
-  align-items: start;
-  grid-template-areas:
-    "logo   logo"
-    "acct   rank"
-    "modes  rank"
-    "play   rank"
-    "fact   rank"
-    "dcmp   rank"
-    "hud    rank"
-    "status rank";
+  grid-template-areas: "logo" "acct" "modes" "play" "fact" "dcmp" "hud" "status";
 }
-#lobby[data-layout="compact"] > .rankings-panel { position: sticky; top: 1rem; }
+/* Only on screens wide enough that a 300px dock on the right edge can't
+   possibly overlap the still-centered 900px column (comfortable margin
+   included) does rankings actually get pulled out of the flow above and
+   pinned to the edge, next to the scrollbar — exactly what was asked for,
+   without ever touching or squeezing the main column at any width. */
+@media (min-width: 1600px) {
+  #lobby[data-layout="compact"] > .rankings-panel {
+    position: fixed;
+    top: 6rem;
+    right: 1.5rem;
+    width: 300px;
+    max-height: calc(100vh - 8rem);
+    overflow-y: auto;
+  }
+}
 
 /* Showcase: faction picker is the hero, right under the logo and enlarged;
    the account panel shrinks to a slim strip below it. */
@@ -433,8 +438,7 @@ h1 span {
     max-width: none;
   }
   #lobby[data-layout="sidebar"] > .rankings-panel,
-  #lobby[data-layout="sidebar-hud"] > .rankings-panel,
-  #lobby[data-layout="compact"] > .rankings-panel { position: static; }
+  #lobby[data-layout="sidebar-hud"] > .rankings-panel { position: static; }
   #lobby[data-layout="showcase"] > .account-panel { max-width: 420px; padding: 0.9rem 1.1rem; }
   /* The two decorative compartments are a desktop affordance, same as every
      other layout choice — hidden below the breakpoint rather than adding a
