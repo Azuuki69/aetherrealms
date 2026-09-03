@@ -19,6 +19,11 @@
 </head>
 <body>
 
+<div class="lang-picker" id="langPicker">
+  <button type="button" class="lang-btn" data-lang="en">EN</button>
+  <button type="button" class="lang-btn" data-lang="pl">PL</button>
+</div>
+
 <div id="lobby" class="screen">
   <div class="logo">
     <svg class="logo-sigil" viewBox="0 0 56 56" aria-hidden="true">
@@ -33,108 +38,108 @@
   <div class="account-panel" id="accountPanel">
     <div id="accountLoggedOut" class="account-view">
       <form id="accountForm" class="account-form">
-        <label class="sr-only" for="accountUsername">Username</label>
-        <input id="accountUsername" placeholder="Username" autocomplete="username" maxlength="20" />
-        <label class="sr-only" for="accountPassword">Password</label>
-        <input id="accountPassword" type="password" placeholder="Password" autocomplete="current-password" maxlength="60" />
-        <button id="accountSubmitBtn" type="submit" class="btn">Log In</button>
-        <button id="accountToggleModeBtn" type="button" class="link-btn">Need an account? Register</button>
+        <label class="sr-only" for="accountUsername" data-i18n="usernameLabel">Username</label>
+        <input id="accountUsername" placeholder="Username" data-i18n-placeholder="usernameLabel" autocomplete="username" maxlength="20" />
+        <label class="sr-only" for="accountPassword" data-i18n="passwordLabel">Password</label>
+        <input id="accountPassword" type="password" placeholder="Password" data-i18n-placeholder="passwordLabel" autocomplete="current-password" maxlength="60" />
+        <button id="accountSubmitBtn" type="submit" class="btn" data-i18n="logIn">Log In</button>
+        <button id="accountToggleModeBtn" type="button" class="link-btn" data-i18n="needAccountRegister">Need an account? Register</button>
       </form>
       <div id="accountStatus" class="account-status" role="status" aria-live="polite"></div>
     </div>
     <div id="accountLoggedIn" class="account-view hidden">
-      <span>Logged in as <strong id="accountUsernameLabel"></strong></span>
+      <span><span data-i18n="loggedInAsPrefix">Logged in as</span> <strong id="accountUsernameLabel"></strong></span>
       <span id="aiStatsLine" class="ai-stats-line"></span>
-      <button id="adminPanelBtn" type="button" class="link-btn hidden">⚙ Admin</button>
-      <button id="accountLogoutBtn" type="button" class="link-btn">Log Out</button>
+      <button id="adminPanelBtn" type="button" class="link-btn hidden">⚙ <span data-i18n="adminBtn">Admin</span></button>
+      <button id="accountLogoutBtn" type="button" class="link-btn" data-i18n="logOut">Log Out</button>
     </div>
   </div>
 
   <div class="faction-picker" id="factionPicker">
-    <div class="faction-card" data-faction="beast" role="button" tabindex="0"><span class="thumb"></span><span class="label">Mythic Beasts</span><span class="deck-badge-row"></span><span class="deck-tagline"></span><button type="button" class="view-deck-btn">View Deck</button></div>
-    <div class="faction-card" data-faction="clock" role="button" tabindex="0"><span class="thumb"></span><span class="label">Steampunk Hold</span><span class="deck-badge-row"></span><span class="deck-tagline"></span><button type="button" class="view-deck-btn">View Deck</button></div>
-    <div class="faction-card" data-faction="damned" role="button" tabindex="0"><span class="thumb"></span><span class="label">Damned Covenant</span><span class="deck-badge-row"></span><span class="deck-tagline"></span><button type="button" class="view-deck-btn">View Deck</button></div>
-    <div class="faction-card" data-faction="dwarf" role="button" tabindex="0"><span class="thumb"></span><span class="label">Dwarven Clans</span><span class="deck-badge-row"></span><span class="deck-tagline"></span><button type="button" class="view-deck-btn">View Deck</button></div>
-    <div class="faction-card" data-faction="dynasty" role="button" tabindex="0"><span class="thumb"></span><span class="label">Jade Dynasty</span><span class="deck-badge-row"></span><span class="deck-tagline"></span><button type="button" class="view-deck-btn">View Deck</button></div>
-    <div class="faction-card" data-faction="elf" role="button" tabindex="0"><span class="thumb"></span><span class="label">Elven Court</span><span class="deck-badge-row"></span><span class="deck-tagline"></span><button type="button" class="view-deck-btn">View Deck</button></div>
-    <div class="faction-card" data-faction="fallen" role="button" tabindex="0"><span class="thumb"></span><span class="label">Star-Fallen</span><span class="deck-badge-row"></span><span class="deck-tagline"></span><button type="button" class="view-deck-btn">View Deck</button></div>
-    <div class="faction-card" data-faction="human" role="button" tabindex="0"><span class="thumb"></span><span class="label">Human Realm</span><span class="deck-badge-row"></span><span class="deck-tagline"></span><button type="button" class="view-deck-btn">View Deck</button></div>
-    <div class="faction-card" data-faction="orc" role="button" tabindex="0"><span class="thumb"></span><span class="label">Orc Horde</span><span class="deck-badge-row"></span><span class="deck-tagline"></span><button type="button" class="view-deck-btn">View Deck</button></div>
-    <div class="faction-card" data-faction="undead" role="button" tabindex="0"><span class="thumb"></span><span class="label">Undead Dominion</span><span class="deck-badge-row"></span><span class="deck-tagline"></span><button type="button" class="view-deck-btn">View Deck</button></div>
+    <div class="faction-card" data-faction="beast" role="button" tabindex="0"><span class="thumb"></span><span class="label" data-i18n="factionBeast">Mythic Beasts</span><span class="deck-badge-row"></span><span class="deck-tagline"></span><button type="button" class="view-deck-btn" data-i18n="viewDeck">View Deck</button></div>
+    <div class="faction-card" data-faction="clock" role="button" tabindex="0"><span class="thumb"></span><span class="label" data-i18n="factionClock">Steampunk Hold</span><span class="deck-badge-row"></span><span class="deck-tagline"></span><button type="button" class="view-deck-btn" data-i18n="viewDeck">View Deck</button></div>
+    <div class="faction-card" data-faction="damned" role="button" tabindex="0"><span class="thumb"></span><span class="label" data-i18n="factionDamned">Damned Covenant</span><span class="deck-badge-row"></span><span class="deck-tagline"></span><button type="button" class="view-deck-btn" data-i18n="viewDeck">View Deck</button></div>
+    <div class="faction-card" data-faction="dwarf" role="button" tabindex="0"><span class="thumb"></span><span class="label" data-i18n="factionDwarf">Dwarven Clans</span><span class="deck-badge-row"></span><span class="deck-tagline"></span><button type="button" class="view-deck-btn" data-i18n="viewDeck">View Deck</button></div>
+    <div class="faction-card" data-faction="dynasty" role="button" tabindex="0"><span class="thumb"></span><span class="label" data-i18n="factionDynasty">Jade Dynasty</span><span class="deck-badge-row"></span><span class="deck-tagline"></span><button type="button" class="view-deck-btn" data-i18n="viewDeck">View Deck</button></div>
+    <div class="faction-card" data-faction="elf" role="button" tabindex="0"><span class="thumb"></span><span class="label" data-i18n="factionElf">Elven Court</span><span class="deck-badge-row"></span><span class="deck-tagline"></span><button type="button" class="view-deck-btn" data-i18n="viewDeck">View Deck</button></div>
+    <div class="faction-card" data-faction="fallen" role="button" tabindex="0"><span class="thumb"></span><span class="label" data-i18n="factionFallen">Star-Fallen</span><span class="deck-badge-row"></span><span class="deck-tagline"></span><button type="button" class="view-deck-btn" data-i18n="viewDeck">View Deck</button></div>
+    <div class="faction-card" data-faction="human" role="button" tabindex="0"><span class="thumb"></span><span class="label" data-i18n="factionHuman">Human Realm</span><span class="deck-badge-row"></span><span class="deck-tagline"></span><button type="button" class="view-deck-btn" data-i18n="viewDeck">View Deck</button></div>
+    <div class="faction-card" data-faction="orc" role="button" tabindex="0"><span class="thumb"></span><span class="label" data-i18n="factionOrc">Orc Horde</span><span class="deck-badge-row"></span><span class="deck-tagline"></span><button type="button" class="view-deck-btn" data-i18n="viewDeck">View Deck</button></div>
+    <div class="faction-card" data-faction="undead" role="button" tabindex="0"><span class="thumb"></span><span class="label" data-i18n="factionUndead">Undead Dominion</span><span class="deck-badge-row"></span><span class="deck-tagline"></span><button type="button" class="view-deck-btn" data-i18n="viewDeck">View Deck</button></div>
   </div>
   <div class="deck-compare-trigger">
-    <button type="button" id="compareDecksBtn" class="btn-secondary">📊 Compare Decks</button>
-    <p>See every faction's strengths, weaknesses, and difficulty side by side.</p>
+    <button type="button" id="compareDecksBtn" class="btn-secondary">📊 <span data-i18n="compareDecks">Compare Decks</span></button>
+    <p data-i18n="compareDecksDesc">See every faction's strengths, weaknesses, and difficulty side by side.</p>
   </div>
 
   <div class="lobby-hud-preview">
-    <button id="customizeHudBtn" type="button" class="btn-secondary">🎛 Customize HUD Layout</button>
-    <p>Rearrange and resize every battle panel at your own pace — no match, no turn timer.</p>
+    <button id="customizeHudBtn" type="button" class="btn-secondary">🎛 <span data-i18n="customizeHud">Customize HUD Layout</span></button>
+    <p data-i18n="customizeHudDesc">Rearrange and resize every battle panel at your own pace — no match, no turn timer.</p>
   </div>
 
   <div class="mode-tabs" id="modeTabs">
     <button class="mode-tab active" id="modeTabRanked" type="button">
-      <span class="mode-tab-title">Ranked</span>
-      <span class="mode-tab-desc">Compete against real players. ⚠️ Affects your Ranked rating.</span>
+      <span class="mode-tab-title" data-i18n="modeRanked">Ranked</span>
+      <span class="mode-tab-desc" data-i18n="modeRankedDesc">Compete against real players. ⚠️ Affects your Ranked rating.</span>
     </button>
     <button class="mode-tab" id="modeTabAi" type="button">
-      <span class="mode-tab-title">AI Match</span>
-      <span class="mode-tab-desc">Practice against the computer. ✓ Never affects your Ranked rating.</span>
+      <span class="mode-tab-title" data-i18n="modeAiMatch">AI Match</span>
+      <span class="mode-tab-desc" data-i18n="modeAiMatchDesc">Practice against the computer. ✓ Never affects your Ranked rating.</span>
     </button>
   </div>
 
   <div class="lobby-actions" id="rankedPanel">
     <div class="lobby-panel">
-      <h2>Create a Match</h2>
-      <p>Pick a faction above, then create a room and share the code.</p>
-      <button id="createBtn" class="btn">Create Match</button>
+      <h2 data-i18n="createMatchTitle">Create a Match</h2>
+      <p data-i18n="createMatchDesc">Pick a faction above, then create a room and share the code.</p>
+      <button id="createBtn" class="btn" data-i18n="createMatch">Create Match</button>
       <div id="createdCode" class="room-code hidden">
         <span id="createdCodeText"></span>
-        <button type="button" id="copyCodeBtn" class="copy-code-btn">Copy</button>
+        <button type="button" id="copyCodeBtn" class="copy-code-btn" data-i18n="copy">Copy</button>
       </div>
     </div>
     <div class="lobby-panel">
-      <h2>Join a Match</h2>
-      <p>Pick a faction above, then enter your friend's room code.</p>
-      <label class="sr-only" for="joinCode">Room code</label>
-      <input id="joinCode" maxlength="6" placeholder="ROOM CODE" autocomplete="off" />
-      <button id="joinBtn" class="btn">Join Match</button>
+      <h2 data-i18n="joinMatchTitle">Join a Match</h2>
+      <p data-i18n="joinMatchDesc">Pick a faction above, then enter your friend's room code.</p>
+      <label class="sr-only" for="joinCode" data-i18n="roomCodeLabel">Room code</label>
+      <input id="joinCode" maxlength="6" placeholder="ROOM CODE" data-i18n-placeholder="roomCodePlaceholder" autocomplete="off" />
+      <button id="joinBtn" class="btn" data-i18n="joinMatch">Join Match</button>
     </div>
   </div>
 
   <div class="ai-match-panel hidden" id="aiMatchPanel">
-    <h2>AI Match</h2>
-    <p>Pick a faction above, choose a difficulty, and play a full match against the computer. This never affects your Ranked rating or statistics.</p>
+    <h2 data-i18n="modeAiMatch">AI Match</h2>
+    <p data-i18n="aiMatchDesc">Pick a faction above, choose a difficulty, and play a full match against the computer. This never affects your Ranked rating or statistics.</p>
     <div class="difficulty-picker" id="difficultyPicker">
       <button type="button" class="difficulty-btn" data-difficulty="easy">
-        <span class="difficulty-name">Easy</span>
-        <span class="difficulty-desc">Great for learning the game.</span>
+        <span class="difficulty-name" data-i18n="difficultyEasy">Easy</span>
+        <span class="difficulty-desc" data-i18n="difficultyEasyDesc">Great for learning the game.</span>
       </button>
       <button type="button" class="difficulty-btn active" data-difficulty="normal">
-        <span class="difficulty-name">Normal</span>
-        <span class="difficulty-desc">A balanced challenge.</span>
+        <span class="difficulty-name" data-i18n="difficultyNormal">Normal</span>
+        <span class="difficulty-desc" data-i18n="difficultyNormalDesc">A balanced challenge.</span>
       </button>
       <button type="button" class="difficulty-btn" data-difficulty="hard">
-        <span class="difficulty-name">Hard</span>
-        <span class="difficulty-desc">For experienced players.</span>
+        <span class="difficulty-name" data-i18n="difficultyHard">Hard</span>
+        <span class="difficulty-desc" data-i18n="difficultyHardDesc">For experienced players.</span>
       </button>
     </div>
-    <button id="playAiBtn" class="btn">Play vs AI</button>
+    <button id="playAiBtn" class="btn" data-i18n="playVsAi">Play vs AI</button>
   </div>
 
   <div id="lobbyStatus" class="lobby-status" role="status" aria-live="polite"></div>
 
   <div class="rankings-panel" id="rankingsPanel">
     <div class="ranking-tabs">
-      <button class="ranking-tab active" id="tabPlayers" type="button">Players</button>
-      <button class="ranking-tab" id="tabDecks" type="button">Decks</button>
+      <button class="ranking-tab active" id="tabPlayers" type="button" data-i18n="tabPlayers">Players</button>
+      <button class="ranking-tab" id="tabDecks" type="button" data-i18n="tabDecks">Decks</button>
     </div>
     <table class="ranking-table" id="playersTable">
-      <thead><tr><th>#</th><th>Player</th><th>Wins</th><th>Losses</th></tr></thead>
+      <thead><tr><th data-i18n="colRank">#</th><th data-i18n="colPlayer">Player</th><th data-i18n="colWins">Wins</th><th data-i18n="colLosses">Losses</th></tr></thead>
       <tbody id="playersTableBody"></tbody>
     </table>
     <table class="ranking-table hidden" id="decksTable">
-      <thead><tr><th>#</th><th>Faction</th><th>Win Rate</th><th>Games</th></tr></thead>
+      <thead><tr><th data-i18n="colRank">#</th><th data-i18n="colFaction">Faction</th><th data-i18n="colWinRate">Win Rate</th><th data-i18n="colGames">Games</th></tr></thead>
       <tbody id="decksTableBody"></tbody>
     </table>
   </div>
@@ -149,16 +154,16 @@
        initMusicPlayer() in client.js. Docks to the left edge on wide
        screens, same technique as the rankings panel's right-edge dock. -->
   <div id="musicPlayerLobby" class="music-player-lobby">
-    <h4>🎵 Now Playing</h4>
-    <div class="music-now-playing" id="musicNowPlayingTitle">Pick a track below</div>
+    <h4>🎵 <span data-i18n="nowPlaying">Now Playing</span></h4>
+    <div class="music-now-playing" id="musicNowPlayingTitle" data-i18n="pickTrackBelow">Pick a track below</div>
     <div class="music-controls">
-      <button type="button" id="musicPrevBtn" class="music-ctrl-btn" aria-label="Previous track">⏮</button>
-      <button type="button" id="musicPlayPauseBtn" class="music-ctrl-btn music-ctrl-btn-main" aria-label="Play">▶</button>
-      <button type="button" id="musicNextBtn" class="music-ctrl-btn" aria-label="Next track">⏭</button>
+      <button type="button" id="musicPrevBtn" class="music-ctrl-btn" aria-label="Previous track" data-i18n-aria-label="previousTrack">⏮</button>
+      <button type="button" id="musicPlayPauseBtn" class="music-ctrl-btn music-ctrl-btn-main" aria-label="Play" data-i18n-aria-label="play">▶</button>
+      <button type="button" id="musicNextBtn" class="music-ctrl-btn" aria-label="Next track" data-i18n-aria-label="nextTrack">⏭</button>
     </div>
     <div class="music-volume-row">
       <span aria-hidden="true">🔊</span>
-      <label class="sr-only" for="musicVolumeSlider">Volume</label>
+      <label class="sr-only" for="musicVolumeSlider" data-i18n="volume">Volume</label>
       <input type="range" id="musicVolumeSlider" min="0" max="100" value="70" />
     </div>
     <div class="music-track-list" id="musicTrackList"></div>
@@ -167,9 +172,9 @@
 
 <div id="game" class="screen hidden">
   <div id="hudLayoutControls" class="hud-layout-controls">
-    <button id="hudPreviewExitBtn" type="button" class="hud-reset-btn hidden">← Back to Lobby</button>
-    <button id="hudEditToggle" type="button" class="hud-edit-toggle">✥ Edit HUD Layout</button>
-    <button id="hudResetLayout" type="button" class="hud-reset-btn hidden">Reset Layout</button>
+    <button id="hudPreviewExitBtn" type="button" class="hud-reset-btn hidden">← <span data-i18n="backToLobby">Back to Lobby</span></button>
+    <button id="hudEditToggle" type="button" class="hud-edit-toggle">✥ <span data-i18n="editHudLayout">Edit HUD Layout</span></button>
+    <button id="hudResetLayout" type="button" class="hud-reset-btn hidden" data-i18n="resetLayout">Reset Layout</button>
   </div>
   <div id="hudOverlayLayer"></div>
   <header id="topBar">
@@ -205,7 +210,7 @@
         <div class="castle-wrap">
           <img class="castle-img" alt="" />
         </div>
-        <div class="castle-owner-label">Enemy HP</div>
+        <div class="castle-owner-label" data-i18n="enemyHp">Enemy HP</div>
         <div class="castle-hp-bar"><div class="castle-hp-bar-fill"></div></div>
         <div class="castle-hp-value"></div>
       </div>
@@ -228,7 +233,7 @@
         <div class="castle-wrap">
           <img class="castle-img" alt="" />
         </div>
-        <div class="castle-owner-label">Your HP</div>
+        <div class="castle-owner-label" data-i18n="yourHp">Your HP</div>
         <div class="castle-hp-bar"><div class="castle-hp-bar-fill"></div></div>
         <div class="castle-hp-value"></div>
       </div>
@@ -238,10 +243,10 @@
   </div>
 
   <div class="controls" id="controls">
-    <button id="combatBtn" class="btn">Go to Combat</button>
-    <button id="attackAllBtn" class="btn">Attack All</button>
-    <button id="endTurnBtn" class="btn">End Turn</button>
-    <button id="surrenderBtn" class="btn btn-danger">Surrender</button>
+    <button id="combatBtn" class="btn" data-i18n="goToCombat">Go to Combat</button>
+    <button id="attackAllBtn" class="btn" data-i18n="attackAll">Attack All</button>
+    <button id="endTurnBtn" class="btn" data-i18n="endTurn">End Turn</button>
+    <button id="surrenderBtn" class="btn btn-danger" data-i18n="surrender">Surrender</button>
   </div>
 
   <div id="hand" class="hand"></div>
@@ -250,7 +255,7 @@
     <div class="overlay-box">
       <h2 id="gameOverText"></h2>
       <p id="gameOverAiNote" class="game-over-ai-note hidden"></p>
-      <button onclick="location.reload()" class="btn">Back to Lobby</button>
+      <button onclick="location.reload()" class="btn" data-i18n="backToLobby">Back to Lobby</button>
     </div>
   </div>
 
@@ -265,7 +270,7 @@
 
 <div id="coinFlipOverlay" class="overlay hidden">
   <div class="overlay-box coin-flip-box">
-    <h2>Coin Flip</h2>
+    <h2 data-i18n="coinFlipTitle">Coin Flip</h2>
     <div id="coinFlipCoin" class="coin-flip-coin">🪙</div>
     <p id="coinFlipResult" class="coin-flip-result"></p>
   </div>
@@ -273,8 +278,8 @@
 
 <div id="discoverOverlay" class="overlay hidden">
   <div class="overlay-box discover-box">
-    <h2>Discover</h2>
-    <p id="discoverWaiting" class="discover-waiting hidden">Opponent is choosing a card...</p>
+    <h2 data-i18n="discoverTitle">Discover</h2>
+    <p id="discoverWaiting" class="discover-waiting hidden" data-i18n="discoverWaiting">Opponent is choosing a card...</p>
     <div id="discoverOptions" class="discover-options"></div>
   </div>
 </div>
@@ -287,70 +292,70 @@
         <span id="deckPreviewArchetype" class="deck-badge"></span>
         <span id="deckPreviewDifficulty" class="deck-badge deck-badge-difficulty"></span>
       </div>
-      <button type="button" id="deckPreviewCloseBtn" class="deck-preview-close" aria-label="Close">✕</button>
+      <button type="button" id="deckPreviewCloseBtn" class="deck-preview-close" aria-label="Close" data-i18n-aria-label="close">✕</button>
     </div>
     <div class="deck-preview-body" id="deckPreviewBody">
       <div class="deck-preview-info">
         <p id="deckPreviewDescription" class="deck-preview-description"></p>
 
         <div class="deck-preview-block">
-          <h3>Game Plan</h3>
+          <h3 data-i18n="gamePlan">Game Plan</h3>
           <p id="deckPreviewGamePlan"></p>
         </div>
         <div class="deck-preview-block">
-          <h3>Playstyle</h3>
+          <h3 data-i18n="playstyle">Playstyle</h3>
           <p id="deckPreviewPlaystyle"></p>
         </div>
         <div class="deck-preview-block">
-          <h3>Win Condition</h3>
+          <h3 data-i18n="winCondition">Win Condition</h3>
           <p id="deckPreviewWinCondition"></p>
         </div>
         <div class="deck-preview-block" id="deckPreviewBeginnerBlock">
-          <h3>New to this deck?</h3>
+          <h3 data-i18n="newToThisDeck">New to this deck?</h3>
           <p id="deckPreviewBeginner"></p>
         </div>
 
         <div class="deck-preview-block">
-          <h3>Key Mechanics</h3>
+          <h3 data-i18n="keyMechanics">Key Mechanics</h3>
           <div id="deckPreviewMechanics" class="deck-mechanic-chips"></div>
         </div>
 
         <div class="deck-preview-columns">
           <div class="deck-preview-block">
-            <h3>Best At</h3>
+            <h3 data-i18n="bestAt">Best At</h3>
             <ul id="deckPreviewStrengths" class="deck-preview-list"></ul>
           </div>
           <div class="deck-preview-block">
-            <h3>Weak Against</h3>
+            <h3 data-i18n="weakAgainst">Weak Against</h3>
             <ul id="deckPreviewWeaknesses" class="deck-preview-list"></ul>
           </div>
         </div>
         <div class="deck-preview-columns">
           <div class="deck-preview-block">
-            <h3>Pros</h3>
+            <h3 data-i18n="pros">Pros</h3>
             <ul id="deckPreviewPros" class="deck-preview-list deck-preview-list-pro"></ul>
           </div>
           <div class="deck-preview-block">
-            <h3>Cons</h3>
+            <h3 data-i18n="cons">Cons</h3>
             <ul id="deckPreviewCons" class="deck-preview-list deck-preview-list-con"></ul>
           </div>
         </div>
 
         <div class="deck-preview-block">
-          <h3>How to Play</h3>
-          <p><strong>Early:</strong> <span id="deckPreviewEarly"></span></p>
-          <p><strong>Mid:</strong> <span id="deckPreviewMid"></span></p>
-          <p><strong>Late:</strong> <span id="deckPreviewLate"></span></p>
+          <h3 data-i18n="howToPlay">How to Play</h3>
+          <p><strong data-i18n="earlyLabel">Early:</strong> <span id="deckPreviewEarly"></span></p>
+          <p><strong data-i18n="midLabel">Mid:</strong> <span id="deckPreviewMid"></span></p>
+          <p><strong data-i18n="lateLabel">Late:</strong> <span id="deckPreviewLate"></span></p>
         </div>
 
         <div class="deck-preview-block">
-          <h3>Deck Stats</h3>
+          <h3 data-i18n="deckStats">Deck Stats</h3>
           <div class="deck-stats-grid">
-            <div><span id="deckStatTotal"></span><label>Cards in deck</label></div>
-            <div><span id="deckStatUnique"></span><label>Unique cards</label></div>
-            <div><span id="deckStatAvgCost"></span><label>Avg. cost</label></div>
-            <div><span id="deckStatUnits"></span><label>Units</label></div>
-            <div><span id="deckStatSpells"></span><label>Spells</label></div>
+            <div><span id="deckStatTotal"></span><label data-i18n="cardsInDeck">Cards in deck</label></div>
+            <div><span id="deckStatUnique"></span><label data-i18n="uniqueCards">Unique cards</label></div>
+            <div><span id="deckStatAvgCost"></span><label data-i18n="avgCost">Avg. cost</label></div>
+            <div><span id="deckStatUnits"></span><label data-i18n="units">Units</label></div>
+            <div><span id="deckStatSpells"></span><label data-i18n="spells">Spells</label></div>
           </div>
           <div id="deckPreviewCurve" class="mana-curve-chart"></div>
         </div>
@@ -358,17 +363,17 @@
 
       <div class="deck-preview-cardlist">
         <div class="deck-filter-bar">
-          <label class="sr-only" for="deckSearchInput">Search cards</label>
-          <input type="text" id="deckSearchInput" placeholder="Search cards..." autocomplete="off" />
-          <label class="sr-only" for="deckTypeFilter">Filter by card type</label>
+          <label class="sr-only" for="deckSearchInput" data-i18n="searchCardsLabel">Search cards</label>
+          <input type="text" id="deckSearchInput" placeholder="Search cards..." data-i18n-placeholder="searchCardsPlaceholder" autocomplete="off" />
+          <label class="sr-only" for="deckTypeFilter" data-i18n="filterByType">Filter by card type</label>
           <select id="deckTypeFilter">
-            <option value="all">All Types</option>
-            <option value="unit">Units</option>
-            <option value="spell">Spells</option>
+            <option value="all" data-i18n="allTypes">All Types</option>
+            <option value="unit" data-i18n="units">Units</option>
+            <option value="spell" data-i18n="spells">Spells</option>
           </select>
-          <label class="sr-only" for="deckCostFilter">Filter by card cost</label>
+          <label class="sr-only" for="deckCostFilter" data-i18n="filterByCost">Filter by card cost</label>
           <select id="deckCostFilter">
-            <option value="all">Any Cost</option>
+            <option value="all" data-i18n="anyCost">Any Cost</option>
             <option value="0">0</option>
             <option value="1">1</option>
             <option value="2">2</option>
@@ -379,87 +384,87 @@
             <option value="7">7</option>
             <option value="8+">8+</option>
           </select>
-          <label class="sr-only" for="deckSortSelect">Sort cards by</label>
+          <label class="sr-only" for="deckSortSelect" data-i18n="filterBySort">Sort cards by</label>
           <select id="deckSortSelect">
-            <option value="cost">Sort: Cost</option>
-            <option value="name">Sort: Name</option>
-            <option value="type">Sort: Type</option>
+            <option value="cost" data-i18n="sortCost">Sort: Cost</option>
+            <option value="name" data-i18n="sortName">Sort: Name</option>
+            <option value="type" data-i18n="sortType">Sort: Type</option>
           </select>
         </div>
         <div id="deckCardGrid" class="deck-card-grid"></div>
       </div>
     </div>
     <div class="deck-preview-footer">
-      <button type="button" id="deckPreviewSelectBtn" class="btn">Select This Deck</button>
+      <button type="button" id="deckPreviewSelectBtn" class="btn" data-i18n="selectThisDeck">Select This Deck</button>
     </div>
   </div>
 </div>
 
 <div id="deckCompareOverlay" class="overlay hidden">
   <div class="overlay-box deck-compare-modal">
-    <h2>Compare Decks</h2>
+    <h2 data-i18n="deckCompareTitle">Compare Decks</h2>
     <div class="deck-compare-table-wrap">
       <table class="ranking-table deck-compare-table">
-        <thead><tr><th>Deck</th><th>Archetype</th><th>Difficulty</th><th>Best At</th><th>Weak Against</th></tr></thead>
+        <thead><tr><th data-i18n="colDeck">Deck</th><th data-i18n="colArchetype">Archetype</th><th data-i18n="colDifficulty">Difficulty</th><th data-i18n="bestAt">Best At</th><th data-i18n="weakAgainst">Weak Against</th></tr></thead>
         <tbody id="deckCompareTableBody"></tbody>
       </table>
     </div>
-    <button type="button" id="deckCompareCloseBtn" class="btn">Close</button>
+    <button type="button" id="deckCompareCloseBtn" class="btn" data-i18n="close">Close</button>
   </div>
 </div>
 
 <div id="adminOverlay" class="overlay hidden">
   <div class="overlay-box admin-modal">
     <div class="admin-modal-header">
-      <h2>Admin Panel</h2>
-      <button type="button" id="adminCloseBtn" class="deck-preview-close" aria-label="Close">✕</button>
+      <h2 data-i18n="adminPanel">Admin Panel</h2>
+      <button type="button" id="adminCloseBtn" class="deck-preview-close" aria-label="Close" data-i18n-aria-label="close">✕</button>
     </div>
 
     <div class="admin-section">
-      <h3>Site Layout</h3>
-      <p>Changes the main page's layout for every visitor.</p>
+      <h3 data-i18n="siteLayout">Site Layout</h3>
+      <p data-i18n="siteLayoutDesc">Changes the main page's layout for every visitor.</p>
       <div class="layout-picker" id="layoutPicker">
         <button type="button" class="layout-btn" data-layout="classic">
-          <span class="layout-name">Classic</span>
-          <span class="layout-desc">Today's single-column layout, top to bottom.</span>
+          <span class="layout-name" data-i18n="layoutClassic">Classic</span>
+          <span class="layout-desc" data-i18n="layoutClassicDesc">Today's single-column layout, top to bottom.</span>
         </button>
         <button type="button" class="layout-btn" data-layout="sidebar">
-          <span class="layout-name">Sidebar</span>
-          <span class="layout-desc">Two columns: play options on the left, rankings pinned on the right.</span>
+          <span class="layout-name" data-i18n="layoutSidebar">Sidebar</span>
+          <span class="layout-desc" data-i18n="layoutSidebarDesc">Two columns: play options on the left, rankings pinned on the right.</span>
         </button>
         <button type="button" class="layout-btn" data-layout="compact">
-          <span class="layout-name">Compact</span>
-          <span class="layout-desc">Play options right after login, faction picker below — fastest way into a match.</span>
+          <span class="layout-name" data-i18n="layoutCompact">Compact</span>
+          <span class="layout-desc" data-i18n="layoutCompactDesc">Play options right after login, faction picker below — fastest way into a match.</span>
         </button>
         <button type="button" class="layout-btn" data-layout="showcase">
-          <span class="layout-name">Showcase</span>
-          <span class="layout-desc">Faction picker front and center, ideal for new players browsing decks.</span>
+          <span class="layout-name" data-i18n="layoutShowcase">Showcase</span>
+          <span class="layout-desc" data-i18n="layoutShowcaseDesc">Faction picker front and center, ideal for new players browsing decks.</span>
         </button>
         <button type="button" class="layout-btn" data-layout="sidebar-hud">
-          <span class="layout-name">Sidebar + HUD</span>
-          <span class="layout-desc">Sidebar layout with a featured matchup preview and a leaderboard highlight above the rankings.</span>
+          <span class="layout-name" data-i18n="layoutSidebarHud">Sidebar + HUD</span>
+          <span class="layout-desc" data-i18n="layoutSidebarHudDesc">Sidebar layout with a featured matchup preview and a leaderboard highlight above the rankings.</span>
         </button>
       </div>
     </div>
 
     <div class="admin-section">
-      <h3>Rankings</h3>
-      <p>Resets are immediate and cannot be undone.</p>
+      <h3 data-i18n="adminRankings">Rankings</h3>
+      <p data-i18n="adminRankingsDesc">Resets are immediate and cannot be undone.</p>
       <div class="admin-actions">
-        <button type="button" id="adminResetPlayersBtn" class="btn-secondary">Reset Players</button>
-        <button type="button" id="adminResetFactionsBtn" class="btn-secondary">Reset Factions</button>
+        <button type="button" id="adminResetPlayersBtn" class="btn-secondary" data-i18n="resetPlayers">Reset Players</button>
+        <button type="button" id="adminResetFactionsBtn" class="btn-secondary" data-i18n="resetFactions">Reset Factions</button>
       </div>
     </div>
 
     <div class="admin-section">
-      <h3>AI Practice Stats</h3>
+      <h3 data-i18n="aiPracticeStats">AI Practice Stats</h3>
       <div class="admin-actions">
-        <button type="button" id="adminResetAiStatsBtn" class="btn-secondary">Reset AI Stats</button>
+        <button type="button" id="adminResetAiStatsBtn" class="btn-secondary" data-i18n="resetAiStats">Reset AI Stats</button>
       </div>
     </div>
 
     <div class="admin-section">
-      <h3>Accounts</h3>
+      <h3 data-i18n="accounts">Accounts</h3>
       <div id="adminAccountList" class="admin-account-list"></div>
     </div>
 
@@ -474,25 +479,25 @@
      fight with the control row's clicks/slider) so it can be moved off
      anything it happens to start on top of. -->
 <div id="musicPlayerGame" class="music-mini collapsed">
-  <button type="button" id="musicMiniToggle" class="music-mini-toggle" aria-label="Show music player">🎵</button>
+  <button type="button" id="musicMiniToggle" class="music-mini-toggle" aria-label="Show music player" data-i18n-aria-label="showMusicPlayer">🎵</button>
   <div class="music-mini-panel">
     <div class="music-mini-bar" id="musicMiniDragHandle">
-      <span class="music-mini-title" id="musicMiniTitle">No track</span>
-      <button type="button" id="musicMiniCollapse" class="music-mini-btn" aria-label="Minimize">─</button>
+      <span class="music-mini-title" id="musicMiniTitle" data-i18n="noTrack">No track</span>
+      <button type="button" id="musicMiniCollapse" class="music-mini-btn" aria-label="Minimize" data-i18n-aria-label="minimize">─</button>
     </div>
     <div class="music-mini-controls">
-      <button type="button" id="musicMiniPrev" class="music-mini-btn" aria-label="Previous track">⏮</button>
-      <button type="button" id="musicMiniPlayPause" class="music-mini-btn" aria-label="Play">▶</button>
-      <button type="button" id="musicMiniNext" class="music-mini-btn" aria-label="Next track">⏭</button>
+      <button type="button" id="musicMiniPrev" class="music-mini-btn" aria-label="Previous track" data-i18n-aria-label="previousTrack">⏮</button>
+      <button type="button" id="musicMiniPlayPause" class="music-mini-btn" aria-label="Play" data-i18n-aria-label="play">▶</button>
+      <button type="button" id="musicMiniNext" class="music-mini-btn" aria-label="Next track" data-i18n-aria-label="nextTrack">⏭</button>
       <span class="music-mini-vol-icon" aria-hidden="true">🔊</span>
-      <label class="sr-only" for="musicMiniVolume">Volume</label>
+      <label class="sr-only" for="musicMiniVolume" data-i18n="volume">Volume</label>
       <input type="range" id="musicMiniVolume" class="music-mini-volume" min="0" max="100" value="70" />
     </div>
   </div>
 </div>
 
 <div id="logPanel" class="log-panel collapsed">
-  <button id="logToggle" type="button" class="log-toggle"><span class="toggle-icon">📜</span><span class="toggle-label">Log</span></button>
+  <button id="logToggle" type="button" class="log-toggle"><span class="toggle-icon">📜</span><span class="toggle-label" data-i18n="log">Log</span></button>
   <div class="log-body">
     <div id="log" class="log"></div>
   </div>
@@ -500,14 +505,14 @@
 
 <div id="chatPanel" class="chat-panel collapsed">
   <button id="chatToggle" type="button" class="chat-toggle">
-    <span class="toggle-icon">💬</span><span class="toggle-label">Chat</span><span id="chatBadge" class="chat-badge hidden">0</span>
+    <span class="toggle-icon">💬</span><span class="toggle-label" data-i18n="chat">Chat</span><span id="chatBadge" class="chat-badge hidden">0</span>
   </button>
   <div class="chat-body">
     <div id="chatMessages" class="chat-messages"></div>
     <form id="chatForm" class="chat-form">
-      <label class="sr-only" for="chatInput">Chat message</label>
-      <input id="chatInput" maxlength="240" autocomplete="off" placeholder="Message your opponent..." />
-      <button type="submit" aria-label="Send message">Send</button>
+      <label class="sr-only" for="chatInput" data-i18n="chatMessageLabel">Chat message</label>
+      <input id="chatInput" maxlength="240" autocomplete="off" placeholder="Message your opponent..." data-i18n-placeholder="chatPlaceholder" />
+      <button type="submit" aria-label="Send message" data-i18n-aria-label="sendMessage" data-i18n="send">Send</button>
     </form>
   </div>
 </div>

@@ -1,3 +1,271 @@
+// ---------- i18n ----------
+// English is the authoritative source and fallback for any missing/future
+// key; Polish is the only other language for now. Card names, song titles,
+// and the game's own brand name ("Aether Realms: Clash of Armies") are
+// deliberately never in this dictionary — see the translation plan for why.
+// Battle-log lines built server-side from templated English sentences are
+// also out of scope here; only client-authored UI text is covered.
+const TRANSLATIONS = {
+  en: {
+    // Account panel
+    usernameLabel: 'Username', passwordLabel: 'Password', logIn: 'Log In', register: 'Register',
+    needAccountRegister: 'Need an account? Register', alreadyHaveAccountLogIn: 'Already have an account? Log In',
+    loggedInAsPrefix: 'Logged in as', adminBtn: 'Admin', logOut: 'Log Out',
+    enterUsernamePassword: 'Enter a username and password.', somethingWentWrong: 'Something went wrong.',
+    couldNotReachServer: 'Could not reach the server.',
+    // Faction picker
+    factionBeast: 'Mythic Beasts', factionClock: 'Steampunk Hold', factionDamned: 'Damned Covenant',
+    factionDwarf: 'Dwarven Clans', factionDynasty: 'Jade Dynasty', factionElf: 'Elven Court',
+    factionFallen: 'Star-Fallen', factionHuman: 'Human Realm', factionOrc: 'Orc Horde', factionUndead: 'Undead Dominion',
+    viewDeck: 'View Deck', compareDecks: 'Compare Decks',
+    compareDecksDesc: "See every faction's strengths, weaknesses, and difficulty side by side.",
+    customizeHud: 'Customize HUD Layout',
+    customizeHudDesc: 'Rearrange and resize every battle panel at your own pace — no match, no turn timer.',
+    // Mode tabs / AI match
+    modeRanked: 'Ranked', modeRankedDesc: 'Compete against real players. ⚠️ Affects your Ranked rating.',
+    modeAiMatch: 'AI Match', modeAiMatchDesc: 'Practice against the computer. ✓ Never affects your Ranked rating.',
+    aiMatchDesc: 'Pick a faction above, choose a difficulty, and play a full match against the computer. This never affects your Ranked rating or statistics.',
+    difficultyEasy: 'Easy', difficultyEasyDesc: 'Great for learning the game.',
+    difficultyNormal: 'Normal', difficultyNormalDesc: 'A balanced challenge.',
+    difficultyHard: 'Hard', difficultyHardDesc: 'For experienced players.',
+    playVsAi: 'Play vs AI',
+    // Create/Join
+    createMatchTitle: 'Create a Match', createMatchDesc: 'Pick a faction above, then create a room and share the code.',
+    createMatch: 'Create Match', copy: 'Copy', copied: 'Copied!',
+    joinMatchTitle: 'Join a Match', joinMatchDesc: "Pick a faction above, then enter your friend's room code.",
+    roomCodeLabel: 'Room code', roomCodePlaceholder: 'ROOM CODE', joinMatch: 'Join Match',
+    // Lobby status messages
+    pickFactionFirst: 'Pick a faction first.',
+    shareCodeWaiting: 'Share this code with your opponent. Waiting for them to join...',
+    enterRoomCode: 'Enter a room code.', startingAiMatch: 'Starting AI match...',
+    disconnectedFromServer: 'Disconnected from server.', connectionError: 'Connection error.',
+    waitingForOpponent: 'Waiting for opponent to join...',
+    // Rankings
+    tabPlayers: 'Players', tabDecks: 'Decks', colRank: '#', colPlayer: 'Player', colWins: 'Wins', colLosses: 'Losses',
+    colFaction: 'Faction', colWinRate: 'Win Rate', colGames: 'Games',
+    noRankedPlayers: 'No ranked players yet — log in and win a match!',
+    noDeckStats: 'No deck stats yet — play a ranked match to see win rates here.',
+    fewGames: '(few games)', loadingRankings: 'Loading rankings…',
+    couldntLoadRankings: "Couldn't load rankings. Refresh to try again.",
+    // Sidebar widgets
+    featuredMatchup: 'Featured Matchup', vsLabel: 'VS', topPlayers: 'Top Players',
+    loadingEllipsis: 'Loading…', noRankedPlayersShort: 'No ranked players yet.', couldntLoad: "Couldn't load.",
+    // Music player
+    nowPlaying: 'Now Playing', pickTrackBelow: 'Pick a track below', noTrack: 'No track',
+    previousTrack: 'Previous track', play: 'Play', pause: 'Pause', nextTrack: 'Next track', volume: 'Volume',
+    showMusicPlayer: 'Show music player', minimize: 'Minimize',
+    // Game top bar / controls
+    backToLobby: 'Back to Lobby', editHudLayout: 'Edit HUD Layout', doneEditingHud: 'Done Editing HUD',
+    resetLayout: 'Reset Layout', enemyHp: 'Enemy HP', yourHp: 'Your HP',
+    goToCombat: 'Go to Combat', attackAll: 'Attack All', endTurn: 'End Turn', surrender: 'Surrender',
+    gameOver: 'Game Over', turnIndicator: 'Turn {n} — {who} ({phase})',
+    aiThinkingTurn: 'Turn {n} — 🤖 AI is thinking… ({phase})', yourTurnWord: 'Your turn', opponentTurnWord: "Opponent's turn",
+    victory: 'Victory!', defeat: 'Defeat...',
+    aiMatchResultNote: '{opponent} — this result does not affect your Ranked rating or statistics.',
+    aiMatchFallbackName: 'AI Match',
+    youPlayed: 'You played', opponentPlayed: 'Opponent played',
+    surrenderConfirm: 'Surrender this match? This immediately ends the game as a loss.',
+    youGoFirst: 'You go first!', opponentGoesFirst: 'Opponent goes first!',
+    hudPreviewNote: 'This is a HUD layout preview — nothing here is a real match.',
+    opponentDisconnected: 'Opponent disconnected. They can rejoin with the same room code.',
+    opponentReconnected: 'Opponent reconnected.', errorPrefix: 'Error: ',
+    moreDamageToAssign: '{card}: {n} more damage left to assign — click another target.',
+    chooseMoreTargets: '{card}: choose {n} more different target(s).',
+    discoverTitle: 'Discover', discoverWaiting: 'Opponent is choosing a card...', coinFlipTitle: 'Coin Flip',
+    // HUD panel labels
+    panelEnemyInfo: 'Enemy Info', panelTurnTimer: 'Turn Timer', panelYourInfo: 'Your Info',
+    panelEnemyStats: 'Enemy Stats', panelBattlefield: 'Battlefield', panelYourStats: 'Your Stats',
+    panelControls: 'Controls', panelYourHand: 'Your Hand', panelBattleLog: 'Battle Log', panelChat: 'Chat',
+    // Log/Chat
+    log: 'Log', chat: 'Chat', chatMessageLabel: 'Chat message', chatPlaceholder: 'Message your opponent...',
+    send: 'Send', sendMessage: 'Send message',
+    // Deck preview modal
+    close: 'Close', gamePlan: 'Game Plan', playstyle: 'Playstyle', winCondition: 'Win Condition',
+    newToThisDeck: 'New to this deck?', keyMechanics: 'Key Mechanics', bestAt: 'Best At', weakAgainst: 'Weak Against',
+    pros: 'Pros', cons: 'Cons', howToPlay: 'How to Play', earlyLabel: 'Early:', midLabel: 'Mid:', lateLabel: 'Late:',
+    deckStats: 'Deck Stats', cardsInDeck: 'Cards in deck', uniqueCards: 'Unique cards', avgCost: 'Avg. cost',
+    units: 'Units', spells: 'Spells', searchCardsLabel: 'Search cards', searchCardsPlaceholder: 'Search cards...',
+    filterByType: 'Filter by card type', allTypes: 'All Types', filterByCost: 'Filter by card cost', anyCost: 'Any Cost',
+    filterBySort: 'Sort cards by', sortCost: 'Sort: Cost', sortName: 'Sort: Name', sortType: 'Sort: Type',
+    selectThisDeck: 'Select This Deck', noCardsMatch: 'No cards match those filters.',
+    deckCompareTitle: 'Compare Decks', colDeck: 'Deck', colArchetype: 'Archetype', colDifficulty: 'Difficulty',
+    // Admin panel
+    adminPanel: 'Admin Panel', siteLayout: 'Site Layout',
+    siteLayoutDesc: "Changes the main page's layout for every visitor.",
+    layoutClassic: 'Classic', layoutClassicDesc: "Today's single-column layout, top to bottom.",
+    layoutSidebar: 'Sidebar', layoutSidebarDesc: 'Two columns: play options on the left, rankings pinned on the right.',
+    layoutCompact: 'Compact', layoutCompactDesc: 'Play options right after login, faction picker below — fastest way into a match.',
+    layoutShowcase: 'Showcase', layoutShowcaseDesc: 'Faction picker front and center, ideal for new players browsing decks.',
+    layoutSidebarHud: 'Sidebar + HUD',
+    layoutSidebarHudDesc: 'Sidebar layout with a featured matchup preview and a leaderboard highlight above the rankings.',
+    adminRankings: 'Rankings', adminRankingsDesc: 'Resets are immediate and cannot be undone.',
+    resetPlayers: 'Reset Players', resetFactions: 'Reset Factions',
+    aiPracticeStats: 'AI Practice Stats', resetAiStats: 'Reset AI Stats', accounts: 'Accounts', delete: 'Delete',
+    loadingAccounts: 'Loading accounts…', noAccountsYet: 'No accounts yet.',
+    failedToLoadAccounts: 'Failed to load accounts.', deletedAccount: 'Deleted "{username}".',
+    deleteAccountConfirm: 'Permanently delete the account "{username}"? This cannot be undone.',
+    failedToDeleteAccount: 'Failed to delete account.', siteLayoutSetTo: 'Site layout set to "{layout}".',
+    failedToSetLayout: 'Failed to set layout.',
+    resetPlayersConfirm: "Reset the Players leaderboard (everyone's ranked wins/losses)? This cannot be undone.",
+    playersReset: 'Players leaderboard reset.', failedToResetPlayers: 'Failed to reset players.',
+    resetFactionsConfirm: 'Reset faction win-rate stats? This cannot be undone.',
+    factionsReset: 'Faction stats reset.', failedToResetFactions: 'Failed to reset factions.',
+    resetAiStatsConfirm: 'Reset AI practice stats for every account? This cannot be undone.',
+    aiStatsReset: 'AI practice stats reset.', failedToResetAiStats: 'Failed to reset AI stats.',
+    requestFailed: 'Request failed.',
+    // AI stats line
+    aiPracticeLine: 'AI Practice: {wins}W / {losses}L',
+    // Language picker
+    languagePickerLabel: 'Language',
+  },
+  pl: {
+    usernameLabel: 'Nazwa użytkownika', passwordLabel: 'Hasło', logIn: 'Zaloguj się', register: 'Zarejestruj się',
+    needAccountRegister: 'Nie masz konta? Zarejestruj się', alreadyHaveAccountLogIn: 'Masz już konto? Zaloguj się',
+    loggedInAsPrefix: 'Zalogowano jako', adminBtn: 'Admin', logOut: 'Wyloguj się',
+    enterUsernamePassword: 'Podaj nazwę użytkownika i hasło.', somethingWentWrong: 'Coś poszło nie tak.',
+    couldNotReachServer: 'Nie można połączyć się z serwerem.',
+    factionBeast: 'Mityczne Bestie', factionClock: 'Twierdza Pary', factionDamned: 'Przeklęty Zakon',
+    factionDwarf: 'Klany Krasnoludów', factionDynasty: 'Nefrytowa Dynastia', factionElf: 'Dwór Elfów',
+    factionFallen: 'Upadłe Gwiazdy', factionHuman: 'Królestwo Ludzi', factionOrc: 'Orda Orków', factionUndead: 'Dominium Nieumarłych',
+    viewDeck: 'Zobacz talię', compareDecks: 'Porównaj talie',
+    compareDecksDesc: 'Zobacz mocne i słabe strony oraz trudność każdej frakcji obok siebie.',
+    customizeHud: 'Dostosuj układ HUD',
+    customizeHudDesc: 'Przestaw i przeskaluj każdy panel bitwy we własnym tempie — bez meczu, bez licznika tury.',
+    modeRanked: 'Rankingowa', modeRankedDesc: 'Rywalizuj z prawdziwymi graczami. ⚠️ Wpływa na Twój ranking.',
+    modeAiMatch: 'Mecz z AI', modeAiMatchDesc: 'Trenuj z komputerem. ✓ Nigdy nie wpływa na Twój ranking.',
+    aiMatchDesc: 'Wybierz frakcję powyżej, poziom trudności, i rozegraj pełny mecz z komputerem. To nigdy nie wpływa na Twój ranking ani statystyki.',
+    difficultyEasy: 'Łatwy', difficultyEasyDesc: 'Świetny sposób na naukę gry.',
+    difficultyNormal: 'Normalny', difficultyNormalDesc: 'Zrównoważone wyzwanie.',
+    difficultyHard: 'Trudny', difficultyHardDesc: 'Dla doświadczonych graczy.',
+    playVsAi: 'Zagraj z AI',
+    createMatchTitle: 'Stwórz mecz', createMatchDesc: 'Wybierz frakcję powyżej, stwórz pokój i udostępnij kod.',
+    createMatch: 'Stwórz mecz', copy: 'Kopiuj', copied: 'Skopiowano!',
+    joinMatchTitle: 'Dołącz do meczu', joinMatchDesc: 'Wybierz frakcję powyżej, a następnie podaj kod pokoju znajomego.',
+    roomCodeLabel: 'Kod pokoju', roomCodePlaceholder: 'KOD POKOJU', joinMatch: 'Dołącz do meczu',
+    pickFactionFirst: 'Najpierw wybierz frakcję.',
+    shareCodeWaiting: 'Udostępnij ten kod przeciwnikowi. Oczekiwanie na dołączenie...',
+    enterRoomCode: 'Podaj kod pokoju.', startingAiMatch: 'Uruchamianie meczu z AI...',
+    disconnectedFromServer: 'Rozłączono z serwerem.', connectionError: 'Błąd połączenia.',
+    waitingForOpponent: 'Oczekiwanie na dołączenie przeciwnika...',
+    tabPlayers: 'Gracze', tabDecks: 'Talie', colRank: '#', colPlayer: 'Gracz', colWins: 'Wygrane', colLosses: 'Przegrane',
+    colFaction: 'Frakcja', colWinRate: 'Skuteczność', colGames: 'Mecze',
+    noRankedPlayers: 'Brak graczy w rankingu — zaloguj się i wygraj mecz!',
+    noDeckStats: 'Brak statystyk talii — zagraj mecz rankingowy, aby zobaczyć skuteczność.',
+    fewGames: '(mało meczów)', loadingRankings: 'Wczytywanie rankingu…',
+    couldntLoadRankings: 'Nie udało się wczytać rankingu. Odśwież, aby spróbować ponownie.',
+    featuredMatchup: 'Polecane starcie', vsLabel: 'VS', topPlayers: 'Najlepsi gracze',
+    loadingEllipsis: 'Wczytywanie…', noRankedPlayersShort: 'Brak graczy w rankingu.', couldntLoad: 'Nie udało się wczytać.',
+    nowPlaying: 'Teraz odtwarzane', pickTrackBelow: 'Wybierz utwór poniżej', noTrack: 'Brak utworu',
+    previousTrack: 'Poprzedni utwór', play: 'Odtwórz', pause: 'Wstrzymaj', nextTrack: 'Następny utwór', volume: 'Głośność',
+    showMusicPlayer: 'Pokaż odtwarzacz muzyki', minimize: 'Minimalizuj',
+    backToLobby: 'Powrót do lobby', editHudLayout: 'Edytuj układ HUD', doneEditingHud: 'Zakończ edycję HUD',
+    resetLayout: 'Przywróć domyślny układ', enemyHp: 'PŻ Przeciwnika', yourHp: 'Twoje PŻ',
+    goToCombat: 'Przejdź do walki', attackAll: 'Atakuj wszystkim', endTurn: 'Zakończ turę', surrender: 'Poddaj się',
+    gameOver: 'Koniec gry', turnIndicator: 'Tura {n} — {who} ({phase})',
+    aiThinkingTurn: 'Tura {n} — 🤖 AI się zastanawia… ({phase})', yourTurnWord: 'Twoja tura', opponentTurnWord: 'Tura przeciwnika',
+    victory: 'Zwycięstwo!', defeat: 'Porażka...',
+    aiMatchResultNote: '{opponent} — ten wynik nie wpływa na Twój ranking ani statystyki.',
+    aiMatchFallbackName: 'Mecz z AI',
+    youPlayed: 'Zagrałeś', opponentPlayed: 'Przeciwnik zagrał',
+    surrenderConfirm: 'Poddać ten mecz? To natychmiast kończy grę jako porażkę.',
+    youGoFirst: 'Zaczynasz pierwszy!', opponentGoesFirst: 'Przeciwnik zaczyna pierwszy!',
+    hudPreviewNote: 'To podgląd układu HUD — to nie jest prawdziwy mecz.',
+    opponentDisconnected: 'Przeciwnik się rozłączył. Może dołączyć ponownie tym samym kodem pokoju.',
+    opponentReconnected: 'Przeciwnik dołączył ponownie.', errorPrefix: 'Błąd: ',
+    moreDamageToAssign: '{card}: pozostało {n} obrażeń do przydzielenia — kliknij kolejny cel.',
+    chooseMoreTargets: '{card}: wybierz jeszcze {n} innych celów.',
+    discoverTitle: 'Odkrycie', discoverWaiting: 'Przeciwnik wybiera kartę...', coinFlipTitle: 'Rzut monetą',
+    panelEnemyInfo: 'Info o przeciwniku', panelTurnTimer: 'Licznik tury', panelYourInfo: 'Twoje info',
+    panelEnemyStats: 'Statystyki przeciwnika', panelBattlefield: 'Pole bitwy', panelYourStats: 'Twoje statystyki',
+    panelControls: 'Sterowanie', panelYourHand: 'Twoja ręka', panelBattleLog: 'Dziennik bitwy', panelChat: 'Czat',
+    log: 'Dziennik', chat: 'Czat', chatMessageLabel: 'Wiadomość na czacie', chatPlaceholder: 'Napisz do przeciwnika...',
+    send: 'Wyślij', sendMessage: 'Wyślij wiadomość',
+    close: 'Zamknij', gamePlan: 'Plan gry', playstyle: 'Styl gry', winCondition: 'Warunek zwycięstwa',
+    newToThisDeck: 'Nowy w tej talii?', keyMechanics: 'Kluczowe mechaniki', bestAt: 'Najlepsza przeciwko', weakAgainst: 'Słaba przeciwko',
+    pros: 'Zalety', cons: 'Wady', howToPlay: 'Jak grać', earlyLabel: 'Wczesna gra:', midLabel: 'Środkowa gra:', lateLabel: 'Późna gra:',
+    deckStats: 'Statystyki talii', cardsInDeck: 'Kart w talii', uniqueCards: 'Unikalnych kart', avgCost: 'Śr. koszt',
+    units: 'Jednostki', spells: 'Zaklęcia', searchCardsLabel: 'Szukaj kart', searchCardsPlaceholder: 'Szukaj kart...',
+    filterByType: 'Filtruj wg typu karty', allTypes: 'Wszystkie typy', filterByCost: 'Filtruj wg kosztu karty', anyCost: 'Dowolny koszt',
+    filterBySort: 'Sortuj karty wg', sortCost: 'Sortuj: Koszt', sortName: 'Sortuj: Nazwa', sortType: 'Sortuj: Typ',
+    selectThisDeck: 'Wybierz tę talię', noCardsMatch: 'Żadne karty nie pasują do tych filtrów.',
+    deckCompareTitle: 'Porównaj talie', colDeck: 'Talia', colArchetype: 'Archetyp', colDifficulty: 'Trudność',
+    adminPanel: 'Panel administratora', siteLayout: 'Układ strony',
+    siteLayoutDesc: 'Zmienia układ strony głównej dla każdego odwiedzającego.',
+    layoutClassic: 'Klasyczny', layoutClassicDesc: 'Dzisiejszy jednokolumnowy układ, od góry do dołu.',
+    layoutSidebar: 'Panel boczny', layoutSidebarDesc: 'Dwie kolumny: opcje gry po lewej, ranking przypięty po prawej.',
+    layoutCompact: 'Kompaktowy', layoutCompactDesc: 'Opcje gry zaraz po zalogowaniu, wybór frakcji niżej — najszybsza droga do meczu.',
+    layoutShowcase: 'Prezentacja', layoutShowcaseDesc: 'Wybór frakcji na pierwszym planie, idealny dla nowych graczy przeglądających talie.',
+    layoutSidebarHud: 'Panel boczny + HUD',
+    layoutSidebarHudDesc: 'Układ z panelem bocznym, podglądem polecanego starcia i wyróżnieniem najlepszych graczy nad rankingiem.',
+    adminRankings: 'Ranking', adminRankingsDesc: 'Resetowanie jest natychmiastowe i nieodwracalne.',
+    resetPlayers: 'Zresetuj graczy', resetFactions: 'Zresetuj frakcje',
+    aiPracticeStats: 'Statystyki treningu z AI', resetAiStats: 'Zresetuj statystyki AI', accounts: 'Konta', delete: 'Usuń',
+    loadingAccounts: 'Wczytywanie kont…', noAccountsYet: 'Brak kont.',
+    failedToLoadAccounts: 'Nie udało się wczytać kont.', deletedAccount: 'Usunięto „{username}”.',
+    deleteAccountConfirm: 'Trwale usunąć konto „{username}”? Tej operacji nie można cofnąć.',
+    failedToDeleteAccount: 'Nie udało się usunąć konta.', siteLayoutSetTo: 'Ustawiono układ strony na „{layout}”.',
+    failedToSetLayout: 'Nie udało się ustawić układu.',
+    resetPlayersConfirm: 'Zresetować ranking graczy (wygrane/przegrane wszystkich)? Tej operacji nie można cofnąć.',
+    playersReset: 'Zresetowano ranking graczy.', failedToResetPlayers: 'Nie udało się zresetować graczy.',
+    resetFactionsConfirm: 'Zresetować statystyki skuteczności frakcji? Tej operacji nie można cofnąć.',
+    factionsReset: 'Zresetowano statystyki frakcji.', failedToResetFactions: 'Nie udało się zresetować frakcji.',
+    resetAiStatsConfirm: 'Zresetować statystyki treningu z AI dla wszystkich kont? Tej operacji nie można cofnąć.',
+    aiStatsReset: 'Zresetowano statystyki treningu z AI.', failedToResetAiStats: 'Nie udało się zresetować statystyk AI.',
+    requestFailed: 'Żądanie nie powiodło się.',
+    aiPracticeLine: 'Trening z AI: {wins}W / {losses}P',
+    languagePickerLabel: 'Język',
+  },
+};
+
+let currentLanguage = 'en';
+function t(key, vars) {
+  const dict = TRANSLATIONS[currentLanguage] || TRANSLATIONS.en;
+  let str = dict[key] ?? TRANSLATIONS.en[key] ?? key;
+  if (vars) {
+    for (const k of Object.keys(vars)) str = str.split(`{${k}}`).join(vars[k]);
+  }
+  return str;
+}
+
+function applyTranslations() {
+  document.documentElement.lang = currentLanguage;
+  document.querySelectorAll('[data-i18n]').forEach((elm) => { elm.textContent = t(elm.dataset.i18n); });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach((elm) => { elm.placeholder = t(elm.dataset.i18nPlaceholder); });
+  document.querySelectorAll('[data-i18n-aria-label]').forEach((elm) => { elm.setAttribute('aria-label', t(elm.dataset.i18nAriaLabel)); });
+  // Dynamic UI surfaces that don't live behind static data-i18n attributes —
+  // re-render them too so a language switch takes effect everywhere at once
+  // without needing a reload.
+  updateMusicUI();
+  if (typeof loadRankings === 'function' && el('playersTableBody')) loadRankings();
+  if (typeof loadAiStats === 'function') loadAiStats();
+  if (currentLobbyLayout === 'sidebar-hud') refreshSidebarWidgets();
+  if (currentView) render();
+  for (const panel of HUD_PANELS) {
+    const handle = document.querySelector(`#hudOverlay_${panel.id} .hud-drag-handle`);
+    if (handle) handle.textContent = t(panel.labelKey);
+  }
+  if (deckPreviewFaction) renderDeckCardGrid(deckPreviewFaction);
+}
+
+function setLanguage(lang) {
+  if (lang !== 'en' && lang !== 'pl') lang = 'en';
+  currentLanguage = lang;
+  try { localStorage.setItem('ar_lang', lang); } catch { /* ignore */ }
+  document.querySelectorAll('.lang-btn').forEach((b) => b.classList.toggle('active', b.dataset.lang === lang));
+  applyTranslations();
+}
+
+function initLanguagePicker() {
+  let saved = 'en';
+  try { saved = localStorage.getItem('ar_lang') || 'en'; } catch { /* ignore */ }
+  currentLanguage = saved === 'pl' ? 'pl' : 'en';
+  document.querySelectorAll('.lang-btn').forEach((b) => {
+    b.classList.toggle('active', b.dataset.lang === currentLanguage);
+    b.addEventListener('click', () => setLanguage(b.dataset.lang));
+  });
+  applyTranslations();
+}
+
 const FACTION_KEYS = ['beast', 'clock', 'damned', 'dwarf', 'dynasty', 'elf', 'fallen', 'human', 'orc', 'undead'];
 const LOG_ICONS = { played: '🃏', hits: '⚔️', destroyed: '💀', started: '📜', draws: '🎴', mends: '💚', rage: '🔥', rebirth: '✨' };
 const factionData = {};
@@ -86,19 +354,19 @@ function initLobby() {
   initGameModeTabs();
 
   el('createBtn').addEventListener('click', async () => {
-    if (!selectedFaction) return setStatus('Pick a faction first.');
+    if (!selectedFaction) return setStatus(t('pickFactionFirst'));
     const res = await fetch('api/room', { method: 'POST' });
     const { code } = await res.json();
     el('createdCodeText').textContent = code;
     el('createdCode').classList.remove('hidden');
-    setStatus('Share this code with your opponent. Waiting for them to join...');
+    setStatus(t('shareCodeWaiting'));
     connect(code);
   });
 
   el('joinBtn').addEventListener('click', () => {
-    if (!selectedFaction) return setStatus('Pick a faction first.');
+    if (!selectedFaction) return setStatus(t('pickFactionFirst'));
     const code = el('joinCode').value.trim().toUpperCase();
-    if (!code) return setStatus('Enter a room code.');
+    if (!code) return setStatus(t('enterRoomCode'));
     connect(code);
   });
 
@@ -111,17 +379,17 @@ function initLobby() {
       return; // clipboard permission denied or unavailable — button just won't confirm
     }
     const btn = el('copyCodeBtn');
-    btn.textContent = 'Copied!';
+    btn.textContent = t('copied');
     btn.classList.add('copied');
     setTimeout(() => {
-      btn.textContent = 'Copy';
+      btn.textContent = t('copy');
       btn.classList.remove('copied');
     }, 1500);
   });
 
   el('playAiBtn').addEventListener('click', async () => {
-    if (!selectedFaction) return setStatus('Pick a faction first.');
-    setStatus('Starting AI match...');
+    if (!selectedFaction) return setStatus(t('pickFactionFirst'));
+    setStatus(t('startingAiMatch'));
     const res = await fetch('api/room', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
@@ -184,13 +452,13 @@ function connect(code) {
   ws = socket;
   socket.addEventListener('message', (ev) => handleMessage(JSON.parse(ev.data)));
   socket.addEventListener('close', () => {
-    setStatus('Disconnected from server.');
+    setStatus(t('disconnectedFromServer'));
     // Only re-enable if this is still the live connection attempt — an
     // abandoned socket we just superseded above closing later must not
     // re-enable the button on behalf of the newer connection in flight.
     if (ws === socket && !currentView) el('customizeHudBtn').disabled = false;
   });
-  socket.addEventListener('error', () => setStatus('Connection error.'));
+  socket.addEventListener('error', () => setStatus(t('connectionError')));
 }
 
 function handleMessage(msg) {
@@ -199,7 +467,7 @@ function handleMessage(msg) {
       ws.send(JSON.stringify({ type: 'join', faction: selectedFaction, token: getStoredAccount().token }));
       break;
     case 'waiting_for_opponent':
-      setStatus('Waiting for opponent to join...');
+      setStatus(t('waitingForOpponent'));
       break;
     case 'state':
       // A real match's first state can arrive while the player is still in
@@ -232,13 +500,13 @@ function handleMessage(msg) {
       combatResolvers.splice(0).forEach((r) => r('state'));
       break;
     case 'opponent_disconnected':
-      logLine('Opponent disconnected. They can rejoin with the same room code.');
+      logLine(t('opponentDisconnected'));
       break;
     case 'opponent_reconnected':
-      logLine('Opponent reconnected.');
+      logLine(t('opponentReconnected'));
       break;
     case 'error':
-      logLine('Error: ' + msg.message);
+      logLine(t('errorPrefix') + msg.message);
       combatResolvers.splice(0).forEach((r) => r('error'));
       break;
     case 'chat':
@@ -326,7 +594,7 @@ function buildDemoView() {
     phase: 'deployment',
     turnNumber: 3,
     winner: null,
-    log: ['This is a HUD layout preview — nothing here is a real match.'],
+    log: [t('hudPreviewNote')],
     you_key: 'A',
     lastPlayedCard: null,
     turnDeadlineAt: null,
@@ -366,7 +634,7 @@ function exitHudPreview() {
 function renderCoinFlip(view) {
   el('coinFlipOverlay').classList.remove('hidden');
   const iAmFirst = view.turn === view.you_key;
-  el('coinFlipResult').textContent = iAmFirst ? 'You go first!' : 'Opponent goes first!';
+  el('coinFlipResult').textContent = iAmFirst ? t('youGoFirst') : t('opponentGoesFirst');
   if (!coinFlipAckSent) {
     coinFlipAckSent = true;
     setTimeout(() => send({ type: 'coinflip_ack' }), 1600);
@@ -767,7 +1035,7 @@ function renderDeckCardGrid(factionKey) {
   if (cards.length === 0) {
     const empty = document.createElement('p');
     empty.className = 'deck-card-grid-empty';
-    empty.textContent = 'No cards match those filters.';
+    empty.textContent = t('noCardsMatch');
     grid.appendChild(empty);
     return;
   }
@@ -992,7 +1260,7 @@ function spawnEffect(fx) {
     // art+name+rules text only, no stat badges (the reveal was never meant
     // to show full stats; the board/hand already do).
     renderCardFace(el('cardRevealImg'), fx.card);
-    el('cardRevealLabel').textContent = isYou ? 'You played' : 'Opponent played';
+    el('cardRevealLabel').textContent = isYou ? t('youPlayed') : t('opponentPlayed');
     overlay.classList.toggle('reveal-you', isYou);
     overlay.classList.toggle('reveal-opponent', !isYou);
     pulseClass(overlay, 'reveal-active');
@@ -1077,22 +1345,22 @@ function render() {
   else stopTurnFlash();
 
   el('youInfo').querySelector('.name').textContent = displayName(you, you_key);
-  el('youInfo').querySelector('.faction-tag').textContent = capitalize(you.faction);
+  el('youInfo').querySelector('.faction-tag').textContent = factionDisplayName(you.faction);
   renderCastle('youPanel', you.hp, you.maxHp, you.faction);
   el('youInfo').querySelector('.mana').textContent = `${you.mana}/${you.maxMana}`;
   renderManaCrystals(el('youInfo').querySelector('.mana-crystals'), you.mana, you.maxMana);
 
   el('oppInfo').querySelector('.name').textContent = displayName(opponent, oppKey);
-  el('oppInfo').querySelector('.faction-tag').textContent = capitalize(opponent.faction);
+  el('oppInfo').querySelector('.faction-tag').textContent = factionDisplayName(opponent.faction);
   renderCastle('oppPanel', opponent.hp, opponent.maxHp, opponent.faction);
   el('oppInfo').querySelector('.mana').textContent = `${opponent.mana}/${opponent.maxMana}`;
   renderManaCrystals(el('oppInfo').querySelector('.mana-crystals'), opponent.mana, opponent.maxMana);
 
   el('turnIndicatorText').textContent = winner
-    ? 'Game Over'
+    ? t('gameOver')
     : mode === 'ai' && !myTurn
-    ? `Turn ${turnNumber} — 🤖 AI is thinking… (${phase})`
-    : `Turn ${turnNumber} — ${myTurn ? 'Your' : "Opponent's"} turn (${phase})`;
+    ? t('aiThinkingTurn', { n: turnNumber, phase })
+    : t('turnIndicator', { n: turnNumber, who: myTurn ? t('yourTurnWord') : t('opponentTurnWord'), phase });
   el('youInfo').classList.toggle('active-turn', !winner && myTurn);
   el('oppInfo').classList.toggle('active-turn', !winner && !myTurn);
 
@@ -1127,12 +1395,12 @@ function render() {
 
   if (winner) {
     el('gameOverOverlay').classList.remove('hidden');
-    el('gameOverText').textContent = winner === you_key ? 'Victory!' : 'Defeat...';
+    el('gameOverText').textContent = winner === you_key ? t('victory') : t('defeat');
     const aiNote = el('gameOverAiNote');
     if (aiNote) {
       aiNote.classList.toggle('hidden', mode !== 'ai');
       if (mode === 'ai') {
-        aiNote.textContent = `${opponent.username || 'AI Match'} — this result does not affect your Ranked rating or statistics.`;
+        aiNote.textContent = t('aiMatchResultNote', { opponent: opponent.username || t('aiMatchFallbackName') });
       }
     }
   }
@@ -1292,7 +1560,7 @@ function handleSpellTargetClick(side, lane, slotIndex) {
     if (pendingSpell.hits.length >= eff.total) {
       sendSpellTarget({ hits: pendingSpell.hits });
     } else {
-      logLine(`${card.name}: ${eff.total - pendingSpell.hits.length} more damage left to assign — click another target.`);
+      logLine(t('moreDamageToAssign', { card: card.name, n: eff.total - pendingSpell.hits.length }));
       render();
     }
     return true;
@@ -1305,7 +1573,7 @@ function handleSpellTargetClick(side, lane, slotIndex) {
     if (pendingSpell.hits.length >= eff.count) {
       sendSpellTarget({ hits: pendingSpell.hits });
     } else {
-      logLine(`${card.name}: choose ${eff.count - pendingSpell.hits.length} more different target(s).`);
+      logLine(t('chooseMoreTargets', { card: card.name, n: eff.count - pendingSpell.hits.length }));
       render();
     }
     return true;
@@ -1729,7 +1997,7 @@ el('endTurnBtn')?.addEventListener('click', () => {
   send({ type: 'end_turn' });
 });
 el('surrenderBtn')?.addEventListener('click', () => {
-  if (!confirm('Surrender this match? This immediately ends the game as a loss.')) return;
+  if (!confirm(t('surrenderConfirm'))) return;
   send({ type: 'surrender' });
 });
 
@@ -1765,6 +2033,10 @@ function capitalize(s) {
   return s ? s[0].toUpperCase() + s.slice(1) : s;
 }
 
+function factionDisplayName(key) {
+  return key ? t(`faction${capitalize(key)}`) : key;
+}
+
 // Guests never set a username at login, so every place a player's name is
 // shown falls back to their seat key rather than a generic "You"/"Opponent".
 function displayName(player, key) {
@@ -1794,16 +2066,16 @@ const HUD_LAYOUT_STORAGE_KEY = 'aetherrealms_hud_layout';
 const HUD_LAYOUT_VERSION = 2;
 
 const HUD_PANELS = [
-  { id: 'oppInfo', label: 'Enemy Info', minW: 150, minH: 50 },
-  { id: 'turnIndicator', label: 'Turn Timer', minW: 120, minH: 40 },
-  { id: 'youInfo', label: 'Your Info', minW: 150, minH: 50 },
-  { id: 'oppPanel', label: 'Enemy Stats', minW: 70, minH: 140 },
-  { id: 'boardArea', label: 'Battlefield', minW: 320, minH: 220 },
-  { id: 'youPanel', label: 'Your Stats', minW: 70, minH: 140 },
-  { id: 'controls', label: 'Controls', minW: 280, minH: 50 },
-  { id: 'hand', label: 'Your Hand', minW: 160, minH: 120 },
-  { id: 'logPanel', label: 'Battle Log', minW: 220, minH: 40, noHeight: true },
-  { id: 'chatPanel', label: 'Chat', minW: 220, minH: 40, noHeight: true },
+  { id: 'oppInfo', labelKey: 'panelEnemyInfo', minW: 150, minH: 50 },
+  { id: 'turnIndicator', labelKey: 'panelTurnTimer', minW: 120, minH: 40 },
+  { id: 'youInfo', labelKey: 'panelYourInfo', minW: 150, minH: 50 },
+  { id: 'oppPanel', labelKey: 'panelEnemyStats', minW: 70, minH: 140 },
+  { id: 'boardArea', labelKey: 'panelBattlefield', minW: 320, minH: 220 },
+  { id: 'youPanel', labelKey: 'panelYourStats', minW: 70, minH: 140 },
+  { id: 'controls', labelKey: 'panelControls', minW: 280, minH: 50 },
+  { id: 'hand', labelKey: 'panelYourHand', minW: 160, minH: 120 },
+  { id: 'logPanel', labelKey: 'panelBattleLog', minW: 220, minH: 40, noHeight: true },
+  { id: 'chatPanel', labelKey: 'panelChat', minW: 220, minH: 40, noHeight: true },
 ];
 
 let hudEditing = false;
@@ -1963,7 +2235,7 @@ function injectHudHandles(panel) {
   const overlay = document.createElement('div');
   overlay.className = 'hud-panel-overlay';
   overlay.id = `hudOverlay_${panel.id}`;
-  overlay.innerHTML = `<div class="hud-drag-handle">${panel.label}</div><div class="hud-resize-grip"></div>`;
+  overlay.innerHTML = `<div class="hud-drag-handle">${t(panel.labelKey)}</div><div class="hud-resize-grip"></div>`;
   layer.appendChild(overlay);
   overlay.querySelector('.hud-drag-handle').addEventListener('mousedown', (e) => startHudDrag(e, panel.id));
   overlay.querySelector('.hud-resize-grip').addEventListener('mousedown', (e) => startHudResize(e, panel.id));
@@ -2342,7 +2614,7 @@ async function loadAiStats() {
       body: JSON.stringify({ token: stored.token }),
     });
     const data = await res.json();
-    line.textContent = `AI Practice: ${data.wins || 0}W / ${data.losses || 0}L`;
+    line.textContent = t('aiPracticeLine', { wins: data.wins || 0, losses: data.losses || 0 });
   } catch {
     /* best-effort, non-critical UI */
   }
@@ -2386,18 +2658,18 @@ async function adminPost(path, extra) {
     body: JSON.stringify({ token: stored.token, ...extra }),
   });
   const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(data.error || 'Request failed.');
+  if (!res.ok) throw new Error(data.error || t('requestFailed'));
   return data;
 }
 
 async function loadAdminAccounts() {
   const list = el('adminAccountList');
-  list.innerHTML = '<p class="admin-loading">Loading accounts…</p>';
+  list.innerHTML = `<p class="admin-loading">${t('loadingAccounts')}</p>`;
   try {
     const data = await adminPost('api/admin/accounts');
     list.innerHTML = '';
     if (!data.accounts.length) {
-      list.innerHTML = '<p class="admin-loading">No accounts yet.</p>';
+      list.innerHTML = `<p class="admin-loading">${t('noAccountsYet')}</p>`;
       return;
     }
     for (const username of data.accounts) {
@@ -2408,7 +2680,7 @@ async function loadAdminAccounts() {
       const delBtn = document.createElement('button');
       delBtn.type = 'button';
       delBtn.className = 'admin-delete-btn';
-      delBtn.textContent = 'Delete';
+      delBtn.textContent = t('delete');
       delBtn.addEventListener('click', () => deleteAdminAccount(username));
       row.appendChild(nameSpan);
       row.appendChild(delBtn);
@@ -2416,19 +2688,19 @@ async function loadAdminAccounts() {
     }
   } catch (err) {
     list.innerHTML = '';
-    setAdminStatus(err.message || 'Failed to load accounts.');
+    setAdminStatus(err.message || t('failedToLoadAccounts'));
   }
 }
 
 async function deleteAdminAccount(username) {
-  if (!confirm(`Permanently delete the account "${username}"? This cannot be undone.`)) return;
+  if (!confirm(t('deleteAccountConfirm', { username }))) return;
   try {
     await adminPost('api/admin/delete-account', { targetUsername: username });
-    setAdminStatus(`Deleted "${username}".`);
+    setAdminStatus(t('deletedAccount', { username }));
     loadAdminAccounts();
     loadRankings();
   } catch (err) {
-    setAdminStatus(err.message || 'Failed to delete account.');
+    setAdminStatus(err.message || t('failedToDeleteAccount'));
   }
 }
 
@@ -2467,42 +2739,42 @@ function initAdminPanel() {
       el('lobby').dataset.layout = layout;
       highlightCurrentLayout();
       refreshSidebarWidgets();
-      setAdminStatus(`Site layout set to "${btn.querySelector('.layout-name').textContent}".`);
+      setAdminStatus(t('siteLayoutSetTo', { layout: btn.querySelector('.layout-name').textContent }));
     } catch (err) {
-      setAdminStatus(err.message || 'Failed to set layout.');
+      setAdminStatus(err.message || t('failedToSetLayout'));
     }
   });
 
   el('adminResetPlayersBtn').addEventListener('click', async () => {
-    if (!confirm('Reset the Players leaderboard (everyone\'s ranked wins/losses)? This cannot be undone.')) return;
+    if (!confirm(t('resetPlayersConfirm'))) return;
     try {
       await adminPost('api/admin/reset-players');
-      setAdminStatus('Players leaderboard reset.');
+      setAdminStatus(t('playersReset'));
       loadRankings();
     } catch (err) {
-      setAdminStatus(err.message || 'Failed to reset players.');
+      setAdminStatus(err.message || t('failedToResetPlayers'));
     }
   });
 
   el('adminResetFactionsBtn').addEventListener('click', async () => {
-    if (!confirm('Reset faction win-rate stats? This cannot be undone.')) return;
+    if (!confirm(t('resetFactionsConfirm'))) return;
     try {
       await adminPost('api/admin/reset-factions');
-      setAdminStatus('Faction stats reset.');
+      setAdminStatus(t('factionsReset'));
       loadRankings();
     } catch (err) {
-      setAdminStatus(err.message || 'Failed to reset factions.');
+      setAdminStatus(err.message || t('failedToResetFactions'));
     }
   });
 
   el('adminResetAiStatsBtn').addEventListener('click', async () => {
-    if (!confirm('Reset AI practice stats for every account? This cannot be undone.')) return;
+    if (!confirm(t('resetAiStatsConfirm'))) return;
     try {
       await adminPost('api/admin/reset-ai-stats');
-      setAdminStatus('AI practice stats reset.');
+      setAdminStatus(t('aiStatsReset'));
       loadAiStats();
     } catch (err) {
-      setAdminStatus(err.message || 'Failed to reset AI stats.');
+      setAdminStatus(err.message || t('failedToResetAiStats'));
     }
   });
 }
@@ -2521,9 +2793,9 @@ function initAccount() {
 
   el('accountToggleModeBtn').addEventListener('click', () => {
     accountMode = accountMode === 'login' ? 'register' : 'login';
-    el('accountSubmitBtn').textContent = accountMode === 'login' ? 'Log In' : 'Register';
+    el('accountSubmitBtn').textContent = accountMode === 'login' ? t('logIn') : t('register');
     el('accountToggleModeBtn').textContent =
-      accountMode === 'login' ? 'Need an account? Register' : 'Already have an account? Log In';
+      accountMode === 'login' ? t('needAccountRegister') : t('alreadyHaveAccountLogIn');
     setAccountStatus('');
   });
 
@@ -2531,7 +2803,7 @@ function initAccount() {
     e.preventDefault();
     const username = el('accountUsername').value.trim();
     const password = el('accountPassword').value;
-    if (!username || !password) return setAccountStatus('Enter a username and password.');
+    if (!username || !password) return setAccountStatus(t('enterUsernamePassword'));
     setAccountStatus('');
     try {
       const res = await fetch(`api/${accountMode === 'login' ? 'login' : 'register'}`, {
@@ -2540,12 +2812,12 @@ function initAccount() {
         body: JSON.stringify({ username, password }),
       });
       const data = await res.json();
-      if (!res.ok) return setAccountStatus(data.error || 'Something went wrong.');
+      if (!res.ok) return setAccountStatus(data.error || t('somethingWentWrong'));
       setStoredAccount(data.token, data.username);
       showLoggedIn(data.username);
       el('accountPassword').value = '';
     } catch {
-      setAccountStatus('Could not reach the server.');
+      setAccountStatus(t('couldNotReachServer'));
     }
   });
 
@@ -2569,7 +2841,7 @@ function renderPlayerRankings(players) {
   const body = el('playersTableBody');
   body.innerHTML = '';
   if (players.length === 0) {
-    body.innerHTML = '<tr class="empty-row"><td colspan="4">No ranked players yet — log in and win a match!</td></tr>';
+    body.innerHTML = `<tr class="empty-row"><td colspan="4">${t('noRankedPlayers')}</td></tr>`;
     return;
   }
   players.forEach((p, i) => {
@@ -2583,14 +2855,14 @@ function renderFactionRankings(factions, minFactionGames) {
   const body = el('decksTableBody');
   body.innerHTML = '';
   if (factions.length === 0) {
-    body.innerHTML = '<tr class="empty-row"><td colspan="4">No deck stats yet — play a ranked match to see win rates here.</td></tr>';
+    body.innerHTML = `<tr class="empty-row"><td colspan="4">${t('noDeckStats')}</td></tr>`;
     return;
   }
   factions.forEach((f, i) => {
     const tr = document.createElement('tr');
     const pct = Math.round(f.winRate * 100);
-    const fewGames = f.games < minFactionGames ? ' <span class="few-games">(few games)</span>' : '';
-    tr.innerHTML = `<td>${i + 1}</td><td>${capitalize(f.faction)}${fewGames}</td><td>${pct}%</td><td>${f.games}</td>`;
+    const fewGames = f.games < minFactionGames ? ` <span class="few-games">${t('fewGames')}</span>` : '';
+    tr.innerHTML = `<td>${i + 1}</td><td>${factionDisplayName(f.faction)}${fewGames}</td><td>${pct}%</td><td>${f.games}</td>`;
     body.appendChild(tr);
   });
 }
@@ -2614,7 +2886,7 @@ async function loadRankings() {
   // A slow connection previously left both tables bare (just headers, no
   // rows) with nothing to tell the player it was still loading — looked
   // indistinguishable from broken.
-  const loadingRow = '<tr class="loading-row"><td colspan="4">Loading rankings…</td></tr>';
+  const loadingRow = `<tr class="loading-row"><td colspan="4">${t('loadingRankings')}</td></tr>`;
   el('playersTableBody').innerHTML = loadingRow;
   el('decksTableBody').innerHTML = loadingRow;
   try {
@@ -2625,7 +2897,7 @@ async function loadRankings() {
   } catch {
     // Rankings are a nice-to-have on the lobby screen — a failed fetch
     // shouldn't block anything else, but it shouldn't look broken either.
-    const errorRow = '<tr class="empty-row"><td colspan="4">Couldn\'t load rankings. Refresh to try again.</td></tr>';
+    const errorRow = `<tr class="empty-row"><td colspan="4">${t('couldntLoadRankings')}</td></tr>`;
     el('playersTableBody').innerHTML = errorRow;
     el('decksTableBody').innerHTML = errorRow;
   }
@@ -2675,7 +2947,7 @@ function renderSidebarPreview() {
 
   container.innerHTML = '';
   const heading = document.createElement('h4');
-  heading.textContent = 'Featured Matchup';
+  heading.textContent = t('featuredMatchup');
   container.appendChild(heading);
 
   const matchup = document.createElement('div');
@@ -2685,7 +2957,7 @@ function renderSidebarPreview() {
   badgeA.textContent = labelFor(keys[0]);
   const vs = document.createElement('span');
   vs.className = 'sidebar-matchup-vs';
-  vs.textContent = 'VS';
+  vs.textContent = t('vsLabel');
   const badgeB = document.createElement('span');
   badgeB.className = 'sidebar-faction-badge';
   badgeB.textContent = labelFor(keys[1]);
@@ -2707,19 +2979,19 @@ function renderSidebarPreview() {
 async function renderSidebarHighlights() {
   const container = el('lobbySidebarHighlights');
   if (!container) return;
-  container.innerHTML = '<h4>Top Players</h4><p class="admin-loading">Loading…</p>';
+  container.innerHTML = `<h4>${t('topPlayers')}</h4><p class="admin-loading">${t('loadingEllipsis')}</p>`;
   try {
     const res = await fetch('api/rankings');
     const data = await res.json();
     const top = (data.players || []).slice(0, 3);
     container.innerHTML = '';
     const heading = document.createElement('h4');
-    heading.textContent = 'Top Players';
+    heading.textContent = t('topPlayers');
     container.appendChild(heading);
     if (top.length === 0) {
       const empty = document.createElement('p');
       empty.className = 'admin-loading';
-      empty.textContent = 'No ranked players yet.';
+      empty.textContent = t('noRankedPlayersShort');
       container.appendChild(empty);
       return;
     }
@@ -2730,7 +3002,7 @@ async function renderSidebarHighlights() {
       container.appendChild(row);
     });
   } catch {
-    container.innerHTML = '<h4>Top Players</h4><p class="admin-loading">Couldn\'t load.</p>';
+    container.innerHTML = `<h4>${t('topPlayers')}</h4><p class="admin-loading">${t('couldntLoad')}</p>`;
   }
 }
 
@@ -2824,21 +3096,22 @@ function setMusicVolume(v) {
 
 function updateMusicUI() {
   const hasTrack = musicTrackIndex !== -1;
-  const title = hasTrack ? SONGS[musicTrackIndex].title : 'Pick a track below';
+  const title = hasTrack ? SONGS[musicTrackIndex].title : t('pickTrackBelow');
   const playPauseIcon = musicIsPlaying ? '⏸' : '▶';
+  const playPauseLabel = musicIsPlaying ? t('pause') : t('play');
 
   const lobbyTitle = el('musicNowPlayingTitle');
   if (lobbyTitle) lobbyTitle.textContent = title;
   const lobbyBtn = el('musicPlayPauseBtn');
-  if (lobbyBtn) { lobbyBtn.textContent = playPauseIcon; lobbyBtn.setAttribute('aria-label', musicIsPlaying ? 'Pause' : 'Play'); }
+  if (lobbyBtn) { lobbyBtn.textContent = playPauseIcon; lobbyBtn.setAttribute('aria-label', playPauseLabel); }
   document.querySelectorAll('.music-track-row').forEach((row) => {
     row.classList.toggle('active', hasTrack && Number(row.dataset.index) === musicTrackIndex);
   });
 
   const miniTitle = el('musicMiniTitle');
-  if (miniTitle) miniTitle.textContent = hasTrack ? SONGS[musicTrackIndex].title : 'No track';
+  if (miniTitle) miniTitle.textContent = hasTrack ? SONGS[musicTrackIndex].title : t('noTrack');
   const miniBtn = el('musicMiniPlayPause');
-  if (miniBtn) { miniBtn.textContent = playPauseIcon; miniBtn.setAttribute('aria-label', musicIsPlaying ? 'Pause' : 'Play'); }
+  if (miniBtn) { miniBtn.textContent = playPauseIcon; miniBtn.setAttribute('aria-label', playPauseLabel); }
 }
 
 function renderMusicTrackList() {
@@ -2953,4 +3226,5 @@ function renderFactionThumbnails() {
   renderFactionThumbnails();
   FACTION_KEYS.forEach(renderDeckBadgeRow);
   loadRankings();
+  initLanguagePicker();
 })();
