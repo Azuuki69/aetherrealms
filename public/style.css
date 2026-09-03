@@ -282,54 +282,53 @@ h1 span {
 #lobby[data-layout="compact"] > .lobby-status,
 #lobby[data-layout="showcase"] > .lobby-status,
 #lobby[data-layout="sidebar-hud"] > .lobby-status { grid-area: status; }
-#lobby[data-layout="sidebar"] > .rankings-panel,
-#lobby[data-layout="showcase"] > .rankings-panel,
-#lobby[data-layout="sidebar-hud"] > .rankings-panel { grid-area: rank; }
+#lobby[data-layout="showcase"] > .rankings-panel { grid-area: rank; }
 
-/* Sidebar: two columns — play options on the left, rankings pinned on the
-   right. Widened from the 900px default since a two-column layout needs
-   more room to breathe. */
+/* Sidebar: same width/centering as Classic at every screen size (see the
+   note on Compact below — splitting #lobby into real grid columns is what
+   previously shoved and shrank the main content instead of leaving it
+   alone). Rankings has no grid-area here, so it just auto-places at the end
+   of the single column exactly like Classic, and only pops out to a fixed
+   dock on the right edge once the viewport is comfortably wide enough. */
 #lobby[data-layout="sidebar"] {
-  max-width: 1100px;
-  grid-template-columns: 1fr 340px;
-  column-gap: 2rem;
-  align-items: start;
-  grid-template-areas:
-    "logo   logo"
-    "fact   fact"
-    "acct   rank"
-    "dcmp   rank"
-    "hud    rank"
-    "modes  rank"
-    "play   rank"
-    "status rank";
+  grid-template-areas: "logo" "acct" "fact" "dcmp" "hud" "modes" "play" "status";
 }
-#lobby[data-layout="sidebar"] > .rankings-panel { position: sticky; top: 1rem; }
+@media (min-width: 1600px) {
+  #lobby[data-layout="sidebar"] > .rankings-panel {
+    position: fixed;
+    top: 6rem;
+    right: 1.5rem;
+    width: 300px;
+    max-height: calc(100vh - 8rem);
+    overflow-y: auto;
+  }
+}
 
-/* Sidebar + HUD: identical to Sidebar, but the right column also carries two
-   decorative compartments above the rankings panel — see
-   renderSidebarPreview()/renderSidebarHighlights() in client.js, which
-   populate #lobbySidebarPreview/#lobbySidebarHighlights only when this
-   layout is active. */
+/* Sidebar + HUD: same single-column, unshifted width as every other layout.
+   Play options move up ahead of the faction picker (same reasoning as
+   Compact), and the two decorative compartments (see
+   renderSidebarPreview()/renderSidebarHighlights() in client.js) sit inline
+   near the end, right before the full rankings panel — always part of the
+   normal reading column, never docked, so there's no fragile stacking of
+   multiple fixed-position panels to get right. Rankings alone still gets the
+   same wide-screen fixed dock as Sidebar/Compact. */
 #lobby[data-layout="sidebar-hud"] {
-  max-width: 1100px;
-  grid-template-columns: 1fr 340px;
-  column-gap: 2rem;
-  align-items: start;
-  grid-template-areas:
-    "logo   logo"
-    "acct   preview"
-    "modes  preview"
-    "play   highlights"
-    "fact   highlights"
-    "dcmp   rank"
-    "hud    rank"
-    "status rank";
+  grid-template-areas: "logo" "acct" "modes" "play" "fact" "dcmp" "hud" "status" "preview" "highlights" "rank";
 }
-#lobby[data-layout="sidebar-hud"] > .rankings-panel { position: sticky; top: 1rem; }
 #lobby[data-layout="sidebar-hud"] > #lobbySidebarPreview { grid-area: preview; }
 #lobby[data-layout="sidebar-hud"] > #lobbySidebarHighlights { grid-area: highlights; }
+#lobby[data-layout="sidebar-hud"] > .rankings-panel { grid-area: rank; }
 #lobby[data-layout="sidebar-hud"] .sidebar-widget { display: block; }
+@media (min-width: 1600px) {
+  #lobby[data-layout="sidebar-hud"] > .rankings-panel {
+    position: fixed;
+    top: 6rem;
+    right: 1.5rem;
+    width: 300px;
+    max-height: calc(100vh - 8rem);
+    overflow-y: auto;
+  }
+}
 
 .sidebar-widget {
   display: none; /* only ever shown by the sidebar-hud rule above */
@@ -435,10 +434,7 @@ h1 span {
   #lobby[data-layout="showcase"],
   #lobby[data-layout="sidebar-hud"] {
     display: block;
-    max-width: none;
   }
-  #lobby[data-layout="sidebar"] > .rankings-panel,
-  #lobby[data-layout="sidebar-hud"] > .rankings-panel { position: static; }
   #lobby[data-layout="showcase"] > .account-panel { max-width: 420px; padding: 0.9rem 1.1rem; }
   /* The two decorative compartments are a desktop affordance, same as every
      other layout choice — hidden below the breakpoint rather than adding a
