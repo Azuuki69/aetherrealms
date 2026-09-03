@@ -11,7 +11,7 @@
 // the only ones viewFor() redacts for a real client, and the bot is held to
 // the same rule. Every helper below takes only the bot's own hand and public
 // board state as input.
-import { opponentOf, getLegalAttackTargets } from './rules.js';
+import { opponentOf, getLegalAttackTargets, effectivePower } from './rules.js';
 
 const RANGED_KEYWORDS = ['volley', 'siege'];
 
@@ -73,9 +73,14 @@ function chooseSpellTarget(game, owner, card) {
   if (kind === 'none') return { target: undefined, ok: true };
 
   if (kind === 'enemy_unit') {
+    // The legality filter matches the server's own check exactly (rules.js's
+    // validateSpellTarget compares against raw `.power`, not the live
+    // effective value) — only the ranking below uses effectivePower, to
+    // correctly prioritize removing a buffed-up threat over a bigger-looking
+    // but unbuffed body.
     const pool = allUnitsWithLoc(opp).filter((e) => withinLimit(e.unit));
     if (!pool.length) return { ok: false };
-    pool.sort((a, b) => b.unit.power - a.unit.power); // remove the biggest threat
+    pool.sort((a, b) => effectivePower(game, opponentOf(owner), b.lane, b.slot) - effectivePower(game, opponentOf(owner), a.lane, a.slot));
     return { target: { lane: pool[0].lane, slot: pool[0].slot }, ok: true };
   }
   if (kind === 'ally_unit') {
@@ -149,20 +154,28 @@ function decideDeploymentAction(game, owner, preset) {
   return pickWeighted(candidates, preset.randomness);
 }
 
-function estimatePower(unit) {
-  return (unit.power || 0) + (unit.tempPowerBonus || 0);
-}
-
 function scoreAttack(game, owner, attacker, loc, target, preset) {
   const opp = game.players[opponentOf(owner)];
-  const atkPower = estimatePower(attacker);
+  const oppKey = opponentOf(owner);
+  // effectivePower(), not the unit's bare `.power` — Formation/Rally/Pack
+  // Hunt/Desperate/Hoarder bonuses are computed live from board state (never
+  // stored on the unit itself), so approximating with raw power alone badly
+  // underrates exactly the synergy-heavy factions (Beast's whole identity is
+  // Pack Hunt) and caused real under-aggression in testing.
+  const atkPower = effectivePower(game, owner, loc.lane, loc.slot);
   if (target.type === 'castle') {
     return { action: { type: 'attack', attackerLane: loc.lane, attackerSlot: loc.slot, targetLane: 'commander' }, score: 3 };
   }
   const targetUnit = opp.board[target.lane][target.slot];
-  const defPower = isRanged(targetUnit) && target.lane !== loc.lane ? 0 : estimatePower(targetUnit);
+  // Retaliation risk depends only on whether the ATTACKER is ranged (a
+  // ranged attacker takes no counter-hit at all, full stop) — the target's
+  // own ranged status/lane is irrelevant to this. An earlier version of this
+  // check keyed off the target's keywords instead and could zero out real
+  // retaliation risk, making some attacks look safer than they actually are.
+  const attackerIsRanged = isRanged(attacker);
+  const defPower = attackerIsRanged ? 0 : effectivePower(game, oppKey, target.lane, target.slot);
   const kills = atkPower >= targetUnit.defense;
-  const dies = !isRanged(attacker) && defPower >= attacker.defense;
+  const dies = !attackerIsRanged && defPower >= attacker.defense;
   let score = 5;
   if (kills) score += 6;
   if (dies && !kills) score -= 8; // trading down for nothing
@@ -191,12 +204,14 @@ function decideCombatAction(game, owner, preset) {
     for (const a of attackers) {
       const legal = getLegalAttackTargets(game, owner, a.lane, a.slot);
       if (legal.some((t) => t.type === 'castle')) {
-        castleTotal += estimatePower(a.unit);
+        castleTotal += effectivePower(game, owner, a.lane, a.slot);
         castleAttackers.push(a);
       }
     }
     if (castleTotal >= opp.hp && castleAttackers.length > 0) {
-      const best = castleAttackers.sort((a, b) => estimatePower(b.unit) - estimatePower(a.unit))[0];
+      const best = castleAttackers.sort(
+        (a, b) => effectivePower(game, owner, b.lane, b.slot) - effectivePower(game, owner, a.lane, a.slot)
+      )[0];
       return { type: 'attack', attackerLane: best.lane, attackerSlot: best.slot, targetLane: 'commander' };
     }
   }

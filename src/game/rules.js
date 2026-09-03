@@ -245,7 +245,7 @@ function hasRallyBonus(game, owner, lane, slotIndex) {
   return [left, right].some((n) => n && n.faction === unit.faction && n.keywords.includes('rally'));
 }
 
-function effectivePower(game, owner, lane, slotIndex) {
+export function effectivePower(game, owner, lane, slotIndex) {
   const unit = game.players[owner].board[lane][slotIndex];
   if (!unit) return 0;
   const player = game.players[owner];
