@@ -673,20 +673,29 @@ function getFilteredSortedCards(factionKey) {
 
 function buildDeckPreviewCardEl(card) {
   const instance = demoCardInstance(card);
-  const wrap = buildCardEl(instance, { context: 'board' });
-  wrap.classList.add('deck-preview-card');
+  const cardEl = buildCardEl(instance, { context: 'board' });
+  // .card's own aspect-ratio + container-type:size sizing (needed for its
+  // cqw/cqh text) turned out unreliable as a direct CSS Grid item in at
+  // least one real browser — collapsed to a thin sliver instead of a 2:3
+  // box. A .deck-card-tile wrapper using the old padding-top intrinsic-ratio
+  // technique sidesteps that ambiguity entirely: the tile's height comes
+  // from padding (pure width-derived math, no aspect-ratio/Grid interplay),
+  // and .card fills it via inset:0.
+  const tile = document.createElement('div');
+  tile.className = 'deck-card-tile';
+  tile.appendChild(cardEl);
   const copies = getDeckCopies(card);
   const qty = document.createElement('span');
   qty.className = 'deck-card-qty';
   qty.textContent = `×${copies}`;
-  wrap.appendChild(qty);
+  tile.appendChild(qty);
   // buildCardEl already wires hover-to-preview; this adds tap-to-preview for
   // touch devices, which never fire mouseenter.
-  wrap.addEventListener('click', (e) => {
+  tile.addEventListener('click', (e) => {
     e.stopPropagation();
-    showPreview(instance, wrap);
+    showPreview(instance, tile);
   });
-  return wrap;
+  return tile;
 }
 
 function renderDeckCardGrid(factionKey) {
@@ -809,10 +818,9 @@ function initDeckPreview() {
   el('deckCompareCloseBtn').addEventListener('click', () => el('deckCompareOverlay').classList.add('hidden'));
 }
 
-function renderCastle(headerPanelId, sidePanelId, hp, maxHp, faction) {
-  const headerPanel = el(headerPanelId);
+function renderCastle(sidePanelId, hp, maxHp, faction) {
   const sidePanel = el(sidePanelId);
-  const img = headerPanel.querySelector('.castle-img');
+  const img = sidePanel.querySelector('.castle-img');
   img.src = `assets/cards/${faction}castle.png`;
   img.alt = `${faction} castle`;
   const clampedHp = Math.max(0, hp);
@@ -822,11 +830,9 @@ function renderCastle(headerPanelId, sidePanelId, hp, maxHp, faction) {
   const damaged = hp > 0 && ratio < 0.66;
   const critical = hp > 0 && ratio < 0.33;
   const destroyed = hp <= 0;
-  for (const panel of [headerPanel, sidePanel]) {
-    panel.classList.toggle('castle-damaged', damaged);
-    panel.classList.toggle('castle-critical', critical);
-    panel.classList.toggle('castle-destroyed', destroyed);
-  }
+  sidePanel.classList.toggle('castle-damaged', damaged);
+  sidePanel.classList.toggle('castle-critical', critical);
+  sidePanel.classList.toggle('castle-destroyed', destroyed);
 }
 
 // ---------- Combat feedback effects ----------
@@ -974,13 +980,15 @@ function render() {
   const myTurn = turn === you_key;
   const oppKey = you_key === 'A' ? 'B' : 'A';
 
-  el('youInfo').querySelector('.name').textContent = `${displayName(you, you_key)} (${capitalize(you.faction)})`;
-  renderCastle('youInfo', 'youPanel', you.hp, you.maxHp, you.faction);
+  el('youInfo').querySelector('.name').textContent = displayName(you, you_key);
+  el('youInfo').querySelector('.faction-tag').textContent = capitalize(you.faction);
+  renderCastle('youPanel', you.hp, you.maxHp, you.faction);
   el('youInfo').querySelector('.mana').textContent = `${you.mana}/${you.maxMana}`;
   renderManaCrystals(el('youInfo').querySelector('.mana-crystals'), you.mana, you.maxMana);
 
-  el('oppInfo').querySelector('.name').textContent = `${displayName(opponent, oppKey)} (${capitalize(opponent.faction)})`;
-  renderCastle('oppInfo', 'oppPanel', opponent.hp, opponent.maxHp, opponent.faction);
+  el('oppInfo').querySelector('.name').textContent = displayName(opponent, oppKey);
+  el('oppInfo').querySelector('.faction-tag').textContent = capitalize(opponent.faction);
+  renderCastle('oppPanel', opponent.hp, opponent.maxHp, opponent.faction);
   el('oppInfo').querySelector('.mana').textContent = `${opponent.mana}/${opponent.maxMana}`;
   renderManaCrystals(el('oppInfo').querySelector('.mana-crystals'), opponent.mana, opponent.maxMana);
 
@@ -1669,7 +1677,12 @@ function initLog() {
 // Layout" mode is on, persisted per-browser. Supersedes the old single-axis
 // hand-column resize (#hand is now just one of these 11 panels).
 const HUD_LAYOUT_STORAGE_KEY = 'aetherrealms_hud_layout';
-const HUD_LAYOUT_VERSION = 1;
+// Bumped: oppInfo/youInfo's default position moved (board corners, then
+// back to flanking the turn indicator) — old saved coordinates for those
+// two would otherwise render in a spot that no longer matches either
+// layout's intent. Discarding all saved layouts on a bump is deliberate;
+// affected players just see the new default and can re-customize.
+const HUD_LAYOUT_VERSION = 2;
 
 const HUD_PANELS = [
   { id: 'oppInfo', label: 'Enemy Info', minW: 150, minH: 50 },
@@ -1990,10 +2003,73 @@ function initHudLayout() {
   // customizing one panel never perturbs another panel's captured default.
   const gameRect = game.getBoundingClientRect();
   const defaults = {};
+  // oppInfo/turnIndicator/youInfo are laid out as one centered cluster in
+  // the middle of #topBar, not oppInfo/youInfo pinned to its outer edges
+  // with turnIndicator stretched to fill whatever's left — that spread them
+  // to the far screen corners, away from the turn text they're meant to
+  // flank. #topBar spans the whole grid row regardless of its children
+  // (reliable even before layout settles), but the children's own natural
+  // flex position was NOT reliable to capture here: the moment they're
+  // converted to position:absolute a few lines down, they stop contributing
+  // to #topBar's flex height, so #topBar (and thus a self-measured panel's
+  // captured position) visibly collapses back down around whichever child
+  // remains — a minor rounding difference when these panels were small, but
+  // real overlap once they got bigger and don't shrink to fit anymore.
+  const topBarRect = el('topBar')?.getBoundingClientRect();
+  // Capped as a fraction of the actual game width, not a flat 220px — two
+  // fixed-width panels plus the turn indicator between them can otherwise
+  // add up to more than a narrow window actually has. Floored at .hp-panel's
+  // own CSS min-width (150px, matching HUD_PANELS' minW below) so this
+  // never computes a narrower width than the browser will actually render —
+  // that mismatch is what left turnIndicator's position overlapping oppInfo
+  // on a narrow window (oppInfo renders at its CSS floor while turnIndicator
+  // gets positioned as though oppInfo were narrower than that).
+  const infoPanelWidth = topBarRect ? Math.max(150, Math.min(220, gameRect.width * 0.22)) : 220;
+  const gap = 16;
+  const turnIndicatorEl = el('turnIndicator');
+  // Still measured from its own natural (pre-detach) width — only its
+  // CENTERING within the cluster is now explicit, not "whatever's left."
+  const turnIndicatorWidth = topBarRect && turnIndicatorEl
+    ? Math.min(420, Math.max(120, turnIndicatorEl.getBoundingClientRect().width))
+    : 0;
+  const clusterWidth = infoPanelWidth * 2 + gap * 2 + turnIndicatorWidth;
+  // Clamped so an extremely narrow window (the cluster's own floors adding
+  // up to more width than #topBar actually has) anchors to one edge instead
+  // of centering symmetrically off-screen on both sides at once.
+  const clusterLeft = topBarRect
+    ? Math.max(gameRect.left, Math.min(topBarRect.left + (topBarRect.width - clusterWidth) / 2, gameRect.right - clusterWidth))
+    : 0;
   for (const panel of HUD_PANELS) {
     const elm = el(panel.id);
     if (!elm) continue;
-    const geom = measurePanelPct(elm, gameRect, panel);
+    let geom;
+    if (topBarRect && (panel.id === 'oppInfo' || panel.id === 'youInfo')) {
+      // Deliberately NOT tied to topBarRect.height (unlike turnIndicator
+      // below) — the player wants these thinner than the turn indicator,
+      // not matched to it.
+      const height = 58;
+      const left = panel.id === 'oppInfo' ? clusterLeft : clusterLeft + infoPanelWidth + gap + turnIndicatorWidth + gap;
+      // Centered within #topBar's own (taller) height rather than
+      // top-aligned, since it's now deliberately shorter than the row.
+      const top = topBarRect.top + (topBarRect.height - height) / 2;
+      geom = {
+        leftPct: ((left - gameRect.left) / gameRect.width) * 100,
+        topPct: ((top - gameRect.top) / gameRect.height) * 100,
+        widthPct: (infoPanelWidth / gameRect.width) * 100,
+        heightPct: (height / gameRect.height) * 100,
+      };
+    } else if (topBarRect && panel.id === 'turnIndicator') {
+      const left = clusterLeft + infoPanelWidth + gap;
+      const height = Math.max(topBarRect.height, 80);
+      geom = {
+        leftPct: ((left - gameRect.left) / gameRect.width) * 100,
+        topPct: ((topBarRect.top - gameRect.top) / gameRect.height) * 100,
+        widthPct: (turnIndicatorWidth / gameRect.width) * 100,
+        heightPct: (height / gameRect.height) * 100,
+      };
+    } else {
+      geom = measurePanelPct(elm, gameRect, panel);
+    }
     if (panel.noHeight) delete geom.heightPct;
     defaults[panel.id] = geom;
     // Captured here specifically because log/chat are still governed by
