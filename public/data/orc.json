@@ -1,6 +1,20 @@
 ﻿{
     "faction":  "orc",
     "displayName":  "Orc",
+    "archetype":  "Pure Aggro",
+    "difficulty":  "Beginner",
+    "tagline":  "Hit first, hit harder, hit again.",
+    "description":  "Orc fields the single highest power stats in the game — Fire Giant's 11 power at cost 10 tops every other faction — and snowballs from there: Rage permanently grows on taking damage and surviving, Slayer permanently grows on landing a kill, and Orc alone fields Windfury, letting a unit attack twice in the same turn.",
+    "gamePlan":  "Deploy the biggest, hardest-hitting units you can every turn and attack relentlessly — Orc doesn't want to think too hard, it wants to swing.",
+    "playstyle":  "Attack whenever you can; Rage and Slayer both reward staying in combat rather than holding back, and Windfury units should almost always use both of their attacks.",
+    "winCondition":  "Race the opponent's castle down before they can stabilize, snowballing damage output the longer combat continues.",
+    "strengths":  ["Highest raw power output of any faction", "Rage and Slayer snowball out of control if left unanswered", "Windfury doubles a single unit's damage output for free"],
+    "weaknesses":  ["Low toughness across the board means Orc trades poorly if forced onto defense", "Falls off hard if the early aggression gets stopped", "Has few tools to come back from behind"],
+    "pros":  ["Simple, direct game plan — one of the easiest decks to pick up", "Extremely high damage ceiling", "Punishes any opponent who stumbles early"],
+    "cons":  ["Very weak once behind on board or life", "Vulnerable to decks with strong early blockers", "Little to fall back on if the aggression stalls"],
+    "keyMechanics":  ["RAGE", "SLAYER", "TRAMPLE", "WINDFURY"],
+    "beginnerExplainer":  "Windfury units can attack twice in the same turn instead of once — always use both attacks if there's a legal target.",
+    "howToPlay":  {"early": "Play your biggest available threat every turn and start attacking immediately — Orc rarely wants to hold back.", "mid": "Keep attacking to trigger Rage and Slayer growth, and prioritize getting both hits in with Windfury units.", "late": "Finish the race with a snowballed Rage/Slayer threat or a raw stat finisher like Fire Giant."},
     "cards":  [
                   {
                       "id":  "orc_01",

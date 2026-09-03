@@ -1,6 +1,20 @@
 ﻿{
     "faction":  "dynasty",
     "displayName":  "Dynasty",
+    "archetype":  "Midrange / Tempo",
+    "difficulty":  "Intermediate",
+    "tagline":  "Disciplined formations that punish every trade, on offense or defense.",
+    "description":  "Dynasty plays a tight, positional game: Formation units like Samurai gain both damage and toughness while stationed beside another Dynasty unit, Volley threats snipe from range without retaliation, and Parting Gift makes every unit that dies deal one last hit on the way out. Dynasty is also the only faction to field a true First Strike card.",
+    "gamePlan":  "Use ranged and Formation-buffed units to win combat math on your terms, and let Parting Gift punish the opponent for trading with you at all.",
+    "playstyle":  "Think about board position, not just stats — keep Formation units adjacent to each other, and use Volley to pick off targets you couldn't otherwise attack safely.",
+    "winCondition":  "Win the tempo war through efficient, low-risk trades and ranged damage until the opponent's board simply falls behind.",
+    "strengths":  ["Formation rewards careful positioning with real stat gains", "Volley and First Strike win combat exchanges other decks can't", "Parting Gift punishes opponents for trading into you"],
+    "weaknesses":  ["Formation's bonus disappears if the adjacent ally dies first", "Requires more careful board management than most decks", "Less explosive than dedicated aggro if tempo slips away"],
+    "pros":  ["Strong, consistent tempo game plan", "First Strike and Volley provide favorable combat math", "Punishes careless attacks via Parting Gift"],
+    "cons":  ["Positioning mistakes cost real value, unlike simpler decks", "Vulnerable to effects that pick off the Formation partner first", "Needs some practice to sequence plays optimally"],
+    "keyMechanics":  ["FORMATION", "VOLLEY", "PARTING GIFT", "FIRST STRIKE"],
+    "beginnerExplainer":  "Formation units only get their bonus while standing next to another Dynasty unit — losing that neighbor loses the buff, so protect the pair, not just the individual card.",
+    "howToPlay":  {"early": "Establish a Formation pair as soon as you can, and use Volley units to start picking off early threats safely.", "mid": "Keep your Formation units adjacent while trading efficiently; let First Strike cards win fights they'd otherwise lose.", "late": "Lean on Parting Gift trades to punish the opponent's blocks, and close with your buffed Formation core."},
     "cards":  [
                   {
                       "id":  "dynasty_01",

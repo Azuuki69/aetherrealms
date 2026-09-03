@@ -1,6 +1,20 @@
 ﻿{
     "faction":  "dwarf",
     "displayName":  "Dwarf",
+    "archetype":  "Control / Wall",
+    "difficulty":  "Beginner",
+    "tagline":  "Outlast anything — nothing in the game hits harder than a Dwarf blocks.",
+    "description":  "Dwarf fields the toughest bodies in Aether Realms. Vigil units heal themselves back up every turn, Fortify creatures gain HP every time they block, and Phalanx (printed as Stalwart) reduces incoming damage outright — capped off by Frost Giant, the single highest-defense card in the game.",
+    "gamePlan":  "Stall behind a wall of nearly unkillable blockers until the opponent runs out of ways through, then win on sheer attrition.",
+    "playstyle":  "Play your defenders and let the opponent come to you — there's rarely a reason to attack recklessly when your board only gets tougher the longer combat goes on.",
+    "winCondition":  "Grind the opponent's board down against blockers they can't profitably attack into, then finish once they're out of resources.",
+    "strengths":  ["Hardest board in the game to attack into profitably", "Vigil and Fortify provide sustain with no extra card investment", "Runic Ward and similar spells protect the castle directly"],
+    "weaknesses":  ["Low raw power means a slow clock — games can run long", "Struggles to punish an opponent who also refuses to attack", "Few ways to close a game quickly once ahead"],
+    "pros":  ["Extremely forgiving of small misplays thanks to high toughness", "Simple, low-risk plan: play tough guys, wait", "Strong against decks that rely on combat damage"],
+    "cons":  ["Can lose to decks built around direct damage to the castle instead of combat", "Long games favor whichever opponent has more late-game answers", "Low damage output if the wall doesn't ever attack"],
+    "keyMechanics":  ["VIGIL", "FORTIFY", "PHALANX"],
+    "beginnerExplainer":  "Fortify units get tougher every time they successfully block an attack, so trading them into a big attacker one turn makes them even better blockers the next.",
+    "howToPlay":  {"early": "Deploy your toughest cheap blockers and don't be afraid to just sit still — Dwarf loses very little by passing up an early attack.", "mid": "Let Vigil and Fortify units accumulate HP through repeated blocks; use Runic Ward to blank a burst of incoming castle damage.", "late": "Once the opponent has run out of profitable attacks, start swinging back with your now-massive wall to close the game."},
     "cards":  [
                   {
                       "id":  "dwarf_01",

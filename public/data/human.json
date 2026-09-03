@@ -1,6 +1,20 @@
 ﻿{
     "faction":  "human",
     "displayName":  "Human",
+    "archetype":  "Balanced Midrange",
+    "difficulty":  "Beginner",
+    "tagline":  "A little bit of everything, and an answer for almost anything.",
+    "description":  "Human is the game's generalist toolbox: War Cry buffs your whole board, Formation rewards grouping units, Fortify (printed as Resolve) provides sustain, and Arcane Discovery is the only spell in the game that lets you pick a card straight from your own faction's full pool.",
+    "gamePlan":  "Adapt turn to turn rather than committing to one single line — Human has a tool for almost every situation, including aggression, defense, and card selection.",
+    "playstyle":  "Play reactively to what the opponent is doing; Human rarely has a single 'best' line, so read the board and pick the right tool for the moment.",
+    "winCondition":  "Out-value and out-adapt the opponent with a wide mechanical toolkit until a War Cry-buffed board or a late threat like Titan closes it out.",
+    "strengths":  ["No glaring weakness — has tools for aggro, defense, and value", "Arcane Discovery smooths out bad draws", "Paladin's Taunt-plus-Charge is a flexible, hard-to-answer threat"],
+    "weaknesses":  ["Lacks a single overpowering game plan compared to more specialized decks", "Jack-of-all-trades identity means no standout strength either", "Can be out-specialized by a deck built to counter one specific angle"],
+    "pros":  ["The most forgiving, straightforward deck to learn the whole game on", "Flexible enough to adapt to almost any matchup", "Arcane Discovery reduces variance from bad hands"],
+    "cons":  ["Doesn't overpower dedicated aggro or dedicated control decks in their own lane", "Less explosive than Beast or Orc, less grindy than Fallen or Undead", "Requires reading the matchup rather than following one fixed plan"],
+    "keyMechanics":  ["WAR CRY", "FORMATION", "FORTIFY", "DISCOVER"],
+    "beginnerExplainer":  "Discover shows you three cards from your own faction's card pool and lets you keep one — it's a way to fill a gap in your hand with exactly what you need.",
+    "howToPlay":  {"early": "Play efficient units on curve and use Arcane Discovery if your hand is missing a piece you need.", "mid": "Lean into whichever tool the matchup calls for — War Cry to push damage, Formation and Fortify to hold the board.", "late": "Close with a big War Cry swing or a finisher like Titan once you've read out the game."},
     "cards":  [
                   {
                       "id":  "human_01",

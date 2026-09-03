@@ -40,17 +40,18 @@
   </div>
 
   <div class="faction-picker" id="factionPicker">
-    <button class="faction-card" data-faction="beast"><span class="thumb"></span><span class="label">Mythic Beasts</span></button>
-    <button class="faction-card" data-faction="clock"><span class="thumb"></span><span class="label">Steampunk Hold</span></button>
-    <button class="faction-card" data-faction="damned"><span class="thumb"></span><span class="label">Damned Covenant</span></button>
-    <button class="faction-card" data-faction="dwarf"><span class="thumb"></span><span class="label">Dwarven Clans</span></button>
-    <button class="faction-card" data-faction="dynasty"><span class="thumb"></span><span class="label">Jade Dynasty</span></button>
-    <button class="faction-card" data-faction="elf"><span class="thumb"></span><span class="label">Elven Court</span></button>
-    <button class="faction-card" data-faction="fallen"><span class="thumb"></span><span class="label">Star-Fallen</span></button>
-    <button class="faction-card" data-faction="human"><span class="thumb"></span><span class="label">Human Realm</span></button>
-    <button class="faction-card" data-faction="orc"><span class="thumb"></span><span class="label">Orc Horde</span></button>
-    <button class="faction-card" data-faction="undead"><span class="thumb"></span><span class="label">Undead Dominion</span></button>
+    <div class="faction-card" data-faction="beast" role="button" tabindex="0"><span class="thumb"></span><span class="label">Mythic Beasts</span><span class="deck-badge-row"></span><span class="deck-tagline"></span><button type="button" class="view-deck-btn">View Deck</button></div>
+    <div class="faction-card" data-faction="clock" role="button" tabindex="0"><span class="thumb"></span><span class="label">Steampunk Hold</span><span class="deck-badge-row"></span><span class="deck-tagline"></span><button type="button" class="view-deck-btn">View Deck</button></div>
+    <div class="faction-card" data-faction="damned" role="button" tabindex="0"><span class="thumb"></span><span class="label">Damned Covenant</span><span class="deck-badge-row"></span><span class="deck-tagline"></span><button type="button" class="view-deck-btn">View Deck</button></div>
+    <div class="faction-card" data-faction="dwarf" role="button" tabindex="0"><span class="thumb"></span><span class="label">Dwarven Clans</span><span class="deck-badge-row"></span><span class="deck-tagline"></span><button type="button" class="view-deck-btn">View Deck</button></div>
+    <div class="faction-card" data-faction="dynasty" role="button" tabindex="0"><span class="thumb"></span><span class="label">Jade Dynasty</span><span class="deck-badge-row"></span><span class="deck-tagline"></span><button type="button" class="view-deck-btn">View Deck</button></div>
+    <div class="faction-card" data-faction="elf" role="button" tabindex="0"><span class="thumb"></span><span class="label">Elven Court</span><span class="deck-badge-row"></span><span class="deck-tagline"></span><button type="button" class="view-deck-btn">View Deck</button></div>
+    <div class="faction-card" data-faction="fallen" role="button" tabindex="0"><span class="thumb"></span><span class="label">Star-Fallen</span><span class="deck-badge-row"></span><span class="deck-tagline"></span><button type="button" class="view-deck-btn">View Deck</button></div>
+    <div class="faction-card" data-faction="human" role="button" tabindex="0"><span class="thumb"></span><span class="label">Human Realm</span><span class="deck-badge-row"></span><span class="deck-tagline"></span><button type="button" class="view-deck-btn">View Deck</button></div>
+    <div class="faction-card" data-faction="orc" role="button" tabindex="0"><span class="thumb"></span><span class="label">Orc Horde</span><span class="deck-badge-row"></span><span class="deck-tagline"></span><button type="button" class="view-deck-btn">View Deck</button></div>
+    <div class="faction-card" data-faction="undead" role="button" tabindex="0"><span class="thumb"></span><span class="label">Undead Dominion</span><span class="deck-badge-row"></span><span class="deck-tagline"></span><button type="button" class="view-deck-btn">View Deck</button></div>
   </div>
+  <div class="deck-compare-trigger"><button type="button" id="compareDecksBtn" class="link-btn">Compare Decks</button></div>
 
   <div class="lobby-hud-preview">
     <button id="customizeHudBtn" type="button" class="btn-secondary">🎛 Customize HUD Layout</button>
@@ -193,6 +194,131 @@
     <h2>Discover</h2>
     <p id="discoverWaiting" class="discover-waiting hidden">Opponent is choosing a card...</p>
     <div id="discoverOptions" class="discover-options"></div>
+  </div>
+</div>
+
+<div id="deckPreviewOverlay" class="overlay hidden">
+  <div class="overlay-box deck-preview-modal">
+    <div class="deck-preview-header">
+      <div class="deck-preview-heading">
+        <h2 id="deckPreviewName"></h2>
+        <span id="deckPreviewArchetype" class="deck-badge"></span>
+        <span id="deckPreviewDifficulty" class="deck-badge deck-badge-difficulty"></span>
+      </div>
+      <button type="button" id="deckPreviewCloseBtn" class="deck-preview-close" aria-label="Close">✕</button>
+    </div>
+    <div class="deck-preview-body" id="deckPreviewBody">
+      <div class="deck-preview-info">
+        <p id="deckPreviewDescription" class="deck-preview-description"></p>
+
+        <div class="deck-preview-block">
+          <h3>Game Plan</h3>
+          <p id="deckPreviewGamePlan"></p>
+        </div>
+        <div class="deck-preview-block">
+          <h3>Playstyle</h3>
+          <p id="deckPreviewPlaystyle"></p>
+        </div>
+        <div class="deck-preview-block">
+          <h3>Win Condition</h3>
+          <p id="deckPreviewWinCondition"></p>
+        </div>
+        <div class="deck-preview-block" id="deckPreviewBeginnerBlock">
+          <h3>New to this deck?</h3>
+          <p id="deckPreviewBeginner"></p>
+        </div>
+
+        <div class="deck-preview-block">
+          <h3>Key Mechanics</h3>
+          <div id="deckPreviewMechanics" class="deck-mechanic-chips"></div>
+        </div>
+
+        <div class="deck-preview-columns">
+          <div class="deck-preview-block">
+            <h3>Best At</h3>
+            <ul id="deckPreviewStrengths" class="deck-preview-list"></ul>
+          </div>
+          <div class="deck-preview-block">
+            <h3>Weak Against</h3>
+            <ul id="deckPreviewWeaknesses" class="deck-preview-list"></ul>
+          </div>
+        </div>
+        <div class="deck-preview-columns">
+          <div class="deck-preview-block">
+            <h3>Pros</h3>
+            <ul id="deckPreviewPros" class="deck-preview-list deck-preview-list-pro"></ul>
+          </div>
+          <div class="deck-preview-block">
+            <h3>Cons</h3>
+            <ul id="deckPreviewCons" class="deck-preview-list deck-preview-list-con"></ul>
+          </div>
+        </div>
+
+        <div class="deck-preview-block">
+          <h3>How to Play</h3>
+          <p><strong>Early:</strong> <span id="deckPreviewEarly"></span></p>
+          <p><strong>Mid:</strong> <span id="deckPreviewMid"></span></p>
+          <p><strong>Late:</strong> <span id="deckPreviewLate"></span></p>
+        </div>
+
+        <div class="deck-preview-block">
+          <h3>Deck Stats</h3>
+          <div class="deck-stats-grid">
+            <div><span id="deckStatTotal"></span><label>Cards in deck</label></div>
+            <div><span id="deckStatUnique"></span><label>Unique cards</label></div>
+            <div><span id="deckStatAvgCost"></span><label>Avg. cost</label></div>
+            <div><span id="deckStatUnits"></span><label>Units</label></div>
+            <div><span id="deckStatSpells"></span><label>Spells</label></div>
+          </div>
+          <div id="deckPreviewCurve" class="mana-curve-chart"></div>
+        </div>
+      </div>
+
+      <div class="deck-preview-cardlist">
+        <div class="deck-filter-bar">
+          <input type="text" id="deckSearchInput" placeholder="Search cards..." autocomplete="off" />
+          <select id="deckTypeFilter">
+            <option value="all">All Types</option>
+            <option value="unit">Units</option>
+            <option value="spell">Spells</option>
+          </select>
+          <select id="deckCostFilter">
+            <option value="all">Any Cost</option>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8+">8+</option>
+          </select>
+          <select id="deckSortSelect">
+            <option value="cost">Sort: Cost</option>
+            <option value="name">Sort: Name</option>
+            <option value="type">Sort: Type</option>
+          </select>
+        </div>
+        <div id="deckCardGrid" class="deck-card-grid"></div>
+      </div>
+    </div>
+    <div class="deck-preview-footer">
+      <button type="button" id="deckPreviewSelectBtn" class="btn">Select This Deck</button>
+    </div>
+  </div>
+</div>
+
+<div id="deckCompareOverlay" class="overlay hidden">
+  <div class="overlay-box deck-compare-modal">
+    <h2>Compare Decks</h2>
+    <div class="deck-compare-table-wrap">
+      <table class="ranking-table deck-compare-table">
+        <thead><tr><th>Deck</th><th>Archetype</th><th>Difficulty</th><th>Best At</th><th>Weak Against</th></tr></thead>
+        <tbody id="deckCompareTableBody"></tbody>
+      </table>
+    </div>
+    <button type="button" id="deckCompareCloseBtn" class="btn">Close</button>
   </div>
 </div>
 

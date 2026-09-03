@@ -1,6 +1,20 @@
 ﻿{
     "faction":  "elf",
     "displayName":  "Elf",
+    "archetype":  "Aggro / Glass Cannon",
+    "difficulty":  "Advanced",
+    "tagline":  "The hardest-hitting stat lines in the game — if you can survive long enough to swing.",
+    "description":  "Elf runs the highest power-to-defense ratios of any faction, epitomized by the 9-power, 5-defense Archmage. Desperate units get even more dangerous once your own castle drops below half HP, and Lifesteal helps offset the risk of racing on such a fragile board.",
+    "gamePlan":  "Apply relentless pressure with efficient, high-power threats, and let Desperate turn your own low life total into a damage bonus instead of a liability.",
+    "playstyle":  "Play aggressively and don't be afraid to take damage — Elf's Desperate cards want you below half HP, so a cautious, defensive mindset actively works against this deck.",
+    "winCondition":  "Race the opponent down before your fragile defense lets them race back.",
+    "strengths":  ["Highest raw power stats in the game for the cost", "Desperate turns being behind on life into a damage bonus", "Lifesteal offsets some of the risk of racing"],
+    "weaknesses":  ["Low defense stats mean trades often go badly", "A dedicated removal or control deck can pick this board apart", "Punishing to misplay — there's little cushion for error"],
+    "pros":  ["Extremely high damage output for its cost", "Desperate rewards committing to the race instead of playing scared", "Can close games very quickly once ahead"],
+    "cons":  ["Fragile stat lines lose most fair trades", "Requires precise life-total management, unlike simpler aggro decks", "Struggles if the race stalls out"],
+    "keyMechanics":  ["DESPERATE", "LIFESTEAL", "PRECISE"],
+    "beginnerExplainer":  "Desperate cards get stronger once your own castle HP drops below half — for this deck, taking damage isn't just acceptable, it's often the plan.",
+    "howToPlay":  {"early": "Play your efficient, high-power threats and start applying pressure immediately.", "mid": "Keep racing even as your own HP drops — that's what turns on Desperate — and use Lifesteal units to avoid dying outright.", "late": "Push through with Desperate-buffed damage and finishers like Storm Giant before the opponent stabilizes."},
     "cards":  [
                   {
                       "id":  "elf_01",

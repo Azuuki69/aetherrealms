@@ -1,6 +1,20 @@
 ﻿{
     "faction":  "fallen",
     "displayName":  "Fallen",
+    "archetype":  "Control / Attrition",
+    "difficulty":  "Advanced",
+    "tagline":  "Every death on the battlefield — yours or theirs — fills your hand.",
+    "description":  "Fallen grinds opponents down through card advantage rather than raw stats. Salvage and Reap both draw cards whenever any unit dies, and Hoarder units grow more dangerous the longer you hold cards in hand — reinforced by hand-size payoff spells like Scrapheap Salvo.",
+    "gamePlan":  "Trade freely and let Salvage/Reap refill your hand, then unleash Hoarder threats once you're sitting on a stockpile of cards.",
+    "playstyle":  "Resist the urge to dump your hand — Fallen actively wants you holding cards, since Hoarder and its payoff spells scale directly off your hand size.",
+    "winCondition":  "Out-draw and out-resource the opponent until a Hoarder threat or a hand-fueled spell finishes what attrition started.",
+    "strengths":  ["Card advantage engine that triggers off almost any death", "Rewards patient, resource-conscious play", "Hoarder threats scale directly with the deck's strategy"],
+    "weaknesses":  ["Slow to get going — early turns can look passive", "Loses value if forced to dump the hand quickly", "Vulnerable to fast decks that end the game before the engine matters"],
+    "pros":  ["Very high card-advantage ceiling", "Flexible — punishes both your trades and the opponent's", "Rewards smart resource management over raw tempo"],
+    "cons":  ["Weak against fast aggro that ends the game early", "Needs practice to know when to hold vs. commit cards", "Payoffs are back-loaded, so early turns can feel slow"],
+    "keyMechanics":  ["SALVAGE", "REAP", "HOARDER"],
+    "beginnerExplainer":  "Hoarder cards get stronger the more cards you're holding beyond a small threshold — for this deck, NOT playing a card can sometimes be the correct move.",
+    "howToPlay":  {"early": "Trade efficiently and let Salvage/Reap refill your hand rather than racing for early damage.", "mid": "Start holding extra cards once you're stable — every card above the threshold is making your Hoarder threats stronger.", "late": "Unleash Hoarder-boosted threats and hand-scaling spells like Scrapheap Salvo to close out the attrition war you've already won."},
     "cards":  [
                   {
                       "id":  "fallen_01",

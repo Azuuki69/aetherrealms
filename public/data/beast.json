@@ -1,6 +1,20 @@
 ﻿{
     "faction":  "beast",
     "displayName":  "Beast",
+    "archetype":  "Aggro / Tribal",
+    "difficulty":  "Beginner",
+    "tagline":  "Every Beast makes the next one hit harder — go wide and swing as one pack.",
+    "description":  "Beast is a tribal go-wide deck built entirely around creatures that grow stronger for every other Beast you control. Pack Hunt units scale their own damage off your board count, Formation buffs reward keeping the line intact, and top-end threats like Chimera and Roc turn a wide board into a Rally-fueled alpha strike.",
+    "gamePlan":  "Flood the board with cheap, efficient Beasts early, then let your scaling keywords and Rally payoffs turn that width into overwhelming damage.",
+    "playstyle":  "Play a new Beast every turn you can afford one and avoid trading it away — Pack Hunt and Formation both punish you for having fewer bodies on board than your opponent expects.",
+    "winCondition":  "Overrun the enemy castle with a wide board of buffed Beasts before they stabilize.",
+    "strengths":  ["Extremely consistent low curve — always have a play", "Snowballs fast once 3-4 Beasts are on board", "Alpha's Call refills your hand off your own board count"],
+    "weaknesses":  ["A single wide sweeper or removal spell erases your entire game plan", "Falls off if forced to play from behind", "Few individual threats can close a game alone"],
+    "pros":  ["Easiest deck in the game to pick up and pilot", "Rewards proactive, low-risk decisions every turn", "Strong, forgiving early game"],
+    "cons":  ["Very board-dependent — no plan B if your units keep dying", "Weak against decks with efficient removal or wide sweepers", "Runs out of gas if the game goes long"],
+    "keyMechanics":  ["PACK HUNT", "RALLY", "FORMATION"],
+    "beginnerExplainer":  "Most of your creatures get stronger just from having other Beasts next to them in play — the more you have out, the harder each one hits.",
+    "howToPlay":  {"early": "Play your cheapest Beasts on curve to establish board presence — a 1-cost Gnoll or Gnome Slinger is never a wasted turn.", "mid": "Keep adding bodies and start using Formation-buffed units to trade up; avoid attacking into obvious blockers that would shrink your pack.", "late": "Cash in your wide board with Rally threats like Chimera or Roc, and draw extra gas with Alpha's Call if you need to refuel."},
     "cards":  [
                   {
                       "id":  "beast_01",

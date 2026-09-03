@@ -1,6 +1,20 @@
 ﻿{
     "faction":  "damned",
     "displayName":  "Damned",
+    "archetype":  "Aggro-Control",
+    "difficulty":  "Advanced",
+    "tagline":  "Pay in your own blood for cards, removal, and power.",
+    "description":  "Damned converts self-inflicted damage into resources. Bloodprice units chip your own castle to draw extra cards the moment they land, Cull sacrifices your weakest ally to snipe a bigger threat, and Lifesteal creatures heal back what the plan costs you — turning risk into a repeatable engine.",
+    "gamePlan":  "Spend your own life total deliberately to out-card and out-remove the opponent, then heal the difference back with Lifesteal.",
+    "playstyle":  "Track your own castle HP as a resource, not just a timer — know exactly how much you can afford to spend before a Bloodprice or Cull play becomes reckless.",
+    "winCondition":  "Out-value the opponent through Bloodprice card draw and Cull removal until your board simply has more left standing.",
+    "strengths":  ["Generates card advantage no other faction can match", "Cull provides on-demand removal for any threat", "Lifesteal recoups the life spent fueling the engine"],
+    "weaknesses":  ["Racing yourself and the opponent's clock at the same time is easy to misjudge", "A fast aggro deck can punish self-damage before Lifesteal catches up", "Requires careful HP math every turn"],
+    "pros":  ["Highest card-advantage ceiling in the game", "Flexible answers via Cull instead of dedicated removal spells", "Rewards skilled, deliberate play"],
+    "cons":  ["Unforgiving of misplays — spend too much life and you lose the race", "Weak to fast aggressive decks that outrace the self-damage", "Steeper learning curve than most other decks"],
+    "keyMechanics":  ["BLOODPRICE", "CULL", "LIFESTEAL"],
+    "beginnerExplainer":  "Bloodprice cards deal damage to your own castle when you play them — it's a deliberate cost for extra cards, not a mistake, so budget your own HP like a resource.",
+    "howToPlay":  {"early": "Play cheap Bloodprice units to start drawing extra cards, but don't overspend your own HP before turn 3-4.", "mid": "Use Cull to remove the opponent's best unit by sacrificing your weakest, and lean on Lifesteal creatures to start healing back what you've spent.", "late": "Cash in your card advantage — you should simply have more answers and threats left than the opponent by this point."},
     "cards":  [
                   {
                       "id":  "damned_01",

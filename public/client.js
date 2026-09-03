@@ -11,6 +11,21 @@ async function loadFactionData() {
   );
 }
 
+// Mirrors src/game/rules.js's buildDeck() copies formula exactly — that
+// module is server-only (no bundler exposes it to this plain static
+// client.js), so the deck-preview's quantity badges duplicate the same
+// small, rarely-changed formula rather than adding a network round trip
+// for something already derivable from data already in memory. Keep these
+// two in sync if a future balance pass changes either one.
+const FLAGSHIP_NAMES = new Set([
+  'Dire Wolf', 'Sparkwright', 'The Creditor', 'Warden', 'Samurai',
+  'Sharpshooter', 'Scavenger-Lord', 'Paladin', 'Berserker', 'Lich',
+]);
+
+function getDeckCopies(card) {
+  return card.copies ?? (!FLAGSHIP_NAMES.has(card.name) && card.cost <= 3 ? 2 : 1);
+}
+
 // ---------- Lobby state ----------
 let selectedFaction = null;
 let ws = null;
@@ -37,13 +52,33 @@ const DRAG_THRESHOLD = 8; // px of mouse movement before a mousedown becomes a d
 
 const el = (id) => document.getElementById(id);
 
+function selectFactionCard(card) {
+  document.querySelectorAll('.faction-card').forEach((b) => b.classList.remove('selected'));
+  card.classList.add('selected');
+  selectedFaction = card.dataset.faction;
+}
+
 function initLobby() {
   el('factionPicker').addEventListener('click', (e) => {
-    const btn = e.target.closest('.faction-card');
+    // .faction-card is a div (not a <button>) so it can legally contain the
+    // View Deck button — that click must not also select the card.
+    if (e.target.closest('.view-deck-btn')) return;
+    const card = e.target.closest('.faction-card');
+    if (!card) return;
+    selectFactionCard(card);
+  });
+  el('factionPicker').addEventListener('keydown', (e) => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const card = e.target.closest('.faction-card');
+    if (!card) return;
+    e.preventDefault();
+    selectFactionCard(card);
+  });
+  el('factionPicker').addEventListener('click', (e) => {
+    const btn = e.target.closest('.view-deck-btn');
     if (!btn) return;
-    document.querySelectorAll('.faction-card').forEach((b) => b.classList.remove('selected'));
-    btn.classList.add('selected');
-    selectedFaction = btn.dataset.faction;
+    e.stopPropagation();
+    openDeckPreview(btn.closest('.faction-card').dataset.faction);
   });
 
   el('createBtn').addEventListener('click', async () => {
@@ -499,6 +534,269 @@ function showPreview(instance, sourceEl) {
 
 function hidePreview() {
   el('cardPreview').classList.remove('visible');
+}
+
+// ---------- Deck selection & preview ----------
+// The lobby's faction picker doubles as a fixed-deck picker (no player
+// deckbuilding exists — buildDeck() in rules.js just expands every card in
+// a faction's JSON into copies and shuffles). Everything below is read-only
+// presentation over factionData, already fully loaded by loadFactionData()
+// before initLobby() runs — no new network calls.
+
+let deckPreviewFaction = null;
+
+function renderDeckBadgeRow(factionKey) {
+  const data = factionData[factionKey];
+  const card = document.querySelector(`.faction-card[data-faction="${factionKey}"]`);
+  if (!data || !card) return;
+  const badgeRow = card.querySelector('.deck-badge-row');
+  if (badgeRow) {
+    badgeRow.innerHTML = '';
+    if (data.archetype) {
+      const archPill = document.createElement('span');
+      archPill.className = 'deck-badge';
+      archPill.textContent = data.archetype;
+      badgeRow.appendChild(archPill);
+    }
+    if (data.difficulty) {
+      const diffPill = document.createElement('span');
+      diffPill.className = 'deck-badge deck-badge-difficulty';
+      diffPill.dataset.difficulty = data.difficulty;
+      diffPill.textContent = data.difficulty;
+      badgeRow.appendChild(diffPill);
+    }
+  }
+  const taglineEl = card.querySelector('.deck-tagline');
+  if (taglineEl) taglineEl.textContent = data.tagline || '';
+}
+
+function computeDeckStats(factionKey) {
+  const cards = (factionData[factionKey] && factionData[factionKey].cards) || [];
+  let deckSize = 0;
+  let costSum = 0;
+  let units = 0;
+  let spells = 0;
+  const curve = {};
+  for (const card of cards) {
+    const copies = getDeckCopies(card);
+    deckSize += copies;
+    costSum += card.cost * copies;
+    if (card.type === 'spell') spells += copies;
+    else units += copies;
+    const bucket = card.cost >= 8 ? '8+' : String(card.cost);
+    curve[bucket] = (curve[bucket] || 0) + copies;
+  }
+  return {
+    uniqueCount: cards.length,
+    deckSize,
+    avgCost: deckSize ? costSum / deckSize : 0,
+    units,
+    spells,
+    curve,
+  };
+}
+
+function renderDeckBulletList(id, items) {
+  const listEl = el(id);
+  listEl.innerHTML = '';
+  (items || []).forEach((item) => {
+    const li = document.createElement('li');
+    li.textContent = item;
+    listEl.appendChild(li);
+  });
+}
+
+const MANA_CURVE_BUCKETS = ['0', '1', '2', '3', '4', '5', '6', '7', '8+'];
+
+function renderDeckStats(factionKey) {
+  const stats = computeDeckStats(factionKey);
+  el('deckStatTotal').textContent = stats.deckSize;
+  el('deckStatUnique').textContent = stats.uniqueCount;
+  el('deckStatAvgCost').textContent = stats.avgCost.toFixed(1);
+  el('deckStatUnits').textContent = stats.units;
+  el('deckStatSpells').textContent = stats.spells;
+
+  const curveEl = el('deckPreviewCurve');
+  curveEl.innerHTML = '';
+  const maxCount = Math.max(1, ...MANA_CURVE_BUCKETS.map((b) => stats.curve[b] || 0));
+  MANA_CURVE_BUCKETS.forEach((bucket) => {
+    const count = stats.curve[bucket] || 0;
+    const col = document.createElement('div');
+    col.className = 'mana-curve-col';
+    const bar = document.createElement('div');
+    bar.className = 'mana-curve-bar';
+    bar.style.height = `${Math.max(2, (count / maxCount) * 100)}%`;
+    bar.title = `${count} card${count === 1 ? '' : 's'} at cost ${bucket}`;
+    const label = document.createElement('span');
+    label.className = 'mana-curve-label';
+    label.textContent = bucket;
+    col.append(bar, label);
+    curveEl.appendChild(col);
+  });
+}
+
+function getFilteredSortedCards(factionKey) {
+  const cards = (factionData[factionKey] && factionData[factionKey].cards) || [];
+  const search = el('deckSearchInput').value.trim().toLowerCase();
+  const typeFilter = el('deckTypeFilter').value;
+  const costFilter = el('deckCostFilter').value;
+  const sort = el('deckSortSelect').value;
+
+  const filtered = cards.filter((card) => {
+    if (search && !card.name.toLowerCase().includes(search)) return false;
+    const type = card.type === 'spell' ? 'spell' : 'unit';
+    if (typeFilter !== 'all' && type !== typeFilter) return false;
+    if (costFilter !== 'all') {
+      if (costFilter === '8+' ? card.cost < 8 : card.cost !== Number(costFilter)) return false;
+    }
+    return true;
+  });
+
+  filtered.sort((a, b) => {
+    if (sort === 'name') return a.name.localeCompare(b.name);
+    if (sort === 'type') return (a.type || 'unit').localeCompare(b.type || 'unit') || a.cost - b.cost;
+    return a.cost - b.cost || a.name.localeCompare(b.name);
+  });
+
+  return filtered;
+}
+
+function buildDeckPreviewCardEl(card) {
+  const instance = demoCardInstance(card);
+  const wrap = buildCardEl(instance, { context: 'board' });
+  wrap.classList.add('deck-preview-card');
+  const copies = getDeckCopies(card);
+  const qty = document.createElement('span');
+  qty.className = 'deck-card-qty';
+  qty.textContent = `×${copies}`;
+  wrap.appendChild(qty);
+  // buildCardEl already wires hover-to-preview; this adds tap-to-preview for
+  // touch devices, which never fire mouseenter.
+  wrap.addEventListener('click', (e) => {
+    e.stopPropagation();
+    showPreview(instance, wrap);
+  });
+  return wrap;
+}
+
+function renderDeckCardGrid(factionKey) {
+  const grid = el('deckCardGrid');
+  grid.innerHTML = '';
+  const cards = getFilteredSortedCards(factionKey);
+  if (cards.length === 0) {
+    const empty = document.createElement('p');
+    empty.className = 'deck-card-grid-empty';
+    empty.textContent = 'No cards match those filters.';
+    grid.appendChild(empty);
+    return;
+  }
+  cards.forEach((card) => grid.appendChild(buildDeckPreviewCardEl(card)));
+}
+
+function openDeckPreview(factionKey) {
+  const data = factionData[factionKey];
+  if (!data) return;
+  deckPreviewFaction = factionKey;
+
+  el('deckPreviewName').textContent = data.displayName;
+  el('deckPreviewArchetype').textContent = data.archetype || '';
+  el('deckPreviewDifficulty').textContent = data.difficulty || '';
+  el('deckPreviewDifficulty').dataset.difficulty = data.difficulty || '';
+  el('deckPreviewDescription').textContent = data.description || '';
+  el('deckPreviewGamePlan').textContent = data.gamePlan || '';
+  el('deckPreviewPlaystyle').textContent = data.playstyle || '';
+  el('deckPreviewWinCondition').textContent = data.winCondition || '';
+
+  const beginnerBlock = el('deckPreviewBeginnerBlock');
+  if (data.beginnerExplainer) {
+    el('deckPreviewBeginner').textContent = data.beginnerExplainer;
+    beginnerBlock.classList.remove('hidden');
+  } else {
+    beginnerBlock.classList.add('hidden');
+  }
+
+  renderDeckBulletList('deckPreviewStrengths', data.strengths);
+  renderDeckBulletList('deckPreviewWeaknesses', data.weaknesses);
+  renderDeckBulletList('deckPreviewPros', data.pros);
+  renderDeckBulletList('deckPreviewCons', data.cons);
+
+  const mechanicsEl = el('deckPreviewMechanics');
+  mechanicsEl.innerHTML = '';
+  (data.keyMechanics || []).forEach((mechanic) => {
+    const chip = document.createElement('span');
+    chip.className = 'deck-mechanic-chip';
+    chip.textContent = mechanic;
+    mechanicsEl.appendChild(chip);
+  });
+
+  const howToPlay = data.howToPlay || {};
+  el('deckPreviewEarly').textContent = howToPlay.early || '';
+  el('deckPreviewMid').textContent = howToPlay.mid || '';
+  el('deckPreviewLate').textContent = howToPlay.late || '';
+
+  renderDeckStats(factionKey);
+
+  el('deckSearchInput').value = '';
+  el('deckTypeFilter').value = 'all';
+  el('deckCostFilter').value = 'all';
+  el('deckSortSelect').value = 'cost';
+  renderDeckCardGrid(factionKey);
+
+  el('deckPreviewOverlay').classList.remove('hidden');
+}
+
+function closeDeckPreview() {
+  el('deckPreviewOverlay').classList.add('hidden');
+  hidePreview();
+  deckPreviewFaction = null;
+}
+
+function renderDeckCompareTable() {
+  const body = el('deckCompareTableBody');
+  body.innerHTML = '';
+  FACTION_KEYS.forEach((key) => {
+    const data = factionData[key];
+    if (!data) return;
+    const tr = document.createElement('tr');
+    const cells = [
+      data.displayName,
+      data.archetype || '',
+      data.difficulty || '',
+      (data.strengths && data.strengths[0]) || '',
+      (data.weaknesses && data.weaknesses[0]) || '',
+    ];
+    cells.forEach((text) => {
+      const td = document.createElement('td');
+      td.textContent = text;
+      tr.appendChild(td);
+    });
+    body.appendChild(tr);
+  });
+}
+
+function initDeckPreview() {
+  el('deckPreviewCloseBtn').addEventListener('click', closeDeckPreview);
+  el('deckPreviewSelectBtn').addEventListener('click', () => {
+    if (!deckPreviewFaction) return;
+    const card = document.querySelector(`.faction-card[data-faction="${deckPreviewFaction}"]`);
+    if (card) selectFactionCard(card);
+    closeDeckPreview();
+  });
+  el('deckSearchInput').addEventListener('input', () => renderDeckCardGrid(deckPreviewFaction));
+  el('deckTypeFilter').addEventListener('change', () => renderDeckCardGrid(deckPreviewFaction));
+  el('deckCostFilter').addEventListener('change', () => renderDeckCardGrid(deckPreviewFaction));
+  el('deckSortSelect').addEventListener('change', () => renderDeckCardGrid(deckPreviewFaction));
+  // Clicking anywhere in the info/filter area that isn't a card tile should
+  // dismiss any tap-pinned preview from buildDeckPreviewCardEl's click handler.
+  el('deckPreviewBody').addEventListener('click', (e) => {
+    if (!e.target.closest('.card')) hidePreview();
+  });
+
+  el('compareDecksBtn').addEventListener('click', () => {
+    renderDeckCompareTable();
+    el('deckCompareOverlay').classList.remove('hidden');
+  });
+  el('deckCompareCloseBtn').addEventListener('click', () => el('deckCompareOverlay').classList.add('hidden'));
 }
 
 function renderCastle(headerPanelId, sidePanelId, hp, maxHp, faction) {
@@ -1934,11 +2232,13 @@ function renderFactionThumbnails() {
 (async function init() {
   await loadFactionData();
   initLobby();
+  initDeckPreview();
   initAccount();
   initRankingTabs();
   initChat();
   initLog();
   initTurnTimer();
   renderFactionThumbnails();
+  FACTION_KEYS.forEach(renderDeckBadgeRow);
   loadRankings();
 })();

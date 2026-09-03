@@ -1,6 +1,20 @@
 ﻿{
     "faction":  "clock",
     "displayName":  "Clock",
+    "archetype":  "Midrange / Control",
+    "difficulty":  "Intermediate",
+    "tagline":  "Every turn you survive, the clock ticks further in your favor.",
+    "description":  "Clock is a patient value deck that wins by outlasting the opponent. Growing units get permanently tougher every turn they live, Countdown creatures like Sparkwright deliver a delayed burst of damage and cards, and Reap punishes trades by drawing you extra resources whenever a unit dies nearby.",
+    "gamePlan":  "Survive the early exchanges with efficient blockers, let your Growing and Countdown effects build up, then close with the value you've stockpiled.",
+    "playstyle":  "Think a turn or two ahead — track your Countdown timers and hold up defensive plays like Temporal Ward rather than racing.",
+    "winCondition":  "Grind through the midgame until Countdown payoffs and oversized Growing threats like Boiler King simply outsize whatever the opponent has left.",
+    "strengths":  ["Exceptional at winning long, grindy games", "Countdown and Growing generate value with zero further investment", "Reap turns even losing a trade into card advantage"],
+    "weaknesses":  ["Slow starts can lose to dedicated aggro before the plan comes online", "Countdown effects can be disrupted by removing the unit first", "Needs patience — misplays from racing tend to backfire"],
+    "pros":  ["Rewards good long-term planning over quick reflexes", "Card advantage keeps coming in without extra spells", "Strong defensive toolkit including Temporal Ward"],
+    "cons":  ["Vulnerable in the first few turns against fast aggro decks", "Countdown clocks can be played around by an attentive opponent", "Less exciting if you prefer proactive, aggressive turns"],
+    "keyMechanics":  ["GROWING", "COUNTDOWN", "REAP"],
+    "beginnerExplainer":  "Countdown cards don't do anything the turn you play them — they trigger automatically a set number of your turns later, so plan around the payoff instead of expecting it immediately.",
+    "howToPlay":  {"early": "Trade defensively and get a Growing unit down as soon as possible so it starts accumulating stats.", "mid": "Protect your Countdown units and Growing threats from removal; use Reap-triggering trades to keep your hand full.", "late": "Let Countdown payoffs like Sparkwright's delayed burn swing the game, then close with an oversized Growing finisher such as Boiler King."},
     "cards":  [
                   {
                       "id":  "clock_01",
