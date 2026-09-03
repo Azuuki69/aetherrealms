@@ -296,11 +296,10 @@ h1 span {
 @media (min-width: 1600px) {
   #lobby[data-layout="sidebar"] > .rankings-panel {
     position: fixed;
+    margin: 0;
     top: 6rem;
     right: 1.5rem;
-    width: 300px;
-    max-height: calc(100vh - 8rem);
-    overflow-y: auto;
+    width: 320px;
   }
 }
 
@@ -322,11 +321,10 @@ h1 span {
 @media (min-width: 1600px) {
   #lobby[data-layout="sidebar-hud"] > .rankings-panel {
     position: fixed;
+    margin: 0;
     top: 6rem;
     right: 1.5rem;
-    width: 300px;
-    max-height: calc(100vh - 8rem);
-    overflow-y: auto;
+    width: 320px;
   }
 }
 
@@ -406,11 +404,10 @@ h1 span {
 @media (min-width: 1600px) {
   #lobby[data-layout="compact"] > .rankings-panel {
     position: fixed;
+    margin: 0;
     top: 6rem;
     right: 1.5rem;
-    width: 300px;
-    max-height: calc(100vh - 8rem);
-    overflow-y: auto;
+    width: 320px;
   }
 }
 
@@ -792,7 +789,24 @@ h1 span {
 .ranking-tab:hover:not(.active) { border-color: color-mix(in srgb, var(--gold) 50%, var(--border)); color: var(--text); }
 .ranking-tab:active:not(.active) { background: linear-gradient(#1c150d, #150f0a); }
 .ranking-tab.active { border-color: var(--gold); color: var(--gold); background: linear-gradient(#3a2c14, #241c12); }
+/* table-layout:fixed + explicit column widths make the Players/Decks
+   rankings tables strictly honor their container's width (never wider) at
+   any size, including the narrow fixed-dock sidebar — the 2nd column
+   (Player/Faction) gets the most room and truncates gracefully instead of
+   forcing the whole table to overflow. Scoped away from .deck-compare-table,
+   which has 5 columns and its own wider min-width layout (below). */
 .ranking-table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
+.ranking-table:not(.deck-compare-table) { table-layout: fixed; }
+.ranking-table:not(.deck-compare-table) th,
+.ranking-table:not(.deck-compare-table) td { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ranking-table:not(.deck-compare-table) th:first-child,
+.ranking-table:not(.deck-compare-table) td:first-child { width: 10%; }
+.ranking-table:not(.deck-compare-table) th:nth-child(2),
+.ranking-table:not(.deck-compare-table) td:nth-child(2) { width: 46%; }
+.ranking-table:not(.deck-compare-table) th:nth-child(3),
+.ranking-table:not(.deck-compare-table) td:nth-child(3) { width: 22%; }
+.ranking-table:not(.deck-compare-table) th:nth-child(4),
+.ranking-table:not(.deck-compare-table) td:nth-child(4) { width: 22%; }
 .ranking-table th { color: var(--gold); text-align: left; border-bottom: 1px solid var(--border); padding: 0.4rem 0.5rem; }
 .ranking-table td { padding: 0.4rem 0.5rem; border-bottom: 1px solid #4a3a2250; color: var(--text); }
 .ranking-table tbody tr:last-child td { border-bottom: none; }
