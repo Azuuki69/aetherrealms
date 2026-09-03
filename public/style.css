@@ -1037,7 +1037,11 @@ h1 span {
    yours that could currently act — left unanimated since several of these
    can be visible at once and a field of pulsing cards would be noisy. */
 .card.attack-ready { outline: 2px solid color-mix(in srgb, var(--gold) 65%, transparent); outline-offset: 1px; }
-.slot .card { width: 100%; height: 100%; }
+/* touch-action:none so a finger-drag on a board card is delivered to us as
+   pointermove events instead of being claimed by the browser as a page-pan
+   gesture — without this, the attack drag-arrow never receives movement on
+   touch devices (see onCardPointerDown in client.js). */
+.slot .card { width: 100%; height: 100%; touch-action: none; }
 
 .card-badge {
   position: absolute;
@@ -1587,4 +1591,90 @@ body:has(#chatPanel:not(.collapsed)) .hand {
   #cardPreview { height: min(315px, calc(100vh - 340px)); }
   .deck-preview-header { flex-direction: column; align-items: stretch; gap: 0.5rem; }
   .deck-card-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+}
+
+/* ---------- Mobile game screen ---------- */
+/* A genuinely reflowed layout, not the desktop grid shrunk down — the
+   desktop HUD system's own configured minimums (boardArea 320px + hand
+   160px) already exceed a phone's entire width, so squeezing it further was
+   never going to work. Below this breakpoint, initHudLayout()/
+   applyPanelGeometry() (client.js) stop applying position:absolute to every
+   panel and let them fall back to this grid's grid-area placement instead —
+   the exact same fallback mechanism every panel already has for the one
+   frame before the desktop JS takes over. */
+@media (max-width: 760px) {
+  #game {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(0, 1fr) auto auto;
+    grid-template-areas: "topbar" "board" "hand" "controls";
+    width: 100vw;
+    height: 100vh;
+    padding: env(safe-area-inset-top, 4px) env(safe-area-inset-right, 6px)
+      env(safe-area-inset-bottom, 4px) env(safe-area-inset-left, 6px);
+  }
+  /* Extra top clearance only while the HUD preview's "Back to Lobby" button
+     is showing — it's position:fixed in that same corner regardless of this
+     grid, and would otherwise sit on top of the topbar's own content
+     instead of above it. A real match never shows that button (edit/reset
+     are hidden on mobile too), so it isn't worth reserving this space then. */
+  #game:has(#hudPreviewExitBtn:not(.hidden)) {
+    padding-top: max(env(safe-area-inset-top, 4px), 48px);
+  }
+
+  /* --- Top bar: name/mana panels fall back to a plain flex row instead of
+     the desktop's centered-cluster math, which assumed real width either
+     side of the turn indicator. --- */
+  #topBar { flex-wrap: wrap; gap: 4px; padding: 4px 6px; }
+  .hp-panel { min-width: 0; flex: 1 1 auto; }
+  .hp-panel .name { font-size: clamp(0.65rem, 3.5vw, 0.9rem); }
+  .turn-indicator { font-size: 0.85rem; flex: 0 0 100%; order: 3; }
+
+  /* --- Vitals strip: opponent above the board, you below it (right above
+     the hand) — the side rails the desktop layout uses have no room next
+     to 5 lane slots on a phone, so each becomes a full-width horizontal
+     strip instead via flex-direction, not a new component. --- */
+  .board-wrap { flex-direction: column; gap: 4px; }
+  .side-panel {
+    width: 100%;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 4px 10px;
+    border-radius: 10px;
+  }
+  .castle-hp-block { flex-direction: row; width: auto; flex: 1 1 auto; gap: 6px; }
+  .castle-owner-label { display: none; }
+  .castle-hp-bar { width: auto; flex: 1 1 auto; }
+  .castle-hp-value { white-space: nowrap; }
+  .panel-stat { min-width: 0; padding: 4px 8px; font-size: 0.85rem; gap: 4px; }
+  .panel-icon { font-size: 0.95rem; }
+
+  /* --- Board: full width, tighter gaps so 5 slots per lane actually fit. --- */
+  .board-area { max-width: 100%; padding: 6px 4px; gap: 3px; }
+  .lane-row { gap: 4px; padding: 2px; }
+  .slot { min-height: 40px; }
+
+  /* --- Hand: a horizontal scroll strip, never a multi-row wrap that would
+     push the board out of view — tap-to-preview (client.js) covers reading
+     a card's full text since there's no room to show it inline. --- */
+  #hand {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 6px;
+    padding: 6px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .hand-card { flex: 0 0 76px; }
+
+  /* --- Controls: full-width bottom bar, comfortable thumb-sized buttons. --- */
+  .controls { padding: 6px; gap: 0.5rem; }
+  .controls .btn { padding: 0.6rem 1rem; font-size: 0.85rem; min-height: 44px; }
+
+  /* Free-form HUD customization can't work with a fingertip on a screen
+     this size (see isMobileLayout() in client.js) — only the always-needed
+     "Back to Lobby" control (part of the same container) stays. */
+  #hudEditToggle, #hudResetLayout { display: none; }
 }

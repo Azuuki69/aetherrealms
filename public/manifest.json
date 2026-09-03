@@ -1,0 +1,19 @@
+{
+  "name": "Aether Realms: Clash of Armies",
+  "short_name": "Aether Realms",
+  "description": "A 1v1 trading card game — pick a faction, build no decks (they're fixed), and battle.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#14100c",
+  "theme_color": "#14100c",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

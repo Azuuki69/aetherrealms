@@ -524,6 +524,13 @@ function buildCardEl(instance, { context = 'board' } = {}) {
 
   wrap.addEventListener('mouseenter', () => showPreview(instance, wrap));
   wrap.addEventListener('mouseleave', hidePreview);
+  // Touch has no hover — tapping a card (which already selects/plays/
+  // attacks with it via the click listener wired at the call site) also
+  // shows the same preview a mouse user gets from hovering, so a touch
+  // player can actually read what they just tapped. Harmless alongside the
+  // hover listener for mouse users (already visible by the time a click
+  // could fire). Dismissed by the global "tap elsewhere" listener below.
+  wrap.addEventListener('click', () => showPreview(instance, wrap));
 
   return wrap;
 }
@@ -545,6 +552,14 @@ function showPreview(instance, sourceEl) {
 function hidePreview() {
   el('cardPreview').classList.remove('visible');
 }
+
+// Tapping any card shows its preview (see buildCardEl) with no matching
+// "leave" event on touch to hide it again — this is the global dismiss:
+// tap anywhere that isn't a card (the board, a panel, the preview overlay
+// itself) and it closes. Idempotent and harmless outside a live match too.
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.card')) hidePreview();
+});
 
 // ---------- Deck selection & preview ----------
 // The lobby's faction picker doubles as a fixed-deck picker (no player
@@ -1103,7 +1118,7 @@ function renderLane(containerId, laneArr, side, laneName) {
       if (!previousBoardIds.has(unit.instanceId)) cardEl.classList.add('card-enter');
       if (unit.keywords && unit.keywords.includes('taunt')) cardEl.classList.add('has-taunt');
       cardEl.addEventListener('click', () => onBoardCardClick(side, laneName, slotIndex));
-      cardEl.addEventListener('mousedown', (e) => onCardMouseDown(e, side, laneName, slotIndex));
+      cardEl.addEventListener('pointerdown', (e) => onCardPointerDown(e, side, laneName, slotIndex));
       slot.appendChild(cardEl);
     } else {
       slot.addEventListener('click', () => onEmptySlotClick(side, laneName, slotIndex));
@@ -1315,12 +1330,16 @@ function onCastleClick() {
 const ARROW_CURVE_STRENGTH = 0.18;
 const EPSILON = 0.5;
 
-function onCardMouseDown(e, side, lane, slotIndex) {
+function onCardPointerDown(e, side, lane, slotIndex) {
   if (side !== 'you') return;
   const { turn, phase, you_key } = currentView || {};
   if (turn !== you_key || phase !== 'combat' || autoAttackRunning) return;
   const unit = currentView.you.board[lane][slotIndex];
   if (!unit || unit.sick || unit.attackedThisTurn) return;
+  // Pointer Events (not separate mouse/touch listeners) so mouse-drag and
+  // finger-drag share this exact same path — .slot .card's touch-action:none
+  // (style.css) stops the browser from treating this as a page-scroll
+  // gesture and eating the pointermove events before they reach us.
   dragCandidate = { lane, slot: slotIndex, startX: e.clientX, startY: e.clientY };
 }
 
@@ -1418,7 +1437,7 @@ function endDrag(clientX, clientY) {
   render();
 }
 
-document.addEventListener('mousemove', (e) => {
+document.addEventListener('pointermove', (e) => {
   if (isDragging) {
     updateArrowTo(e.clientX, e.clientY);
     return;
@@ -1428,7 +1447,7 @@ document.addEventListener('mousemove', (e) => {
   if (dist > DRAG_THRESHOLD) beginDrag(e.clientX, e.clientY);
 });
 
-document.addEventListener('mouseup', (e) => {
+document.addEventListener('pointerup', (e) => {
   if (isDragging) endDrag(e.clientX, e.clientY);
   dragCandidate = null;
 });
@@ -1756,10 +1775,34 @@ function isFloatingHudPanel(id) {
 // applyPanelGeometry() for why this is the anchor, not their top position.
 let hudFloatingCollapsedHeight = {};
 
+// Free-form drag/resize is a desktop power-user feature — the HUD_PANELS'
+// own configured minimums (boardArea 320 + hand 160 = 480px) already exceed
+// a phone's entire width, so below this breakpoint every non-floating panel
+// falls back to a dedicated mobile CSS grid instead (see the
+// max-width:760px block in style.css) rather than fighting drag/resize math
+// that can't work with a fingertip on a screen this size.
+function isMobileLayout() {
+  return window.innerWidth <= 760;
+}
+
 function applyPanelGeometry(panel) {
   const panelEl = el(panel.id);
   const geom = hudCurrentLayout[panel.id];
   if (!panelEl || !geom) return;
+  if (!isFloatingHudPanel(panel.id) && isMobileLayout()) {
+    // Clears back to whatever the stylesheet's grid-area says — the exact
+    // fallback position every panel already has for the one frame before
+    // this function first runs on desktop, just made permanent here.
+    panelEl.style.position = '';
+    panelEl.style.gridArea = '';
+    panelEl.style.left = '';
+    panelEl.style.top = '';
+    panelEl.style.width = '';
+    panelEl.style.height = '';
+    panelEl.style.zIndex = '';
+    syncHudOverlay(panel.id);
+    return;
+  }
   if (isFloatingHudPanel(panel.id)) {
     const gameRect = el('game').getBoundingClientRect();
     // These open upward from a fixed point near the screen edge (matching
