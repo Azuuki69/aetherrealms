@@ -144,6 +144,25 @@
        and inert (display:none by default) for every other layout. -->
   <div id="lobbySidebarPreview" class="sidebar-widget sidebar-preview"></div>
   <div id="lobbySidebarHighlights" class="sidebar-widget sidebar-highlights"></div>
+
+  <!-- Shown in every layout (not gated by [data-layout]) — see
+       initMusicPlayer() in client.js. Docks to the left edge on wide
+       screens, same technique as the rankings panel's right-edge dock. -->
+  <div id="musicPlayerLobby" class="music-player-lobby">
+    <h4>🎵 Now Playing</h4>
+    <div class="music-now-playing" id="musicNowPlayingTitle">Pick a track below</div>
+    <div class="music-controls">
+      <button type="button" id="musicPrevBtn" class="music-ctrl-btn" aria-label="Previous track">⏮</button>
+      <button type="button" id="musicPlayPauseBtn" class="music-ctrl-btn music-ctrl-btn-main" aria-label="Play">▶</button>
+      <button type="button" id="musicNextBtn" class="music-ctrl-btn" aria-label="Next track">⏭</button>
+    </div>
+    <div class="music-volume-row">
+      <span aria-hidden="true">🔊</span>
+      <label class="sr-only" for="musicVolumeSlider">Volume</label>
+      <input type="range" id="musicVolumeSlider" min="0" max="100" value="70" />
+    </div>
+    <div class="music-track-list" id="musicTrackList"></div>
+  </div>
 </div>
 
 <div id="game" class="screen hidden">
@@ -445,6 +464,22 @@
     </div>
 
     <div id="adminStatus" class="admin-status" role="status" aria-live="polite"></div>
+  </div>
+</div>
+
+<!-- Only visible during a live match (body.in-game, see style.css) —
+     mirrors the shared audio engine's state from client.js's music player
+     code, so whatever's playing in the lobby keeps playing here unchanged.
+     Deliberately minimal (title + play/pause + next) and, unlike log/chat,
+     draggable via #musicMiniDragHandle so it can be moved off anything it
+     happens to start on top of. -->
+<div id="musicPlayerGame" class="music-mini collapsed">
+  <button type="button" id="musicMiniToggle" class="music-mini-toggle" aria-label="Show music player">🎵</button>
+  <div class="music-mini-bar" id="musicMiniDragHandle">
+    <span class="music-mini-title" id="musicMiniTitle">No track</span>
+    <button type="button" id="musicMiniPlayPause" class="music-mini-btn" aria-label="Play">▶</button>
+    <button type="button" id="musicMiniNext" class="music-mini-btn" aria-label="Next track">⏭</button>
+    <button type="button" id="musicMiniCollapse" class="music-mini-btn" aria-label="Minimize">─</button>
   </div>
 </div>
 

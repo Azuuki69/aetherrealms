@@ -2700,6 +2700,190 @@ async function renderSidebarHighlights() {
   }
 }
 
+// ---------- Music player ----------
+// One shared Audio() object drives both UI surfaces (the big lobby player
+// and the minimal in-match one) — the same track keeps playing seamlessly
+// across screens rather than each surface owning its own player.
+const SONGS = [
+  { file: 'Aether Realms_ Ten Banners.mp3', title: 'Ten Banners' },
+  { file: 'Aether Warclock.mp3', title: 'Aether Warclock' },
+  { file: 'Aetherbound War.mp3', title: 'Aetherbound War' },
+  { file: 'Beastclock Collision.mp3', title: 'Beastclock Collision' },
+  { file: 'Bloodprice Dominion.mp3', title: 'Bloodprice Dominion' },
+  { file: 'Command the Game.mp3', title: 'Command the Game' },
+  { file: 'Convergence of Crowns.mp3', title: 'Convergence of Crowns' },
+  { file: 'Forgeborn Revelry.mp3', title: 'Forgeborn Revelry' },
+  { file: 'Horde Eternal.mp3', title: 'Horde Eternal' },
+  { file: 'Humanity Will Endure.mp3', title: 'Humanity Will Endure' },
+  { file: 'Moonlit Awakening.mp3', title: 'Moonlit Awakening' },
+  { file: 'Mythic Beasts Awaken.mp3', title: 'Mythic Beasts Awaken' },
+  { file: 'Starfire Foundry.mp3', title: 'Starfire Foundry' },
+];
+const music = new Audio();
+music.preload = 'none'; // never fetch a track until it's actually picked
+let musicTrackIndex = -1;
+let musicIsPlaying = false;
+
+function musicSongUrl(song) {
+  return `assets/songs/${encodeURIComponent(song.file)}`;
+}
+
+function loadMusicPrefs() {
+  try {
+    const raw = localStorage.getItem('ar_music_prefs');
+    return raw ? JSON.parse(raw) : {};
+  } catch {
+    return {};
+  }
+}
+function saveMusicPrefs(patch) {
+  try {
+    const prefs = { ...loadMusicPrefs(), ...patch };
+    localStorage.setItem('ar_music_prefs', JSON.stringify(prefs));
+  } catch {
+    /* localStorage unavailable — playback still works, just won't persist */
+  }
+}
+
+function playTrack(index) {
+  const wrapped = ((index % SONGS.length) + SONGS.length) % SONGS.length;
+  musicTrackIndex = wrapped;
+  music.src = musicSongUrl(SONGS[wrapped]);
+  music.play().catch(() => {
+    // Blocked until a user gesture reaches the player at all (autoplay
+    // policy) — not an error, just means playback stays paused until the
+    // next explicit Play click.
+    musicIsPlaying = false;
+    updateMusicUI();
+  });
+  saveMusicPrefs({ trackIndex: wrapped });
+}
+
+function togglePlayPause() {
+  if (musicTrackIndex === -1) {
+    playTrack(0);
+    return;
+  }
+  if (music.paused) music.play().catch(() => {});
+  else music.pause();
+}
+
+function nextTrack() {
+  playTrack(musicTrackIndex === -1 ? 0 : musicTrackIndex + 1);
+}
+function prevTrack() {
+  playTrack(musicTrackIndex === -1 ? 0 : musicTrackIndex - 1);
+}
+
+function setMusicVolume(v) {
+  music.volume = Math.max(0, Math.min(1, v));
+  saveMusicPrefs({ volume: music.volume });
+}
+
+function updateMusicUI() {
+  const hasTrack = musicTrackIndex !== -1;
+  const title = hasTrack ? SONGS[musicTrackIndex].title : 'Pick a track below';
+  const playPauseIcon = musicIsPlaying ? '⏸' : '▶';
+
+  const lobbyTitle = el('musicNowPlayingTitle');
+  if (lobbyTitle) lobbyTitle.textContent = title;
+  const lobbyBtn = el('musicPlayPauseBtn');
+  if (lobbyBtn) { lobbyBtn.textContent = playPauseIcon; lobbyBtn.setAttribute('aria-label', musicIsPlaying ? 'Pause' : 'Play'); }
+  document.querySelectorAll('.music-track-row').forEach((row) => {
+    row.classList.toggle('active', hasTrack && Number(row.dataset.index) === musicTrackIndex);
+  });
+
+  const miniTitle = el('musicMiniTitle');
+  if (miniTitle) miniTitle.textContent = hasTrack ? SONGS[musicTrackIndex].title : 'No track';
+  const miniBtn = el('musicMiniPlayPause');
+  if (miniBtn) { miniBtn.textContent = playPauseIcon; miniBtn.setAttribute('aria-label', musicIsPlaying ? 'Pause' : 'Play'); }
+}
+
+function renderMusicTrackList() {
+  const list = el('musicTrackList');
+  if (!list) return;
+  list.innerHTML = '';
+  SONGS.forEach((song, i) => {
+    const row = document.createElement('div');
+    row.className = 'music-track-row';
+    row.dataset.index = i;
+    row.textContent = song.title;
+    row.addEventListener('click', () => playTrack(i));
+    list.appendChild(row);
+  });
+}
+
+// Small dedicated drag handler for the in-match mini player — deliberately
+// not the battle-screen HUD editor's drag/resize system, which is tightly
+// coupled to its own registered panel list and would be overkill for one
+// widget. Same Pointer Events model already used for the attack-drag-arrow,
+// so mouse and touch both work through one code path.
+function initMusicMiniDrag() {
+  const panel = el('musicPlayerGame');
+  const handle = el('musicMiniDragHandle');
+  let dragOffset = null;
+
+  handle.addEventListener('pointerdown', (e) => {
+    if (e.target.closest('button')) return; // let control buttons work normally
+    const rect = panel.getBoundingClientRect();
+    dragOffset = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    handle.setPointerCapture(e.pointerId);
+  });
+  handle.addEventListener('pointermove', (e) => {
+    if (!dragOffset) return;
+    const maxLeft = window.innerWidth - panel.offsetWidth - 4;
+    const maxTop = window.innerHeight - panel.offsetHeight - 4;
+    const left = Math.max(4, Math.min(maxLeft, e.clientX - dragOffset.x));
+    const top = Math.max(4, Math.min(maxTop, e.clientY - dragOffset.y));
+    panel.style.left = `${left}px`;
+    panel.style.top = `${top}px`;
+    panel.style.right = 'auto';
+  });
+  const endDrag = (e) => {
+    if (!dragOffset) return;
+    dragOffset = null;
+    saveMusicPrefs({ miniLeft: panel.style.left, miniTop: panel.style.top });
+    try { handle.releasePointerCapture(e.pointerId); } catch { /* already released */ }
+  };
+  handle.addEventListener('pointerup', endDrag);
+  handle.addEventListener('pointercancel', endDrag);
+}
+
+function initMusicPlayer() {
+  renderMusicTrackList();
+
+  const prefs = loadMusicPrefs();
+  setMusicVolume(typeof prefs.volume === 'number' ? prefs.volume : 0.7);
+  el('musicVolumeSlider').value = Math.round(music.volume * 100);
+  if (Number.isInteger(prefs.trackIndex) && prefs.trackIndex >= 0 && prefs.trackIndex < SONGS.length) {
+    musicTrackIndex = prefs.trackIndex;
+    music.src = musicSongUrl(SONGS[musicTrackIndex]);
+  }
+  if (prefs.miniLeft && prefs.miniTop) {
+    const panel = el('musicPlayerGame');
+    panel.style.left = prefs.miniLeft;
+    panel.style.top = prefs.miniTop;
+    panel.style.right = 'auto';
+  }
+
+  music.addEventListener('play', () => { musicIsPlaying = true; updateMusicUI(); });
+  music.addEventListener('pause', () => { musicIsPlaying = false; updateMusicUI(); });
+  music.addEventListener('ended', nextTrack);
+
+  el('musicPlayPauseBtn').addEventListener('click', togglePlayPause);
+  el('musicPrevBtn').addEventListener('click', prevTrack);
+  el('musicNextBtn').addEventListener('click', nextTrack);
+  el('musicVolumeSlider').addEventListener('input', (e) => setMusicVolume(e.target.value / 100));
+
+  el('musicMiniPlayPause').addEventListener('click', togglePlayPause);
+  el('musicMiniNext').addEventListener('click', nextTrack);
+  el('musicMiniToggle').addEventListener('click', () => el('musicPlayerGame').classList.remove('collapsed'));
+  el('musicMiniCollapse').addEventListener('click', () => el('musicPlayerGame').classList.add('collapsed'));
+  initMusicMiniDrag();
+
+  updateMusicUI();
+}
+
 function renderFactionThumbnails() {
   for (const faction of FACTION_KEYS) {
     const btn = document.querySelector(`.faction-card[data-faction="${faction}"] .thumb`);
@@ -2722,6 +2906,7 @@ function renderFactionThumbnails() {
   initChat();
   initLog();
   initTurnTimer();
+  initMusicPlayer();
   renderFactionThumbnails();
   FACTION_KEYS.forEach(renderDeckBadgeRow);
   loadRankings();
