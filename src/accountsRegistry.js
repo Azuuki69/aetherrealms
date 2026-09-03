@@ -11,7 +11,7 @@ const ADMIN_USERNAMES = new Set(['kochiyo']);
 function isAdmin(username) {
   return !!username && ADMIN_USERNAMES.has(username.toLowerCase());
 }
-const LOBBY_LAYOUTS = ['classic', 'sidebar', 'compact', 'showcase'];
+const LOBBY_LAYOUTS = ['classic', 'sidebar', 'compact', 'showcase', 'sidebar-hud'];
 
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), { status, headers: { 'content-type': 'application/json' } });

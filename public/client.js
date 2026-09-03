@@ -2432,6 +2432,7 @@ function initAdminPanel() {
       currentLobbyLayout = layout;
       el('lobby').dataset.layout = layout;
       highlightCurrentLayout();
+      refreshSidebarWidgets();
       setAdminStatus(`Site layout set to "${btn.querySelector('.layout-name').textContent}".`);
     } catch (err) {
       setAdminStatus(err.message || 'Failed to set layout.');
@@ -2611,6 +2612,94 @@ async function applyLobbyLayout() {
   el('lobby').dataset.layout = currentLobbyLayout;
 }
 
+// The two "Sidebar + HUD" compartments — only ever populated/visible when
+// that layout is active (see the #lobby[data-layout="sidebar-hud"] CSS).
+// Calling these when a different layout is active is harmless (they just
+// fill hidden elements) but wasteful, so callers gate on currentLobbyLayout.
+function refreshSidebarWidgets() {
+  if (currentLobbyLayout !== 'sidebar-hud') return;
+  renderSidebarPreview();
+  renderSidebarHighlights();
+}
+
+// Purely decorative "Featured Matchup" — two random factions' real cards,
+// rendered with buildDeckPreviewCardEl() (the same function the "View Deck"
+// modal's card grid already uses), so it's authentic game art/stats rather
+// than a mockup, and gets that function's hover/tap-to-preview for free.
+function renderSidebarPreview() {
+  const container = el('lobbySidebarPreview');
+  if (!container) return;
+  const keys = [...FACTION_KEYS].sort(() => Math.random() - 0.5).slice(0, 2);
+  const [a, b] = keys.map((k) => factionData[k]);
+  if (!a || !b) return;
+  // The evocative names ("Mythic Beasts", "Elven Court") only exist as the
+  // faction picker's own hardcoded label text — factionData's own
+  // displayName field is just the short faction name — so this reads the
+  // richer label straight from the already-rendered picker instead of
+  // hardcoding a second copy of the name list here.
+  const labelFor = (key) => document.querySelector(`.faction-card[data-faction="${key}"] .label`)?.textContent || key;
+
+  container.innerHTML = '';
+  const heading = document.createElement('h4');
+  heading.textContent = 'Featured Matchup';
+  container.appendChild(heading);
+
+  const matchup = document.createElement('div');
+  matchup.className = 'sidebar-matchup';
+  const badgeA = document.createElement('span');
+  badgeA.className = 'sidebar-faction-badge';
+  badgeA.textContent = labelFor(keys[0]);
+  const vs = document.createElement('span');
+  vs.className = 'sidebar-matchup-vs';
+  vs.textContent = 'VS';
+  const badgeB = document.createElement('span');
+  badgeB.className = 'sidebar-faction-badge';
+  badgeB.textContent = labelFor(keys[1]);
+  matchup.append(badgeA, vs, badgeB);
+  container.appendChild(matchup);
+
+  const cardRow = document.createElement('div');
+  cardRow.className = 'sidebar-card-row';
+  for (const faction of [a, b]) {
+    const units = (faction.cards || []).filter((c) => c.type !== 'spell');
+    const pick = units[Math.floor(Math.random() * units.length)];
+    if (pick) cardRow.appendChild(buildDeckPreviewCardEl(pick));
+  }
+  container.appendChild(cardRow);
+}
+
+// Compact "Top 3" highlight, distinct from the full Players/Decks tables
+// that still sit below it in this layout — a highlight, not a duplicate.
+async function renderSidebarHighlights() {
+  const container = el('lobbySidebarHighlights');
+  if (!container) return;
+  container.innerHTML = '<h4>Top Players</h4><p class="admin-loading">Loading…</p>';
+  try {
+    const res = await fetch('api/rankings');
+    const data = await res.json();
+    const top = (data.players || []).slice(0, 3);
+    container.innerHTML = '';
+    const heading = document.createElement('h4');
+    heading.textContent = 'Top Players';
+    container.appendChild(heading);
+    if (top.length === 0) {
+      const empty = document.createElement('p');
+      empty.className = 'admin-loading';
+      empty.textContent = 'No ranked players yet.';
+      container.appendChild(empty);
+      return;
+    }
+    top.forEach((p, i) => {
+      const row = document.createElement('div');
+      row.className = 'sidebar-highlight-row';
+      row.innerHTML = `<span class="sidebar-highlight-rank">${i + 1}</span><span class="sidebar-highlight-name">${escapeHtml(p.username)}</span><span class="sidebar-highlight-value">${p.wins}W / ${p.losses}L</span>`;
+      container.appendChild(row);
+    });
+  } catch {
+    container.innerHTML = '<h4>Top Players</h4><p class="admin-loading">Couldn\'t load.</p>';
+  }
+}
+
 function renderFactionThumbnails() {
   for (const faction of FACTION_KEYS) {
     const btn = document.querySelector(`.faction-card[data-faction="${faction}"] .thumb`);
@@ -2624,6 +2713,7 @@ function renderFactionThumbnails() {
 
 (async function init() {
   await Promise.all([loadFactionData(), applyLobbyLayout()]);
+  refreshSidebarWidgets();
   initLobby();
   initDeckPreview();
   initAccount();

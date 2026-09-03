@@ -135,6 +135,12 @@
       <tbody id="decksTableBody"></tbody>
     </table>
   </div>
+
+  <!-- Only populated/shown in the "Sidebar + HUD" layout — see
+       renderSidebarPreview()/renderSidebarHighlights() in client.js. Empty
+       and inert (display:none by default) for every other layout. -->
+  <div id="lobbySidebarPreview" class="sidebar-widget sidebar-preview"></div>
+  <div id="lobbySidebarHighlights" class="sidebar-widget sidebar-highlights"></div>
 </div>
 
 <div id="game" class="screen hidden">
@@ -406,6 +412,10 @@
         <button type="button" class="layout-btn" data-layout="showcase">
           <span class="layout-name">Showcase</span>
           <span class="layout-desc">Faction picker front and center, ideal for new players browsing decks.</span>
+        </button>
+        <button type="button" class="layout-btn" data-layout="sidebar-hud">
+          <span class="layout-name">Sidebar + HUD</span>
+          <span class="layout-desc">Sidebar layout with a featured matchup preview and a leaderboard highlight above the rankings.</span>
         </button>
       </div>
     </div>
