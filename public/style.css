@@ -1677,4 +1677,40 @@ body:has(#chatPanel:not(.collapsed)) .hand {
      this size (see isMobileLayout() in client.js) — only the always-needed
      "Back to Lobby" control (part of the same container) stays. */
   #hudEditToggle, #hudResetLayout { display: none; }
+
+  /* --- Log/Chat: collapsed to small circular icon buttons pinned to the
+     side edges, well clear of the bottom controls bar, instead of the
+     desktop's full-width "📜 Log"/"💬 Chat" pills — those were both up to
+     300px wide anchored at the SAME bottom-16px corner pair, which
+     overlapped each other on anything narrower than ~650px and could sit
+     on top of a wrapped 4th control button (Surrender) underneath. Expanded
+     panels still grow upward from this anchor exactly as before (bottom
+     stays fixed, height added pushes the top edge up) — only the collapsed
+     resting position and size change. --- */
+  #logPanel, #chatPanel {
+    bottom: max(calc(env(safe-area-inset-bottom, 0px) + 128px), 128px);
+  }
+  #logPanel { left: 6px; }
+  #chatPanel { right: 6px; }
+  /* #logPanel/#chatPanel (ID selectors, specificity 1-0-0) already set
+     width:300px in the base stylesheet — a plain .log-panel.collapsed class
+     override (0-2-0) can never win that fight regardless of source order,
+     so these repeat the ID to actually take effect. */
+  #logPanel.collapsed, #chatPanel.collapsed { width: 46px; max-width: 46px; }
+  #logPanel:not(.collapsed), #chatPanel:not(.collapsed) {
+    width: min(280px, calc(100vw - 20px));
+  }
+  #logPanel.collapsed .log-toggle, #chatPanel.collapsed .chat-toggle {
+    position: relative;
+    width: 46px;
+    height: 46px;
+    padding: 0;
+    justify-content: center;
+    border-radius: 50%;
+  }
+  #logPanel.collapsed .toggle-label, #chatPanel.collapsed .toggle-label { display: none; }
+  .toggle-icon { font-size: 1.1rem; line-height: 1; }
+  /* Corner badge instead of an inline margin-left:auto pill — there's no
+     "far right of a wide button" left once the button is a small circle. */
+  #chatPanel.collapsed .chat-badge { position: absolute; top: -2px; right: -2px; margin-left: 0; }
 }
