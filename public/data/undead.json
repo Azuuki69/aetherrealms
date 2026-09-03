@@ -9,7 +9,7 @@
                       "power":  1,
                       "defense":  2,
                       "text":  "REBIRTH: The first time this would die, return it to your hand at 1 HP instead.",
-                      "image":  "assets/cards/web/undead/01_skeleton.jpg"
+                      "image":  "assets/cards/art/undead/undead_01.png"
                   },
                   {
                       "id":  "undead_02",
@@ -18,7 +18,7 @@
                       "power":  1,
                       "defense":  2,
                       "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
-                      "image":  "assets/cards/web/undead/02_shambler.jpg"
+                      "image":  "assets/cards/art/undead/undead_02.png"
                   },
                   {
                       "id":  "undead_03",
@@ -27,7 +27,7 @@
                       "power":  2,
                       "defense":  1,
                       "text":  "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
-                      "image":  "assets/cards/web/undead/03_bone_archer.jpg"
+                      "image":  "assets/cards/art/undead/undead_03.png"
                   },
                   {
                       "id":  "undead_04",
@@ -36,7 +36,7 @@
                       "power":  3,
                       "defense":  2,
                       "text":  "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
-                      "image":  "assets/cards/web/undead/04_bone_hurler.jpg"
+                      "image":  "assets/cards/art/undead/undead_04.png"
                   },
                   {
                       "id":  "undead_05",
@@ -45,7 +45,7 @@
                       "power":  2,
                       "defense":  3,
                       "text":  "REAP: Draw a card whenever an enemy unit dies.",
-                      "image":  "assets/cards/web/undead/05_barrow_wight.jpg"
+                      "image":  "assets/cards/art/undead/undead_05.png"
                   },
                   {
                       "id":  "undead_06",
@@ -54,7 +54,7 @@
                       "power":  2,
                       "defense":  3,
                       "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
-                      "image":  "assets/cards/web/undead/06_dread_knight.jpg"
+                      "image":  "assets/cards/art/undead/undead_06.png"
                   },
                   {
                       "id":  "undead_07",
@@ -63,7 +63,7 @@
                       "power":  2,
                       "defense":  3,
                       "text":  "REBIRTH: The first time this would die, return it to your hand at 1 HP instead.",
-                      "image":  "assets/cards/web/undead/07_ghoul.jpg"
+                      "image":  "assets/cards/art/undead/undead_07.png"
                   },
                   {
                       "id":  "undead_08",
@@ -72,7 +72,7 @@
                       "power":  4,
                       "defense":  2,
                       "text":  "CURSE: Deals 1 DMG to a random enemy at the end of your turn.",
-                      "image":  "assets/cards/web/undead/08_crypt_stalker.jpg"
+                      "image":  "assets/cards/art/undead/undead_08.png"
                   },
                   {
                       "id":  "undead_09",
@@ -81,7 +81,7 @@
                       "power":  4,
                       "defense":  2,
                       "text":  "REBIRTH: The first time this would die, return it to your hand at 1 HP instead.",
-                      "image":  "assets/cards/web/undead/09_reaver.jpg"
+                      "image":  "assets/cards/art/undead/undead_09.png"
                   },
                   {
                       "id":  "undead_10",
@@ -90,7 +90,7 @@
                       "power":  3,
                       "defense":  3,
                       "text":  "REBIRTH: The first time this would die, return it to your hand at 1 HP instead.",
-                      "image":  "assets/cards/web/undead/10_wraith.jpg"
+                      "image":  "assets/cards/art/undead/undead_10.png"
                   },
                   {
                       "id":  "undead_11",
@@ -99,7 +99,7 @@
                       "power":  3,
                       "defense":  3,
                       "text":  "FORTIFY: Gains +1 HP after surviving combat.",
-                      "image":  "assets/cards/web/undead/11_dirge_piper.jpg"
+                      "image":  "assets/cards/art/undead/undead_11.png"
                   },
                   {
                       "id":  "undead_12",
@@ -108,7 +108,7 @@
                       "power":  4,
                       "defense":  4,
                       "text":  "CURSE: Deals 1 DMG to a random enemy at the end of your turn.",
-                      "image":  "assets/cards/web/undead/12_bone_shaper.jpg"
+                      "image":  "assets/cards/art/undead/undead_12.png"
                   },
                   {
                       "id":  "undead_13",
@@ -117,7 +117,7 @@
                       "power":  4,
                       "defense":  4,
                       "text":  "REBIRTH: The first time this would die, return it to your hand at 1 HP instead.",
-                      "image":  "assets/cards/web/undead/13_banshee.jpg"
+                      "image":  "assets/cards/art/undead/undead_13.png"
                   },
                   {
                       "id":  "undead_14",
@@ -126,7 +126,7 @@
                       "power":  5,
                       "defense":  3,
                       "text":  "REBIRTH: The first time this would die, return it to your hand at 1 HP instead.",
-                      "image":  "assets/cards/web/undead/14_warlock.jpg"
+                      "image":  "assets/cards/art/undead/undead_14.png"
                   },
                   {
                       "id":  "undead_15",
@@ -135,7 +135,7 @@
                       "power":  4,
                       "defense":  4,
                       "text":  "FORTIFY: Gains +1 HP after surviving combat.",
-                      "image":  "assets/cards/web/undead/15_graveweaver.jpg"
+                      "image":  "assets/cards/art/undead/undead_15.png"
                   },
                   {
                       "id":  "undead_16",
@@ -144,7 +144,7 @@
                       "power":  4,
                       "defense":  5,
                       "text":  "REBIRTH: The first time this would die, return it to your hand at 1 HP instead.",
-                      "image":  "assets/cards/web/undead/16_necromancer.jpg"
+                      "image":  "assets/cards/art/undead/undead_16.png"
                   },
                   {
                       "id":  "undead_17",
@@ -153,7 +153,7 @@
                       "power":  4,
                       "defense":  5,
                       "text":  "REAP: Draw a card whenever an enemy unit dies.",
-                      "image":  "assets/cards/web/undead/17_voidcaller.jpg"
+                      "image":  "assets/cards/art/undead/undead_17.png"
                   },
                   {
                       "id":  "undead_18",
@@ -162,7 +162,7 @@
                       "power":  3,
                       "defense":  6,
                       "text":  "TAUNT: Enemies must attack this unit first.",
-                      "image":  "assets/cards/web/undead/18_grave_guard.jpg"
+                      "image":  "assets/cards/art/undead/undead_18.png"
                   },
                   {
                       "id":  "undead_19",
@@ -171,7 +171,7 @@
                       "power":  4,
                       "defense":  7,
                       "text":  "REBIRTH: The first time this would die, return it to your hand at 1 HP instead.",
-                      "image":  "assets/cards/web/undead/19_death_knight.jpg"
+                      "image":  "assets/cards/art/undead/undead_19.png"
                   },
                   {
                       "id":  "undead_20",
@@ -180,7 +180,7 @@
                       "power":  4,
                       "defense":  7,
                       "text":  "CURSE: Deals 1 DMG to a random enemy at the end of your turn.",
-                      "image":  "assets/cards/web/undead/20_charnel_ram.jpg"
+                      "image":  "assets/cards/art/undead/undead_20.png"
                   },
                   {
                       "id":  "undead_21",
@@ -189,7 +189,7 @@
                       "power":  5,
                       "defense":  6,
                       "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
-                      "image":  "assets/cards/web/undead/21_plague_cart.jpg"
+                      "image":  "assets/cards/art/undead/undead_21.png"
                   },
                   {
                       "id":  "undead_22",
@@ -198,7 +198,7 @@
                       "power":  3,
                       "defense":  6,
                       "text":  "REBIRTH: The first time this would die, return it to your hand at 1 HP instead. REAP: Draw a card whenever an enemy unit dies.",
-                      "image":  "assets/cards/web/undead/22_lich.jpg"
+                      "image":  "assets/cards/art/undead/undead_22.png"
                   },
                   {
                       "id":  "undead_23",
@@ -207,7 +207,7 @@
                       "power":  6,
                       "defense":  6,
                       "text":  "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
-                      "image":  "assets/cards/web/undead/23_vampire_lord.jpg"
+                      "image":  "assets/cards/art/undead/undead_23.png"
                   },
                   {
                       "id":  "undead_24",
@@ -216,7 +216,7 @@
                       "power":  7,
                       "defense":  7,
                       "text":  "CURSE: Deals 1 DMG to a random enemy at the end of your turn.",
-                      "image":  "assets/cards/web/undead/24_sandworm.jpg"
+                      "image":  "assets/cards/art/undead/undead_24.png"
                   },
                   {
                       "id":  "undead_25",
@@ -225,7 +225,7 @@
                       "power":  6,
                       "defense":  9,
                       "text":  "TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
-                      "image":  "assets/cards/web/undead/25_bone_colossus.jpg"
+                      "image":  "assets/cards/art/undead/undead_25.png"
                   },
                   {
                       "id":  "undead_26",
@@ -234,7 +234,7 @@
                       "power":  8,
                       "defense":  9,
                       "text":  "REBIRTH: The first time this would die, return it to your hand at 1 HP instead.",
-                      "image":  "assets/cards/web/undead/26_dracolich.jpg"
+                      "image":  "assets/cards/art/undead/undead_26.png"
                   },
                   {
                       "id":  "undead_27",
@@ -243,7 +243,7 @@
                       "type":  "spell",
                       "copies":  2,
                       "text":  "Draw 4 cards.",
-                      "image":  "assets/cards/web/undead/27_ancient_wisdom.jpg"
+                      "image":  "assets/cards/art/undead/undead_27.png"
                   },
                   {
                       "id":  "undead_28",
@@ -254,7 +254,7 @@
                       "target":  "enemy_unit",
                       "effect":  { "kind": "damage_then_draw_on_kill", "amount": 1 },
                       "text":  "Deal 1 damage to an enemy unit. If it dies, draw a card.",
-                      "image":  "assets/cards/web/undead/28_withering_touch.jpg"
+                      "image":  "assets/cards/art/undead/undead_28.png"
                   },
                   {
                       "id":  "undead_29",
@@ -265,7 +265,7 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "death_ward" },
                       "text":  "If target allied unit would die this turn, it returns to your hand at 1 HP instead.",
-                      "image":  "assets/cards/web/undead/29_bone_ward.jpg"
+                      "image":  "assets/cards/art/undead/undead_29.png"
                   },
                   {
                       "id":  "undead_30",
@@ -276,7 +276,7 @@
                       "target":  "enemy_unit",
                       "effect":  { "kind": "damage_then_delayed", "amount": 1, "delayedAmount": 1 },
                       "text":  "Deal 1 damage to an enemy unit now, and 1 more at the start of your next turn.",
-                      "image":  "assets/cards/web/undead/30_rotting_curse.jpg"
+                      "image":  "assets/cards/art/undead/undead_30.png"
                   },
                   {
                       "id":  "undead_31",
@@ -287,7 +287,7 @@
                       "target":  "enemy_unit",
                       "effect":  { "kind": "damage", "amount": 3 },
                       "text":  "Deal 3 damage to an enemy unit.",
-                      "image":  "assets/cards/web/undead/31_grave_chill.jpg"
+                      "image":  "assets/cards/art/undead/undead_31.png"
                   },
                   {
                       "id":  "undead_32",
@@ -298,7 +298,7 @@
                       "target":  "none",
                       "effect":  { "kind": "reclaim_graveyard" },
                       "text":  "Return the most recently destroyed unit from your graveyard to your hand.",
-                      "image":  "assets/cards/web/undead/32_unquiet_grave.jpg"
+                      "image":  "assets/cards/art/undead/undead_32.png"
                   },
                   {
                       "id":  "undead_33",
@@ -309,7 +309,7 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "buff_power_then_recoil", "powerAmount": 2, "recoilAmount": 1 },
                       "text":  "Target allied unit gains +2 DMG until end of turn, then takes 1 recoil damage at the end of the turn.",
-                      "image":  "assets/cards/web/undead/33_undying_pact.jpg"
+                      "image":  "assets/cards/art/undead/undead_33.png"
                   },
                   {
                       "id":  "undead_34",
@@ -320,7 +320,7 @@
                       "target":  "enemy_unit",
                       "effect":  { "kind": "damage_and_heal_castle", "amount": 2, "healAmount": 2 },
                       "text":  "Deal 2 damage to an enemy unit and heal your castle for 2.",
-                      "image":  "assets/cards/web/undead/34_soul_siphon.jpg"
+                      "image":  "assets/cards/art/undead/undead_34.png"
                   },
                   {
                       "id":  "undead_35",
@@ -331,7 +331,7 @@
                       "target":  "none",
                       "effect":  { "kind": "draw_per_death", "minimum": 1 },
                       "text":  "Draw a card for each allied unit that died this turn (minimum 1).",
-                      "image":  "assets/cards/web/undead/35_reap_the_fallen.jpg"
+                      "image":  "assets/cards/art/undead/undead_35.png"
                   },
                   {
                       "id":  "undead_36",
@@ -342,7 +342,7 @@
                       "target":  "none",
                       "effect":  { "kind": "damage_all_enemies", "amount": 1 },
                       "text":  "Deal 1 damage to all enemy units.",
-                      "image":  "assets/cards/web/undead/36_plague_wind.jpg"
+                      "image":  "assets/cards/art/undead/undead_36.png"
                   },
                   {
                       "id":  "undead_37",
@@ -353,7 +353,18 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "buff_defense", "amount": 2 },
                       "text":  "Target allied unit gains +0/+2 until end of turn.",
-                      "image":  "assets/cards/web/undead/37_grave_shroud.jpg"
+                      "image":  "assets/cards/art/undead/undead_37.png"
+                  },
+                  {
+                      "id":  "undead_38",
+                      "name":  "Raise Dead",
+                      "cost":  4,
+                      "type":  "spell",
+                      "copies":  1,
+                      "target":  "empty_ally_slot",
+                      "effect":  { "kind": "reanimate" },
+                      "text":  "Return a random unit from your graveyard to the battlefield in the chosen empty slot.",
+                      "image":  "assets/cards/art/undead/undead_38.png"
                   }
               ]
 }

@@ -97,6 +97,14 @@ export class MatchRoom {
         return;
       }
 
+      // A Discover-style effect parks the game until the choosing player
+      // resolves it — mirrors the coinflip gate above exactly, including
+      // blocking chat/surrender while it's pending, the same precedented
+      // limitation coinflip already has.
+      if (game.pendingChoice && msg.type !== 'discover_choice') {
+        return this.sendTo(ws, { type: 'error', message: 'Resolve the pending card choice first.' });
+      }
+
       switch (msg.type) {
         case 'chat': {
           const text = (msg.text ?? '').toString().trim().slice(0, 240);
@@ -128,6 +136,18 @@ export class MatchRoom {
           game.phase = 'gameover';
           game.log.push(`${owner} surrenders the match.`);
           break;
+        case 'discover_choice': {
+          const choice = game.pendingChoice;
+          if (!choice || choice.owner !== owner) throw new Error('No pending choice for you to resolve.');
+          const idx = msg.index;
+          if (!Number.isInteger(idx) || idx < 0 || idx >= choice.options.length) {
+            throw new Error('Invalid choice.');
+          }
+          game.players[owner].hand.push(choice.options[idx]);
+          game.log.push(`${owner} discovers ${choice.options[idx].name}.`);
+          game.pendingChoice = null;
+          break;
+        }
         default:
           return this.sendTo(ws, { type: 'error', message: `Unknown message type: ${msg.type}` });
       }
@@ -253,6 +273,13 @@ export class MatchRoom {
       // firing, so this is a defensive guard, not the expected path.
       await this.state.storage.setAlarm(game.turnDeadlineAt);
       return;
+    }
+    // A pending Discover choice blocks end_turn/surrender just like it
+    // blocks everything else — nothing else would ever clear it, so a
+    // stale choice would otherwise leak into the next player's turn.
+    if (game.pendingChoice) {
+      game.log.push(`${game.pendingChoice.owner}'s pending card choice times out and is discarded.`);
+      game.pendingChoice = null;
     }
     const timedOutPlayer = game.turn;
     game.log.push(`${timedOutPlayer} ran out of time — turn passes automatically.`);

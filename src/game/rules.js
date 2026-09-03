@@ -27,6 +27,8 @@ function detectKeywords(text) {
   if (/siege|building/.test(t)) kw.push('siege');
   if (/trample|cleave/.test(t)) kw.push('trample');
   if (/charge/.test(t)) kw.push('charge');
+  if (/first strike/.test(t)) kw.push('firststrike');
+  if (/windfury/.test(t)) kw.push('windfury');
   if (/precise|ignores? taunt/.test(t)) kw.push('precise');
   if (/mend/.test(t)) kw.push('mend');
   if (/rage/.test(t)) kw.push('rage');
@@ -182,6 +184,11 @@ export function createGame(factionA, factionB, firstPlayer = 'A', usernameA = nu
     turnEffects: [],
     playSeq: 0,
     lastPlayedCard: null,
+    // Set by the 'discover' spell effect and cleared by discover_choice (or
+    // by the turn-timer alarm on timeout) — while non-null, matchRoom.js
+    // blocks every other message type until it's resolved, mirroring the
+    // existing coinflip-ack gate.
+    pendingChoice: null,
   };
 }
 
@@ -505,14 +512,19 @@ export function startTurn(game, owner) {
   player.diedThisTurn = 0;
   // Captured before the reset loop below clears it — reflects whatever
   // happened in this player's own combat phase last turn, since the
-  // opponent's turn in between never touches these units' flags.
-  player.attackedLastTurn = allUnits(player).some((u) => u.attackedThisTurn);
+  // opponent's turn in between never touches these units' flags. Checked
+  // against actionsUsedThisTurn rather than attackedThisTurn so a Windfury
+  // unit that used only 1 of its 2 actions still correctly counts as having
+  // attacked (attackedThisTurn only flips once ALL of a unit's actions are
+  // spent, which for a non-Windfury unit is the same instant either way).
+  player.attackedLastTurn = allUnits(player).some((u) => (u.actionsUsedThisTurn || 0) > 0);
   processPendingEffects(game, owner);
   for (const lane of ['vanguard', 'rearguard']) {
     player.board[lane].forEach((unit, idx) => {
       if (!unit) return;
       unit.sick = false;
       unit.attackedThisTurn = false;
+      unit.actionsUsedThisTurn = 0;
       unit.dealtDamageThisTurn = false;
       unit.tempPowerBonus = 0;
       unit.damageAbsorb = 0;
@@ -725,6 +737,7 @@ function resolveSpellEffect(game, owner, card, target) {
         unit.hasShield = unit.keywords.includes('shield');
         delete unit.sick;
         delete unit.attackedThisTurn;
+        delete unit.actionsUsedThisTurn;
         player.hand.push(unit);
         game.log.push(`${card.name} returns ${unit.name} to ${owner}'s hand.`);
       }
@@ -801,6 +814,52 @@ function resolveSpellEffect(game, owner, card, target) {
       } else {
         game.log.push(`${card.name} finds nothing in ${owner}'s graveyard.`);
       }
+      break;
+    }
+    case 'reanimate': {
+      // The graveyard mixes dead units and cast spells (both destroyUnit()
+      // and playCard()'s spell branch push into it) — must filter to units
+      // only, or a spell card with no power/defense could land on the board.
+      const candidates = player.graveyard.filter((c) => c.type !== 'spell');
+      if (candidates.length === 0) {
+        game.log.push(`${card.name} finds no unit in ${owner}'s graveyard.`);
+        break;
+      }
+      const chosen = candidates[Math.floor(Math.random() * candidates.length)];
+      player.graveyard.splice(player.graveyard.indexOf(chosen), 1);
+      // Same reset-to-clean-baseline field list as `bounce`, minus deleting
+      // sick/attackedThisTurn/actionsUsedThisTurn (which bounce can afford
+      // since a hand card gets them freshly re-set by playCard() on replay
+      // — a reanimated unit skips playCard() entirely, going straight onto
+      // the board, so these must be explicitly set here instead).
+      chosen.defense = chosen.maxDefense;
+      chosen.power = chosen.basePower;
+      chosen.tempPowerBonus = 0;
+      chosen.turnPowerBonus = 0;
+      chosen.turnDefenseBonus = 0;
+      chosen.vulnerableBonus = 0;
+      chosen.hasShield = chosen.keywords.includes('shield');
+      chosen.sick = !chosen.keywords.includes('charge');
+      chosen.attackedThisTurn = false;
+      chosen.actionsUsedThisTurn = 0;
+      player.board[target.lane][target.slot] = chosen;
+      game.log.push(`${card.name} reanimates ${chosen.name} onto the battlefield.`);
+      break;
+    }
+    // Reveals 3 cards from the caster's own faction pool and parks them for
+    // the player to choose from — unlike every other case here, this does
+    // NOT finish the effect (no card reaches hand yet, no checkWinner call
+    // needed): matchRoom.js's discover_choice handler finishes the job once
+    // the player picks. See the pendingChoice field set in createGame().
+    case 'discover': {
+      const pool = FACTIONS[player.faction].cards.filter((c) => c.id !== card.id);
+      // Clone before shuffling — FACTIONS[...].cards is a module-level array
+      // shared by every concurrent match; shuffling it in place would
+      // corrupt every other game using this faction (buildDeck() avoids
+      // this same trap by only ever shuffling its own freshly-built deck).
+      const picks = shuffle([...pool]).slice(0, Math.min(3, pool.length)).map(makeCardInstance);
+      game.pendingChoice = { owner, options: picks, sourceCardName: card.name };
+      game.log.push(`${card.name} reveals ${picks.length} cards for ${owner} to choose from.`);
       break;
     }
     case 'damage_and_heal_castle': {
@@ -1166,6 +1225,14 @@ function validateSpellTarget(game, owner, card, target) {
     if (card.effect?.maxTargetPower !== undefined && targetUnit.power > card.effect.maxTargetPower) {
       throw new Error(`This spell can only target units with ${card.effect.maxTargetPower} or less DMG.`);
     }
+  } else if (kind === 'empty_ally_slot') {
+    if (!target || (target.lane !== 'vanguard' && target.lane !== 'rearguard')) {
+      throw new Error('Choose a lane to place the unit.');
+    }
+    if (target.slot === undefined || target.slot < 0 || target.slot >= LANES) {
+      throw new Error('Choose a valid slot.');
+    }
+    if (you.board[target.lane][target.slot]) throw new Error('That slot is already occupied.');
   } else if (kind === 'ally_row') {
     if (!target || (target.lane !== 'vanguard' && target.lane !== 'rearguard')) {
       throw new Error('Choose a row to target.');
@@ -1216,7 +1283,7 @@ export function playCard(game, owner, cardInstanceId, lane, slotIndex, spellTarg
     }
     player.graveyard.push(card);
     game.playSeq += 1;
-    game.lastPlayedCard = { seq: game.playSeq, owner, type: 'spell', name: card.name, image: card.image, text: card.text, cost: card.cost };
+    game.lastPlayedCard = { seq: game.playSeq, owner, type: 'spell', cardId: card.cardId, name: card.name, image: card.image, text: card.text, cost: card.cost };
     checkWinner(game);
     return card;
   }
@@ -1227,10 +1294,10 @@ export function playCard(game, owner, cardInstanceId, lane, slotIndex, spellTarg
   player.hand.splice(idx, 1);
   player.mana -= effectiveCost;
   if (discount > 0) player.nextUnitDiscount = 0;
-  const unit = { ...card, sick: !card.keywords.includes('charge'), attackedThisTurn: false };
+  const unit = { ...card, sick: !card.keywords.includes('charge'), attackedThisTurn: false, actionsUsedThisTurn: 0 };
   player.board[lane][slotIndex] = unit;
   game.playSeq += 1;
-  game.lastPlayedCard = { seq: game.playSeq, owner, type: 'unit', name: card.name, image: card.image, text: card.text, cost: card.cost };
+  game.lastPlayedCard = { seq: game.playSeq, owner, type: 'unit', cardId: card.cardId, name: card.name, image: card.image, text: card.text, cost: card.cost };
   game.log.push(`${owner} played ${card.name} to ${lane} ${slotIndex + 1}.`);
 
   if (unit.keywords.includes('mend')) {
@@ -1366,7 +1433,12 @@ export function attack(game, owner, attackerLane, attackerSlot, targetLane, targ
 
   const opponentKey = opponentOf(owner);
   const opponent = game.players[opponentKey];
-  unit.attackedThisTurn = true;
+  // Windfury grants 2 total actions (attack or move, any combination) rather
+  // than "2 attacks specifically" — actionsUsedThisTurn is the shared
+  // counter attack() and moveUnit() both advance; attackedThisTurn keeps its
+  // existing meaning ("no actions left") for every other reader of it.
+  unit.actionsUsedThisTurn = (unit.actionsUsedThisTurn || 0) + 1;
+  unit.attackedThisTurn = unit.actionsUsedThisTurn >= (unit.keywords.includes('windfury') ? 2 : 1);
   const attackPower = effectivePower(game, owner, attackerLane, attackerSlot);
 
   // Undefended-column fallthrough: the one way to reach the castle, available
@@ -1439,24 +1511,47 @@ export function attack(game, owner, attackerLane, attackerSlot, targetLane, targ
     }
   }
 
-  targetUnit.defense -= fwdDmg;
-  unit.defense -= backDmg;
-  if (fwdDmg > 0) {
-    unit.dealtDamageThisTurn = true;
-    game.log.push(`${owner}'s ${unit.name} hits ${targetUnit.name} for ${fwdDmg}.`);
-  }
-  if (backDmg > 0) game.log.push(`${targetUnit.name} retaliates against ${unit.name} for ${backDmg}.`);
+  // First Strike sequences the exchange instead of resolving both hits at
+  // once: the first-striking side's hit (and its own Lifesteal/Venom) fully
+  // resolves first, and the other side's hit only happens at all if that
+  // side is still alive afterward — a dead unit's own damage never lands.
+  // Both-or-neither side having it stays fully simultaneous, matching every
+  // trade before this keyword existed.
+  const resolveForwardHit = () => {
+    targetUnit.defense -= fwdDmg;
+    if (fwdDmg > 0) {
+      unit.dealtDamageThisTurn = true;
+      game.log.push(`${owner}'s ${unit.name} hits ${targetUnit.name} for ${fwdDmg}.`);
+    }
+    applyLifestealIfAny(game, owner, unit, fwdDmg);
+    if (unit.keywords.includes('venom') && fwdDmg > 0 && targetUnit.defense > 0) {
+      targetUnit.defense = 0;
+      game.log.push(`${targetUnit.name} succumbs to Venom.`);
+    }
+  };
+  const resolveBackwardHit = () => {
+    unit.defense -= backDmg;
+    if (backDmg > 0) game.log.push(`${targetUnit.name} retaliates against ${unit.name} for ${backDmg}.`);
+    if (!isRanged) applyLifestealIfAny(game, opponentKey, targetUnit, backDmg);
+    if (!isRanged && targetUnit.keywords.includes('venom') && backDmg > 0 && unit.defense > 0) {
+      unit.defense = 0;
+      game.log.push(`${unit.name} succumbs to Venom.`);
+    }
+  };
 
-  applyLifestealIfAny(game, owner, unit, fwdDmg);
-  if (!isRanged) applyLifestealIfAny(game, opponentKey, targetUnit, backDmg);
+  const attackerFirstStrike = unit.keywords.includes('firststrike');
+  const defenderFirstStrike = !isRanged && targetUnit.keywords.includes('firststrike');
+  const staged = !isRanged && attackerFirstStrike !== defenderFirstStrike;
 
-  if (unit.keywords.includes('venom') && fwdDmg > 0 && targetUnit.defense > 0) {
-    targetUnit.defense = 0;
-    game.log.push(`${targetUnit.name} succumbs to Venom.`);
-  }
-  if (!isRanged && targetUnit.keywords.includes('venom') && backDmg > 0 && unit.defense > 0) {
-    unit.defense = 0;
-    game.log.push(`${unit.name} succumbs to Venom.`);
+  if (!staged) {
+    resolveForwardHit();
+    resolveBackwardHit();
+  } else if (attackerFirstStrike) {
+    resolveForwardHit();
+    if (targetUnit.defense > 0) resolveBackwardHit();
+  } else {
+    resolveBackwardHit();
+    if (unit.defense > 0) resolveForwardHit();
   }
 
   const targetSurvived = targetUnit.defense > 0;
@@ -1608,7 +1703,8 @@ export function moveUnit(game, owner, fromLane, fromSlot, toLane, toSlot) {
 
   player.board[fromLane][fromSlot] = null;
   player.board[toLane][toSlot] = unit;
-  unit.attackedThisTurn = true;
+  unit.actionsUsedThisTurn = (unit.actionsUsedThisTurn || 0) + 1;
+  unit.attackedThisTurn = unit.actionsUsedThisTurn >= (unit.keywords.includes('windfury') ? 2 : 1);
 
   if (isFrontBack) {
     game.log.push(`${owner}'s ${unit.name} moves to the ${toLane}.`);
@@ -1660,5 +1756,13 @@ export function viewFor(game, owner) {
     you_key: owner,
     lastPlayedCard: game.lastPlayedCard || null,
     turnDeadlineAt: game.turnDeadlineAt || null,
+    // Only the choosing player ever sees the actual revealed options — the
+    // other player just learns a choice is in progress, same redaction
+    // principle as the opponent's hand above.
+    pendingChoice: game.pendingChoice
+      ? game.pendingChoice.owner === owner
+        ? { owner: game.pendingChoice.owner, options: game.pendingChoice.options, sourceCardName: game.pendingChoice.sourceCardName }
+        : { owner: game.pendingChoice.owner, waiting: true }
+      : null,
   };
 }

@@ -9,7 +9,7 @@
                       "power":  1,
                       "defense":  2,
                       "text":  "RESOLVE: Gains +1 HP after surviving combat.",
-                      "image":  "assets/cards/web/human/01_militia.jpg"
+                      "image":  "assets/cards/art/human/human_01.png"
                   },
                   {
                       "id":  "human_02",
@@ -18,7 +18,7 @@
                       "power":  1,
                       "defense":  2,
                       "text":  "TAUNT: Enemies must attack this unit first.",
-                      "image":  "assets/cards/web/human/02_spearman.jpg"
+                      "image":  "assets/cards/art/human/human_02.png"
                   },
                   {
                       "id":  "human_03",
@@ -27,7 +27,7 @@
                       "power":  1,
                       "defense":  2,
                       "text":  "FORMATION: +1 DMG while adjacent to another Human unit.",
-                      "image":  "assets/cards/web/human/03_sergeant.jpg"
+                      "image":  "assets/cards/art/human/human_03.png"
                   },
                   {
                       "id":  "human_04",
@@ -36,7 +36,7 @@
                       "power":  3,
                       "defense":  2,
                       "text":  "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
-                      "image":  "assets/cards/web/human/04_archer.jpg"
+                      "image":  "assets/cards/art/human/human_04.png"
                   },
                   {
                       "id":  "human_05",
@@ -45,7 +45,7 @@
                       "power":  3,
                       "defense":  2,
                       "text":  "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
-                      "image":  "assets/cards/web/human/05_crossbowman.jpg"
+                      "image":  "assets/cards/art/human/human_05.png"
                   },
                   {
                       "id":  "human_06",
@@ -54,7 +54,7 @@
                       "power":  3,
                       "defense":  2,
                       "text":  "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
-                      "image":  "assets/cards/web/human/06_longbowman.jpg"
+                      "image":  "assets/cards/art/human/human_06.png"
                   },
                   {
                       "id":  "human_07",
@@ -63,7 +63,7 @@
                       "power":  2,
                       "defense":  3,
                       "text":  "FORMATION: +1 DMG while adjacent to another Human unit.",
-                      "image":  "assets/cards/web/human/07_halberdier.jpg"
+                      "image":  "assets/cards/art/human/human_07.png"
                   },
                   {
                       "id":  "human_08",
@@ -72,7 +72,7 @@
                       "power":  2,
                       "defense":  4,
                       "text":  "WAR CRY: When played, allied units in this row gain +1 DMG until your next turn.",
-                      "image":  "assets/cards/web/human/08_knight.jpg"
+                      "image":  "assets/cards/art/human/human_08.png"
                   },
                   {
                       "id":  "human_09",
@@ -81,7 +81,7 @@
                       "power":  3,
                       "defense":  3,
                       "text":  "RESOLVE: Gains +1 HP after surviving combat.",
-                      "image":  "assets/cards/web/human/09_lancer.jpg"
+                      "image":  "assets/cards/art/human/human_09.png"
                   },
                   {
                       "id":  "human_10",
@@ -90,7 +90,7 @@
                       "power":  3,
                       "defense":  3,
                       "text":  "TAUNT: Enemies must attack this unit first.",
-                      "image":  "assets/cards/web/human/10_cataphract.jpg"
+                      "image":  "assets/cards/art/human/human_10.png"
                   },
                   {
                       "id":  "human_11",
@@ -99,7 +99,7 @@
                       "power":  3,
                       "defense":  3,
                       "text":  "FORMATION: +1 DMG while adjacent to another Human unit.",
-                      "image":  "assets/cards/web/human/11_duelist.jpg"
+                      "image":  "assets/cards/art/human/human_11.png"
                   },
                   {
                       "id":  "human_12",
@@ -108,7 +108,7 @@
                       "power":  4,
                       "defense":  4,
                       "text":  "MEND: Heals an allied unit for 2 when played.",
-                      "image":  "assets/cards/web/human/12_cleric.jpg"
+                      "image":  "assets/cards/art/human/human_12.png"
                   },
                   {
                       "id":  "human_13",
@@ -117,7 +117,7 @@
                       "power":  4,
                       "defense":  4,
                       "text":  "RESOLVE: Gains +1 HP after surviving combat.",
-                      "image":  "assets/cards/web/human/13_banneret.jpg"
+                      "image":  "assets/cards/art/human/human_13.png"
                   },
                   {
                       "id":  "human_14",
@@ -126,7 +126,7 @@
                       "power":  4,
                       "defense":  4,
                       "text":  "MEND: Heals an allied unit for 2 when played.",
-                      "image":  "assets/cards/web/human/14_chaplain.jpg"
+                      "image":  "assets/cards/art/human/human_14.png"
                   },
                   {
                       "id":  "human_15",
@@ -135,7 +135,7 @@
                       "power":  4,
                       "defense":  4,
                       "text":  "FORMATION: +1 DMG while adjacent to another Human unit.",
-                      "image":  "assets/cards/web/human/15_stormcaller.jpg"
+                      "image":  "assets/cards/art/human/human_15.png"
                   },
                   {
                       "id":  "human_16",
@@ -144,7 +144,7 @@
                       "power":  4,
                       "defense":  5,
                       "text":  "WAR CRY: When played, allied units in this row gain +1 DMG until your next turn.",
-                      "image":  "assets/cards/web/human/16_inquisitor.jpg"
+                      "image":  "assets/cards/art/human/human_16.png"
                   },
                   {
                       "id":  "human_17",
@@ -153,7 +153,7 @@
                       "power":  4,
                       "defense":  5,
                       "text":  "RESOLVE: Gains +1 HP after surviving combat.",
-                      "image":  "assets/cards/web/human/17_templar.jpg"
+                      "image":  "assets/cards/art/human/human_17.png"
                   },
                   {
                       "id":  "human_18",
@@ -162,7 +162,7 @@
                       "power":  4,
                       "defense":  6,
                       "text":  "ADAPTIVE: This unit has Taunt and Charge.",
-                      "image":  "assets/cards/web/human/18_paladin.jpg"
+                      "image":  "assets/cards/art/human/human_18.png"
                   },
                   {
                       "id":  "human_19",
@@ -171,7 +171,7 @@
                       "power":  5,
                       "defense":  6,
                       "text":  "MEND: Heals an allied unit for 2 when played.",
-                      "image":  "assets/cards/web/human/19_war_priest.jpg"
+                      "image":  "assets/cards/art/human/human_19.png"
                   },
                   {
                       "id":  "human_20",
@@ -180,7 +180,7 @@
                       "power":  4,
                       "defense":  7,
                       "text":  "TAUNT: Enemies must attack this unit first.",
-                      "image":  "assets/cards/web/human/20_royal_guard.jpg"
+                      "image":  "assets/cards/art/human/human_20.png"
                   },
                   {
                       "id":  "human_21",
@@ -189,7 +189,7 @@
                       "power":  5,
                       "defense":  6,
                       "text":  "SIEGE: A siege weapon that deals damage without risking retaliation.",
-                      "image":  "assets/cards/web/human/21_siege_tower.jpg"
+                      "image":  "assets/cards/art/human/human_21.png"
                   },
                   {
                       "id":  "human_22",
@@ -198,7 +198,7 @@
                       "power":  6,
                       "defense":  6,
                       "text":  "SIEGE: A siege weapon that deals damage without risking retaliation.",
-                      "image":  "assets/cards/web/human/22_mangonel.jpg"
+                      "image":  "assets/cards/art/human/human_22.png"
                   },
                   {
                       "id":  "human_23",
@@ -207,7 +207,7 @@
                       "power":  6,
                       "defense":  6,
                       "text":  "SIEGE: A siege weapon that deals damage without risking retaliation.",
-                      "image":  "assets/cards/web/human/23_trebuchet.jpg"
+                      "image":  "assets/cards/art/human/human_23.png"
                   },
                   {
                       "id":  "human_24",
@@ -216,7 +216,7 @@
                       "power":  7,
                       "defense":  7,
                       "text":  "WAR CRY: When played, allied units in this row gain +1 DMG until your next turn.",
-                      "image":  "assets/cards/web/human/24_valkyrie.jpg"
+                      "image":  "assets/cards/art/human/human_24.png"
                   },
                   {
                       "id":  "human_25",
@@ -225,7 +225,7 @@
                       "power":  7,
                       "defense":  8,
                       "text":  "WAR CRY: When played, allied units in this row gain +1 DMG until your next turn. (This unit is a rare, high-impact threat.)",
-                      "image":  "assets/cards/web/human/25_seraph.jpg"
+                      "image":  "assets/cards/art/human/human_25.png"
                   },
                   {
                       "id":  "human_26",
@@ -234,7 +234,7 @@
                       "power":  8,
                       "defense":  9,
                       "text":  "WAR CRY: When played, allied units in this row gain +1 DMG until your next turn. (This unit is a rare, high-impact threat.)",
-                      "image":  "assets/cards/web/human/26_titan.jpg"
+                      "image":  "assets/cards/art/human/human_26.png"
                   },
                   {
                       "id":  "human_27",
@@ -243,7 +243,7 @@
                       "type":  "spell",
                       "copies":  2,
                       "text":  "Draw 4 cards.",
-                      "image":  "assets/cards/web/human/27_ancient_wisdom.jpg"
+                      "image":  "assets/cards/art/human/human_27.png"
                   },
                   {
                       "id":  "human_28",
@@ -254,7 +254,7 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "buff_power", "amount": 1 },
                       "text":  "Target allied unit gains +1 DMG until end of turn.",
-                      "image":  "assets/cards/web/human/28_rally_cry.jpg"
+                      "image":  "assets/cards/art/human/human_28.png"
                   },
                   {
                       "id":  "human_29",
@@ -265,7 +265,7 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "buff_defense", "amount": 2 },
                       "text":  "Target allied unit gains +0/+2 until end of turn.",
-                      "image":  "assets/cards/web/human/29_guard_formation.jpg"
+                      "image":  "assets/cards/art/human/human_29.png"
                   },
                   {
                       "id":  "human_30",
@@ -276,7 +276,7 @@
                       "target":  "none",
                       "effect":  { "kind": "draw_conditional", "base": 1, "bonus": 1, "threshold": 3 },
                       "text":  "Draw a card. If you control 3 or more units, draw two instead.",
-                      "image":  "assets/cards/web/human/30_muster.jpg"
+                      "image":  "assets/cards/art/human/human_30.png"
                   },
                   {
                       "id":  "human_31",
@@ -287,7 +287,7 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "heal", "amount": 3 },
                       "text":  "Heal an allied unit for 3.",
-                      "image":  "assets/cards/web/human/31_field_medic.jpg"
+                      "image":  "assets/cards/art/human/human_31.png"
                   },
                   {
                       "id":  "human_32",
@@ -298,7 +298,7 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "grant_shield" },
                       "text":  "Target allied unit gains Shield until your next turn.",
-                      "image":  "assets/cards/web/human/32_shieldwall_order.jpg"
+                      "image":  "assets/cards/art/human/human_32.png"
                   },
                   {
                       "id":  "human_33",
@@ -309,7 +309,7 @@
                       "target":  "ally_row",
                       "effect":  { "kind": "buff_power_row", "amount": 1 },
                       "text":  "Allied units in one row gain +1 DMG until your next turn.",
-                      "image":  "assets/cards/web/human/33_disciplined_line.jpg"
+                      "image":  "assets/cards/art/human/human_33.png"
                   },
                   {
                       "id":  "human_34",
@@ -320,7 +320,7 @@
                       "target":  "enemy_unit",
                       "effect":  { "kind": "damage_then_delayed", "amount": 2, "delayedAmount": 1 },
                       "text":  "Deal 2 damage to an enemy unit now. If it survives, deal 1 more damage at the start of your next turn.",
-                      "image":  "assets/cards/web/human/34_marked_for_justice.jpg"
+                      "image":  "assets/cards/art/human/human_34.png"
                   },
                   {
                       "id":  "human_35",
@@ -331,7 +331,7 @@
                       "target":  "multi_enemy_unit",
                       "effect":  { "kind": "split_damage", "total": 3, "maxTargets": 2 },
                       "text":  "Deal 3 damage, split as you choose between up to two enemy units.",
-                      "image":  "assets/cards/web/human/35_volley_command.jpg"
+                      "image":  "assets/cards/art/human/human_35.png"
                   },
                   {
                       "id":  "human_36",
@@ -342,7 +342,7 @@
                       "target":  "none",
                       "effect":  { "kind": "damage_castle", "amount": 4 },
                       "text":  "Deal 4 damage directly to the enemy castle, without risking retaliation.",
-                      "image":  "assets/cards/web/human/36_siege_bolt.jpg"
+                      "image":  "assets/cards/art/human/human_36.png"
                   },
                   {
                       "id":  "human_37",
@@ -353,7 +353,18 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "heal", "amount": 2 },
                       "text":  "Heal an allied unit for 2.",
-                      "image":  "assets/cards/web/human/37_quick_bandage.jpg"
+                      "image":  "assets/cards/art/human/human_37.png"
+                  },
+                  {
+                      "id":  "human_38",
+                      "name":  "Arcane Discovery",
+                      "cost":  2,
+                      "type":  "spell",
+                      "copies":  1,
+                      "target":  "none",
+                      "effect":  { "kind": "discover" },
+                      "text":  "Discover: Look at 3 cards from your faction's pool and add one to your hand.",
+                      "image":  "assets/cards/art/human/human_38.png"
                   }
               ]
 }

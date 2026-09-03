@@ -9,7 +9,7 @@
                       "power":  1,
                       "defense":  2,
                       "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG.",
-                      "image":  "assets/cards/web/orc/01_grunt.jpg"
+                      "image":  "assets/cards/art/orc/orc_01.png"
                   },
                   {
                       "id":  "orc_02",
@@ -18,7 +18,7 @@
                       "power":  1,
                       "defense":  2,
                       "text":  "TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
-                      "image":  "assets/cards/web/orc/02_conscript.jpg"
+                      "image":  "assets/cards/art/orc/orc_02.png"
                   },
                   {
                       "id":  "orc_03",
@@ -27,7 +27,7 @@
                       "power":  2,
                       "defense":  1,
                       "text":  "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
-                      "image":  "assets/cards/web/orc/03_slinger.jpg"
+                      "image":  "assets/cards/art/orc/orc_03.png"
                   },
                   {
                       "id":  "orc_04",
@@ -36,7 +36,7 @@
                       "power":  3,
                       "defense":  2,
                       "text":  "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
-                      "image":  "assets/cards/web/orc/04_javelineer.jpg"
+                      "image":  "assets/cards/art/orc/orc_04.png"
                   },
                   {
                       "id":  "orc_05",
@@ -45,7 +45,7 @@
                       "power":  3,
                       "defense":  2,
                       "text":  "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
-                      "image":  "assets/cards/web/orc/05_spike_hurler.jpg"
+                      "image":  "assets/cards/art/orc/orc_05.png"
                   },
                   {
                       "id":  "orc_06",
@@ -54,7 +54,7 @@
                       "power":  2,
                       "defense":  3,
                       "text":  "TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
-                      "image":  "assets/cards/web/orc/06_maceman.jpg"
+                      "image":  "assets/cards/art/orc/orc_06.png"
                   },
                   {
                       "id":  "orc_07",
@@ -63,7 +63,7 @@
                       "power":  2,
                       "defense":  3,
                       "text":  "BLOODPRICE: When played, deal 1 DMG to your own castle. Draw a card.",
-                      "image":  "assets/cards/web/orc/07_tusk_breaker.jpg"
+                      "image":  "assets/cards/art/orc/orc_07.png"
                   },
                   {
                       "id":  "orc_08",
@@ -72,7 +72,7 @@
                       "power":  3,
                       "defense":  3,
                       "text":  "CHARGE: Can attack the turn it is played.",
-                      "image":  "assets/cards/web/orc/08_wolf_rider.jpg"
+                      "image":  "assets/cards/art/orc/orc_08.png"
                   },
                   {
                       "id":  "orc_09",
@@ -81,7 +81,7 @@
                       "power":  3,
                       "defense":  3,
                       "text":  "CHARGE: Can attack the turn it is played.",
-                      "image":  "assets/cards/web/orc/09_boar_rider.jpg"
+                      "image":  "assets/cards/art/orc/orc_09.png"
                   },
                   {
                       "id":  "orc_10",
@@ -90,7 +90,7 @@
                       "power":  3,
                       "defense":  3,
                       "text":  "TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
-                      "image":  "assets/cards/web/orc/10_ravager.jpg"
+                      "image":  "assets/cards/art/orc/orc_10.png"
                   },
                   {
                       "id":  "orc_11",
@@ -99,7 +99,7 @@
                       "power":  3,
                       "defense":  3,
                       "text":  "BLOODPRICE: When played, deal 1 DMG to your own castle. Draw a card.",
-                      "image":  "assets/cards/web/orc/11_raider.jpg"
+                      "image":  "assets/cards/art/orc/orc_11.png"
                   },
                   {
                       "id":  "orc_12",
@@ -108,7 +108,7 @@
                       "power":  4,
                       "defense":  4,
                       "text":  "SLAYER: Whenever this destroys an enemy unit in combat, permanently gain +1 DMG.",
-                      "image":  "assets/cards/web/orc/12_marauder.jpg"
+                      "image":  "assets/cards/art/orc/orc_12.png"
                   },
                   {
                       "id":  "orc_13",
@@ -117,7 +117,7 @@
                       "power":  6,
                       "defense":  3,
                       "text":  "RAGE: Whenever it takes damage and survives, permanently gain +2 DMG.",
-                      "image":  "assets/cards/web/orc/13_berserker.jpg"
+                      "image":  "assets/cards/art/orc/orc_13.png"
                   },
                   {
                       "id":  "orc_14",
@@ -126,7 +126,7 @@
                       "power":  4,
                       "defense":  4,
                       "text":  "TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
-                      "image":  "assets/cards/web/orc/14_warhorn_bearer.jpg"
+                      "image":  "assets/cards/art/orc/orc_14.png"
                   },
                   {
                       "id":  "orc_15",
@@ -135,7 +135,7 @@
                       "power":  4,
                       "defense":  4,
                       "text":  "MEND: Heals an allied unit for 2 when played.",
-                      "image":  "assets/cards/web/orc/15_blood_shaman.jpg"
+                      "image":  "assets/cards/art/orc/orc_15.png"
                   },
                   {
                       "id":  "orc_16",
@@ -144,7 +144,7 @@
                       "power":  4,
                       "defense":  5,
                       "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
-                      "image":  "assets/cards/web/orc/16_plaguebringer.jpg"
+                      "image":  "assets/cards/art/orc/orc_16.png"
                   },
                   {
                       "id":  "orc_17",
@@ -153,7 +153,7 @@
                       "power":  6,
                       "defense":  3,
                       "text":  "RAGE: The first time this takes damage and survives, gain +1 DMG.",
-                      "image":  "assets/cards/web/orc/17_sand_mage.jpg"
+                      "image":  "assets/cards/art/orc/orc_17.png"
                   },
                   {
                       "id":  "orc_18",
@@ -162,7 +162,7 @@
                       "power":  4,
                       "defense":  5,
                       "text":  "TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
-                      "image":  "assets/cards/web/orc/18_hexer.jpg"
+                      "image":  "assets/cards/art/orc/orc_18.png"
                   },
                   {
                       "id":  "orc_19",
@@ -171,7 +171,7 @@
                       "power":  5,
                       "defense":  6,
                       "text":  "BLOODPRICE: When played, deal 1 DMG to your own castle. Draw a card.",
-                      "image":  "assets/cards/web/orc/19_warlord.jpg"
+                      "image":  "assets/cards/art/orc/orc_19.png"
                   },
                   {
                       "id":  "orc_20",
@@ -180,7 +180,7 @@
                       "power":  4,
                       "defense":  7,
                       "text":  "SIEGE: A siege weapon that deals damage without risking retaliation.",
-                      "image":  "assets/cards/web/orc/20_battering_ram.jpg"
+                      "image":  "assets/cards/art/orc/orc_20.png"
                   },
                   {
                       "id":  "orc_21",
@@ -189,7 +189,7 @@
                       "power":  5,
                       "defense":  6,
                       "text":  "SIEGE: A siege weapon that deals damage without risking retaliation.",
-                      "image":  "assets/cards/web/orc/21_catapult.jpg"
+                      "image":  "assets/cards/art/orc/orc_21.png"
                   },
                   {
                       "id":  "orc_22",
@@ -198,7 +198,7 @@
                       "power":  4,
                       "defense":  8,
                       "text":  "TAUNT: Enemies must attack this unit first. TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
-                      "image":  "assets/cards/web/orc/22_ogre.jpg"
+                      "image":  "assets/cards/art/orc/orc_22.png"
                   },
                   {
                       "id":  "orc_23",
@@ -207,7 +207,7 @@
                       "power":  8,
                       "defense":  4,
                       "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
-                      "image":  "assets/cards/web/orc/23_wyvern.jpg"
+                      "image":  "assets/cards/art/orc/orc_23.png"
                   },
                   {
                       "id":  "orc_24",
@@ -216,7 +216,7 @@
                       "power":  9,
                       "defense":  5,
                       "text":  "SLAYER: Whenever this destroys an enemy unit in combat, permanently gain +1 DMG.",
-                      "image":  "assets/cards/web/orc/24_wyrm.jpg"
+                      "image":  "assets/cards/art/orc/orc_24.png"
                   },
                   {
                       "id":  "orc_25",
@@ -225,7 +225,7 @@
                       "power":  7,
                       "defense":  8,
                       "text":  "TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
-                      "image":  "assets/cards/web/orc/25_cyclops.jpg"
+                      "image":  "assets/cards/art/orc/orc_25.png"
                   },
                   {
                       "id":  "orc_26",
@@ -234,7 +234,7 @@
                       "power":  11,
                       "defense":  6,
                       "text":  "SLAYER: Whenever this destroys an enemy unit in combat, permanently gain +1 DMG. (This unit is a rare, high-impact threat.)",
-                      "image":  "assets/cards/web/orc/26_fire_giant.jpg"
+                      "image":  "assets/cards/art/orc/orc_26.png"
                   },
                   {
                       "id":  "orc_27",
@@ -243,7 +243,7 @@
                       "type":  "spell",
                       "copies":  2,
                       "text":  "Draw 4 cards.",
-                      "image":  "assets/cards/web/orc/27_ancient_wisdom.jpg"
+                      "image":  "assets/cards/art/orc/orc_27.png"
                   },
                   {
                       "id":  "orc_28",
@@ -254,7 +254,7 @@
                       "target":  "enemy_unit",
                       "effect":  { "kind": "self_damage_then_damage", "selfAmount": 1, "amount": 2 },
                       "text":  "Deal 1 damage to your own castle. Deal 2 damage to an enemy unit.",
-                      "image":  "assets/cards/web/orc/28_reckless_swing.jpg"
+                      "image":  "assets/cards/art/orc/orc_28.png"
                   },
                   {
                       "id":  "orc_29",
@@ -265,7 +265,7 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "buff_power", "amount": 2 },
                       "text":  "Target allied unit gains +2 DMG until end of turn.",
-                      "image":  "assets/cards/web/orc/29_war_paint.jpg"
+                      "image":  "assets/cards/art/orc/orc_29.png"
                   },
                   {
                       "id":  "orc_30",
@@ -276,7 +276,7 @@
                       "target":  "enemy_unit",
                       "effect":  { "kind": "damage", "amount": 3 },
                       "text":  "Deal 3 damage to an enemy unit.",
-                      "image":  "assets/cards/web/orc/30_firebrand.jpg"
+                      "image":  "assets/cards/art/orc/orc_30.png"
                   },
                   {
                       "id":  "orc_31",
@@ -287,7 +287,7 @@
                       "target":  "none",
                       "effect":  { "kind": "self_damage_then_draw", "selfAmount": 1, "drawAmount": 1 },
                       "text":  "Deal 1 damage to your own castle. Draw a card.",
-                      "image":  "assets/cards/web/orc/31_blood_frenzy.jpg"
+                      "image":  "assets/cards/art/orc/orc_31.png"
                   },
                   {
                       "id":  "orc_32",
@@ -298,7 +298,7 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "buff_power_conditional_retain", "turnAmount": 2, "retainAmount": 1 },
                       "text":  "Target allied unit gains +2 DMG this turn. If it deals damage this turn, it keeps +1 DMG until your next turn.",
-                      "image":  "assets/cards/web/orc/32_frenzy.jpg"
+                      "image":  "assets/cards/art/orc/orc_32.png"
                   },
                   {
                       "id":  "orc_33",
@@ -309,7 +309,7 @@
                       "target":  "none",
                       "effect":  { "kind": "damage_castle_conditional_attacked", "amount": 2, "bonusAmount": 4 },
                       "text":  "Deal 2 damage to the enemy castle. Deal 4 instead if any of your units attacked last turn.",
-                      "image":  "assets/cards/web/orc/33_warpath.jpg"
+                      "image":  "assets/cards/art/orc/orc_33.png"
                   },
                   {
                       "id":  "orc_34",
@@ -320,7 +320,7 @@
                       "target":  "none",
                       "effect":  { "kind": "damage_castle", "amount": 4 },
                       "text":  "Deal 4 damage directly to the enemy castle, without risking retaliation.",
-                      "image":  "assets/cards/web/orc/34_siege_barrage.jpg"
+                      "image":  "assets/cards/art/orc/orc_34.png"
                   },
                   {
                       "id":  "orc_35",
@@ -331,7 +331,7 @@
                       "target":  "none",
                       "effect":  { "kind": "self_damage_then_buff_power_all", "selfAmount": 2, "amount": 1 },
                       "text":  "Deal 2 damage to your own castle. All allied units gain +1 DMG until end of turn.",
-                      "image":  "assets/cards/web/orc/35_bloodlust.jpg"
+                      "image":  "assets/cards/art/orc/orc_35.png"
                   },
                   {
                       "id":  "orc_36",
@@ -342,7 +342,7 @@
                       "target":  "enemy_unit",
                       "effect":  { "kind": "self_damage_then_destroy", "selfAmount": 2, "maxTargetPower": 5 },
                       "text":  "Deal 2 damage to your own castle. Destroy target enemy unit with 5 or less DMG.",
-                      "image":  "assets/cards/web/orc/36_crushing_blow.jpg"
+                      "image":  "assets/cards/art/orc/orc_36.png"
                   },
                   {
                       "id":  "orc_37",
@@ -353,7 +353,16 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "buff_defense", "amount": 2 },
                       "text":  "Target allied unit gains +0/+2 until end of turn.",
-                      "image":  "assets/cards/web/orc/37_thick_hide.jpg"
+                      "image":  "assets/cards/art/orc/orc_37.png"
+                  },
+                  {
+                      "id":  "orc_38",
+                      "name":  "Frenzied Raider",
+                      "cost":  3,
+                      "power":  2,
+                      "defense":  3,
+                      "text":  "WINDFURY: This unit may attack twice each turn.",
+                      "image":  "assets/cards/art/orc/orc_38.png"
                   }
               ]
 }

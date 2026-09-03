@@ -9,7 +9,7 @@
                       "power":  1,
                       "defense":  2,
                       "text":  "FORMATION: +1 DMG while adjacent to another Dynasty unit.",
-                      "image":  "assets/cards/web/dynasty/01_ashigaru.jpg"
+                      "image":  "assets/cards/art/dynasty/dynasty_01.png"
                   },
                   {
                       "id":  "dynasty_02",
@@ -18,7 +18,7 @@
                       "power":  1,
                       "defense":  2,
                       "text":  "PRECISE: This unit\u0027s attacks ignore Taunt.",
-                      "image":  "assets/cards/web/dynasty/02_soldier.jpg"
+                      "image":  "assets/cards/art/dynasty/dynasty_02.png"
                   },
                   {
                       "id":  "dynasty_03",
@@ -27,7 +27,7 @@
                       "power":  2,
                       "defense":  1,
                       "text":  "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
-                      "image":  "assets/cards/web/dynasty/03_yumi_archer.jpg"
+                      "image":  "assets/cards/art/dynasty/dynasty_03.png"
                   },
                   {
                       "id":  "dynasty_04",
@@ -36,7 +36,7 @@
                       "power":  2,
                       "defense":  3,
                       "text":  "PARTING GIFT: When this dies, deals 2 DMG to a random enemy unit.",
-                      "image":  "assets/cards/web/dynasty/04_chu_ko_nu.jpg"
+                      "image":  "assets/cards/art/dynasty/dynasty_04.png"
                   },
                   {
                       "id":  "dynasty_05",
@@ -45,7 +45,7 @@
                       "power":  3,
                       "defense":  2,
                       "text":  "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
-                      "image":  "assets/cards/web/dynasty/05_flame_archer.jpg"
+                      "image":  "assets/cards/art/dynasty/dynasty_05.png"
                   },
                   {
                       "id":  "dynasty_06",
@@ -54,7 +54,7 @@
                       "power":  3,
                       "defense":  2,
                       "text":  "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
-                      "image":  "assets/cards/web/dynasty/06_fire_lance.jpg"
+                      "image":  "assets/cards/art/dynasty/dynasty_06.png"
                   },
                   {
                       "id":  "dynasty_07",
@@ -63,7 +63,7 @@
                       "power":  2,
                       "defense":  3,
                       "text":  "TAUNT: Enemies must attack this unit first.",
-                      "image":  "assets/cards/web/dynasty/07_naginata_guard.jpg"
+                      "image":  "assets/cards/art/dynasty/dynasty_07.png"
                   },
                   {
                       "id":  "dynasty_08",
@@ -72,7 +72,7 @@
                       "power":  3,
                       "defense":  3,
                       "text":  "MEND: Heals an allied unit for 2 when played.",
-                      "image":  "assets/cards/web/dynasty/08_iron_monk.jpg"
+                      "image":  "assets/cards/art/dynasty/dynasty_08.png"
                   },
                   {
                       "id":  "dynasty_09",
@@ -81,7 +81,7 @@
                       "power":  3,
                       "defense":  3,
                       "text":  "CHARGE: Can attack the turn it is played.",
-                      "image":  "assets/cards/web/dynasty/09_light_cavalry.jpg"
+                      "image":  "assets/cards/art/dynasty/dynasty_09.png"
                   },
                   {
                       "id":  "dynasty_10",
@@ -90,7 +90,7 @@
                       "power":  4,
                       "defense":  2,
                       "text":  "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
-                      "image":  "assets/cards/web/dynasty/10_horse_archer.jpg"
+                      "image":  "assets/cards/art/dynasty/dynasty_10.png"
                   },
                   {
                       "id":  "dynasty_11",
@@ -99,7 +99,7 @@
                       "power":  3,
                       "defense":  3,
                       "text":  "FORTIFY: Gains +1 HP after surviving combat.",
-                      "image":  "assets/cards/web/dynasty/11_iron_pagoda.jpg"
+                      "image":  "assets/cards/art/dynasty/dynasty_11.png"
                   },
                   {
                       "id":  "dynasty_12",
@@ -108,7 +108,7 @@
                       "power":  4,
                       "defense":  4,
                       "text":  "PARTING GIFT: When this dies, deals 2 DMG to a random enemy unit.",
-                      "image":  "assets/cards/web/dynasty/12_ronin.jpg"
+                      "image":  "assets/cards/art/dynasty/dynasty_12.png"
                   },
                   {
                       "id":  "dynasty_13",
@@ -117,7 +117,7 @@
                       "power":  4,
                       "defense":  4,
                       "text":  "FORMATION: +1 DMG while adjacent to another Dynasty unit.",
-                      "image":  "assets/cards/web/dynasty/13_shinobi.jpg"
+                      "image":  "assets/cards/art/dynasty/dynasty_13.png"
                   },
                   {
                       "id":  "dynasty_14",
@@ -126,7 +126,7 @@
                       "power":  4,
                       "defense":  4,
                       "text":  "PRECISE: This unit\u0027s attacks ignore Taunt.",
-                      "image":  "assets/cards/web/dynasty/14_sohei.jpg"
+                      "image":  "assets/cards/art/dynasty/dynasty_14.png"
                   },
                   {
                       "id":  "dynasty_15",
@@ -135,7 +135,7 @@
                       "power":  4,
                       "defense":  4,
                       "text":  "FORTIFY: Gains +1 HP after surviving combat.",
-                      "image":  "assets/cards/web/dynasty/15_shrine_maiden.jpg"
+                      "image":  "assets/cards/art/dynasty/dynasty_15.png"
                   },
                   {
                       "id":  "dynasty_16",
@@ -144,7 +144,7 @@
                       "power":  6,
                       "defense":  3,
                       "text":  "PARTING GIFT: When this dies, deals 2 DMG to a random enemy unit.",
-                      "image":  "assets/cards/web/dynasty/16_pyromancer.jpg"
+                      "image":  "assets/cards/art/dynasty/dynasty_16.png"
                   },
                   {
                       "id":  "dynasty_17",
@@ -153,7 +153,7 @@
                       "power":  4,
                       "defense":  5,
                       "text":  "FORMATION: +1 DMG while adjacent to another Dynasty unit.",
-                      "image":  "assets/cards/web/dynasty/17_onmyoji.jpg"
+                      "image":  "assets/cards/art/dynasty/dynasty_17.png"
                   },
                   {
                       "id":  "dynasty_18",
@@ -162,7 +162,7 @@
                       "power":  5,
                       "defense":  4,
                       "text":  "FORMATION: While adjacent to another Dynasty unit, gains +1 DMG and +1 HP.",
-                      "image":  "assets/cards/web/dynasty/18_samurai.jpg"
+                      "image":  "assets/cards/art/dynasty/dynasty_18.png"
                   },
                   {
                       "id":  "dynasty_19",
@@ -171,7 +171,7 @@
                       "power":  5,
                       "defense":  6,
                       "text":  "FORTIFY: Gains +1 HP after surviving combat.",
-                      "image":  "assets/cards/web/dynasty/19_kensei.jpg"
+                      "image":  "assets/cards/art/dynasty/dynasty_19.png"
                   },
                   {
                       "id":  "dynasty_20",
@@ -180,7 +180,7 @@
                       "power":  5,
                       "defense":  6,
                       "text":  "PARTING GIFT: When this dies, deals 2 DMG to a random enemy unit.",
-                      "image":  "assets/cards/web/dynasty/20_hwacha.jpg"
+                      "image":  "assets/cards/art/dynasty/dynasty_20.png"
                   },
                   {
                       "id":  "dynasty_21",
@@ -189,7 +189,7 @@
                       "power":  7,
                       "defense":  4,
                       "text":  "FORMATION: +1 DMG while adjacent to another Dynasty unit.",
-                      "image":  "assets/cards/web/dynasty/21_fire_ox.jpg"
+                      "image":  "assets/cards/art/dynasty/dynasty_21.png"
                   },
                   {
                       "id":  "dynasty_22",
@@ -198,7 +198,7 @@
                       "power":  4,
                       "defense":  8,
                       "text":  "TAUNT: Enemies must attack this unit first.",
-                      "image":  "assets/cards/web/dynasty/22_terracotta_guard.jpg"
+                      "image":  "assets/cards/art/dynasty/dynasty_22.png"
                   },
                   {
                       "id":  "dynasty_23",
@@ -207,7 +207,7 @@
                       "power":  4,
                       "defense":  8,
                       "text":  "FORTIFY: Gains +1 HP after surviving combat.",
-                      "image":  "assets/cards/web/dynasty/23_war_elephant.jpg"
+                      "image":  "assets/cards/art/dynasty/dynasty_23.png"
                   },
                   {
                       "id":  "dynasty_24",
@@ -216,7 +216,7 @@
                       "power":  7,
                       "defense":  7,
                       "text":  "PARTING GIFT: When this dies, deals 2 DMG to a random enemy unit.",
-                      "image":  "assets/cards/web/dynasty/24_qilin.jpg"
+                      "image":  "assets/cards/art/dynasty/dynasty_24.png"
                   },
                   {
                       "id":  "dynasty_25",
@@ -225,7 +225,7 @@
                       "power":  7,
                       "defense":  8,
                       "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
-                      "image":  "assets/cards/web/dynasty/25_cloud_serpent.jpg"
+                      "image":  "assets/cards/art/dynasty/dynasty_25.png"
                   },
                   {
                       "id":  "dynasty_26",
@@ -234,7 +234,7 @@
                       "power":  8,
                       "defense":  9,
                       "text":  "PARTING GIFT: When this dies, deals 2 DMG to a random enemy unit. (This unit is a rare, high-impact threat.)",
-                      "image":  "assets/cards/web/dynasty/26_oni.jpg"
+                      "image":  "assets/cards/art/dynasty/dynasty_26.png"
                   },
                   {
                       "id":  "dynasty_27",
@@ -243,7 +243,7 @@
                       "type":  "spell",
                       "copies":  2,
                       "text":  "Draw 4 cards.",
-                      "image":  "assets/cards/web/dynasty/27_ancient_wisdom.jpg"
+                      "image":  "assets/cards/art/dynasty/dynasty_27.png"
                   },
                   {
                       "id":  "dynasty_28",
@@ -254,7 +254,7 @@
                       "target":  "enemy_unit",
                       "effect":  { "kind": "damage", "amount": 2 },
                       "text":  "Deal 2 damage to an enemy unit.",
-                      "image":  "assets/cards/web/dynasty/28_disciplined_strike.jpg"
+                      "image":  "assets/cards/art/dynasty/dynasty_28.png"
                   },
                   {
                       "id":  "dynasty_29",
@@ -265,7 +265,7 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "buff_defense", "amount": 2 },
                       "text":  "Target allied unit gains +0/+2 until end of turn.",
-                      "image":  "assets/cards/web/dynasty/29_honor_guard.jpg"
+                      "image":  "assets/cards/art/dynasty/dynasty_29.png"
                   },
                   {
                       "id":  "dynasty_30",
@@ -276,7 +276,7 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "buff_power_and_formation_neighbors", "amount": 1 },
                       "text":  "Target allied unit and each Dynasty unit adjacent to it gain +1 DMG until end of turn.",
-                      "image":  "assets/cards/web/dynasty/30_formation_drill.jpg"
+                      "image":  "assets/cards/art/dynasty/dynasty_30.png"
                   },
                   {
                       "id":  "dynasty_31",
@@ -287,7 +287,7 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "heal", "amount": 3 },
                       "text":  "Heal an allied unit for 3.",
-                      "image":  "assets/cards/web/dynasty/31_steady_the_line.jpg"
+                      "image":  "assets/cards/art/dynasty/dynasty_31.png"
                   },
                   {
                       "id":  "dynasty_32",
@@ -298,7 +298,7 @@
                       "target":  "enemy_unit",
                       "effect":  { "kind": "damage_then_splash_on_kill", "amount": 3, "splashAmount": 1 },
                       "text":  "Deal 3 damage to an enemy unit. If it dies, deal 1 damage to a random other enemy unit.",
-                      "image":  "assets/cards/web/dynasty/32_parting_blade.jpg"
+                      "image":  "assets/cards/art/dynasty/dynasty_32.png"
                   },
                   {
                       "id":  "dynasty_33",
@@ -309,7 +309,7 @@
                       "target":  "enemy_unit",
                       "effect":  { "kind": "damage", "amount": 4 },
                       "text":  "Deal 4 damage to an enemy unit. This spell ignores Taunt when choosing its target.",
-                      "image":  "assets/cards/web/dynasty/33_piercing_resolve.jpg"
+                      "image":  "assets/cards/art/dynasty/dynasty_33.png"
                   },
                   {
                       "id":  "dynasty_34",
@@ -320,7 +320,7 @@
                       "target":  "ally_row",
                       "effect":  { "kind": "buff_defense_row_long", "amount": 2 },
                       "text":  "Allied units in one row gain +0/+2 until your next turn.",
-                      "image":  "assets/cards/web/dynasty/34_iron_formation.jpg"
+                      "image":  "assets/cards/art/dynasty/dynasty_34.png"
                   },
                   {
                       "id":  "dynasty_35",
@@ -331,7 +331,7 @@
                       "target":  "ally_row",
                       "effect":  { "kind": "draw_per_row_unit", "maxDraws": 3 },
                       "text":  "Draw a card for each Dynasty unit in the targeted row (maximum 3).",
-                      "image":  "assets/cards/web/dynasty/35_field_command.jpg"
+                      "image":  "assets/cards/art/dynasty/dynasty_35.png"
                   },
                   {
                       "id":  "dynasty_36",
@@ -342,7 +342,7 @@
                       "target":  "none",
                       "effect":  { "kind": "death_trigger_damage_until_eot", "amount": 1 },
                       "text":  "Until end of turn, whenever an allied unit dies, deal 1 damage to a random enemy unit.",
-                      "image":  "assets/cards/web/dynasty/36_vengeful_spirits.jpg"
+                      "image":  "assets/cards/art/dynasty/dynasty_36.png"
                   },
                   {
                       "id":  "dynasty_37",
@@ -353,7 +353,16 @@
                       "target":  "none",
                       "effect":  { "kind": "draw", "amount": 2 },
                       "text":  "Draw 2 cards.",
-                      "image":  "assets/cards/web/dynasty/37_scholars_insight.jpg"
+                      "image":  "assets/cards/art/dynasty/dynasty_37.png"
+                  },
+                  {
+                      "id":  "dynasty_38",
+                      "name":  "Iaijutsu Blade",
+                      "cost":  3,
+                      "power":  3,
+                      "defense":  2,
+                      "text":  "FIRST STRIKE: This unit deals its combat damage before the defender can retaliate.",
+                      "image":  "assets/cards/art/dynasty/dynasty_38.png"
                   }
               ]
 }

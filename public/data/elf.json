@@ -9,7 +9,7 @@
                       "power":  1,
                       "defense":  2,
                       "text":  "TAUNT: Enemies must attack this unit first.",
-                      "image":  "assets/cards/web/elf/01_thornguard.jpg"
+                      "image":  "assets/cards/art/elf/elf_01.png"
                   },
                   {
                       "id":  "elf_02",
@@ -18,7 +18,7 @@
                       "power":  1,
                       "defense":  2,
                       "text":  "FORMATION: +1 DMG while adjacent to another Elf unit.",
-                      "image":  "assets/cards/web/elf/02_wyld_scout.jpg"
+                      "image":  "assets/cards/art/elf/elf_02.png"
                   },
                   {
                       "id":  "elf_03",
@@ -27,7 +27,7 @@
                       "power":  1,
                       "defense":  2,
                       "text":  "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
-                      "image":  "assets/cards/web/elf/03_marksman.jpg"
+                      "image":  "assets/cards/art/elf/elf_03.png"
                   },
                   {
                       "id":  "elf_04",
@@ -36,7 +36,7 @@
                       "power":  2,
                       "defense":  3,
                       "text":  "DESPERATE: Gains +2 DMG while your castle is below half HP.",
-                      "image":  "assets/cards/web/elf/04_huntress.jpg"
+                      "image":  "assets/cards/art/elf/elf_04.png"
                   },
                   {
                       "id":  "elf_05",
@@ -45,7 +45,7 @@
                       "power":  4,
                       "defense":  2,
                       "text":  "VOLLEY: May choose to strike either enemy row, without risking retaliation. Ignores Taunt entirely.",
-                      "image":  "assets/cards/web/elf/05_sharpshooter.jpg"
+                      "image":  "assets/cards/art/elf/elf_05.png"
                   },
                   {
                       "id":  "elf_06",
@@ -54,7 +54,7 @@
                       "power":  2,
                       "defense":  3,
                       "text":  "FORMATION: +1 DMG while adjacent to another Elf unit.",
-                      "image":  "assets/cards/web/elf/06_halberd_lord.jpg"
+                      "image":  "assets/cards/art/elf/elf_06.png"
                   },
                   {
                       "id":  "elf_07",
@@ -63,7 +63,7 @@
                       "power":  2,
                       "defense":  3,
                       "text":  "CHARGE: Can attack the turn it is played.",
-                      "image":  "assets/cards/web/elf/07_outrider.jpg"
+                      "image":  "assets/cards/art/elf/elf_07.png"
                   },
                   {
                       "id":  "elf_08",
@@ -72,7 +72,7 @@
                       "power":  3,
                       "defense":  3,
                       "text":  "CHARGE: Can attack the turn it is played.",
-                      "image":  "assets/cards/web/elf/08_stag_rider.jpg"
+                      "image":  "assets/cards/art/elf/elf_08.png"
                   },
                   {
                       "id":  "elf_09",
@@ -81,7 +81,7 @@
                       "power":  3,
                       "defense":  3,
                       "text":  "PRECISE: This unit\u0027s attacks ignore Taunt.",
-                      "image":  "assets/cards/web/elf/09_myrmidon.jpg"
+                      "image":  "assets/cards/art/elf/elf_09.png"
                   },
                   {
                       "id":  "elf_10",
@@ -90,7 +90,7 @@
                       "power":  4,
                       "defense":  2,
                       "text":  "FORMATION: +1 DMG while adjacent to another Elf unit.",
-                      "image":  "assets/cards/web/elf/10_moonblade.jpg"
+                      "image":  "assets/cards/art/elf/elf_10.png"
                   },
                   {
                       "id":  "elf_11",
@@ -99,7 +99,7 @@
                       "power":  4,
                       "defense":  2,
                       "text":  "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
-                      "image":  "assets/cards/web/elf/11_spellblade.jpg"
+                      "image":  "assets/cards/art/elf/elf_11.png"
                   },
                   {
                       "id":  "elf_12",
@@ -108,7 +108,7 @@
                       "power":  5,
                       "defense":  3,
                       "text":  "DESPERATE: Gains +2 DMG while your castle is below half HP.",
-                      "image":  "assets/cards/web/elf/12_shadowblade.jpg"
+                      "image":  "assets/cards/art/elf/elf_12.png"
                   },
                   {
                       "id":  "elf_13",
@@ -117,7 +117,7 @@
                       "power":  4,
                       "defense":  4,
                       "text":  "PRECISE: This unit\u0027s attacks ignore Taunt.",
-                      "image":  "assets/cards/web/elf/13_war_piper.jpg"
+                      "image":  "assets/cards/art/elf/elf_13.png"
                   },
                   {
                       "id":  "elf_14",
@@ -126,7 +126,7 @@
                       "power":  4,
                       "defense":  4,
                       "text":  "MEND: Heals an allied unit for 2 when played.",
-                      "image":  "assets/cards/web/elf/14_druid.jpg"
+                      "image":  "assets/cards/art/elf/elf_14.png"
                   },
                   {
                       "id":  "elf_15",
@@ -135,7 +135,7 @@
                       "power":  4,
                       "defense":  4,
                       "text":  "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
-                      "image":  "assets/cards/web/elf/15_enchanter.jpg"
+                      "image":  "assets/cards/art/elf/elf_15.png"
                   },
                   {
                       "id":  "elf_16",
@@ -144,7 +144,7 @@
                       "power":  4,
                       "defense":  5,
                       "text":  "DESPERATE: Gains +2 DMG while your castle is below half HP.",
-                      "image":  "assets/cards/web/elf/16_tempest.jpg"
+                      "image":  "assets/cards/art/elf/elf_16.png"
                   },
                   {
                       "id":  "elf_17",
@@ -153,7 +153,7 @@
                       "power":  4,
                       "defense":  5,
                       "text":  "PRECISE: This unit\u0027s attacks ignore Taunt.",
-                      "image":  "assets/cards/web/elf/17_wispcaller.jpg"
+                      "image":  "assets/cards/art/elf/elf_17.png"
                   },
                   {
                       "id":  "elf_18",
@@ -162,7 +162,7 @@
                       "power":  3,
                       "defense":  6,
                       "text":  "TAUNT: Enemies must attack this unit first.",
-                      "image":  "assets/cards/web/elf/18_sentinel.jpg"
+                      "image":  "assets/cards/art/elf/elf_18.png"
                   },
                   {
                       "id":  "elf_19",
@@ -171,7 +171,7 @@
                       "power":  5,
                       "defense":  6,
                       "text":  "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
-                      "image":  "assets/cards/web/elf/19_war_maiden.jpg"
+                      "image":  "assets/cards/art/elf/elf_19.png"
                   },
                   {
                       "id":  "elf_20",
@@ -180,7 +180,7 @@
                       "power":  5,
                       "defense":  6,
                       "text":  "SIEGE: A siege weapon that deals damage without risking retaliation.",
-                      "image":  "assets/cards/web/elf/20_ballista.jpg"
+                      "image":  "assets/cards/art/elf/elf_20.png"
                   },
                   {
                       "id":  "elf_21",
@@ -189,7 +189,7 @@
                       "power":  4,
                       "defense":  7,
                       "text":  "PRECISE: This unit\u0027s attacks ignore Taunt.",
-                      "image":  "assets/cards/web/elf/21_heartwood_ram.jpg"
+                      "image":  "assets/cards/art/elf/elf_21.png"
                   },
                   {
                       "id":  "elf_22",
@@ -198,7 +198,7 @@
                       "power":  6,
                       "defense":  6,
                       "text":  "CHARGE: Can attack the turn it is played.",
-                      "image":  "assets/cards/web/elf/22_griffon_rider.jpg"
+                      "image":  "assets/cards/art/elf/elf_22.png"
                   },
                   {
                       "id":  "elf_23",
@@ -207,7 +207,7 @@
                       "power":  8,
                       "defense":  4,
                       "text":  "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
-                      "image":  "assets/cards/web/elf/23_phoenix.jpg"
+                      "image":  "assets/cards/art/elf/elf_23.png"
                   },
                   {
                       "id":  "elf_24",
@@ -216,7 +216,7 @@
                       "power":  9,
                       "defense":  5,
                       "text":  "DESPERATE: Gains +2 DMG while your castle is below half HP.",
-                      "image":  "assets/cards/web/elf/24_archmage.jpg"
+                      "image":  "assets/cards/art/elf/elf_24.png"
                   },
                   {
                       "id":  "elf_25",
@@ -225,7 +225,7 @@
                       "power":  6,
                       "defense":  9,
                       "text":  "DESPERATE: Gains +2 DMG while your castle is below half HP. (This unit is a rare, high-impact threat.)",
-                      "image":  "assets/cards/web/elf/25_elder_treant.jpg"
+                      "image":  "assets/cards/art/elf/elf_25.png"
                   },
                   {
                       "id":  "elf_26",
@@ -234,7 +234,7 @@
                       "power":  6,
                       "defense":  11,
                       "text":  "DESPERATE: Gains +2 DMG while your castle is below half HP. (This unit is a rare, high-impact threat.)",
-                      "image":  "assets/cards/web/elf/26_storm_giant.jpg"
+                      "image":  "assets/cards/art/elf/elf_26.png"
                   },
                   {
                       "id":  "elf_27",
@@ -243,7 +243,7 @@
                       "type":  "spell",
                       "copies":  2,
                       "text":  "Draw 4 cards.",
-                      "image":  "assets/cards/web/elf/27_ancient_wisdom.jpg"
+                      "image":  "assets/cards/art/elf/elf_27.png"
                   },
                   {
                       "id":  "elf_28",
@@ -254,7 +254,7 @@
                       "target":  "enemy_unit",
                       "effect":  { "kind": "vulnerable", "amount": 1 },
                       "text":  "Target enemy unit takes +1 damage from all sources until end of turn.",
-                      "image":  "assets/cards/web/elf/28_hunters_mark.jpg"
+                      "image":  "assets/cards/art/elf/elf_28.png"
                   },
                   {
                       "id":  "elf_29",
@@ -265,7 +265,7 @@
                       "target":  "enemy_unit",
                       "effect":  { "kind": "damage", "amount": 2 },
                       "text":  "Deal 2 damage to an enemy unit.",
-                      "image":  "assets/cards/web/elf/29_quick_draw.jpg"
+                      "image":  "assets/cards/art/elf/elf_29.png"
                   },
                   {
                       "id":  "elf_30",
@@ -276,7 +276,7 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "buff_power", "amount": 2 },
                       "text":  "Target allied unit gains +2 DMG until end of turn.",
-                      "image":  "assets/cards/web/elf/30_sylvan_reflexes.jpg"
+                      "image":  "assets/cards/art/elf/elf_30.png"
                   },
                   {
                       "id":  "elf_31",
@@ -287,7 +287,7 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "bounce" },
                       "text":  "Return target allied unit to your hand.",
-                      "image":  "assets/cards/web/elf/31_moonlit_step.jpg"
+                      "image":  "assets/cards/art/elf/elf_31.png"
                   },
                   {
                       "id":  "elf_32",
@@ -298,7 +298,7 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "buff_defense", "amount": 3 },
                       "text":  "Target allied unit gains +0/+3 until end of turn.",
-                      "image":  "assets/cards/web/elf/32_woodland_ward.jpg"
+                      "image":  "assets/cards/art/elf/elf_32.png"
                   },
                   {
                       "id":  "elf_33",
@@ -309,7 +309,7 @@
                       "target":  "enemy_unit",
                       "effect":  { "kind": "damage_conditional_hp", "amount": 3, "lowHpAmount": 5 },
                       "text":  "Deal 3 damage to an enemy unit. If your castle is below half HP, deal 5 instead.",
-                      "image":  "assets/cards/web/elf/33_piercing_shot.jpg"
+                      "image":  "assets/cards/art/elf/elf_33.png"
                   },
                   {
                       "id":  "elf_34",
@@ -320,7 +320,7 @@
                       "target":  "none",
                       "effect":  { "kind": "heal_castle", "amount": 4 },
                       "text":  "Heal your castle for 4.",
-                      "image":  "assets/cards/web/elf/34_elder_renewal.jpg"
+                      "image":  "assets/cards/art/elf/elf_34.png"
                   },
                   {
                       "id":  "elf_35",
@@ -331,7 +331,7 @@
                       "target":  "multi_enemy_unit_distinct",
                       "effect":  { "kind": "multi_damage", "amount": 2, "count": 2 },
                       "text":  "Deal 2 damage to two different enemy units.",
-                      "image":  "assets/cards/web/elf/35_twin_fang.jpg"
+                      "image":  "assets/cards/art/elf/elf_35.png"
                   },
                   {
                       "id":  "elf_36",
@@ -342,7 +342,7 @@
                       "target":  "none",
                       "effect":  { "kind": "draw_conditional_hp", "amount": 2, "lowHpAmount": 3 },
                       "text":  "Draw 2 cards. If your castle is below half HP, draw 3 instead.",
-                      "image":  "assets/cards/web/elf/36_second_wind.jpg"
+                      "image":  "assets/cards/art/elf/elf_36.png"
                   },
                   {
                       "id":  "elf_37",
@@ -353,7 +353,16 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "buff_defense", "amount": 2 },
                       "text":  "Target allied unit gains +0/+2 until end of turn.",
-                      "image":  "assets/cards/web/elf/37_fleetfoot_ward.jpg"
+                      "image":  "assets/cards/art/elf/elf_37.png"
+                  },
+                  {
+                      "id":  "elf_38",
+                      "name":  "Elven Duelist",
+                      "cost":  2,
+                      "power":  2,
+                      "defense":  2,
+                      "text":  "FIRST STRIKE: This unit deals its combat damage before the defender can retaliate.",
+                      "image":  "assets/cards/art/elf/elf_38.png"
                   }
               ]
 }
