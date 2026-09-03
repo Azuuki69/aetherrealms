@@ -1035,12 +1035,46 @@ function pulseClass(elm, cssClass) {
   elm.classList.add(cssClass);
 }
 
+// ---------- Turn notification (backgrounded tab) ----------
+// Flashes the tab title so a player who's switched to another tab/window
+// notices their turn started — the Page Visibility API (document.hidden) is
+// what a background tab can actually observe about itself, no permission
+// prompt needed, unlike the Notification API.
+const ORIGINAL_TITLE = document.title;
+let turnFlashInterval = null;
+
+function startTurnFlash() {
+  if (turnFlashInterval) return; // already flashing
+  turnFlashInterval = setInterval(() => {
+    document.title = document.title === ORIGINAL_TITLE ? '🔴 Your Turn! — Aether Realms' : ORIGINAL_TITLE;
+  }, 1000);
+}
+function stopTurnFlash() {
+  if (!turnFlashInterval) return;
+  clearInterval(turnFlashInterval);
+  turnFlashInterval = null;
+  document.title = ORIGINAL_TITLE;
+}
+// Covers the case where the tab is backgrounded *during* the player's own
+// turn (not just a turn that starts while already backgrounded, which the
+// render() hook below already covers via incoming state messages).
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    if (currentView && !currentView.winner && currentView.turn === currentView.you_key) startTurnFlash();
+  } else {
+    stopTurnFlash();
+  }
+});
+
 function render() {
   if (!currentView) return;
   const effects = computeEffects(previousView, currentView);
   const { you, opponent, turn, phase, turnNumber, winner, log, you_key, mode } = currentView;
   const myTurn = turn === you_key;
   const oppKey = you_key === 'A' ? 'B' : 'A';
+
+  if (myTurn && !winner && document.hidden) startTurnFlash();
+  else stopTurnFlash();
 
   el('youInfo').querySelector('.name').textContent = displayName(you, you_key);
   el('youInfo').querySelector('.faction-tag').textContent = capitalize(you.faction);
@@ -2779,6 +2813,13 @@ function prevTrack() {
 function setMusicVolume(v) {
   music.volume = Math.max(0, Math.min(1, v));
   saveMusicPrefs({ volume: music.volume });
+  // Both sliders (lobby + in-match) always reflect the one shared volume,
+  // regardless of which one the player actually dragged.
+  const pct = Math.round(music.volume * 100);
+  const lobbySlider = el('musicVolumeSlider');
+  if (lobbySlider) lobbySlider.value = pct;
+  const miniSlider = el('musicMiniVolume');
+  if (miniSlider) miniSlider.value = pct;
 }
 
 function updateMusicUI() {
@@ -2855,7 +2896,6 @@ function initMusicPlayer() {
 
   const prefs = loadMusicPrefs();
   setMusicVolume(typeof prefs.volume === 'number' ? prefs.volume : 0.7);
-  el('musicVolumeSlider').value = Math.round(music.volume * 100);
   if (Number.isInteger(prefs.trackIndex) && prefs.trackIndex >= 0 && prefs.trackIndex < SONGS.length) {
     musicTrackIndex = prefs.trackIndex;
     music.src = musicSongUrl(SONGS[musicTrackIndex]);
@@ -2877,7 +2917,9 @@ function initMusicPlayer() {
   el('musicVolumeSlider').addEventListener('input', (e) => setMusicVolume(e.target.value / 100));
 
   el('musicMiniPlayPause').addEventListener('click', togglePlayPause);
+  el('musicMiniPrev').addEventListener('click', prevTrack);
   el('musicMiniNext').addEventListener('click', nextTrack);
+  el('musicMiniVolume').addEventListener('input', (e) => setMusicVolume(e.target.value / 100));
   el('musicMiniToggle').addEventListener('click', () => el('musicPlayerGame').classList.remove('collapsed'));
   el('musicMiniCollapse').addEventListener('click', () => el('musicPlayerGame').classList.add('collapsed'));
   initMusicMiniDrag();

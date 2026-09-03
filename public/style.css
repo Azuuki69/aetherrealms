@@ -1738,7 +1738,21 @@ body:has(#chatPanel:not(.collapsed)) .hand {
 .music-ctrl-btn-main { width: 2.8rem; height: 2.8rem; font-size: 1.2rem; }
 .music-volume-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.8rem; font-size: 0.9rem; }
 .music-volume-row input[type="range"] { flex: 1; accent-color: var(--gold); }
-.music-track-list { max-height: 220px; overflow-y: auto; border-top: 1px solid var(--border); padding-top: 0.5rem; }
+.music-track-list {
+  max-height: 220px;
+  overflow-y: auto;
+  border-top: 1px solid var(--border);
+  padding-top: 0.5rem;
+  /* Themed scrollbar (Firefox via scrollbar-color, everything else via the
+     ::-webkit-scrollbar pseudo-elements below) instead of the browser's
+     default gray, matching the site's gold-on-dark-brown palette. */
+  scrollbar-width: thin;
+  scrollbar-color: var(--gold) #1c150d;
+}
+.music-track-list::-webkit-scrollbar { width: 8px; }
+.music-track-list::-webkit-scrollbar-track { background: #1c150d; border-radius: 8px; }
+.music-track-list::-webkit-scrollbar-thumb { background: linear-gradient(var(--gold-bright), var(--gold)); border-radius: 8px; border: 1px solid #1c150d; }
+.music-track-list::-webkit-scrollbar-thumb:hover { background: var(--gold-bright); }
 .music-track-row {
   display: flex;
   align-items: center;
@@ -1789,22 +1803,34 @@ body.in-game #musicPlayerGame { display: block; }
   box-shadow: 0 4px 14px #000a;
 }
 #musicPlayerGame.collapsed .music-mini-toggle { display: block; }
-#musicPlayerGame.collapsed .music-mini-bar { display: none; }
-.music-mini-bar {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
+#musicPlayerGame.collapsed .music-mini-panel { display: none; }
+.music-mini-panel {
   background: linear-gradient(#3a2c14, #241c12);
   border: 1px solid var(--gold);
   border-radius: 8px;
   padding: 0.4rem 0.5rem;
   box-shadow: 0 4px 14px #000a;
-  width: 220px;
+  width: 240px;
+}
+.music-mini-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
   cursor: grab;
   touch-action: none;
 }
 .music-mini-bar:active { cursor: grabbing; }
 .music-mini-title { flex: 1; color: var(--text); font-size: 0.8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.music-mini-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin-top: 0.35rem;
+  padding-top: 0.35rem;
+  border-top: 1px solid #ffffff20;
+}
+.music-mini-vol-icon { font-size: 0.75rem; flex: 0 0 auto; }
+.music-mini-volume { flex: 1; min-width: 0; accent-color: var(--gold); height: 4px; }
 .music-mini-btn {
   flex: 0 0 auto;
   background: none;

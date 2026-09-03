@@ -470,16 +470,24 @@
 <!-- Only visible during a live match (body.in-game, see style.css) —
      mirrors the shared audio engine's state from client.js's music player
      code, so whatever's playing in the lobby keeps playing here unchanged.
-     Deliberately minimal (title + play/pause + next) and, unlike log/chat,
-     draggable via #musicMiniDragHandle so it can be moved off anything it
-     happens to start on top of. -->
+     Draggable via #musicMiniDragHandle (the title bar only, so it doesn't
+     fight with the control row's clicks/slider) so it can be moved off
+     anything it happens to start on top of. -->
 <div id="musicPlayerGame" class="music-mini collapsed">
   <button type="button" id="musicMiniToggle" class="music-mini-toggle" aria-label="Show music player">🎵</button>
-  <div class="music-mini-bar" id="musicMiniDragHandle">
-    <span class="music-mini-title" id="musicMiniTitle">No track</span>
-    <button type="button" id="musicMiniPlayPause" class="music-mini-btn" aria-label="Play">▶</button>
-    <button type="button" id="musicMiniNext" class="music-mini-btn" aria-label="Next track">⏭</button>
-    <button type="button" id="musicMiniCollapse" class="music-mini-btn" aria-label="Minimize">─</button>
+  <div class="music-mini-panel">
+    <div class="music-mini-bar" id="musicMiniDragHandle">
+      <span class="music-mini-title" id="musicMiniTitle">No track</span>
+      <button type="button" id="musicMiniCollapse" class="music-mini-btn" aria-label="Minimize">─</button>
+    </div>
+    <div class="music-mini-controls">
+      <button type="button" id="musicMiniPrev" class="music-mini-btn" aria-label="Previous track">⏮</button>
+      <button type="button" id="musicMiniPlayPause" class="music-mini-btn" aria-label="Play">▶</button>
+      <button type="button" id="musicMiniNext" class="music-mini-btn" aria-label="Next track">⏭</button>
+      <span class="music-mini-vol-icon" aria-hidden="true">🔊</span>
+      <label class="sr-only" for="musicMiniVolume">Volume</label>
+      <input type="range" id="musicMiniVolume" class="music-mini-volume" min="0" max="100" value="70" />
+    </div>
   </div>
 </div>
 
