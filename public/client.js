@@ -29,6 +29,7 @@ const TRANSLATIONS = {
     difficultyNormal: 'Normal', difficultyNormalDesc: 'A balanced challenge.',
     difficultyHard: 'Hard', difficultyHardDesc: 'For experienced players.',
     playVsAi: 'Play vs AI',
+    difficultyBeginner: 'Beginner', difficultyIntermediate: 'Intermediate', difficultyAdvanced: 'Advanced',
     // Create/Join
     createMatchTitle: 'Create a Match', createMatchDesc: 'Pick a faction above, then create a room and share the code.',
     createMatch: 'Create Match', copy: 'Copy', copied: 'Copied!',
@@ -138,6 +139,7 @@ const TRANSLATIONS = {
     difficultyNormal: 'Normalny', difficultyNormalDesc: 'Zrównoważone wyzwanie.',
     difficultyHard: 'Trudny', difficultyHardDesc: 'Dla doświadczonych graczy.',
     playVsAi: 'Zagraj z AI',
+    difficultyBeginner: 'Początkujący', difficultyIntermediate: 'Średniozaawansowany', difficultyAdvanced: 'Zaawansowany',
     createMatchTitle: 'Stwórz mecz', createMatchDesc: 'Wybierz frakcję powyżej, stwórz pokój i udostępnij kod.',
     createMatch: 'Stwórz mecz', copy: 'Kopiuj', copied: 'Skopiowano!',
     joinMatchTitle: 'Dołącz do meczu', joinMatchDesc: 'Wybierz frakcję powyżej, a następnie podaj kod pokoju znajomego.',
@@ -240,11 +242,29 @@ function applyTranslations() {
   if (typeof loadAiStats === 'function') loadAiStats();
   if (currentLobbyLayout === 'sidebar-hud') refreshSidebarWidgets();
   if (currentView) render();
+  FACTION_KEYS.forEach(renderDeckBadgeRow);
   for (const panel of HUD_PANELS) {
     const handle = document.querySelector(`#hudOverlay_${panel.id} .hud-drag-handle`);
     if (handle) handle.textContent = t(panel.labelKey);
   }
-  if (deckPreviewFaction) renderDeckCardGrid(deckPreviewFaction);
+  if (deckPreviewFaction) {
+    // openDeckPreview() resets the search/filter/sort controls, which would
+    // otherwise throw away whatever the player had set up just because they
+    // switched language — capture and restore them around the refresh.
+    const filters = {
+      search: el('deckSearchInput').value,
+      type: el('deckTypeFilter').value,
+      cost: el('deckCostFilter').value,
+      sort: el('deckSortSelect').value,
+    };
+    openDeckPreview(deckPreviewFaction);
+    el('deckSearchInput').value = filters.search;
+    el('deckTypeFilter').value = filters.type;
+    el('deckCostFilter').value = filters.cost;
+    el('deckSortSelect').value = filters.sort;
+    renderDeckCardGrid(deckPreviewFaction);
+  }
+  if (!el('deckCompareOverlay').classList.contains('hidden')) renderDeckCompareTable();
 }
 
 function setLanguage(lang) {
@@ -541,6 +561,7 @@ function demoCardInstance(card, overrides) {
     defense: card.defense,
     maxDefense: card.defense,
     text: card.text,
+    text_pl: card.text_pl || null,
     image: card.image,
     target: card.target || null,
     effect: card.effect || null,
@@ -735,6 +756,30 @@ function splitAbilityLines(text) {
   return { lines: segments.filter(Boolean), footer };
 }
 
+// Polish translations of card rules text live in a sibling `text_pl` field
+// added purely for display — `detectKeywords()`/`firstNumber()` in rules.js
+// keep reading the original English `text` exclusively, so this can never
+// affect real match mechanics. Falls back to English if a translation is
+// ever missing so a card never renders blank.
+function cardText(instance) {
+  if (!instance) return '';
+  return (currentLanguage === 'pl' && instance.text_pl) || instance.text || '';
+}
+
+// Same Polish-with-English-fallback pattern as cardText(), for the faction
+// narrative fields (description, game plan, strengths/weaknesses, etc.) in
+// public/data/*.json — each has a sibling `<field>_pl` key added in Phase 2.
+function fd(data, field) {
+  if (!data) return undefined;
+  return (currentLanguage === 'pl' && data[`${field}_pl`]) || data[field];
+}
+
+const DIFFICULTY_KEYS = { Beginner: 'difficultyBeginner', Intermediate: 'difficultyIntermediate', Advanced: 'difficultyAdvanced' };
+function difficultyLabel(value) {
+  const key = DIFFICULTY_KEYS[value];
+  return key ? t(key) : value;
+}
+
 // Card-render migration Phase 3C: composites the live template layers —
 // clean art (cropped by cardsource/extract_art.ps1, Phase 3B), the card
 // name, and its ability lines (via splitAbilityLines, Phase 2) — into any
@@ -778,7 +823,7 @@ function renderCardFace(container, instance) {
 
   const rulesPanel = document.createElement('div');
   rulesPanel.className = 'card-rules-panel';
-  const { lines, footer } = splitAbilityLines(instance.text);
+  const { lines, footer } = splitAbilityLines(cardText(instance));
   for (const line of lines) {
     const lineEl = document.createElement('div');
     lineEl.className = 'ability-line';
@@ -829,7 +874,7 @@ function buildCardEl(instance, { context = 'board' } = {}) {
 
   wrap.dataset.instanceId = instance.instanceId;
   renderCardFace(wrap, instance);
-  wrap.title = `${instance.name}\n${instance.text || ''}`;
+  wrap.title = `${instance.name}\n${cardText(instance)}`;
 
   renderStatBadges(wrap, instance);
   if (instance.type === 'spell') wrap.classList.add('spell-card');
@@ -895,19 +940,19 @@ function renderDeckBadgeRow(factionKey) {
     if (data.archetype) {
       const archPill = document.createElement('span');
       archPill.className = 'deck-badge';
-      archPill.textContent = data.archetype;
+      archPill.textContent = fd(data, 'archetype');
       badgeRow.appendChild(archPill);
     }
     if (data.difficulty) {
       const diffPill = document.createElement('span');
       diffPill.className = 'deck-badge deck-badge-difficulty';
       diffPill.dataset.difficulty = data.difficulty;
-      diffPill.textContent = data.difficulty;
+      diffPill.textContent = difficultyLabel(data.difficulty);
       badgeRow.appendChild(diffPill);
     }
   }
   const taglineEl = card.querySelector('.deck-tagline');
-  if (taglineEl) taglineEl.textContent = data.tagline || '';
+  if (taglineEl) taglineEl.textContent = fd(data, 'tagline') || '';
 }
 
 function computeDeckStats(factionKey) {
@@ -1048,37 +1093,37 @@ function openDeckPreview(factionKey) {
   deckPreviewFaction = factionKey;
 
   el('deckPreviewName').textContent = data.displayName;
-  el('deckPreviewArchetype').textContent = data.archetype || '';
-  el('deckPreviewDifficulty').textContent = data.difficulty || '';
+  el('deckPreviewArchetype').textContent = fd(data, 'archetype') || '';
+  el('deckPreviewDifficulty').textContent = difficultyLabel(data.difficulty) || '';
   el('deckPreviewDifficulty').dataset.difficulty = data.difficulty || '';
-  el('deckPreviewDescription').textContent = data.description || '';
-  el('deckPreviewGamePlan').textContent = data.gamePlan || '';
-  el('deckPreviewPlaystyle').textContent = data.playstyle || '';
-  el('deckPreviewWinCondition').textContent = data.winCondition || '';
+  el('deckPreviewDescription').textContent = fd(data, 'description') || '';
+  el('deckPreviewGamePlan').textContent = fd(data, 'gamePlan') || '';
+  el('deckPreviewPlaystyle').textContent = fd(data, 'playstyle') || '';
+  el('deckPreviewWinCondition').textContent = fd(data, 'winCondition') || '';
 
   const beginnerBlock = el('deckPreviewBeginnerBlock');
   if (data.beginnerExplainer) {
-    el('deckPreviewBeginner').textContent = data.beginnerExplainer;
+    el('deckPreviewBeginner').textContent = fd(data, 'beginnerExplainer');
     beginnerBlock.classList.remove('hidden');
   } else {
     beginnerBlock.classList.add('hidden');
   }
 
-  renderDeckBulletList('deckPreviewStrengths', data.strengths);
-  renderDeckBulletList('deckPreviewWeaknesses', data.weaknesses);
-  renderDeckBulletList('deckPreviewPros', data.pros);
-  renderDeckBulletList('deckPreviewCons', data.cons);
+  renderDeckBulletList('deckPreviewStrengths', fd(data, 'strengths'));
+  renderDeckBulletList('deckPreviewWeaknesses', fd(data, 'weaknesses'));
+  renderDeckBulletList('deckPreviewPros', fd(data, 'pros'));
+  renderDeckBulletList('deckPreviewCons', fd(data, 'cons'));
 
   const mechanicsEl = el('deckPreviewMechanics');
   mechanicsEl.innerHTML = '';
-  (data.keyMechanics || []).forEach((mechanic) => {
+  (fd(data, 'keyMechanics') || []).forEach((mechanic) => {
     const chip = document.createElement('span');
     chip.className = 'deck-mechanic-chip';
     chip.textContent = mechanic;
     mechanicsEl.appendChild(chip);
   });
 
-  const howToPlay = data.howToPlay || {};
+  const howToPlay = (currentLanguage === 'pl' && data.howToPlay_pl) || data.howToPlay || {};
   el('deckPreviewEarly').textContent = howToPlay.early || '';
   el('deckPreviewMid').textContent = howToPlay.mid || '';
   el('deckPreviewLate').textContent = howToPlay.late || '';
@@ -1107,12 +1152,14 @@ function renderDeckCompareTable() {
     const data = factionData[key];
     if (!data) return;
     const tr = document.createElement('tr');
+    const strengths = fd(data, 'strengths');
+    const weaknesses = fd(data, 'weaknesses');
     const cells = [
       data.displayName,
-      data.archetype || '',
-      data.difficulty || '',
-      (data.strengths && data.strengths[0]) || '',
-      (data.weaknesses && data.weaknesses[0]) || '',
+      fd(data, 'archetype') || '',
+      difficultyLabel(data.difficulty) || '',
+      (strengths && strengths[0]) || '',
+      (weaknesses && weaknesses[0]) || '',
     ];
     cells.forEach((text) => {
       const td = document.createElement('td');

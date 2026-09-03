@@ -1,362 +1,411 @@
-﻿{
-    "faction":  "beast",
-    "displayName":  "Beast",
-    "archetype":  "Aggro / Tribal",
-    "difficulty":  "Beginner",
-    "tagline":  "Every Beast makes the next one hit harder — go wide and swing as one pack.",
-    "description":  "Beast is a tribal go-wide deck built entirely around creatures that grow stronger for every other Beast you control. Pack Hunt units scale their own damage off your board count, Formation buffs reward keeping the line intact, and top-end threats like Chimera and Roc turn a wide board into a Rally-fueled alpha strike.",
-    "gamePlan":  "Flood the board with cheap, efficient Beasts early, then let your scaling keywords and Rally payoffs turn that width into overwhelming damage.",
-    "playstyle":  "Play a new Beast every turn you can afford one and avoid trading it away — Pack Hunt and Formation both punish you for having fewer bodies on board than your opponent expects.",
-    "winCondition":  "Overrun the enemy castle with a wide board of buffed Beasts before they stabilize.",
-    "strengths":  ["Extremely consistent low curve — always have a play", "Snowballs fast once 3-4 Beasts are on board", "Alpha's Call refills your hand off your own board count"],
-    "weaknesses":  ["A single wide sweeper or removal spell erases your entire game plan", "Falls off if forced to play from behind", "Few individual threats can close a game alone"],
-    "pros":  ["Easiest deck in the game to pick up and pilot", "Rewards proactive, low-risk decisions every turn", "Strong, forgiving early game"],
-    "cons":  ["Very board-dependent — no plan B if your units keep dying", "Weak against decks with efficient removal or wide sweepers", "Runs out of gas if the game goes long"],
-    "keyMechanics":  ["PACK HUNT", "RALLY", "FORMATION"],
-    "beginnerExplainer":  "Most of your creatures get stronger just from having other Beasts next to them in play — the more you have out, the harder each one hits.",
-    "howToPlay":  {"early": "Play your cheapest Beasts on curve to establish board presence — a 1-cost Gnoll or Gnome Slinger is never a wasted turn.", "mid": "Keep adding bodies and start using Formation-buffed units to trade up; avoid attacking into obvious blockers that would shrink your pack.", "late": "Cash in your wide board with Rally threats like Chimera or Roc, and draw extra gas with Alpha's Call if you need to refuel."},
-    "cards":  [
-                  {
-                      "id":  "beast_01",
-                      "name":  "Gnoll",
-                      "cost":  1,
-                      "power":  1,
-                      "defense":  2,
-                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
-                      "image":  "assets/cards/art/beast/beast_01.png"
-                  },
-                  {
-                      "id":  "beast_02",
-                      "name":  "Gnome Slinger",
-                      "cost":  1,
-                      "power":  2,
-                      "defense":  1,
-                      "text":  "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
-                      "image":  "assets/cards/art/beast/beast_02.png"
-                  },
-                  {
-                      "id":  "beast_03",
-                      "name":  "Ravenkin",
-                      "cost":  1,
-                      "power":  1,
-                      "defense":  2,
-                      "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
-                      "image":  "assets/cards/art/beast/beast_03.png"
-                  },
-                  {
-                      "id":  "beast_04",
-                      "name":  "Quillboar",
-                      "cost":  2,
-                      "power":  2,
-                      "defense":  3,
-                      "text":  "RALLY: Adjacent Beast allies gain +1 DMG.",
-                      "image":  "assets/cards/art/beast/beast_04.png"
-                  },
-                  {
-                      "id":  "beast_05",
-                      "name":  "Centaur Lancer",
-                      "cost":  2,
-                      "power":  2,
-                      "defense":  3,
-                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
-                      "image":  "assets/cards/art/beast/beast_05.png"
-                  },
-                  {
-                      "id":  "beast_06",
-                      "name":  "Assassin",
-                      "cost":  2,
-                      "power":  3,
-                      "defense":  2,
-                      "text":  "FORMATION: +1 DMG while adjacent to another Beast unit.",
-                      "image":  "assets/cards/art/beast/beast_06.png"
-                  },
-                  {
-                      "id":  "beast_07",
-                      "name":  "Gnoll Reaver",
-                      "cost":  2,
-                      "power":  3,
-                      "defense":  2,
-                      "text":  "REBIRTH: The first time this would die, return it to your hand at 1 HP instead.",
-                      "image":  "assets/cards/art/beast/beast_07.png"
-                  },
-                  {
-                      "id":  "beast_08",
-                      "name":  "Pixie",
-                      "cost":  3,
-                      "power":  3,
-                      "defense":  3,
-                      "text":  "RALLY: Adjacent Beast allies gain +1 DMG.",
-                      "image":  "assets/cards/art/beast/beast_08.png"
-                  },
-                  {
-                      "id":  "beast_09",
-                      "name":  "Mossback",
-                      "cost":  3,
-                      "power":  3,
-                      "defense":  3,
-                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
-                      "image":  "assets/cards/art/beast/beast_09.png"
-                  },
-                  {
-                      "id":  "beast_10",
-                      "name":  "Pack Alpha",
-                      "cost":  3,
-                      "power":  3,
-                      "defense":  3,
-                      "text":  "FORMATION: +1 DMG while adjacent to another Beast unit.",
-                      "image":  "assets/cards/art/beast/beast_10.png"
-                  },
-                  {
-                      "id":  "beast_11",
-                      "name":  "Satyr Piper",
-                      "cost":  3,
-                      "power":  3,
-                      "defense":  3,
-                      "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
-                      "image":  "assets/cards/art/beast/beast_11.png"
-                  },
-                  {
-                      "id":  "beast_12",
-                      "name":  "Minotaur",
-                      "cost":  4,
-                      "power":  4,
-                      "defense":  4,
-                      "text":  "RALLY: Adjacent Beast allies gain +1 DMG.",
-                      "image":  "assets/cards/art/beast/beast_12.png"
-                  },
-                  {
-                      "id":  "beast_13",
-                      "name":  "Gnome Tinker",
-                      "cost":  4,
-                      "power":  4,
-                      "defense":  4,
-                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
-                      "image":  "assets/cards/art/beast/beast_13.png"
-                  },
-                  {
-                      "id":  "beast_14",
-                      "name":  "Ettin",
-                      "cost":  4,
-                      "power":  4,
-                      "defense":  4,
-                      "text":  "FORMATION: +1 DMG while adjacent to another Beast unit.",
-                      "image":  "assets/cards/art/beast/beast_14.png"
-                  },
-                  {
-                      "id":  "beast_15",
-                      "name":  "Dire Wolf",
-                      "cost":  3,
-                      "power":  4,
-                      "defense":  3,
-                      "text":  "PACK HUNT: Gains +1 DMG for each other Beast you control. CHARGE: Can attack the turn it is played.",
-                      "image":  "assets/cards/art/beast/beast_15.png"
-                  },
-                  {
-                      "id":  "beast_16",
-                      "name":  "Harpy",
-                      "cost":  5,
-                      "power":  4,
-                      "defense":  5,
-                      "text":  "RALLY: Adjacent Beast allies gain +1 DMG.",
-                      "image":  "assets/cards/art/beast/beast_16.png"
-                  },
-                  {
-                      "id":  "beast_17",
-                      "name":  "Great Bear",
-                      "cost":  5,
-                      "power":  4,
-                      "defense":  5,
-                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
-                      "image":  "assets/cards/art/beast/beast_17.png"
-                  },
-                  {
-                      "id":  "beast_18",
-                      "name":  "Cave Troll",
-                      "cost":  5,
-                      "power":  3,
-                      "defense":  6,
-                      "text":  "TAUNT: Enemies must attack this unit first. FORMATION: +1 DMG while adjacent to another Beast unit.",
-                      "image":  "assets/cards/art/beast/beast_18.png"
-                  },
-                  {
-                      "id":  "beast_19",
-                      "name":  "Basilisk",
-                      "cost":  6,
-                      "power":  5,
-                      "defense":  6,
-                      "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
-                      "image":  "assets/cards/art/beast/beast_19.png"
-                  },
-                  {
-                      "id":  "beast_20",
-                      "name":  "Drake",
-                      "cost":  6,
-                      "power":  7,
-                      "defense":  4,
-                      "text":  "RALLY: Adjacent Beast allies gain +1 DMG.",
-                      "image":  "assets/cards/art/beast/beast_20.png"
-                  },
-                  {
-                      "id":  "beast_21",
-                      "name":  "Manticore",
-                      "cost":  6,
-                      "power":  5,
-                      "defense":  6,
-                      "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
-                      "image":  "assets/cards/art/beast/beast_21.png"
-                  },
-                  {
-                      "id":  "beast_22",
-                      "name":  "Thunderbird",
-                      "cost":  7,
-                      "power":  8,
-                      "defense":  4,
-                      "text":  "FORMATION: +1 DMG while adjacent to another Beast unit.",
-                      "image":  "assets/cards/art/beast/beast_22.png"
-                  },
-                  {
-                      "id":  "beast_23",
-                      "name":  "Behemoth",
-                      "cost":  7,
-                      "power":  4,
-                      "defense":  8,
-                      "text":  "TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
-                      "image":  "assets/cards/art/beast/beast_23.png"
-                  },
-                  {
-                      "id":  "beast_24",
-                      "name":  "Hydra",
-                      "cost":  8,
-                      "power":  7,
-                      "defense":  7,
-                      "text":  "RALLY: Adjacent Beast allies gain +1 DMG.",
-                      "image":  "assets/cards/art/beast/beast_24.png"
-                  },
-                  {
-                      "id":  "beast_25",
-                      "name":  "Chimera",
-                      "cost":  9,
-                      "power":  7,
-                      "defense":  8,
-                      "text":  "RALLY: Adjacent Beast allies gain +1 DMG. (This unit is a rare, high-impact threat.)",
-                      "image":  "assets/cards/art/beast/beast_25.png"
-                  },
-                  {
-                      "id":  "beast_26",
-                      "name":  "Roc",
-                      "cost":  10,
-                      "power":  8,
-                      "defense":  9,
-                      "text":  "RALLY: Adjacent Beast allies gain +1 DMG. (This unit is a rare, high-impact threat.)",
-                      "image":  "assets/cards/art/beast/beast_26.png"
-                  },
-                  {
-                      "id":  "beast_27",
-                      "name":  "Ancient Wisdom",
-                      "cost":  5,
-                      "type":  "spell",
-                      "copies":  2,
-                      "text":  "Draw 4 cards.",
-                      "image":  "assets/cards/art/beast/beast_27.png"
-                  },
-                  {
-                      "id":  "beast_28",
-                      "name":  "Feral Instinct",
-                      "cost":  1,
-                      "type":  "spell",
-                      "copies":  2,
-                      "target":  "ally_unit",
-                      "effect":  { "kind": "buff_power", "amount": 1 },
-                      "text":  "Target allied unit gains +1 DMG until end of turn.",
-                      "image":  "assets/cards/art/beast/beast_28.png"
-                  },
-                  {
-                      "id":  "beast_29",
-                      "name":  "Thorn Bite",
-                      "cost":  1,
-                      "type":  "spell",
-                      "copies":  1,
-                      "target":  "enemy_unit",
-                      "effect":  { "kind": "damage", "amount": 2 },
-                      "text":  "Deal 2 damage to an enemy unit.",
-                      "image":  "assets/cards/art/beast/beast_29.png"
-                  },
-                  {
-                      "id":  "beast_30",
-                      "name":  "Regenerate",
-                      "cost":  1,
-                      "type":  "spell",
-                      "copies":  1,
-                      "target":  "ally_unit",
-                      "effect":  { "kind": "heal", "amount": 3 },
-                      "text":  "Heal an allied unit for 3.",
-                      "image":  "assets/cards/art/beast/beast_30.png"
-                  },
-                  {
-                      "id":  "beast_31",
-                      "name":  "Wild Growth",
-                      "cost":  2,
-                      "type":  "spell",
-                      "copies":  1,
-                      "target":  "none",
-                      "effect":  { "kind": "discount_next_unit", "amount": 1 },
-                      "text":  "The next unit you play this turn costs 1 less.",
-                      "image":  "assets/cards/art/beast/beast_31.png"
-                  },
-                  {
-                      "id":  "beast_32",
-                      "name":  "Bristling Hide",
-                      "cost":  2,
-                      "type":  "spell",
-                      "copies":  1,
-                      "target":  "ally_unit",
-                      "effect":  { "kind": "buff_defense", "amount": 3 },
-                      "text":  "Target allied unit gains +0/+3 until end of turn.",
-                      "image":  "assets/cards/art/beast/beast_32.png"
-                  },
-                  {
-                      "id":  "beast_33",
-                      "name":  "Savage Rally",
-                      "cost":  2,
-                      "type":  "spell",
-                      "copies":  1,
-                      "target":  "ally_unit",
-                      "effect":  { "kind": "buff_power_and_formation_neighbors", "amount": 2 },
-                      "text":  "Target allied unit and each unit adjacent to it gain +2 DMG until end of turn.",
-                      "image":  "assets/cards/art/beast/beast_33.png"
-                  },
-                  {
-                      "id":  "beast_34",
-                      "name":  "Alpha's Call",
-                      "cost":  3,
-                      "type":  "spell",
-                      "copies":  1,
-                      "target":  "none",
-                      "effect":  { "kind": "draw_per_unit_controlled", "maxDraws": 3 },
-                      "text":  "Draw a card for each Beast unit you control (maximum 3).",
-                      "image":  "assets/cards/art/beast/beast_34.png"
-                  },
-                  {
-                      "id":  "beast_35",
-                      "name":  "Stampede",
-                      "cost":  4,
-                      "type":  "spell",
-                      "copies":  1,
-                      "target":  "none",
-                      "effect":  { "kind": "buff_power_all_allies", "amount": 1 },
-                      "text":  "All allied units gain +1 DMG until end of turn.",
-                      "image":  "assets/cards/art/beast/beast_35.png"
-                  },
-                  {
-                      "id":  "beast_36",
-                      "name":  "Pack Takedown",
-                      "cost":  2,
-                      "type":  "spell",
-                      "copies":  1,
-                      "target":  "enemy_unit",
-                      "effect":  { "kind": "damage", "amount": 3 },
-                      "text":  "Deal 3 damage to an enemy unit.",
-                      "image":  "assets/cards/art/beast/beast_36.png"
-                  }
-              ]
+{
+  "faction": "beast",
+  "displayName": "Beast",
+  "archetype": "Aggro / Tribal",
+  "archetype_pl": "Agresja / Plemienna",
+  "difficulty": "Beginner",
+  "tagline": "Every Beast makes the next one hit harder — go wide and swing as one pack.",
+  "tagline_pl": "Każda Bestia sprawia, że następna uderza mocniej — rozstaw się szeroko i atakuj jak jedna sfora.",
+  "description": "Beast is a tribal go-wide deck built entirely around creatures that grow stronger for every other Beast you control. Pack Hunt units scale their own damage off your board count, Formation buffs reward keeping the line intact, and top-end threats like Chimera and Roc turn a wide board into a Rally-fueled alpha strike.",
+  "description_pl": "Bestie to plemienna talia stawiająca na liczebność, zbudowana wokół stworzeń, które stają się silniejsze wraz z każdą inną Bestią, którą kontrolujesz. Jednostki z Polowaniem w Stadzie skalują swoje obrażenia na podstawie liczby jednostek na twojej planszy, premie z Formacji nagradzają utrzymanie nienaruszonej linii, a najpotężniejsze zagrożenia, jak Chimera czy Roc, zamieniają szeroką planszę w druzgocący atak wspierany przez Zbiórkę.",
+  "gamePlan": "Flood the board with cheap, efficient Beasts early, then let your scaling keywords and Rally payoffs turn that width into overwhelming damage.",
+  "gamePlan_pl": "Zalej planszę tanimi, efektywnymi Bestiami na wczesnym etapie, a następnie pozwól, by twoje skalujące się słowa kluczowe i premie ze Zbiórki zamieniły tę liczebność w miażdżące obrażenia.",
+  "playstyle": "Play a new Beast every turn you can afford one and avoid trading it away — Pack Hunt and Formation both punish you for having fewer bodies on board than your opponent expects.",
+  "playstyle_pl": "Zagrywaj nową Bestię w każdej turze, na jaką cię stać, i unikaj wymieniania jej w walce — zarówno Polowanie w Stadzie, jak i Formacja karzą cię za mniejszą liczbę jednostek na planszy, niż spodziewa się przeciwnik.",
+  "winCondition": "Overrun the enemy castle with a wide board of buffed Beasts before they stabilize.",
+  "winCondition_pl": "Zmiażdż wrogi zamek szeroką planszą wzmocnionych Bestii, zanim przeciwnik zdąży się ustabilizować.",
+  "strengths": ["Extremely consistent low curve — always have a play", "Snowballs fast once 3-4 Beasts are on board", "Alpha's Call refills your hand off your own board count"],
+  "strengths_pl": ["Wyjątkowo spójna, niska krzywa many — zawsze masz co zagrać", "Szybko nabiera rozpędu, gdy na planszy jest 3-4 Bestii", "Zew Alfy uzupełnia twoją rękę na podstawie liczby jednostek na planszy"],
+  "weaknesses": ["A single wide sweeper or removal spell erases your entire game plan", "Falls off if forced to play from behind", "Few individual threats can close a game alone"],
+  "weaknesses_pl": ["Jedno zaklęcie obszarowe lub usuwające jednostki niweczy cały twój plan gry", "Traci na sile, gdy jest zmuszona grać z pozycji doganiającej", "Niewiele pojedynczych zagrożeń potrafi samodzielnie zakończyć grę"],
+  "pros": ["Easiest deck in the game to pick up and pilot", "Rewards proactive, low-risk decisions every turn", "Strong, forgiving early game"],
+  "pros_pl": ["Najłatwiejsza talia w grze do nauki i prowadzenia", "Nagradza proaktywne, niskoryzykowne decyzje w każdej turze", "Silna, wybaczająca błędy wczesna faza gry"],
+  "cons": ["Very board-dependent — no plan B if your units keep dying", "Weak against decks with efficient removal or wide sweepers", "Runs out of gas if the game goes long"],
+  "cons_pl": ["Bardzo zależna od planszy — brak planu B, gdy jednostki wciąż giną", "Słaba przeciwko taliom z efektywnym usuwaniem jednostek lub atakami obszarowymi", "Traci impet, gdy gra się przeciąga"],
+  "keyMechanics": ["PACK HUNT", "RALLY", "FORMATION"],
+  "keyMechanics_pl": ["POLOWANIE W STADZIE", "ZBIÓRKA", "FORMACJA"],
+  "beginnerExplainer": "Most of your creatures get stronger just from having other Beasts next to them in play — the more you have out, the harder each one hits.",
+  "beginnerExplainer_pl": "Większość twoich stworzeń staje się silniejsza po prostu dzięki obecności innych Bestii w grze — im więcej ich wystawisz, tym mocniej uderza każda z nich.",
+  "howToPlay": {"early": "Play your cheapest Beasts on curve to establish board presence — a 1-cost Gnoll or Gnome Slinger is never a wasted turn.", "mid": "Keep adding bodies and start using Formation-buffed units to trade up; avoid attacking into obvious blockers that would shrink your pack.", "late": "Cash in your wide board with Rally threats like Chimera or Roc, and draw extra gas with Alpha's Call if you need to refuel."},
+  "howToPlay_pl": {"early": "Zagrywaj swoje najtańsze Bestie zgodnie z krzywą many, by zbudować obecność na planszy — Gnoll czy Gnomi Procarz za 1 many to nigdy zmarnowana tura.", "mid": "Nadal dokładaj jednostki i zacznij wykorzystywać wzmocnione przez Formację jednostki do korzystnych wymian; unikaj atakowania oczywistych blokerów, które zmniejszyłyby twoją sforę.", "late": "Spieniężaj szeroką planszę zagrożeniami ze Zbiórką, jak Chimera czy Roc, a jeśli potrzebujesz dodatkowych kart, dobierz je Zewem Alfy."},
+  "cards": [
+    {
+      "id": "beast_01",
+      "name": "Gnoll",
+      "cost": 1,
+      "power": 1,
+      "defense": 2,
+      "text": "PACK HUNT: +1 DMG for each other Beast you control.",
+      "text_pl": "POLOWANIE W STADZIE: +1 DMG za każdą inną Bestię, którą kontrolujesz.",
+      "image": "assets/cards/art/beast/beast_01.png"
+    },
+    {
+      "id": "beast_02",
+      "name": "Gnome Slinger",
+      "cost": 1,
+      "power": 2,
+      "defense": 1,
+      "text": "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
+      "text_pl": "SALWA: Może wybrać, którą wrogą linię zaatakować, bez ryzyka kontrataku.",
+      "image": "assets/cards/art/beast/beast_02.png"
+    },
+    {
+      "id": "beast_03",
+      "name": "Ravenkin",
+      "cost": 1,
+      "power": 1,
+      "defense": 2,
+      "text": "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
+      "text_pl": "JAD: Wszelkie obrażenia zadane przez tę jednostkę wrogiej jednostce niszczą ją.",
+      "image": "assets/cards/art/beast/beast_03.png"
+    },
+    {
+      "id": "beast_04",
+      "name": "Quillboar",
+      "cost": 2,
+      "power": 2,
+      "defense": 3,
+      "text": "RALLY: Adjacent Beast allies gain +1 DMG.",
+      "text_pl": "ZBIÓRKA: Sąsiednie sojusznicze Bestie zyskują +1 DMG.",
+      "image": "assets/cards/art/beast/beast_04.png"
+    },
+    {
+      "id": "beast_05",
+      "name": "Centaur Lancer",
+      "cost": 2,
+      "power": 2,
+      "defense": 3,
+      "text": "PACK HUNT: +1 DMG for each other Beast you control.",
+      "text_pl": "POLOWANIE W STADZIE: +1 DMG za każdą inną Bestię, którą kontrolujesz.",
+      "image": "assets/cards/art/beast/beast_05.png"
+    },
+    {
+      "id": "beast_06",
+      "name": "Assassin",
+      "cost": 2,
+      "power": 3,
+      "defense": 2,
+      "text": "FORMATION: +1 DMG while adjacent to another Beast unit.",
+      "text_pl": "FORMACJA: +1 DMG, gdy sąsiaduje z inną jednostką Bestii.",
+      "image": "assets/cards/art/beast/beast_06.png"
+    },
+    {
+      "id": "beast_07",
+      "name": "Gnoll Reaver",
+      "cost": 2,
+      "power": 3,
+      "defense": 2,
+      "text": "REBIRTH: The first time this would die, return it to your hand at 1 HP instead.",
+      "text_pl": "ODRODZENIE: Za pierwszym razem, gdy ta jednostka miałaby zginąć, wraca zamiast tego do twojej ręki z 1 PŻ.",
+      "image": "assets/cards/art/beast/beast_07.png"
+    },
+    {
+      "id": "beast_08",
+      "name": "Pixie",
+      "cost": 3,
+      "power": 3,
+      "defense": 3,
+      "text": "RALLY: Adjacent Beast allies gain +1 DMG.",
+      "text_pl": "ZBIÓRKA: Sąsiednie sojusznicze Bestie zyskują +1 DMG.",
+      "image": "assets/cards/art/beast/beast_08.png"
+    },
+    {
+      "id": "beast_09",
+      "name": "Mossback",
+      "cost": 3,
+      "power": 3,
+      "defense": 3,
+      "text": "PACK HUNT: +1 DMG for each other Beast you control.",
+      "text_pl": "POLOWANIE W STADZIE: +1 DMG za każdą inną Bestię, którą kontrolujesz.",
+      "image": "assets/cards/art/beast/beast_09.png"
+    },
+    {
+      "id": "beast_10",
+      "name": "Pack Alpha",
+      "cost": 3,
+      "power": 3,
+      "defense": 3,
+      "text": "FORMATION: +1 DMG while adjacent to another Beast unit.",
+      "text_pl": "FORMACJA: +1 DMG, gdy sąsiaduje z inną jednostką Bestii.",
+      "image": "assets/cards/art/beast/beast_10.png"
+    },
+    {
+      "id": "beast_11",
+      "name": "Satyr Piper",
+      "cost": 3,
+      "power": 3,
+      "defense": 3,
+      "text": "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
+      "text_pl": "JAD: Wszelkie obrażenia zadane przez tę jednostkę wrogiej jednostce niszczą ją.",
+      "image": "assets/cards/art/beast/beast_11.png"
+    },
+    {
+      "id": "beast_12",
+      "name": "Minotaur",
+      "cost": 4,
+      "power": 4,
+      "defense": 4,
+      "text": "RALLY: Adjacent Beast allies gain +1 DMG.",
+      "text_pl": "ZBIÓRKA: Sąsiednie sojusznicze Bestie zyskują +1 DMG.",
+      "image": "assets/cards/art/beast/beast_12.png"
+    },
+    {
+      "id": "beast_13",
+      "name": "Gnome Tinker",
+      "cost": 4,
+      "power": 4,
+      "defense": 4,
+      "text": "PACK HUNT: +1 DMG for each other Beast you control.",
+      "text_pl": "POLOWANIE W STADZIE: +1 DMG za każdą inną Bestię, którą kontrolujesz.",
+      "image": "assets/cards/art/beast/beast_13.png"
+    },
+    {
+      "id": "beast_14",
+      "name": "Ettin",
+      "cost": 4,
+      "power": 4,
+      "defense": 4,
+      "text": "FORMATION: +1 DMG while adjacent to another Beast unit.",
+      "text_pl": "FORMACJA: +1 DMG, gdy sąsiaduje z inną jednostką Bestii.",
+      "image": "assets/cards/art/beast/beast_14.png"
+    },
+    {
+      "id": "beast_15",
+      "name": "Dire Wolf",
+      "cost": 3,
+      "power": 4,
+      "defense": 3,
+      "text": "PACK HUNT: Gains +1 DMG for each other Beast you control. CHARGE: Can attack the turn it is played.",
+      "text_pl": "POLOWANIE W STADZIE: Zyskuje +1 DMG za każdą inną Bestię, którą kontrolujesz. SZARŻA: Może atakować w turze, w której została zagrana.",
+      "image": "assets/cards/art/beast/beast_15.png"
+    },
+    {
+      "id": "beast_16",
+      "name": "Harpy",
+      "cost": 5,
+      "power": 4,
+      "defense": 5,
+      "text": "RALLY: Adjacent Beast allies gain +1 DMG.",
+      "text_pl": "ZBIÓRKA: Sąsiednie sojusznicze Bestie zyskują +1 DMG.",
+      "image": "assets/cards/art/beast/beast_16.png"
+    },
+    {
+      "id": "beast_17",
+      "name": "Great Bear",
+      "cost": 5,
+      "power": 4,
+      "defense": 5,
+      "text": "PACK HUNT: +1 DMG for each other Beast you control.",
+      "text_pl": "POLOWANIE W STADZIE: +1 DMG za każdą inną Bestię, którą kontrolujesz.",
+      "image": "assets/cards/art/beast/beast_17.png"
+    },
+    {
+      "id": "beast_18",
+      "name": "Cave Troll",
+      "cost": 5,
+      "power": 3,
+      "defense": 6,
+      "text": "TAUNT: Enemies must attack this unit first. FORMATION: +1 DMG while adjacent to another Beast unit.",
+      "text_pl": "PROWOKACJA: Wrogowie muszą zaatakować najpierw tę jednostkę. FORMACJA: +1 DMG, gdy sąsiaduje z inną jednostką Bestii.",
+      "image": "assets/cards/art/beast/beast_18.png"
+    },
+    {
+      "id": "beast_19",
+      "name": "Basilisk",
+      "cost": 6,
+      "power": 5,
+      "defense": 6,
+      "text": "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
+      "text_pl": "JAD: Wszelkie obrażenia zadane przez tę jednostkę wrogiej jednostce niszczą ją.",
+      "image": "assets/cards/art/beast/beast_19.png"
+    },
+    {
+      "id": "beast_20",
+      "name": "Drake",
+      "cost": 6,
+      "power": 7,
+      "defense": 4,
+      "text": "RALLY: Adjacent Beast allies gain +1 DMG.",
+      "text_pl": "ZBIÓRKA: Sąsiednie sojusznicze Bestie zyskują +1 DMG.",
+      "image": "assets/cards/art/beast/beast_20.png"
+    },
+    {
+      "id": "beast_21",
+      "name": "Manticore",
+      "cost": 6,
+      "power": 5,
+      "defense": 6,
+      "text": "PACK HUNT: +1 DMG for each other Beast you control.",
+      "text_pl": "POLOWANIE W STADZIE: +1 DMG za każdą inną Bestię, którą kontrolujesz.",
+      "image": "assets/cards/art/beast/beast_21.png"
+    },
+    {
+      "id": "beast_22",
+      "name": "Thunderbird",
+      "cost": 7,
+      "power": 8,
+      "defense": 4,
+      "text": "FORMATION: +1 DMG while adjacent to another Beast unit.",
+      "text_pl": "FORMACJA: +1 DMG, gdy sąsiaduje z inną jednostką Bestii.",
+      "image": "assets/cards/art/beast/beast_22.png"
+    },
+    {
+      "id": "beast_23",
+      "name": "Behemoth",
+      "cost": 7,
+      "power": 4,
+      "defense": 8,
+      "text": "TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
+      "text_pl": "STRATOWANIE: Nadmiar obrażeń ze śmiertelnego ciosu przechodzi na jednostkę lub zamek za nią.",
+      "image": "assets/cards/art/beast/beast_23.png"
+    },
+    {
+      "id": "beast_24",
+      "name": "Hydra",
+      "cost": 8,
+      "power": 7,
+      "defense": 7,
+      "text": "RALLY: Adjacent Beast allies gain +1 DMG.",
+      "text_pl": "ZBIÓRKA: Sąsiednie sojusznicze Bestie zyskują +1 DMG.",
+      "image": "assets/cards/art/beast/beast_24.png"
+    },
+    {
+      "id": "beast_25",
+      "name": "Chimera",
+      "cost": 9,
+      "power": 7,
+      "defense": 8,
+      "text": "RALLY: Adjacent Beast allies gain +1 DMG. (This unit is a rare, high-impact threat.)",
+      "text_pl": "ZBIÓRKA: Sąsiednie sojusznicze Bestie zyskują +1 DMG. (Ta jednostka to rzadkie, potężne zagrożenie.)",
+      "image": "assets/cards/art/beast/beast_25.png"
+    },
+    {
+      "id": "beast_26",
+      "name": "Roc",
+      "cost": 10,
+      "power": 8,
+      "defense": 9,
+      "text": "RALLY: Adjacent Beast allies gain +1 DMG. (This unit is a rare, high-impact threat.)",
+      "text_pl": "ZBIÓRKA: Sąsiednie sojusznicze Bestie zyskują +1 DMG. (Ta jednostka to rzadkie, potężne zagrożenie.)",
+      "image": "assets/cards/art/beast/beast_26.png"
+    },
+    {
+      "id": "beast_27",
+      "name": "Ancient Wisdom",
+      "cost": 5,
+      "type": "spell",
+      "copies": 2,
+      "text": "Draw 4 cards.",
+      "text_pl": "Dobierz 4 karty.",
+      "image": "assets/cards/art/beast/beast_27.png"
+    },
+    {
+      "id": "beast_28",
+      "name": "Feral Instinct",
+      "cost": 1,
+      "type": "spell",
+      "copies": 2,
+      "target": "ally_unit",
+      "effect": { "kind": "buff_power", "amount": 1 },
+      "text": "Target allied unit gains +1 DMG until end of turn.",
+      "text_pl": "Wybrana sojusznicza jednostka zyskuje +1 DMG do końca tury.",
+      "image": "assets/cards/art/beast/beast_28.png"
+    },
+    {
+      "id": "beast_29",
+      "name": "Thorn Bite",
+      "cost": 1,
+      "type": "spell",
+      "copies": 1,
+      "target": "enemy_unit",
+      "effect": { "kind": "damage", "amount": 2 },
+      "text": "Deal 2 damage to an enemy unit.",
+      "text_pl": "Zadaj 2 obrażenia wrogiej jednostce.",
+      "image": "assets/cards/art/beast/beast_29.png"
+    },
+    {
+      "id": "beast_30",
+      "name": "Regenerate",
+      "cost": 1,
+      "type": "spell",
+      "copies": 1,
+      "target": "ally_unit",
+      "effect": { "kind": "heal", "amount": 3 },
+      "text": "Heal an allied unit for 3.",
+      "text_pl": "Ulecz sojuszniczą jednostkę o 3.",
+      "image": "assets/cards/art/beast/beast_30.png"
+    },
+    {
+      "id": "beast_31",
+      "name": "Wild Growth",
+      "cost": 2,
+      "type": "spell",
+      "copies": 1,
+      "target": "none",
+      "effect": { "kind": "discount_next_unit", "amount": 1 },
+      "text": "The next unit you play this turn costs 1 less.",
+      "text_pl": "Następna jednostka zagrana w tej turze kosztuje o 1 mniej.",
+      "image": "assets/cards/art/beast/beast_31.png"
+    },
+    {
+      "id": "beast_32",
+      "name": "Bristling Hide",
+      "cost": 2,
+      "type": "spell",
+      "copies": 1,
+      "target": "ally_unit",
+      "effect": { "kind": "buff_defense", "amount": 3 },
+      "text": "Target allied unit gains +0/+3 until end of turn.",
+      "text_pl": "Wybrana sojusznicza jednostka zyskuje +0/+3 do końca tury.",
+      "image": "assets/cards/art/beast/beast_32.png"
+    },
+    {
+      "id": "beast_33",
+      "name": "Savage Rally",
+      "cost": 2,
+      "type": "spell",
+      "copies": 1,
+      "target": "ally_unit",
+      "effect": { "kind": "buff_power_and_formation_neighbors", "amount": 2 },
+      "text": "Target allied unit and each unit adjacent to it gain +2 DMG until end of turn.",
+      "text_pl": "Wybrana sojusznicza jednostka oraz każda sąsiadująca z nią jednostka zyskują +2 DMG do końca tury.",
+      "image": "assets/cards/art/beast/beast_33.png"
+    },
+    {
+      "id": "beast_34",
+      "name": "Alpha's Call",
+      "cost": 3,
+      "type": "spell",
+      "copies": 1,
+      "target": "none",
+      "effect": { "kind": "draw_per_unit_controlled", "maxDraws": 3 },
+      "text": "Draw a card for each Beast unit you control (maximum 3).",
+      "text_pl": "Dobierz kartę za każdą jednostkę Bestii, którą kontrolujesz (maksymalnie 3).",
+      "image": "assets/cards/art/beast/beast_34.png"
+    },
+    {
+      "id": "beast_35",
+      "name": "Stampede",
+      "cost": 4,
+      "type": "spell",
+      "copies": 1,
+      "target": "none",
+      "effect": { "kind": "buff_power_all_allies", "amount": 1 },
+      "text": "All allied units gain +1 DMG until end of turn.",
+      "text_pl": "Wszystkie sojusznicze jednostki zyskują +1 DMG do końca tury.",
+      "image": "assets/cards/art/beast/beast_35.png"
+    },
+    {
+      "id": "beast_36",
+      "name": "Pack Takedown",
+      "cost": 2,
+      "type": "spell",
+      "copies": 1,
+      "target": "enemy_unit",
+      "effect": { "kind": "damage", "amount": 3 },
+      "text": "Deal 3 damage to an enemy unit.",
+      "text_pl": "Zadaj 3 obrażenia wrogiej jednostce.",
+      "image": "assets/cards/art/beast/beast_36.png"
+    }
+  ]
 }

@@ -109,6 +109,7 @@ function makeCardInstance(card) {
     defense: card.defense,
     maxDefense: card.defense,
     text: card.text,
+    text_pl: card.text_pl || null,
     image: card.image,
     keywords,
     hasShield: keywords.includes('shield'),
@@ -1283,7 +1284,7 @@ export function playCard(game, owner, cardInstanceId, lane, slotIndex, spellTarg
     }
     player.graveyard.push(card);
     game.playSeq += 1;
-    game.lastPlayedCard = { seq: game.playSeq, owner, type: 'spell', cardId: card.cardId, name: card.name, image: card.image, text: card.text, cost: card.cost };
+    game.lastPlayedCard = { seq: game.playSeq, owner, type: 'spell', cardId: card.cardId, name: card.name, image: card.image, text: card.text, text_pl: card.text_pl, cost: card.cost };
     checkWinner(game);
     return card;
   }
@@ -1297,7 +1298,7 @@ export function playCard(game, owner, cardInstanceId, lane, slotIndex, spellTarg
   const unit = { ...card, sick: !card.keywords.includes('charge'), attackedThisTurn: false, actionsUsedThisTurn: 0 };
   player.board[lane][slotIndex] = unit;
   game.playSeq += 1;
-  game.lastPlayedCard = { seq: game.playSeq, owner, type: 'unit', cardId: card.cardId, name: card.name, image: card.image, text: card.text, cost: card.cost };
+  game.lastPlayedCard = { seq: game.playSeq, owner, type: 'unit', cardId: card.cardId, name: card.name, image: card.image, text: card.text, text_pl: card.text_pl, cost: card.cost };
   game.log.push(`${owner} played ${card.name} to ${lane} ${slotIndex + 1}.`);
 
   if (unit.keywords.includes('mend')) {
