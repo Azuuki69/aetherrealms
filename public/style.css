@@ -1069,7 +1069,13 @@ body:has(#chatPanel:not(.collapsed)) .hand {
   border-radius: 14px;
   border: 3px solid var(--gold);
   box-shadow: 0 14px 40px #000f, 0 0 32px #d9b25c90;
-  background: #100c08;
+  /* background-color, NOT the `background` shorthand — the shorthand resets
+     every unlisted sub-property to its initial value, including
+     background-image, which would silently wipe out .card-templated's
+     newcardtemplate.png (this exact bug shipped once already: the frame
+     never rendered on the reveal popup, leaving art+text with no visible
+     boundary between them). */
+  background-color: #100c08;
   display: block;
 }
 .card-reveal-label {
@@ -1105,13 +1111,15 @@ body:has(#chatPanel:not(.collapsed)) .hand {
   overflow: hidden;
   border: 3px solid var(--gold);
   box-shadow: 0 14px 40px #000f, 0 0 32px #d9b25c70;
-  background: #100c08;
+  /* background-color, not the `background` shorthand — see the identical
+     comment on .card-reveal-img for why the shorthand silently breaks the
+     template background image. */
+  background-color: #100c08;
   opacity: 0;
   transform: translateY(-50%) scale(0.97);
   transition: opacity 0.08s, transform 0.08s;
 }
 #cardPreview.visible { opacity: 1; transform: translateY(-50%) scale(1); }
-#cardPreview img { width: 100%; height: 100%; object-fit: contain; display: block; }
 /* Pops up on whichever side the hovered card isn't on (set in
    showPreview() in client.js), so it never covers the card — or the board
    behind it — you're actually looking at. */
