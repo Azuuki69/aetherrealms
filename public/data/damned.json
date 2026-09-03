@@ -9,7 +9,7 @@
                       "power":  1,
                       "defense":  2,
                       "text":  "BLOODPRICE: When played, deal 1 DMG to your own castle. Draw a card.",
-                      "image":  "assets/cards/web/damned/01_thrall.jpg"
+                      "image":  "assets/cards/art/damned/damned_01.png"
                   },
                   {
                       "id":  "damned_02",
@@ -18,7 +18,7 @@
                       "power":  1,
                       "defense":  2,
                       "text":  "REAP: Draw a card whenever an enemy unit dies.",
-                      "image":  "assets/cards/web/damned/02_penitent.jpg"
+                      "image":  "assets/cards/art/damned/damned_02.png"
                   },
                   {
                       "id":  "damned_03",
@@ -27,7 +27,7 @@
                       "power":  1,
                       "defense":  2,
                       "text":  "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
-                      "image":  "assets/cards/web/damned/03_emberling.jpg"
+                      "image":  "assets/cards/art/damned/damned_03.png"
                   },
                   {
                       "id":  "damned_04",
@@ -36,7 +36,7 @@
                       "power":  2,
                       "defense":  3,
                       "text":  "CULL: When played, destroys your weakest allied unit (if any) to deal 2 DMG to a random enemy unit, or the enemy castle if none.",
-                      "image":  "assets/cards/web/damned/04_screamer.jpg"
+                      "image":  "assets/cards/art/damned/damned_04.png"
                   },
                   {
                       "id":  "damned_05",
@@ -45,7 +45,7 @@
                       "power":  2,
                       "defense":  3,
                       "text":  "BLOODPRICE: When played, deal 1 DMG to your own castle. Draw a card.",
-                      "image":  "assets/cards/web/damned/05_hound_of_the_pact.jpg"
+                      "image":  "assets/cards/art/damned/damned_05.png"
                   },
                   {
                       "id":  "damned_06",
@@ -54,7 +54,7 @@
                       "power":  2,
                       "defense":  3,
                       "text":  "CHARGE: Can attack the turn it is played.",
-                      "image":  "assets/cards/web/damned/06_branded_rider.jpg"
+                      "image":  "assets/cards/art/damned/damned_06.png"
                   },
                   {
                       "id":  "damned_07",
@@ -63,7 +63,7 @@
                       "power":  2,
                       "defense":  3,
                       "text":  "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
-                      "image":  "assets/cards/web/damned/07_flenser.jpg"
+                      "image":  "assets/cards/art/damned/damned_07.png"
                   },
                   {
                       "id":  "damned_08",
@@ -72,7 +72,7 @@
                       "power":  3,
                       "defense":  3,
                       "text":  "CULL: When played, destroys your weakest allied unit (if any) to deal 2 DMG to a random enemy unit, or the enemy castle if none.",
-                      "image":  "assets/cards/web/damned/08_gnasher.jpg"
+                      "image":  "assets/cards/art/damned/damned_08.png"
                   },
                   {
                       "id":  "damned_09",
@@ -81,7 +81,7 @@
                       "power":  3,
                       "defense":  3,
                       "text":  "BLOODPRICE: When played, deal 1 DMG to your own castle. Draw a card.",
-                      "image":  "assets/cards/web/damned/09_wrathborn.jpg"
+                      "image":  "assets/cards/art/damned/damned_09.png"
                   },
                   {
                       "id":  "damned_10",
@@ -90,7 +90,7 @@
                       "power":  3,
                       "defense":  3,
                       "text":  "REAP: Draw a card whenever an enemy unit dies.",
-                      "image":  "assets/cards/web/damned/10_scourgeling.jpg"
+                      "image":  "assets/cards/art/damned/damned_10.png"
                   },
                   {
                       "id":  "damned_11",
@@ -99,7 +99,7 @@
                       "power":  3,
                       "defense":  3,
                       "text":  "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
-                      "image":  "assets/cards/web/damned/11_shardbreaker.jpg"
+                      "image":  "assets/cards/art/damned/damned_11.png"
                   },
                   {
                       "id":  "damned_12",
@@ -108,7 +108,7 @@
                       "power":  4,
                       "defense":  4,
                       "text":  "CULL: When played, destroys your weakest allied unit (if any) to deal 2 DMG to a random enemy unit, or the enemy castle if none.",
-                      "image":  "assets/cards/web/damned/12_yoke_bearer.jpg"
+                      "image":  "assets/cards/art/damned/damned_12.png"
                   },
                   {
                       "id":  "damned_13",
@@ -117,7 +117,7 @@
                       "power":  4,
                       "defense":  4,
                       "text":  "BLOODPRICE: When played, deal 1 DMG to your own castle. Draw a card.",
-                      "image":  "assets/cards/web/damned/13_confessor.jpg"
+                      "image":  "assets/cards/art/damned/damned_13.png"
                   },
                   {
                       "id":  "damned_14",
@@ -126,7 +126,7 @@
                       "power":  4,
                       "defense":  4,
                       "text":  "REAP: Draw a card whenever an enemy unit dies.",
-                      "image":  "assets/cards/web/damned/14_ledger_keeper.jpg"
+                      "image":  "assets/cards/art/damned/damned_14.png"
                   },
                   {
                       "id":  "damned_15",
@@ -135,7 +135,7 @@
                       "power":  4,
                       "defense":  4,
                       "text":  "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
-                      "image":  "assets/cards/web/damned/15_brimstone_caller.jpg"
+                      "image":  "assets/cards/art/damned/damned_15.png"
                   },
                   {
                       "id":  "damned_16",
@@ -144,7 +144,7 @@
                       "power":  6,
                       "defense":  3,
                       "text":  "REBIRTH: The first time this would die, return it to your hand at 1 HP instead.",
-                      "image":  "assets/cards/web/damned/16_binding_warlock.jpg"
+                      "image":  "assets/cards/art/damned/damned_16.png"
                   },
                   {
                       "id":  "damned_17",
@@ -153,7 +153,7 @@
                       "power":  4,
                       "defense":  5,
                       "text":  "BLOODPRICE: When played, deal 1 DMG to your own castle. Draw a card.",
-                      "image":  "assets/cards/web/damned/17_soul_broker.jpg"
+                      "image":  "assets/cards/art/damned/damned_17.png"
                   },
                   {
                       "id":  "damned_18",
@@ -162,7 +162,7 @@
                       "power":  4,
                       "defense":  5,
                       "text":  "REAP: Draw a card whenever an enemy unit dies.",
-                      "image":  "assets/cards/web/damned/18_dread_champion.jpg"
+                      "image":  "assets/cards/art/damned/damned_18.png"
                   },
                   {
                       "id":  "damned_19",
@@ -171,7 +171,7 @@
                       "power":  4,
                       "defense":  7,
                       "text":  "TAUNT: Enemies must attack this unit first.",
-                      "image":  "assets/cards/web/damned/19_gate_warden.jpg"
+                      "image":  "assets/cards/art/damned/damned_19.png"
                   },
                   {
                       "id":  "damned_20",
@@ -180,7 +180,7 @@
                       "power":  4,
                       "defense":  7,
                       "text":  "CULL: When played, destroys your weakest allied unit (if any) to deal 2 DMG to a random enemy unit, or the enemy castle if none.",
-                      "image":  "assets/cards/web/damned/20_harrow_knight.jpg"
+                      "image":  "assets/cards/art/damned/damned_20.png"
                   },
                   {
                       "id":  "damned_21",
@@ -189,7 +189,7 @@
                       "power":  5,
                       "defense":  6,
                       "text":  "MEND: Heals an allied unit for 2 when played.",
-                      "image":  "assets/cards/web/damned/21_abyssal_priest.jpg"
+                      "image":  "assets/cards/art/damned/damned_21.png"
                   },
                   {
                       "id":  "damned_22",
@@ -198,7 +198,7 @@
                       "power":  6,
                       "defense":  6,
                       "text":  "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
-                      "image":  "assets/cards/web/damned/22_maw.jpg"
+                      "image":  "assets/cards/art/damned/damned_22.png"
                   },
                   {
                       "id":  "damned_23",
@@ -207,7 +207,7 @@
                       "power":  6,
                       "defense":  6,
                       "text":  "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
-                      "image":  "assets/cards/web/damned/23_carrion_wing.jpg"
+                      "image":  "assets/cards/art/damned/damned_23.png"
                   },
                   {
                       "id":  "damned_24",
@@ -216,7 +216,7 @@
                       "power":  5,
                       "defense":  9,
                       "text":  "CULL: When played, destroys your weakest allied unit (if any) to deal 2 DMG to a random enemy unit, or the enemy castle if none.",
-                      "image":  "assets/cards/web/damned/24_bone_engine.jpg"
+                      "image":  "assets/cards/art/damned/damned_24.png"
                   },
                   {
                       "id":  "damned_25",
@@ -225,7 +225,7 @@
                       "power":  5,
                       "defense":  5,
                       "text":  "BLOODPRICE 2: When played, deal 2 DMG to your own castle. LAST BREATH: Draw 2 cards.",
-                      "image":  "assets/cards/web/damned/25_the_creditor.jpg"
+                      "image":  "assets/cards/art/damned/damned_25.png"
                   },
                   {
                       "id":  "damned_26",
@@ -234,7 +234,7 @@
                       "power":  8,
                       "defense":  9,
                       "text":  "CULL: When played, destroys your weakest allied unit (if any) to deal 2 DMG to a random enemy unit, or the enemy castle if none. (This unit is a rare, high-impact threat.)",
-                      "image":  "assets/cards/web/damned/26_the_foreclosure.jpg"
+                      "image":  "assets/cards/art/damned/damned_26.png"
                   },
                   {
                       "id":  "damned_27",
@@ -243,7 +243,7 @@
                       "type":  "spell",
                       "copies":  2,
                       "text":  "Draw 4 cards.",
-                      "image":  "assets/cards/web/damned/27_ancient_wisdom.jpg"
+                      "image":  "assets/cards/art/damned/damned_27.png"
                   },
                   {
                       "id":  "damned_28",
@@ -254,7 +254,7 @@
                       "target":  "enemy_unit",
                       "effect":  { "kind": "self_damage_then_damage", "selfAmount": 1, "amount": 3 },
                       "text":  "Deal 1 damage to your own castle. Deal 3 damage to an enemy unit.",
-                      "image":  "assets/cards/web/damned/28_blood_for_power.jpg"
+                      "image":  "assets/cards/art/damned/damned_28.png"
                   },
                   {
                       "id":  "damned_29",
@@ -265,7 +265,7 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "self_damage_then_buff_power", "selfAmount": 1, "powerAmount": 3 },
                       "text":  "Deal 1 damage to your own castle. Target allied unit gains +3 DMG until end of turn.",
-                      "image":  "assets/cards/web/damned/29_painful_bargain.jpg"
+                      "image":  "assets/cards/art/damned/damned_29.png"
                   },
                   {
                       "id":  "damned_30",
@@ -276,7 +276,7 @@
                       "target":  "none",
                       "effect":  { "kind": "self_damage_then_draw", "selfAmount": 2, "drawAmount": 2 },
                       "text":  "Deal 2 damage to your own castle. Draw 2 cards.",
-                      "image":  "assets/cards/web/damned/30_dark_pact.jpg"
+                      "image":  "assets/cards/art/damned/damned_30.png"
                   },
                   {
                       "id":  "damned_31",
@@ -287,7 +287,7 @@
                       "target":  "enemy_unit",
                       "effect":  { "kind": "damage_and_heal_castle", "amount": 2, "healAmount": 2 },
                       "text":  "Deal 2 damage to an enemy unit. Heal your castle for 2.",
-                      "image":  "assets/cards/web/damned/31_soul_drain.jpg"
+                      "image":  "assets/cards/art/damned/damned_31.png"
                   },
                   {
                       "id":  "damned_32",
@@ -298,7 +298,7 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "sacrifice_then_draw", "maxTargetPower": 2, "drawAmount": 2 },
                       "text":  "Destroy an allied unit with 2 or less DMG. Draw 2 cards.",
-                      "image":  "assets/cards/web/damned/32_sacrificial_rite.jpg"
+                      "image":  "assets/cards/art/damned/damned_32.png"
                   },
                   {
                       "id":  "damned_33",
@@ -309,7 +309,7 @@
                       "target":  "enemy_unit",
                       "effect":  { "kind": "damage_then_weaken", "amount": 2, "reduction": 1 },
                       "text":  "Deal 2 damage to an enemy unit. The next time it would deal combat damage this turn, it deals 1 less.",
-                      "image":  "assets/cards/web/damned/33_cursed_blade.jpg"
+                      "image":  "assets/cards/art/damned/damned_33.png"
                   },
                   {
                       "id":  "damned_34",
@@ -320,7 +320,7 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "self_damage_then_death_ward", "selfAmount": 1 },
                       "text":  "Deal 1 damage to your own castle. If target allied unit would die this turn, it returns to your hand instead.",
-                      "image":  "assets/cards/web/damned/34_hollow_vessel.jpg"
+                      "image":  "assets/cards/art/damned/damned_34.png"
                   },
                   {
                       "id":  "damned_35",
@@ -331,7 +331,7 @@
                       "target":  "none",
                       "effect":  { "kind": "heal_castle_per_death", "perDeath": 3, "maxAmount": 9 },
                       "text":  "Heal your castle for 3 for each allied unit that died this turn (maximum 9).",
-                      "image":  "assets/cards/web/damned/35_feast_of_ashes.jpg"
+                      "image":  "assets/cards/art/damned/damned_35.png"
                   },
                   {
                       "id":  "damned_36",
@@ -342,7 +342,7 @@
                       "target":  "enemy_unit",
                       "effect":  { "kind": "self_damage_then_destroy", "selfAmount": 2, "maxTargetPower": 4 },
                       "text":  "Deal 2 damage to your own castle. Destroy target enemy unit with 4 or less DMG.",
-                      "image":  "assets/cards/web/damned/36_last_rites.jpg"
+                      "image":  "assets/cards/art/damned/damned_36.png"
                   },
                   {
                       "id":  "damned_37",
@@ -353,7 +353,7 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "buff_defense", "amount": 2 },
                       "text":  "Target allied unit gains +0/+2 until end of turn.",
-                      "image":  "assets/cards/web/damned/37_fiendish_reflexes.jpg"
+                      "image":  "assets/cards/art/damned/damned_37.png"
                   }
               ]
 }

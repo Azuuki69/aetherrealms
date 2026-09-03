@@ -144,6 +144,9 @@ function handleMessage(msg) {
         el('coinFlipOverlay').classList.add('hidden');
         render();
       }
+      // Independent of phase — a Discover choice can be pending mid-deployment
+      // or mid-combat, not just at specific phase boundaries like coinflip.
+      renderDiscoverChoice(msg.pendingChoice);
       combatResolvers.splice(0).forEach((r) => r('state'));
       break;
     case 'opponent_disconnected':
@@ -288,13 +291,174 @@ function renderCoinFlip(view) {
   }
 }
 
+// A Discover-style effect (server-parked in game.pendingChoice) reveals 3
+// real cards to the choosing player only — the opponent's redacted view
+// just carries `{owner, waiting:true}`, so this renders a "waiting" message
+// for them instead of the picker.
+function renderDiscoverChoice(pendingChoice) {
+  const overlay = el('discoverOverlay');
+  if (!pendingChoice) {
+    overlay.classList.add('hidden');
+    return;
+  }
+  overlay.classList.remove('hidden');
+  const optionsEl = el('discoverOptions');
+  const waitingEl = el('discoverWaiting');
+  if (pendingChoice.waiting) {
+    optionsEl.classList.add('hidden');
+    waitingEl.classList.remove('hidden');
+    return;
+  }
+  waitingEl.classList.add('hidden');
+  optionsEl.classList.remove('hidden');
+  optionsEl.innerHTML = '';
+  pendingChoice.options.forEach((option, index) => {
+    const cardEl = buildCardEl(option, { context: 'board' });
+    cardEl.classList.add('discover-option');
+    cardEl.addEventListener('click', () => send({ type: 'discover_choice', index }));
+    optionsEl.appendChild(cardEl);
+  });
+}
+
 // ---------- Rendering ----------
-// Every finished card image already has its border, art, name, cost, DMG,
-// and HP baked in by the generation pipeline, so a "card" here is mostly just
-// that image sized to its slot — no runtime cropping needed. The cost/DMG/HP
-// numbers are also mirrored as small CSS badges on top, since the baked-in
-// numbers are too small to read at typical board scale (a fixed-resolution
-// raster image can't be sharpened by resizing its container).
+// Card-render migration Phase 2: turns a card's free-text `text` field into
+// an array of legible ability lines, for the live template renderer Phase 3
+// will build. Not wired into buildCardEl()/showPreview() yet — those still
+// render the legacy baked-JPG-per-card path until Phase 3 replaces it.
+//
+// Splitting rule (tuned against the actual 374-card corpus, not guessed):
+// 1. Split on ALLCAPS clause boundaries ("TAUNT: ...", "PACK HUNT: ...") —
+//    the same visual signal detectKeywords() already relies on for keyword
+//    DETECTION, reused here for line SEGMENTATION instead. Handles all 6
+//    existing two-ability cards (beast_15/18, dwarf_17, fallen_16, orc_22,
+//    undead_22).
+// 2. A trailing "(...)" flavor parenthetical with no keyword-colon inside it
+//    (the flagship pattern, e.g. "...(This unit is a rare, high-impact
+//    threat.)") is carved into its own footer line, since it's flavor text
+//    rather than another ability and shouldn't count toward line density.
+// 3. No ALLCAPS match at all (plain spell text like "Draw 4 cards.") returns
+//    the whole text as one line — correct as-is, needs no splitting help.
+// No generic sentence-boundary fallback: the current corpus has zero cards
+// with 3+ sentences or multi-sentence plain (non-keyword) text, so that
+// would be speculative complexity for a shape that doesn't exist yet. If a
+// future card needs it, extend this function then.
+function splitAbilityLines(text) {
+  const t = (text || '').trim();
+  if (!t) return { lines: [], footer: null };
+
+  const KEYWORD_CLAUSE = /[A-Z][A-Z ]{2,}:\s*/g;
+  const matches = [...t.matchAll(KEYWORD_CLAUSE)];
+  let segments;
+  if (matches.length === 0) {
+    segments = [t];
+  } else {
+    segments = [];
+    const firstStart = matches[0].index;
+    if (firstStart > 0) {
+      const lead = t.slice(0, firstStart).trim();
+      if (lead) segments.push(lead);
+    }
+    for (let i = 0; i < matches.length; i++) {
+      const start = matches[i].index;
+      const end = i + 1 < matches.length ? matches[i + 1].index : t.length;
+      segments.push(t.slice(start, end).trim());
+    }
+  }
+
+  // Carve a trailing flavor parenthetical off the LAST segment only, and
+  // only if it isn't the segment's entire content (which would otherwise
+  // leave an empty ability line) and doesn't itself contain a keyword clause
+  // (which would mean it's really another ability, not flavor text).
+  let footer = null;
+  if (segments.length > 0) {
+    const last = segments[segments.length - 1];
+    const footerMatch = last.match(/\s*(\([^()]*\))\s*$/);
+    if (footerMatch) {
+      const candidate = footerMatch[1];
+      if (candidate.length < last.length && !KEYWORD_CLAUSE.test(candidate)) {
+        footer = candidate;
+        segments[segments.length - 1] = last.slice(0, footerMatch.index).trim();
+      }
+    }
+  }
+
+  return { lines: segments.filter(Boolean), footer };
+}
+
+// Card-render migration Phase 3C: composites the live template layers —
+// clean art (cropped by cardsource/extract_art.ps1, Phase 3B), the card
+// name, and its ability lines (via splitAbilityLines, Phase 2) — into any
+// given container. The template frame itself is applied as `container`'s
+// own CSS background-image (see .card-templated in style.css), not a DOM
+// layer, so it never needs its own stacking/z-index bookkeeping. Stat
+// numbers are deliberately never drawn here — see renderStatBadges below,
+// the one place they still appear, satisfying the physical-card/game-board
+// split without any separate "remove stats" step.
+function renderCardFace(container, instance) {
+  container.innerHTML = '';
+  container.classList.add('card-templated');
+
+  const faction = instance.cardId ? instance.cardId.split('_')[0] : '';
+  // extract_art.ps1's output is keyed by cardId, not by the legacy `image`
+  // path's filename (which is slug-based, e.g. "01_ashigaru.jpg", and can't
+  // be derived from cardId alone) — falls back to the old baked image only
+  // if cardId is somehow missing, so nothing renders as a broken image.
+  const artSrc = faction ? `assets/cards/art/${faction}/${instance.cardId}.png` : instance.image;
+
+  const art = document.createElement('img');
+  art.className = 'card-art';
+  art.src = artSrc;
+  art.alt = '';
+  container.appendChild(art);
+
+  const namePlate = document.createElement('div');
+  namePlate.className = 'card-name-plate';
+  namePlate.textContent = instance.name;
+  container.appendChild(namePlate);
+
+  const rulesPanel = document.createElement('div');
+  rulesPanel.className = 'card-rules-panel';
+  const { lines, footer } = splitAbilityLines(instance.text);
+  for (const line of lines) {
+    const lineEl = document.createElement('div');
+    lineEl.className = 'ability-line';
+    lineEl.textContent = line;
+    rulesPanel.appendChild(lineEl);
+  }
+  if (footer) {
+    const footerEl = document.createElement('div');
+    footerEl.className = 'ability-footer';
+    footerEl.textContent = footer;
+    rulesPanel.appendChild(footerEl);
+  }
+  container.appendChild(rulesPanel);
+}
+
+// The only place cost/DMG/HP/countdown ever appear — a small always-current
+// DOM layer that was already separate from the card art before this
+// migration (previously duplicating numbers also baked into the old JPG).
+function renderStatBadges(container, instance) {
+  const cost = document.createElement('span');
+  cost.className = 'card-badge cost-badge';
+  cost.textContent = instance.cost;
+  container.append(cost);
+  if (instance.type !== 'spell') {
+    const dmg = document.createElement('span');
+    dmg.className = 'card-badge dmg-badge';
+    dmg.textContent = instance.displayPower ?? instance.power;
+    const hp = document.createElement('span');
+    hp.className = 'card-badge hp-badge';
+    hp.textContent = instance.defense;
+    container.append(dmg, hp);
+  }
+  if (instance.countdown !== null && instance.countdown !== undefined) {
+    const cd = document.createElement('span');
+    cd.className = 'card-badge countdown-badge';
+    cd.textContent = `⏳${instance.countdown}`;
+    container.appendChild(cd);
+  }
+}
+
 function buildCardEl(instance, { context = 'board' } = {}) {
   const wrap = document.createElement('div');
   wrap.className = 'card' + (context === 'hand' ? ' hand-card' : '');
@@ -304,36 +468,11 @@ function buildCardEl(instance, { context = 'board' } = {}) {
   }
 
   wrap.dataset.instanceId = instance.instanceId;
-
-  const img = document.createElement('img');
-  img.className = 'art';
-  img.src = instance.image;
-  img.alt = instance.name;
-  wrap.appendChild(img);
+  renderCardFace(wrap, instance);
   wrap.title = `${instance.name}\n${instance.text || ''}`;
 
-  const cost = document.createElement('span');
-  cost.className = 'card-badge cost-badge';
-  cost.textContent = instance.cost;
-  wrap.append(cost);
-  if (instance.type === 'spell') {
-    wrap.classList.add('spell-card');
-  } else {
-    const dmg = document.createElement('span');
-    dmg.className = 'card-badge dmg-badge';
-    dmg.textContent = instance.displayPower ?? instance.power;
-    const hp = document.createElement('span');
-    hp.className = 'card-badge hp-badge';
-    hp.textContent = instance.defense;
-    wrap.append(dmg, hp);
-  }
-
-  if (instance.countdown !== null && instance.countdown !== undefined) {
-    const cd = document.createElement('span');
-    cd.className = 'card-badge countdown-badge';
-    cd.textContent = `⏳${instance.countdown}`;
-    wrap.appendChild(cd);
-  }
+  renderStatBadges(wrap, instance);
+  if (instance.type === 'spell') wrap.classList.add('spell-card');
 
   if (instance.sick) wrap.classList.add('sick');
   if (instance.attackedThisTurn) wrap.classList.add('attacked');
@@ -346,8 +485,9 @@ function buildCardEl(instance, { context = 'board' } = {}) {
 
 function showPreview(instance, sourceEl) {
   if (!instance.image) return;
-  el('previewImg').src = instance.image;
   const preview = el('cardPreview');
+  renderCardFace(preview, instance);
+  renderStatBadges(preview, instance);
   if (sourceEl) {
     const cardCenterX = sourceEl.getBoundingClientRect().left + sourceEl.offsetWidth / 2;
     // Preview pops up on whichever side the hovered card ISN'T on, so it
@@ -471,7 +611,11 @@ function spawnEffect(fx) {
   if (fx.kind === 'card-reveal') {
     const isYou = fx.owner === currentView.you_key;
     const overlay = el('cardRevealOverlay');
-    el('cardRevealImg').src = fx.card.image;
+    // lastPlayedCard (fx.card) is a small broadcast summary, not a full
+    // makeCardInstance() object — it has no power/defense, so this renders
+    // art+name+rules text only, no stat badges (the reveal was never meant
+    // to show full stats; the board/hand already do).
+    renderCardFace(el('cardRevealImg'), fx.card);
     el('cardRevealLabel').textContent = isYou ? 'You played' : 'Opponent played';
     overlay.classList.toggle('reveal-you', isYou);
     overlay.classList.toggle('reveal-opponent', !isYou);
@@ -703,6 +847,10 @@ function handleSpellTargetClick(side, lane, slotIndex) {
   const opp = currentView.opponent;
 
   if (kind === 'ally_unit' && side === 'you' && you.board[lane][slotIndex]) {
+    sendSpellTarget({ lane, slot: slotIndex });
+    return true;
+  }
+  if (kind === 'empty_ally_slot' && side === 'you' && !you.board[lane][slotIndex]) {
     sendSpellTarget({ lane, slot: slotIndex });
     return true;
   }
@@ -1072,6 +1220,13 @@ function highlightSelections() {
       document.querySelectorAll('#youVanguard .slot, #youRearguard .slot').forEach((s) => {
         s.classList.add('spell-target');
       });
+    } else if (kind === 'empty_ally_slot') {
+      for (const laneName of ['vanguard', 'rearguard']) {
+        const containerId = laneName === 'vanguard' ? 'youVanguard' : 'youRearguard';
+        document.querySelectorAll(`#${containerId} .slot`).forEach((s, idx) => {
+          if (!currentView.you.board[laneName][idx]) s.classList.add('spell-target');
+        });
+      }
     }
   }
 }

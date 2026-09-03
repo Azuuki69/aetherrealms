@@ -798,6 +798,17 @@ h1 span {
   height: auto;
   border-radius: 8px;
   overflow: hidden;
+  /* Lets text inside (name plate, ability lines, stat badges) size itself
+     via cqw/cqh — relative to THIS card's own rendered box — instead of
+     vw (relative to the viewport). vw ties font size to browser width, so
+     the exact same card renders at an unrelated font size in a small board
+     slot vs. a full hand card vs. the hover preview at the same viewport
+     width; cqw/cqh scale correctly with however big this particular card
+     actually is. Safe to apply here specifically because .card's own box
+     is already fully self-determined (width 100% of its parent + a fixed
+     aspect-ratio) and never depends on its children's size. */
+  container-type: size;
+  container-name: card;
   border: 2px solid #1a140c;
   box-shadow: 0 2px 6px #000a;
   cursor: pointer;
@@ -825,7 +836,6 @@ h1 span {
   100% { transform: scale(1); opacity: 1; }
 }
 .card.card-enter { animation: card-pop 0.25s ease-out; }
-.card img.art { width: 100%; height: 100%; object-fit: contain; display: block; }
 .card.selected { outline: 3px solid var(--gold); }
 .card.sick { filter: grayscale(0.6) brightness(0.7); }
 .card.attacked { filter: brightness(0.55); }
@@ -847,13 +857,16 @@ h1 span {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: clamp(22px, 1.8vw, 28px);
-  height: clamp(22px, 1.8vw, 28px);
+  /* cqw (this .card's own rendered width), not vw (the viewport) — a badge
+     on a small board-slot card now scales down with that card instead of
+     staying viewport-sized regardless of how small the card actually is. */
+  min-width: clamp(10px, 12cqw, 28px);
+  height: clamp(10px, 12cqw, 28px);
   padding: 0 3px;
-  border-radius: clamp(11px, 0.9vw, 14px);
+  border-radius: clamp(5px, 6cqw, 14px);
   font-family: Georgia, serif;
   font-weight: bold;
-  font-size: clamp(13px, 1.1vw, 16px);
+  font-size: clamp(7px, 7.5cqw, 16px);
   color: #fff;
   text-shadow: 0 1px 2px #000;
   border: 1.5px solid var(--gold);
@@ -865,6 +878,56 @@ h1 span {
 .dmg-badge { bottom: 3px; left: 3px; background: radial-gradient(circle at 30% 30%, #d8d8d8, #6b6b6b); }
 .hp-badge { bottom: 3px; right: 3px; background: radial-gradient(circle at 30% 30%, #ff8b83, var(--hp)); }
 .countdown-badge { top: 3px; left: 50%; transform: translateX(-50%); background: radial-gradient(circle at 30% 30%, #d8c9a0, #7a6a3f); }
+
+/* ---------- Live template card renderer (card-render migration) ---------- */
+/* Card-render migration Phase 3: composites newcardtemplate.png as the card's
+   own background (never a separate DOM layer, so it needs no z-index of its
+   own) plus three absolutely-positioned regions — art, name, rules text —
+   whose percentages were measured directly against the 1024x1536 template
+   (see cardsource/extract_art.ps1's header comment for the matching art-crop
+   rectangle). These are a first pass tuned by eye against a live render;
+   nudge them here if a future template revision shifts the frame's regions.
+   Font sizing uses cqh (this .card's own rendered HEIGHT, the binding
+   constraint for these short horizontal bands) — this is Phase 5's
+   container-query mechanism, pulled forward into Phase 3 after a real hand
+   card (~80x120px in testing) exposed vw-based sizing as a genuine
+   readability bug, not just a future nice-to-have: at that size a
+   viewport-relative font stayed near its ~13-16px ceiling regardless of the
+   card being far too small to hold it, clipping most of the rules text
+   inside its own (safely non-spilling, `overflow:hidden`) box. */
+.card-templated { background-image: url('assets/cards/newcardtemplate.png'); background-size: 100% 100%; background-repeat: no-repeat; }
+.card-art { position: absolute; left: 20%; top: 20%; width: 58%; height: 38%; object-fit: contain; pointer-events: none; }
+.card-name-plate {
+  position: absolute;
+  left: 18%; top: 8%; width: 64%; height: 4%;
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  overflow: hidden;
+  color: #3a2510;
+  font-family: var(--font-display);
+  font-weight: bold;
+  line-height: 1.05;
+  font-size: clamp(4px, 2.8cqh, 20px);
+  letter-spacing: 0.02em;
+  pointer-events: none;
+}
+.card-rules-panel {
+  position: absolute;
+  left: 13%; top: 69%; width: 74%; height: 20%;
+  display: flex; flex-direction: column; justify-content: center; align-items: center;
+  gap: 3%;
+  overflow: hidden;
+  color: #241a0e;
+  text-align: center;
+  line-height: 1.15;
+  font-size: clamp(4px, 2.6cqh, 15px);
+}
+/* A 2-ability card needs to fit one more line in the same panel height —
+   cheap, fully covers the current corpus (max 2 ability lines today) with
+   zero per-render measurement cost. See Phase 5 for the general case
+   (arbitrary future line counts / unusually long text). */
+.card-rules-panel:has(.ability-line:nth-child(2)) { font-size: clamp(4px, 1.9cqh, 12px); }
+.ability-line { font-weight: 600; }
+.ability-footer { font-style: italic; opacity: 0.7; font-size: 0.85em; }
 
 /* ---------- Combat feedback effects (floating numbers / flashes) ---------- */
 .fx-float {
@@ -967,6 +1030,12 @@ body:has(#chatPanel:not(.collapsed)) .hand {
   100% { transform: rotateY(1800deg) scale(1); }
 }
 .coin-flip-result { color: var(--text); font-size: 1.1rem; margin: 0; }
+
+#discoverOverlay { position: fixed; z-index: 600; }
+.discover-box { min-width: 320px; }
+.discover-waiting { color: var(--text); font-size: 1.05rem; margin: 0.5rem 0 0; }
+.discover-options { display: flex; gap: 16px; justify-content: center; margin-top: 1rem; }
+.discover-option { width: 160px; }
 
 /* ---------- Card play reveal ---------- */
 /* Fires once per server-signaled play (client.js computeEffects/spawnEffect,

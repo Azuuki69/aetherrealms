@@ -9,7 +9,7 @@
                       "power":  1,
                       "defense":  2,
                       "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
-                      "image":  "assets/cards/web/beast/01_gnoll.jpg"
+                      "image":  "assets/cards/art/beast/beast_01.png"
                   },
                   {
                       "id":  "beast_02",
@@ -18,7 +18,7 @@
                       "power":  2,
                       "defense":  1,
                       "text":  "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
-                      "image":  "assets/cards/web/beast/02_gnome_slinger.jpg"
+                      "image":  "assets/cards/art/beast/beast_02.png"
                   },
                   {
                       "id":  "beast_03",
@@ -27,7 +27,7 @@
                       "power":  1,
                       "defense":  2,
                       "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
-                      "image":  "assets/cards/web/beast/03_ravenkin.jpg"
+                      "image":  "assets/cards/art/beast/beast_03.png"
                   },
                   {
                       "id":  "beast_04",
@@ -36,7 +36,7 @@
                       "power":  2,
                       "defense":  3,
                       "text":  "RALLY: Adjacent Beast allies gain +1 DMG.",
-                      "image":  "assets/cards/web/beast/04_quillboar.jpg"
+                      "image":  "assets/cards/art/beast/beast_04.png"
                   },
                   {
                       "id":  "beast_05",
@@ -45,7 +45,7 @@
                       "power":  2,
                       "defense":  3,
                       "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
-                      "image":  "assets/cards/web/beast/05_centaur_lancer.jpg"
+                      "image":  "assets/cards/art/beast/beast_05.png"
                   },
                   {
                       "id":  "beast_06",
@@ -54,7 +54,7 @@
                       "power":  3,
                       "defense":  2,
                       "text":  "FORMATION: +1 DMG while adjacent to another Beast unit.",
-                      "image":  "assets/cards/web/beast/06_assassin.jpg"
+                      "image":  "assets/cards/art/beast/beast_06.png"
                   },
                   {
                       "id":  "beast_07",
@@ -63,7 +63,7 @@
                       "power":  3,
                       "defense":  2,
                       "text":  "REBIRTH: The first time this would die, return it to your hand at 1 HP instead.",
-                      "image":  "assets/cards/web/beast/07_gnoll_reaver.jpg"
+                      "image":  "assets/cards/art/beast/beast_07.png"
                   },
                   {
                       "id":  "beast_08",
@@ -72,7 +72,7 @@
                       "power":  3,
                       "defense":  3,
                       "text":  "RALLY: Adjacent Beast allies gain +1 DMG.",
-                      "image":  "assets/cards/web/beast/08_pixie.jpg"
+                      "image":  "assets/cards/art/beast/beast_08.png"
                   },
                   {
                       "id":  "beast_09",
@@ -81,7 +81,7 @@
                       "power":  3,
                       "defense":  3,
                       "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
-                      "image":  "assets/cards/web/beast/09_mossback.jpg"
+                      "image":  "assets/cards/art/beast/beast_09.png"
                   },
                   {
                       "id":  "beast_10",
@@ -90,7 +90,7 @@
                       "power":  3,
                       "defense":  3,
                       "text":  "FORMATION: +1 DMG while adjacent to another Beast unit.",
-                      "image":  "assets/cards/web/beast/10_pack_alpha.jpg"
+                      "image":  "assets/cards/art/beast/beast_10.png"
                   },
                   {
                       "id":  "beast_11",
@@ -99,7 +99,7 @@
                       "power":  3,
                       "defense":  3,
                       "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
-                      "image":  "assets/cards/web/beast/11_satyr_piper.jpg"
+                      "image":  "assets/cards/art/beast/beast_11.png"
                   },
                   {
                       "id":  "beast_12",
@@ -108,7 +108,7 @@
                       "power":  4,
                       "defense":  4,
                       "text":  "RALLY: Adjacent Beast allies gain +1 DMG.",
-                      "image":  "assets/cards/web/beast/12_minotaur.jpg"
+                      "image":  "assets/cards/art/beast/beast_12.png"
                   },
                   {
                       "id":  "beast_13",
@@ -117,7 +117,7 @@
                       "power":  4,
                       "defense":  4,
                       "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
-                      "image":  "assets/cards/web/beast/13_gnome_tinker.jpg"
+                      "image":  "assets/cards/art/beast/beast_13.png"
                   },
                   {
                       "id":  "beast_14",
@@ -126,7 +126,7 @@
                       "power":  4,
                       "defense":  4,
                       "text":  "FORMATION: +1 DMG while adjacent to another Beast unit.",
-                      "image":  "assets/cards/web/beast/14_ettin.jpg"
+                      "image":  "assets/cards/art/beast/beast_14.png"
                   },
                   {
                       "id":  "beast_15",
@@ -135,7 +135,7 @@
                       "power":  4,
                       "defense":  3,
                       "text":  "PACK HUNT: Gains +1 DMG for each other Beast you control. CHARGE: Can attack the turn it is played.",
-                      "image":  "assets/cards/web/beast/15_dire_wolf.jpg"
+                      "image":  "assets/cards/art/beast/beast_15.png"
                   },
                   {
                       "id":  "beast_16",
@@ -144,7 +144,7 @@
                       "power":  4,
                       "defense":  5,
                       "text":  "RALLY: Adjacent Beast allies gain +1 DMG.",
-                      "image":  "assets/cards/web/beast/16_harpy.jpg"
+                      "image":  "assets/cards/art/beast/beast_16.png"
                   },
                   {
                       "id":  "beast_17",
@@ -153,7 +153,7 @@
                       "power":  4,
                       "defense":  5,
                       "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
-                      "image":  "assets/cards/web/beast/17_great_bear.jpg"
+                      "image":  "assets/cards/art/beast/beast_17.png"
                   },
                   {
                       "id":  "beast_18",
@@ -162,7 +162,7 @@
                       "power":  3,
                       "defense":  6,
                       "text":  "TAUNT: Enemies must attack this unit first. FORMATION: +1 DMG while adjacent to another Beast unit.",
-                      "image":  "assets/cards/web/beast/18_cave_troll.jpg"
+                      "image":  "assets/cards/art/beast/beast_18.png"
                   },
                   {
                       "id":  "beast_19",
@@ -171,7 +171,7 @@
                       "power":  5,
                       "defense":  6,
                       "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
-                      "image":  "assets/cards/web/beast/19_basilisk.jpg"
+                      "image":  "assets/cards/art/beast/beast_19.png"
                   },
                   {
                       "id":  "beast_20",
@@ -180,7 +180,7 @@
                       "power":  7,
                       "defense":  4,
                       "text":  "RALLY: Adjacent Beast allies gain +1 DMG.",
-                      "image":  "assets/cards/web/beast/20_drake.jpg"
+                      "image":  "assets/cards/art/beast/beast_20.png"
                   },
                   {
                       "id":  "beast_21",
@@ -189,7 +189,7 @@
                       "power":  5,
                       "defense":  6,
                       "text":  "PACK HUNT: +1 DMG for each other Beast you control.",
-                      "image":  "assets/cards/web/beast/21_manticore.jpg"
+                      "image":  "assets/cards/art/beast/beast_21.png"
                   },
                   {
                       "id":  "beast_22",
@@ -198,7 +198,7 @@
                       "power":  8,
                       "defense":  4,
                       "text":  "FORMATION: +1 DMG while adjacent to another Beast unit.",
-                      "image":  "assets/cards/web/beast/22_thunderbird.jpg"
+                      "image":  "assets/cards/art/beast/beast_22.png"
                   },
                   {
                       "id":  "beast_23",
@@ -207,7 +207,7 @@
                       "power":  4,
                       "defense":  8,
                       "text":  "TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
-                      "image":  "assets/cards/web/beast/23_behemoth.jpg"
+                      "image":  "assets/cards/art/beast/beast_23.png"
                   },
                   {
                       "id":  "beast_24",
@@ -216,7 +216,7 @@
                       "power":  7,
                       "defense":  7,
                       "text":  "RALLY: Adjacent Beast allies gain +1 DMG.",
-                      "image":  "assets/cards/web/beast/24_hydra.jpg"
+                      "image":  "assets/cards/art/beast/beast_24.png"
                   },
                   {
                       "id":  "beast_25",
@@ -225,7 +225,7 @@
                       "power":  7,
                       "defense":  8,
                       "text":  "RALLY: Adjacent Beast allies gain +1 DMG. (This unit is a rare, high-impact threat.)",
-                      "image":  "assets/cards/web/beast/25_chimera.jpg"
+                      "image":  "assets/cards/art/beast/beast_25.png"
                   },
                   {
                       "id":  "beast_26",
@@ -234,7 +234,7 @@
                       "power":  8,
                       "defense":  9,
                       "text":  "RALLY: Adjacent Beast allies gain +1 DMG. (This unit is a rare, high-impact threat.)",
-                      "image":  "assets/cards/web/beast/26_roc.jpg"
+                      "image":  "assets/cards/art/beast/beast_26.png"
                   },
                   {
                       "id":  "beast_27",
@@ -243,7 +243,7 @@
                       "type":  "spell",
                       "copies":  2,
                       "text":  "Draw 4 cards.",
-                      "image":  "assets/cards/web/beast/27_ancient_wisdom.jpg"
+                      "image":  "assets/cards/art/beast/beast_27.png"
                   },
                   {
                       "id":  "beast_28",
@@ -254,7 +254,7 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "buff_power", "amount": 1 },
                       "text":  "Target allied unit gains +1 DMG until end of turn.",
-                      "image":  "assets/cards/web/beast/28_feral_instinct.jpg"
+                      "image":  "assets/cards/art/beast/beast_28.png"
                   },
                   {
                       "id":  "beast_29",
@@ -265,7 +265,7 @@
                       "target":  "enemy_unit",
                       "effect":  { "kind": "damage", "amount": 2 },
                       "text":  "Deal 2 damage to an enemy unit.",
-                      "image":  "assets/cards/web/beast/29_thorn_bite.jpg"
+                      "image":  "assets/cards/art/beast/beast_29.png"
                   },
                   {
                       "id":  "beast_30",
@@ -276,7 +276,7 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "heal", "amount": 3 },
                       "text":  "Heal an allied unit for 3.",
-                      "image":  "assets/cards/web/beast/30_regenerate.jpg"
+                      "image":  "assets/cards/art/beast/beast_30.png"
                   },
                   {
                       "id":  "beast_31",
@@ -287,7 +287,7 @@
                       "target":  "none",
                       "effect":  { "kind": "discount_next_unit", "amount": 1 },
                       "text":  "The next unit you play this turn costs 1 less.",
-                      "image":  "assets/cards/web/beast/31_wild_growth.jpg"
+                      "image":  "assets/cards/art/beast/beast_31.png"
                   },
                   {
                       "id":  "beast_32",
@@ -298,7 +298,7 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "buff_defense", "amount": 3 },
                       "text":  "Target allied unit gains +0/+3 until end of turn.",
-                      "image":  "assets/cards/web/beast/32_bristling_hide.jpg"
+                      "image":  "assets/cards/art/beast/beast_32.png"
                   },
                   {
                       "id":  "beast_33",
@@ -309,7 +309,7 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "buff_power_and_formation_neighbors", "amount": 2 },
                       "text":  "Target allied unit and each unit adjacent to it gain +2 DMG until end of turn.",
-                      "image":  "assets/cards/web/beast/33_savage_rally.jpg"
+                      "image":  "assets/cards/art/beast/beast_33.png"
                   },
                   {
                       "id":  "beast_34",
@@ -320,7 +320,7 @@
                       "target":  "none",
                       "effect":  { "kind": "draw_per_unit_controlled", "maxDraws": 3 },
                       "text":  "Draw a card for each Beast unit you control (maximum 3).",
-                      "image":  "assets/cards/web/beast/34_alphas_call.jpg"
+                      "image":  "assets/cards/art/beast/beast_34.png"
                   },
                   {
                       "id":  "beast_35",
@@ -331,7 +331,7 @@
                       "target":  "none",
                       "effect":  { "kind": "buff_power_all_allies", "amount": 1 },
                       "text":  "All allied units gain +1 DMG until end of turn.",
-                      "image":  "assets/cards/web/beast/35_stampede.jpg"
+                      "image":  "assets/cards/art/beast/beast_35.png"
                   },
                   {
                       "id":  "beast_36",
@@ -342,7 +342,7 @@
                       "target":  "enemy_unit",
                       "effect":  { "kind": "damage", "amount": 3 },
                       "text":  "Deal 3 damage to an enemy unit.",
-                      "image":  "assets/cards/web/beast/36_pack_takedown.jpg"
+                      "image":  "assets/cards/art/beast/beast_36.png"
                   }
               ]
 }

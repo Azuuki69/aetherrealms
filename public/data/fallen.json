@@ -9,7 +9,7 @@
                       "power":  1,
                       "defense":  2,
                       "text":  "SALVAGE: Draw a card whenever an allied unit dies.",
-                      "image":  "assets/cards/web/fallen/01_scrapling.jpg"
+                      "image":  "assets/cards/art/fallen/fallen_01.png"
                   },
                   {
                       "id":  "fallen_02",
@@ -18,7 +18,7 @@
                       "power":  1,
                       "defense":  2,
                       "text":  "REAP: Draw a card whenever an enemy unit dies.",
-                      "image":  "assets/cards/web/fallen/02_gleaner.jpg"
+                      "image":  "assets/cards/art/fallen/fallen_02.png"
                   },
                   {
                       "id":  "fallen_03",
@@ -27,7 +27,7 @@
                       "power":  2,
                       "defense":  1,
                       "text":  "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
-                      "image":  "assets/cards/web/fallen/03_shardslinger.jpg"
+                      "image":  "assets/cards/art/fallen/fallen_03.png"
                   },
                   {
                       "id":  "fallen_04",
@@ -36,7 +36,7 @@
                       "power":  2,
                       "defense":  3,
                       "text":  "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
-                      "image":  "assets/cards/web/fallen/04_beamlance.jpg"
+                      "image":  "assets/cards/art/fallen/fallen_04.png"
                   },
                   {
                       "id":  "fallen_05",
@@ -45,7 +45,7 @@
                       "power":  2,
                       "defense":  3,
                       "text":  "SALVAGE: Draw a card whenever an allied unit dies.",
-                      "image":  "assets/cards/web/fallen/05_ray_splitter.jpg"
+                      "image":  "assets/cards/art/fallen/fallen_05.png"
                   },
                   {
                       "id":  "fallen_06",
@@ -54,7 +54,7 @@
                       "power":  2,
                       "defense":  3,
                       "text":  "REAP: Draw a card whenever an enemy unit dies.",
-                      "image":  "assets/cards/web/fallen/06_watcher.jpg"
+                      "image":  "assets/cards/art/fallen/fallen_06.png"
                   },
                   {
                       "id":  "fallen_07",
@@ -63,7 +63,7 @@
                       "power":  2,
                       "defense":  3,
                       "text":  "SHIELD: Absorbs the next instance of combat damage entirely, then is consumed.",
-                      "image":  "assets/cards/web/fallen/07_flare_crew.jpg"
+                      "image":  "assets/cards/art/fallen/fallen_07.png"
                   },
                   {
                       "id":  "fallen_08",
@@ -72,7 +72,7 @@
                       "power":  3,
                       "defense":  3,
                       "text":  "HOARDER: +1 DMG for each card in your hand beyond 3 (max +3).",
-                      "image":  "assets/cards/web/fallen/08_hullbreaker.jpg"
+                      "image":  "assets/cards/art/fallen/fallen_08.png"
                   },
                   {
                       "id":  "fallen_09",
@@ -81,7 +81,7 @@
                       "power":  3,
                       "defense":  3,
                       "text":  "SALVAGE: Draw a card whenever an allied unit dies.",
-                      "image":  "assets/cards/web/fallen/09_prybar.jpg"
+                      "image":  "assets/cards/art/fallen/fallen_09.png"
                   },
                   {
                       "id":  "fallen_10",
@@ -90,7 +90,7 @@
                       "power":  3,
                       "defense":  3,
                       "text":  "CHARGE: Can attack the turn it is played.",
-                      "image":  "assets/cards/web/fallen/10_skiff_rider.jpg"
+                      "image":  "assets/cards/art/fallen/fallen_10.png"
                   },
                   {
                       "id":  "fallen_11",
@@ -99,7 +99,7 @@
                       "power":  3,
                       "defense":  3,
                       "text":  "SHIELD: Absorbs the next instance of combat damage entirely, then is consumed.",
-                      "image":  "assets/cards/web/fallen/11_hauler.jpg"
+                      "image":  "assets/cards/art/fallen/fallen_11.png"
                   },
                   {
                       "id":  "fallen_12",
@@ -108,7 +108,7 @@
                       "power":  4,
                       "defense":  4,
                       "text":  "HOARDER: +1 DMG for each card in your hand beyond 3 (max +3).",
-                      "image":  "assets/cards/web/fallen/12_breachjack.jpg"
+                      "image":  "assets/cards/art/fallen/fallen_12.png"
                   },
                   {
                       "id":  "fallen_13",
@@ -117,7 +117,7 @@
                       "power":  4,
                       "defense":  4,
                       "text":  "SALVAGE: Draw a card whenever an allied unit dies.",
-                      "image":  "assets/cards/web/fallen/13_cutterman.jpg"
+                      "image":  "assets/cards/art/fallen/fallen_13.png"
                   },
                   {
                       "id":  "fallen_14",
@@ -126,7 +126,7 @@
                       "power":  4,
                       "defense":  4,
                       "text":  "REAP: Draw a card whenever an enemy unit dies.",
-                      "image":  "assets/cards/web/fallen/14_signaller.jpg"
+                      "image":  "assets/cards/art/fallen/fallen_14.png"
                   },
                   {
                       "id":  "fallen_15",
@@ -135,7 +135,7 @@
                       "power":  4,
                       "defense":  4,
                       "text":  "SHIELD: Absorbs the next instance of combat damage entirely, then is consumed.",
-                      "image":  "assets/cards/web/fallen/15_mender.jpg"
+                      "image":  "assets/cards/art/fallen/fallen_15.png"
                   },
                   {
                       "id":  "fallen_16",
@@ -144,7 +144,7 @@
                       "power":  4,
                       "defense":  5,
                       "text":  "SALVAGE: Draw a card whenever an allied unit dies. FORTIFY: Gains +1 HP after surviving combat.",
-                      "image":  "assets/cards/web/fallen/16_scavenger_lord.jpg"
+                      "image":  "assets/cards/art/fallen/fallen_16.png"
                   },
                   {
                       "id":  "fallen_17",
@@ -153,7 +153,7 @@
                       "power":  4,
                       "defense":  5,
                       "text":  "SALVAGE: Draw a card whenever an allied unit dies.",
-                      "image":  "assets/cards/web/fallen/17_fieldwright.jpg"
+                      "image":  "assets/cards/art/fallen/fallen_17.png"
                   },
                   {
                       "id":  "fallen_18",
@@ -162,7 +162,7 @@
                       "power":  4,
                       "defense":  5,
                       "text":  "REAP: Draw a card whenever an enemy unit dies.",
-                      "image":  "assets/cards/web/fallen/18_starcaller.jpg"
+                      "image":  "assets/cards/art/fallen/fallen_18.png"
                   },
                   {
                       "id":  "fallen_19",
@@ -171,7 +171,7 @@
                       "power":  4,
                       "defense":  7,
                       "text":  "TAUNT: Enemies must attack this unit first.",
-                      "image":  "assets/cards/web/fallen/19_crater_guard.jpg"
+                      "image":  "assets/cards/art/fallen/fallen_19.png"
                   },
                   {
                       "id":  "fallen_20",
@@ -180,7 +180,7 @@
                       "power":  4,
                       "defense":  7,
                       "text":  "SHIELD: Absorbs the next instance of combat damage entirely, then is consumed.",
-                      "image":  "assets/cards/web/fallen/20_hull_knight.jpg"
+                      "image":  "assets/cards/art/fallen/fallen_20.png"
                   },
                   {
                       "id":  "fallen_21",
@@ -189,7 +189,7 @@
                       "power":  4,
                       "defense":  7,
                       "text":  "TAUNT: Enemies must attack this unit first.",
-                      "image":  "assets/cards/web/fallen/21_star_warden.jpg"
+                      "image":  "assets/cards/art/fallen/fallen_21.png"
                   },
                   {
                       "id":  "fallen_22",
@@ -198,7 +198,7 @@
                       "power":  4,
                       "defense":  8,
                       "text":  "REAP: Draw a card whenever an enemy unit dies.",
-                      "image":  "assets/cards/web/fallen/22_lantern_engine.jpg"
+                      "image":  "assets/cards/art/fallen/fallen_22.png"
                   },
                   {
                       "id":  "fallen_23",
@@ -207,7 +207,7 @@
                       "power":  6,
                       "defense":  6,
                       "text":  "SHIELD: Absorbs the next instance of combat damage entirely, then is consumed.",
-                      "image":  "assets/cards/web/fallen/23_grav_sled.jpg"
+                      "image":  "assets/cards/art/fallen/fallen_23.png"
                   },
                   {
                       "id":  "fallen_24",
@@ -216,7 +216,7 @@
                       "power":  7,
                       "defense":  7,
                       "text":  "HOARDER: +1 DMG for each card in your hand beyond 3 (max +3).",
-                      "image":  "assets/cards/web/fallen/24_salvage_walker.jpg"
+                      "image":  "assets/cards/art/fallen/fallen_24.png"
                   },
                   {
                       "id":  "fallen_25",
@@ -225,7 +225,7 @@
                       "power":  7,
                       "defense":  8,
                       "text":  "HOARDER: +1 DMG for each card in your hand beyond 3 (max +3). (This unit is a rare, high-impact threat.)",
-                      "image":  "assets/cards/web/fallen/25_the_last_lander.jpg"
+                      "image":  "assets/cards/art/fallen/fallen_25.png"
                   },
                   {
                       "id":  "fallen_26",
@@ -234,7 +234,7 @@
                       "power":  8,
                       "defense":  9,
                       "text":  "HOARDER: +1 DMG for each card in your hand beyond 3 (max +3). (This unit is a rare, high-impact threat.)",
-                      "image":  "assets/cards/web/fallen/26_the_prow.jpg"
+                      "image":  "assets/cards/art/fallen/fallen_26.png"
                   },
                   {
                       "id":  "fallen_27",
@@ -243,7 +243,7 @@
                       "type":  "spell",
                       "copies":  2,
                       "text":  "Draw 4 cards.",
-                      "image":  "assets/cards/web/fallen/27_ancient_wisdom.jpg"
+                      "image":  "assets/cards/art/fallen/fallen_27.png"
                   },
                   {
                       "id":  "fallen_28",
@@ -254,7 +254,7 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "grant_shield" },
                       "text":  "Target allied unit gains Shield until your next turn.",
-                      "image":  "assets/cards/web/fallen/28_scrap_shield.jpg"
+                      "image":  "assets/cards/art/fallen/fallen_28.png"
                   },
                   {
                       "id":  "fallen_29",
@@ -265,7 +265,7 @@
                       "target":  "none",
                       "effect":  { "kind": "discard_then_draw" },
                       "text":  "Discard a card, then draw a card.",
-                      "image":  "assets/cards/web/fallen/29_castoff_parts.jpg"
+                      "image":  "assets/cards/art/fallen/fallen_29.png"
                   },
                   {
                       "id":  "fallen_30",
@@ -276,7 +276,7 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "heal", "amount": 3 },
                       "text":  "Heal an allied unit for 3.",
-                      "image":  "assets/cards/web/fallen/30_juryrig.jpg"
+                      "image":  "assets/cards/art/fallen/fallen_30.png"
                   },
                   {
                       "id":  "fallen_31",
@@ -287,7 +287,7 @@
                       "target":  "none",
                       "effect":  { "kind": "draw_conditional_death", "base": 1, "bonus": 1 },
                       "text":  "Draw a card. If an allied unit died this turn, draw two instead.",
-                      "image":  "assets/cards/web/fallen/31_salvage_run.jpg"
+                      "image":  "assets/cards/art/fallen/fallen_31.png"
                   },
                   {
                       "id":  "fallen_32",
@@ -298,7 +298,7 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "damage_prevent", "amount": 4 },
                       "text":  "Prevent the next 4 damage to target allied unit until your next turn.",
-                      "image":  "assets/cards/web/fallen/32_emergency_patch.jpg"
+                      "image":  "assets/cards/art/fallen/fallen_32.png"
                   },
                   {
                       "id":  "fallen_33",
@@ -309,7 +309,7 @@
                       "target":  "enemy_unit",
                       "effect":  { "kind": "damage_then_discard", "amount": 3 },
                       "text":  "Deal 3 damage to an enemy unit. Discard a card.",
-                      "image":  "assets/cards/web/fallen/33_overcharge_coil.jpg"
+                      "image":  "assets/cards/art/fallen/fallen_33.png"
                   },
                   {
                       "id":  "fallen_34",
@@ -320,7 +320,7 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "buff_power_and_defense", "powerAmount": 2, "defenseAmount": 2 },
                       "text":  "Target allied unit gains +2/+2 until end of turn.",
-                      "image":  "assets/cards/web/fallen/34_barricade_wreck.jpg"
+                      "image":  "assets/cards/art/fallen/fallen_34.png"
                   },
                   {
                       "id":  "fallen_35",
@@ -331,7 +331,7 @@
                       "target":  "enemy_unit",
                       "effect":  { "kind": "damage_scaling_hand", "perCard": 2, "threshold": 3, "maxAmount": 6 },
                       "text":  "Deal 2 damage to an enemy unit for each card in your hand beyond 3, up to 6.",
-                      "image":  "assets/cards/web/fallen/35_scrapheap_salvo.jpg"
+                      "image":  "assets/cards/art/fallen/fallen_35.png"
                   },
                   {
                       "id":  "fallen_36",
@@ -342,7 +342,7 @@
                       "target":  "none",
                       "effect":  { "kind": "castle_damage_or_draw", "threshold": 6, "damageAmount": 4, "drawAmount": 1 },
                       "text":  "If you have 6 or more cards in hand, deal 4 damage to the enemy castle. Otherwise, draw a card.",
-                      "image":  "assets/cards/web/fallen/36_overflow_vent.jpg"
+                      "image":  "assets/cards/art/fallen/fallen_36.png"
                   },
                   {
                       "id":  "fallen_37",
@@ -353,7 +353,7 @@
                       "target":  "none",
                       "effect":  { "kind": "heal_castle", "amount": 4 },
                       "text":  "Heal your castle for 4.",
-                      "image":  "assets/cards/web/fallen/37_patch_the_hull.jpg"
+                      "image":  "assets/cards/art/fallen/fallen_37.png"
                   }
               ]
 }

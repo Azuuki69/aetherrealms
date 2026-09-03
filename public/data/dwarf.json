@@ -9,7 +9,7 @@
                       "power":  1,
                       "defense":  2,
                       "text":  "STALWART: Takes 1 less DMG from attacks.",
-                      "image":  "assets/cards/web/dwarf/01_clan_miner.jpg"
+                      "image":  "assets/cards/art/dwarf/dwarf_01.png"
                   },
                   {
                       "id":  "dwarf_02",
@@ -18,7 +18,7 @@
                       "power":  1,
                       "defense":  2,
                       "text":  "FORTIFY: Gains +1 HP after surviving combat.",
-                      "image":  "assets/cards/web/dwarf/02_footman.jpg"
+                      "image":  "assets/cards/art/dwarf/dwarf_02.png"
                   },
                   {
                       "id":  "dwarf_03",
@@ -27,7 +27,7 @@
                       "power":  1,
                       "defense":  2,
                       "text":  "FORMATION: +1 DMG while adjacent to another Dwarf unit.",
-                      "image":  "assets/cards/web/dwarf/03_axe_thrower.jpg"
+                      "image":  "assets/cards/art/dwarf/dwarf_03.png"
                   },
                   {
                       "id":  "dwarf_04",
@@ -36,7 +36,7 @@
                       "power":  2,
                       "defense":  3,
                       "text":  "VIGIL: Heals 1 HP at the start of your turn.",
-                      "image":  "assets/cards/web/dwarf/04_arbalest.jpg"
+                      "image":  "assets/cards/art/dwarf/dwarf_04.png"
                   },
                   {
                       "id":  "dwarf_05",
@@ -45,7 +45,7 @@
                       "power":  3,
                       "defense":  2,
                       "text":  "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
-                      "image":  "assets/cards/web/dwarf/05_frost_archer.jpg"
+                      "image":  "assets/cards/art/dwarf/dwarf_05.png"
                   },
                   {
                       "id":  "dwarf_06",
@@ -54,7 +54,7 @@
                       "power":  3,
                       "defense":  2,
                       "text":  "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
-                      "image":  "assets/cards/web/dwarf/06_hand_cannon.jpg"
+                      "image":  "assets/cards/art/dwarf/dwarf_06.png"
                   },
                   {
                       "id":  "dwarf_07",
@@ -63,7 +63,7 @@
                       "power":  2,
                       "defense":  3,
                       "text":  "FORMATION: +1 DMG while adjacent to another Dwarf unit.",
-                      "image":  "assets/cards/web/dwarf/07_gyrocopter.jpg"
+                      "image":  "assets/cards/art/dwarf/dwarf_07.png"
                   },
                   {
                       "id":  "dwarf_08",
@@ -72,7 +72,7 @@
                       "power":  3,
                       "defense":  3,
                       "text":  "VIGIL: Heals 1 HP at the start of your turn.",
-                      "image":  "assets/cards/web/dwarf/08_pikeman.jpg"
+                      "image":  "assets/cards/art/dwarf/dwarf_08.png"
                   },
                   {
                       "id":  "dwarf_09",
@@ -81,7 +81,7 @@
                       "power":  2,
                       "defense":  4,
                       "text":  "STALWART: Takes 1 less DMG from attacks.",
-                      "image":  "assets/cards/web/dwarf/09_shieldbreaker.jpg"
+                      "image":  "assets/cards/art/dwarf/dwarf_09.png"
                   },
                   {
                       "id":  "dwarf_10",
@@ -90,7 +90,7 @@
                       "power":  3,
                       "defense":  3,
                       "text":  "FORTIFY: Gains +1 HP after surviving combat.",
-                      "image":  "assets/cards/web/dwarf/10_sapper.jpg"
+                      "image":  "assets/cards/art/dwarf/dwarf_10.png"
                   },
                   {
                       "id":  "dwarf_11",
@@ -99,7 +99,7 @@
                       "power":  3,
                       "defense":  3,
                       "text":  "FORMATION: +1 DMG while adjacent to another Dwarf unit.",
-                      "image":  "assets/cards/web/dwarf/11_executioner.jpg"
+                      "image":  "assets/cards/art/dwarf/dwarf_11.png"
                   },
                   {
                       "id":  "dwarf_12",
@@ -108,7 +108,7 @@
                       "power":  4,
                       "defense":  4,
                       "text":  "VIGIL: Heals 1 HP at the start of your turn.",
-                      "image":  "assets/cards/web/dwarf/12_standard_bearer.jpg"
+                      "image":  "assets/cards/art/dwarf/dwarf_12.png"
                   },
                   {
                       "id":  "dwarf_13",
@@ -117,7 +117,7 @@
                       "power":  4,
                       "defense":  4,
                       "text":  "MEND: Heals an allied unit for 2 when played.",
-                      "image":  "assets/cards/web/dwarf/13_field_surgeon.jpg"
+                      "image":  "assets/cards/art/dwarf/dwarf_13.png"
                   },
                   {
                       "id":  "dwarf_14",
@@ -126,7 +126,7 @@
                       "power":  4,
                       "defense":  4,
                       "text":  "FORTIFY: Gains +1 HP after surviving combat.",
-                      "image":  "assets/cards/web/dwarf/14_runesmith.jpg"
+                      "image":  "assets/cards/art/dwarf/dwarf_14.png"
                   },
                   {
                       "id":  "dwarf_15",
@@ -135,7 +135,7 @@
                       "power":  5,
                       "defense":  3,
                       "text":  "FORMATION: +1 DMG while adjacent to another Dwarf unit.",
-                      "image":  "assets/cards/web/dwarf/15_frost_mage.jpg"
+                      "image":  "assets/cards/art/dwarf/dwarf_15.png"
                   },
                   {
                       "id":  "dwarf_16",
@@ -144,7 +144,7 @@
                       "power":  4,
                       "defense":  5,
                       "text":  "VIGIL: Heals 1 HP at the start of your turn.",
-                      "image":  "assets/cards/web/dwarf/16_geomancer.jpg"
+                      "image":  "assets/cards/art/dwarf/dwarf_16.png"
                   },
                   {
                       "id":  "dwarf_17",
@@ -153,7 +153,7 @@
                       "power":  2,
                       "defense":  7,
                       "text":  "TAUNT: Enemies must attack this unit first. FORTIFY: Gains +1 HP whenever it blocks an attack.",
-                      "image":  "assets/cards/web/dwarf/17_warden.jpg"
+                      "image":  "assets/cards/art/dwarf/dwarf_17.png"
                   },
                   {
                       "id":  "dwarf_18",
@@ -162,7 +162,7 @@
                       "power":  3,
                       "defense":  6,
                       "text":  "TAUNT: Enemies must attack this unit first.",
-                      "image":  "assets/cards/web/dwarf/18_vanguard.jpg"
+                      "image":  "assets/cards/art/dwarf/dwarf_18.png"
                   },
                   {
                       "id":  "dwarf_19",
@@ -171,7 +171,7 @@
                       "power":  5,
                       "defense":  6,
                       "text":  "FORMATION: +1 DMG while adjacent to another Dwarf unit.",
-                      "image":  "assets/cards/web/dwarf/19_onager.jpg"
+                      "image":  "assets/cards/art/dwarf/dwarf_19.png"
                   },
                   {
                       "id":  "dwarf_20",
@@ -180,7 +180,7 @@
                       "power":  5,
                       "defense":  6,
                       "text":  "VIGIL: Heals 1 HP at the start of your turn.",
-                      "image":  "assets/cards/web/dwarf/20_bombard.jpg"
+                      "image":  "assets/cards/art/dwarf/dwarf_20.png"
                   },
                   {
                       "id":  "dwarf_21",
@@ -189,7 +189,7 @@
                       "power":  4,
                       "defense":  7,
                       "text":  "SHIELD: Absorbs the next instance of combat damage entirely, then is consumed.",
-                      "image":  "assets/cards/web/dwarf/21_stone_golem.jpg"
+                      "image":  "assets/cards/art/dwarf/dwarf_21.png"
                   },
                   {
                       "id":  "dwarf_22",
@@ -198,7 +198,7 @@
                       "power":  4,
                       "defense":  8,
                       "text":  "SHIELD: Absorbs the next instance of combat damage entirely, then is consumed.",
-                      "image":  "assets/cards/web/dwarf/22_iron_golem.jpg"
+                      "image":  "assets/cards/art/dwarf/dwarf_22.png"
                   },
                   {
                       "id":  "dwarf_23",
@@ -207,7 +207,7 @@
                       "power":  4,
                       "defense":  8,
                       "text":  "TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
-                      "image":  "assets/cards/web/dwarf/23_dreadnought.jpg"
+                      "image":  "assets/cards/art/dwarf/dwarf_23.png"
                   },
                   {
                       "id":  "dwarf_24",
@@ -216,7 +216,7 @@
                       "power":  5,
                       "defense":  9,
                       "text":  "TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
-                      "image":  "assets/cards/web/dwarf/24_colossus.jpg"
+                      "image":  "assets/cards/art/dwarf/dwarf_24.png"
                   },
                   {
                       "id":  "dwarf_25",
@@ -225,7 +225,7 @@
                       "power":  6,
                       "defense":  9,
                       "text":  "VIGIL: Heals 1 HP at the start of your turn. (This unit is a rare, high-impact threat.)",
-                      "image":  "assets/cards/web/dwarf/25_mountain_giant.jpg"
+                      "image":  "assets/cards/art/dwarf/dwarf_25.png"
                   },
                   {
                       "id":  "dwarf_26",
@@ -234,7 +234,7 @@
                       "power":  6,
                       "defense":  11,
                       "text":  "VIGIL: Heals 1 HP at the start of your turn. (This unit is a rare, high-impact threat.)",
-                      "image":  "assets/cards/web/dwarf/26_frost_giant.jpg"
+                      "image":  "assets/cards/art/dwarf/dwarf_26.png"
                   },
                   {
                       "id":  "dwarf_27",
@@ -243,7 +243,7 @@
                       "type":  "spell",
                       "copies":  2,
                       "text":  "Draw 4 cards.",
-                      "image":  "assets/cards/web/dwarf/27_ancient_wisdom.jpg"
+                      "image":  "assets/cards/art/dwarf/dwarf_27.png"
                   },
                   {
                       "id":  "dwarf_28",
@@ -254,7 +254,7 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "heal", "amount": 2 },
                       "text":  "Heal an allied unit for 2.",
-                      "image":  "assets/cards/web/dwarf/28_stonebrew_tonic.jpg"
+                      "image":  "assets/cards/art/dwarf/dwarf_28.png"
                   },
                   {
                       "id":  "dwarf_29",
@@ -265,7 +265,7 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "grant_shield" },
                       "text":  "Target allied unit gains Shield until your next turn.",
-                      "image":  "assets/cards/web/dwarf/29_reinforced_plating.jpg"
+                      "image":  "assets/cards/art/dwarf/dwarf_29.png"
                   },
                   {
                       "id":  "dwarf_30",
@@ -276,7 +276,7 @@
                       "target":  "none",
                       "effect":  { "kind": "delayed_heal_castle_repeat", "amount": 1, "times": 2 },
                       "text":  "Heal your castle for 1 at the start of each of your next two turns.",
-                      "image":  "assets/cards/web/dwarf/30_vigilant_watch.jpg"
+                      "image":  "assets/cards/art/dwarf/dwarf_30.png"
                   },
                   {
                       "id":  "dwarf_31",
@@ -287,7 +287,7 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "buff_defense", "amount": 3 },
                       "text":  "Target allied unit gains +0/+3 until end of turn.",
-                      "image":  "assets/cards/web/dwarf/31_hold_the_line.jpg"
+                      "image":  "assets/cards/art/dwarf/dwarf_31.png"
                   },
                   {
                       "id":  "dwarf_32",
@@ -298,7 +298,7 @@
                       "target":  "none",
                       "effect":  { "kind": "grant_castle_shield", "amount": 3 },
                       "text":  "Prevent the next 3 damage that would be dealt to your castle until your next turn.",
-                      "image":  "assets/cards/web/dwarf/32_runic_ward.jpg"
+                      "image":  "assets/cards/art/dwarf/dwarf_32.png"
                   },
                   {
                       "id":  "dwarf_33",
@@ -309,7 +309,7 @@
                       "target":  "enemy_unit",
                       "effect":  { "kind": "damage", "amount": 3, "maxTargetPower": 3 },
                       "text":  "Deal 3 damage to an enemy unit with 3 or less DMG.",
-                      "image":  "assets/cards/web/dwarf/33_pickaxe_strike.jpg"
+                      "image":  "assets/cards/art/dwarf/dwarf_33.png"
                   },
                   {
                       "id":  "dwarf_34",
@@ -320,7 +320,7 @@
                       "target":  "none",
                       "effect":  { "kind": "heal_all_allies", "amount": 1 },
                       "text":  "Heal all your units for 1.",
-                      "image":  "assets/cards/web/dwarf/34_forge_repair.jpg"
+                      "image":  "assets/cards/art/dwarf/dwarf_34.png"
                   },
                   {
                       "id":  "dwarf_35",
@@ -331,7 +331,7 @@
                       "target":  "none",
                       "effect":  { "kind": "damage_reduction_team", "amount": 1 },
                       "text":  "Your units take 1 less damage from all sources until your next turn.",
-                      "image":  "assets/cards/web/dwarf/35_bulwark_stance.jpg"
+                      "image":  "assets/cards/art/dwarf/dwarf_35.png"
                   },
                   {
                       "id":  "dwarf_36",
@@ -342,7 +342,7 @@
                       "target":  "none",
                       "effect":  { "kind": "damage_all_enemies", "amount": 2 },
                       "text":  "Deal 2 damage to all enemy units.",
-                      "image":  "assets/cards/web/dwarf/36_earthshaker.jpg"
+                      "image":  "assets/cards/art/dwarf/dwarf_36.png"
                   },
                   {
                       "id":  "dwarf_37",
@@ -353,7 +353,7 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "buff_power", "amount": 2 },
                       "text":  "Target allied unit gains +2 DMG until end of turn.",
-                      "image":  "assets/cards/web/dwarf/37_hammer_strike.jpg"
+                      "image":  "assets/cards/art/dwarf/dwarf_37.png"
                   }
               ]
 }

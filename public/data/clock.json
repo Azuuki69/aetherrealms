@@ -9,7 +9,7 @@
                       "power":  1,
                       "defense":  2,
                       "text":  "COUNTDOWN 1: Deals 1 DMG to a random enemy at the start of your next turn.",
-                      "image":  "assets/cards/web/clock/01_rivetman.jpg"
+                      "image":  "assets/cards/art/clock/clock_01.png"
                   },
                   {
                       "id":  "clock_02",
@@ -18,7 +18,7 @@
                       "power":  1,
                       "defense":  2,
                       "text":  "PRECISE: This unit\u0027s attacks ignore Taunt.",
-                      "image":  "assets/cards/web/clock/02_stoker.jpg"
+                      "image":  "assets/cards/art/clock/clock_02.png"
                   },
                   {
                       "id":  "clock_03",
@@ -27,7 +27,7 @@
                       "power":  2,
                       "defense":  1,
                       "text":  "REAP: Draw a card whenever an enemy unit dies.",
-                      "image":  "assets/cards/web/clock/03_cogshot.jpg"
+                      "image":  "assets/cards/art/clock/clock_03.png"
                   },
                   {
                       "id":  "clock_04",
@@ -36,7 +36,7 @@
                       "power":  2,
                       "defense":  3,
                       "text":  "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
-                      "image":  "assets/cards/web/clock/04_steam_lance.jpg"
+                      "image":  "assets/cards/art/clock/clock_04.png"
                   },
                   {
                       "id":  "clock_05",
@@ -45,7 +45,7 @@
                       "power":  3,
                       "defense":  2,
                       "text":  "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
-                      "image":  "assets/cards/web/clock/05_vent_gunner.jpg"
+                      "image":  "assets/cards/art/clock/clock_05.png"
                   },
                   {
                       "id":  "clock_06",
@@ -54,7 +54,7 @@
                       "power":  3,
                       "defense":  2,
                       "text":  "PRECISE: This unit\u0027s attacks ignore Taunt.",
-                      "image":  "assets/cards/web/clock/06_chainshot_crew.jpg"
+                      "image":  "assets/cards/art/clock/clock_06.png"
                   },
                   {
                       "id":  "clock_07",
@@ -63,7 +63,7 @@
                       "power":  2,
                       "defense":  3,
                       "text":  "TAUNT: Enemies must attack this unit first.",
-                      "image":  "assets/cards/web/clock/07_pressure_guard.jpg"
+                      "image":  "assets/cards/art/clock/clock_07.png"
                   },
                   {
                       "id":  "clock_08",
@@ -72,7 +72,7 @@
                       "power":  3,
                       "defense":  3,
                       "text":  "GROWING: Gains +1 HP at the start of each of your turns.",
-                      "image":  "assets/cards/web/clock/08_wrenchbreaker.jpg"
+                      "image":  "assets/cards/art/clock/clock_08.png"
                   },
                   {
                       "id":  "clock_09",
@@ -81,7 +81,7 @@
                       "power":  3,
                       "defense":  3,
                       "text":  "CHARGE: Can attack the turn it is played.",
-                      "image":  "assets/cards/web/clock/09_boiler_rider.jpg"
+                      "image":  "assets/cards/art/clock/clock_09.png"
                   },
                   {
                       "id":  "clock_10",
@@ -90,7 +90,7 @@
                       "power":  3,
                       "defense":  3,
                       "text":  "PRECISE: This unit\u0027s attacks ignore Taunt.",
-                      "image":  "assets/cards/web/clock/10_pistonfist.jpg"
+                      "image":  "assets/cards/art/clock/clock_10.png"
                   },
                   {
                       "id":  "clock_11",
@@ -99,7 +99,7 @@
                       "power":  3,
                       "defense":  3,
                       "text":  "REAP: Draw a card whenever an enemy unit dies.",
-                      "image":  "assets/cards/web/clock/11_hammerworks.jpg"
+                      "image":  "assets/cards/art/clock/clock_11.png"
                   },
                   {
                       "id":  "clock_12",
@@ -108,7 +108,7 @@
                       "power":  4,
                       "defense":  4,
                       "text":  "GROWING: Gains +1 HP at the start of each of your turns.",
-                      "image":  "assets/cards/web/clock/12_gaugekeeper.jpg"
+                      "image":  "assets/cards/art/clock/clock_12.png"
                   },
                   {
                       "id":  "clock_13",
@@ -117,7 +117,7 @@
                       "power":  4,
                       "defense":  4,
                       "text":  "COUNTDOWN 1: Deals 1 DMG to a random enemy at the start of your next turn.",
-                      "image":  "assets/cards/web/clock/13_bellowsman.jpg"
+                      "image":  "assets/cards/art/clock/clock_13.png"
                   },
                   {
                       "id":  "clock_14",
@@ -126,7 +126,7 @@
                       "power":  3,
                       "defense":  6,
                       "text":  "COUNTDOWN 2: At the start of your second turn after this enters play, deal 4 DMG to an enemy and draw a card.",
-                      "image":  "assets/cards/web/clock/14_sparkwright.jpg"
+                      "image":  "assets/cards/art/clock/clock_14.png"
                   },
                   {
                       "id":  "clock_15",
@@ -135,7 +135,7 @@
                       "power":  4,
                       "defense":  4,
                       "text":  "REAP: Draw a card whenever an enemy unit dies.",
-                      "image":  "assets/cards/web/clock/15_governor.jpg"
+                      "image":  "assets/cards/art/clock/clock_15.png"
                   },
                   {
                       "id":  "clock_16",
@@ -144,7 +144,7 @@
                       "power":  4,
                       "defense":  5,
                       "text":  "GROWING: Gains +1 HP at the start of each of your turns.",
-                      "image":  "assets/cards/web/clock/16_foreman.jpg"
+                      "image":  "assets/cards/art/clock/clock_16.png"
                   },
                   {
                       "id":  "clock_17",
@@ -153,7 +153,7 @@
                       "power":  4,
                       "defense":  5,
                       "text":  "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
-                      "image":  "assets/cards/web/clock/17_plague_doctor.jpg"
+                      "image":  "assets/cards/art/clock/clock_17.png"
                   },
                   {
                       "id":  "clock_18",
@@ -162,7 +162,7 @@
                       "power":  4,
                       "defense":  5,
                       "text":  "SIEGE: A siege weapon that deals damage without risking retaliation.",
-                      "image":  "assets/cards/web/clock/18_pressure_mortar.jpg"
+                      "image":  "assets/cards/art/clock/clock_18.png"
                   },
                   {
                       "id":  "clock_19",
@@ -171,7 +171,7 @@
                       "power":  4,
                       "defense":  7,
                       "text":  "REAP: Draw a card whenever an enemy unit dies.",
-                      "image":  "assets/cards/web/clock/19_steam_ram.jpg"
+                      "image":  "assets/cards/art/clock/clock_19.png"
                   },
                   {
                       "id":  "clock_20",
@@ -180,7 +180,7 @@
                       "power":  5,
                       "defense":  6,
                       "text":  "GROWING: Gains +1 HP at the start of each of your turns.",
-                      "image":  "assets/cards/web/clock/20_air_ship.jpg"
+                      "image":  "assets/cards/art/clock/clock_20.png"
                   },
                   {
                       "id":  "clock_21",
@@ -189,7 +189,7 @@
                       "power":  5,
                       "defense":  6,
                       "text":  "COUNTDOWN 1: Deals 1 DMG to a random enemy at the start of your next turn.",
-                      "image":  "assets/cards/web/clock/21_cogwalker.jpg"
+                      "image":  "assets/cards/art/clock/clock_21.png"
                   },
                   {
                       "id":  "clock_22",
@@ -198,7 +198,7 @@
                       "power":  4,
                       "defense":  8,
                       "text":  "SHIELD: Absorbs the next instance of combat damage entirely, then is consumed.",
-                      "image":  "assets/cards/web/clock/22_brass_golem.jpg"
+                      "image":  "assets/cards/art/clock/clock_22.png"
                   },
                   {
                       "id":  "clock_23",
@@ -207,7 +207,7 @@
                       "power":  6,
                       "defense":  6,
                       "text":  "REAP: Draw a card whenever an enemy unit dies.",
-                      "image":  "assets/cards/web/clock/23_iron_hound.jpg"
+                      "image":  "assets/cards/art/clock/clock_23.png"
                   },
                   {
                       "id":  "clock_24",
@@ -216,7 +216,7 @@
                       "power":  7,
                       "defense":  7,
                       "text":  "GROWING: Gains +1 HP at the start of each of your turns.",
-                      "image":  "assets/cards/web/clock/24_crawler.jpg"
+                      "image":  "assets/cards/art/clock/clock_24.png"
                   },
                   {
                       "id":  "clock_25",
@@ -225,7 +225,7 @@
                       "power":  6,
                       "defense":  9,
                       "text":  "GROWING: Gains +1 HP at the start of each of your turns. (This unit is a rare, high-impact threat.)",
-                      "image":  "assets/cards/web/clock/25_the_great_engine.jpg"
+                      "image":  "assets/cards/art/clock/clock_25.png"
                   },
                   {
                       "id":  "clock_26",
@@ -234,7 +234,7 @@
                       "power":  8,
                       "defense":  9,
                       "text":  "GROWING: Gains +1 HP at the start of each of your turns. (This unit is a rare, high-impact threat.)",
-                      "image":  "assets/cards/web/clock/26_boiler_king.jpg"
+                      "image":  "assets/cards/art/clock/clock_26.png"
                   },
                   {
                       "id":  "clock_27",
@@ -243,7 +243,7 @@
                       "type":  "spell",
                       "copies":  2,
                       "text":  "Draw 4 cards.",
-                      "image":  "assets/cards/web/clock/27_ancient_wisdom.jpg"
+                      "image":  "assets/cards/art/clock/clock_27.png"
                   },
                   {
                       "id":  "clock_28",
@@ -254,7 +254,7 @@
                       "target":  "none",
                       "effect":  { "kind": "scry_and_draw", "maxCostToKeep": 5 },
                       "text":  "Look at the top card of your deck. If it costs 5 or more, put it on the bottom and draw the next card instead.",
-                      "image":  "assets/cards/web/clock/28_tick_forward.jpg"
+                      "image":  "assets/cards/art/clock/clock_28.png"
                   },
                   {
                       "id":  "clock_29",
@@ -265,7 +265,7 @@
                       "target":  "enemy_unit",
                       "effect":  { "kind": "damage", "amount": 2 },
                       "text":  "Deal 2 damage to an enemy unit.",
-                      "image":  "assets/cards/web/clock/29_pressure_valve.jpg"
+                      "image":  "assets/cards/art/clock/clock_29.png"
                   },
                   {
                       "id":  "clock_30",
@@ -276,7 +276,7 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "grant_shield" },
                       "text":  "Target allied unit gains Shield until your next turn.",
-                      "image":  "assets/cards/web/clock/30_clockwork_shield.jpg"
+                      "image":  "assets/cards/art/clock/clock_30.png"
                   },
                   {
                       "id":  "clock_31",
@@ -287,7 +287,7 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "bounce" },
                       "text":  "Return an allied unit to your hand.",
-                      "image":  "assets/cards/web/clock/31_recalibrate.jpg"
+                      "image":  "assets/cards/art/clock/clock_31.png"
                   },
                   {
                       "id":  "clock_32",
@@ -298,7 +298,7 @@
                       "target":  "enemy_unit",
                       "effect":  { "kind": "delayed_damage", "amount": 4 },
                       "text":  "Deal 4 damage to an enemy unit at the start of your next turn.",
-                      "image":  "assets/cards/web/clock/32_delayed_fuse.jpg"
+                      "image":  "assets/cards/art/clock/clock_32.png"
                   },
                   {
                       "id":  "clock_33",
@@ -309,7 +309,7 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "buff_power", "amount": 2 },
                       "text":  "Target allied unit gains +2 DMG until end of turn.",
-                      "image":  "assets/cards/web/clock/33_overwind.jpg"
+                      "image":  "assets/cards/art/clock/clock_33.png"
                   },
                   {
                       "id":  "clock_34",
@@ -320,7 +320,7 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "buff_power_and_defense_long", "powerAmount": 2, "defenseAmount": 2 },
                       "text":  "Target allied unit gains +2/+2 until your next turn.",
-                      "image":  "assets/cards/web/clock/34_gear_up.jpg"
+                      "image":  "assets/cards/art/clock/clock_34.png"
                   },
                   {
                       "id":  "clock_35",
@@ -331,7 +331,7 @@
                       "target":  "none",
                       "effect":  { "kind": "damage_all_enemies", "amount": 2 },
                       "text":  "Deal 2 damage to all enemy units.",
-                      "image":  "assets/cards/web/clock/35_steam_burst.jpg"
+                      "image":  "assets/cards/art/clock/clock_35.png"
                   },
                   {
                       "id":  "clock_36",
@@ -342,7 +342,7 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "damage_immunity" },
                       "text":  "Prevent all damage to target allied unit until your next turn.",
-                      "image":  "assets/cards/web/clock/36_temporal_ward.jpg"
+                      "image":  "assets/cards/art/clock/clock_36.png"
                   },
                   {
                       "id":  "clock_37",
@@ -353,7 +353,7 @@
                       "target":  "ally_unit",
                       "effect":  { "kind": "grant_shield" },
                       "text":  "Target allied unit gains Shield until your next turn.",
-                      "image":  "assets/cards/web/clock/37_cog_ward.jpg"
+                      "image":  "assets/cards/art/clock/clock_37.png"
                   }
               ]
 }
