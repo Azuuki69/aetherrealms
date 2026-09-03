@@ -125,9 +125,9 @@ const TRANSLATIONS = {
     loggedInAsPrefix: 'Zalogowano jako', adminBtn: 'Admin', logOut: 'Wyloguj się',
     enterUsernamePassword: 'Podaj nazwę użytkownika i hasło.', somethingWentWrong: 'Coś poszło nie tak.',
     couldNotReachServer: 'Nie można połączyć się z serwerem.',
-    factionBeast: 'Mityczne Bestie', factionClock: 'Twierdza Pary', factionDamned: 'Przeklęty Zakon',
-    factionDwarf: 'Klany Krasnoludów', factionDynasty: 'Nefrytowa Dynastia', factionElf: 'Dwór Elfów',
-    factionFallen: 'Upadłe Gwiazdy', factionHuman: 'Królestwo Ludzi', factionOrc: 'Orda Orków', factionUndead: 'Dominium Nieumarłych',
+    // Faction/race/deck names are deliberately left out of every non-English
+    // dictionary — they fall back to the English names below via t()'s own
+    // fallback (dict[key] ?? TRANSLATIONS.en[key]), same as card/song names.
     viewDeck: 'Zobacz talię', compareDecks: 'Porównaj talie',
     compareDecksDesc: 'Zobacz mocne i słabe strony oraz trudność każdej frakcji obok siebie.',
     customizeHud: 'Dostosuj układ HUD',
@@ -223,9 +223,9 @@ const TRANSLATIONS = {
     loggedInAsPrefix: 'Sesión iniciada como', adminBtn: 'Admin', logOut: 'Cerrar sesión',
     enterUsernamePassword: 'Introduce un nombre de usuario y una contraseña.', somethingWentWrong: 'Algo salió mal.',
     couldNotReachServer: 'No se pudo conectar con el servidor.',
-    factionBeast: 'Bestias Míticas', factionClock: 'Bastión del Vapor', factionDamned: 'Pacto de los Condenados',
-    factionDwarf: 'Clanes Enanos', factionDynasty: 'Dinastía de Jade', factionElf: 'Corte Élfica',
-    factionFallen: 'Estrellas Caídas', factionHuman: 'Reino Humano', factionOrc: 'Horda Orca', factionUndead: 'Dominio de los No Muertos',
+    // Faction/race/deck names are deliberately left out of every non-English
+    // dictionary — they fall back to the English names below via t()'s own
+    // fallback (dict[key] ?? TRANSLATIONS.en[key]), same as card/song names.
     viewDeck: 'Ver mazo', compareDecks: 'Comparar mazos',
     compareDecksDesc: 'Consulta las fortalezas, debilidades y dificultad de cada facción en un solo vistazo.',
     customizeHud: 'Personalizar diseño del HUD',
@@ -1303,9 +1303,13 @@ function renderCastle(sidePanelId, hp, maxHp, faction) {
   img.src = `assets/cards/${faction}castle.png`;
   img.alt = `${faction} castle`;
   const clampedHp = Math.max(0, hp);
-  sidePanel.querySelector('.castle-hp-value').textContent = `${clampedHp} / ${maxHp}`;
+  const hpValue = sidePanel.querySelector('.castle-hp-value');
+  if (hpValue) hpValue.textContent = `${clampedHp} / ${maxHp}`;
   const ratio = maxHp > 0 ? Math.max(0, hp / maxHp) : 0;
-  sidePanel.querySelector('.castle-hp-bar-fill').style.width = `${ratio * 100}%`;
+  // The compact top-bar mirror of this panel (#oppInfo/#youInfo) has no room
+  // for a full bar — only the side panel (#oppPanel/#youPanel) has one.
+  const barFill = sidePanel.querySelector('.castle-hp-bar-fill');
+  if (barFill) barFill.style.width = `${ratio * 100}%`;
   const damaged = hp > 0 && ratio < 0.66;
   const critical = hp > 0 && ratio < 0.33;
   const destroyed = hp <= 0;
@@ -1495,13 +1499,13 @@ function render() {
 
   el('youInfo').querySelector('.name').textContent = displayName(you, you_key);
   el('youInfo').querySelector('.faction-tag').textContent = factionDisplayName(you.faction);
-  renderCastle('youPanel', you.hp, you.maxHp, you.faction);
+  ['youPanel', 'youInfo'].forEach((id) => renderCastle(id, you.hp, you.maxHp, you.faction));
   el('youInfo').querySelector('.mana').textContent = `${you.mana}/${you.maxMana}`;
   renderManaCrystals(el('youInfo').querySelector('.mana-crystals'), you.mana, you.maxMana);
 
   el('oppInfo').querySelector('.name').textContent = displayName(opponent, oppKey);
   el('oppInfo').querySelector('.faction-tag').textContent = factionDisplayName(opponent.faction);
-  renderCastle('oppPanel', opponent.hp, opponent.maxHp, opponent.faction);
+  ['oppPanel', 'oppInfo'].forEach((id) => renderCastle(id, opponent.hp, opponent.maxHp, opponent.faction));
   el('oppInfo').querySelector('.mana').textContent = `${opponent.mana}/${opponent.maxMana}`;
   renderManaCrystals(el('oppInfo').querySelector('.mana-crystals'), opponent.mana, opponent.maxMana);
 
