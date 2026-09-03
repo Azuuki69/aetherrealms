@@ -318,12 +318,12 @@ h1 span {
   align-items: start;
   grid-template-areas:
     "logo   logo"
-    "fact   fact"
     "acct   preview"
-    "dcmp   preview"
-    "hud    highlights"
-    "modes  highlights"
-    "play   rank"
+    "modes  preview"
+    "play   highlights"
+    "fact   highlights"
+    "dcmp   rank"
+    "hud    rank"
     "status rank";
 }
 #lobby[data-layout="sidebar-hud"] > .rankings-panel { position: sticky; top: 1rem; }
