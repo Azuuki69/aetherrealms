@@ -389,13 +389,26 @@ h1 span {
 .sidebar-highlights .sidebar-highlight-value { color: var(--text-secondary); font-size: var(--text-xs); }
 .sidebar-widget .admin-loading { padding: 0.3rem 0; font-size: var(--text-xs); }
 
-/* Compact: same single-column stack as Classic, but play options move up
-   ahead of the faction picker — get into a match fast without scrolling past
-   deck browsing you may not need again. */
+/* Compact: play options move up ahead of the faction picker — get into a
+   match fast without scrolling past deck browsing you may not need again —
+   and rankings pin to a right-hand column next to the scrollbar rather than
+   sitting at the bottom of the scroll. */
 #lobby[data-layout="compact"] {
-  grid-template-columns: 1fr;
-  grid-template-areas: "logo" "acct" "modes" "play" "fact" "dcmp" "hud" "status" "rank";
+  max-width: 1100px;
+  grid-template-columns: 1fr 340px;
+  column-gap: 2rem;
+  align-items: start;
+  grid-template-areas:
+    "logo   logo"
+    "acct   rank"
+    "modes  rank"
+    "play   rank"
+    "fact   rank"
+    "dcmp   rank"
+    "hud    rank"
+    "status rank";
 }
+#lobby[data-layout="compact"] > .rankings-panel { position: sticky; top: 1rem; }
 
 /* Showcase: faction picker is the hero, right under the logo and enlarged;
    the account panel shrinks to a slim strip below it. */
@@ -420,7 +433,8 @@ h1 span {
     max-width: none;
   }
   #lobby[data-layout="sidebar"] > .rankings-panel,
-  #lobby[data-layout="sidebar-hud"] > .rankings-panel { position: static; }
+  #lobby[data-layout="sidebar-hud"] > .rankings-panel,
+  #lobby[data-layout="compact"] > .rankings-panel { position: static; }
   #lobby[data-layout="showcase"] > .account-panel { max-width: 420px; padding: 0.9rem 1.1rem; }
   /* The two decorative compartments are a desktop affordance, same as every
      other layout choice — hidden below the breakpoint rather than adding a
@@ -534,7 +548,15 @@ h1 span {
 .faction-card .view-deck-btn:hover { border-color: var(--gold); color: var(--gold-bright); }
 .faction-card .view-deck-btn:active { background: color-mix(in srgb, var(--gold) 15%, transparent); }
 
-.deck-compare-trigger { text-align: center; margin: -1rem 0 1.5rem; }
+.deck-compare-trigger {
+  text-align: center;
+  margin: 0.4rem 0 1.4rem;
+  padding: 0.8rem 1rem;
+  border: 1px dashed color-mix(in srgb, var(--gold) 40%, var(--border));
+  border-radius: 10px;
+  background: #1c150d40;
+}
+.deck-compare-trigger p { margin: 0.5rem 0 0; color: var(--dim); font-size: 0.85rem; }
 
 .lobby-actions {
   display: grid;
