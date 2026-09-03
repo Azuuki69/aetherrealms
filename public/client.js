@@ -555,6 +555,9 @@ function render() {
   el('combatBtn').disabled = !(myTurn && phase === 'deployment');
   el('attackAllBtn').disabled = !(myTurn && phase === 'combat') || autoAttackRunning;
   el('endTurnBtn').disabled = !(myTurn && (phase === 'combat' || phase === 'deployment')) || autoAttackRunning;
+  // Surrendering isn't a turn action — usable on either player's turn, any
+  // phase once the match is actually underway.
+  el('surrenderBtn').disabled = !!winner || phase === 'coinflip';
 
   el('log').innerHTML = '';
   for (const line of log) {
@@ -1144,6 +1147,10 @@ el('endTurnBtn')?.addEventListener('click', () => {
   selectedUnit = null;
   pendingSpell = null;
   send({ type: 'end_turn' });
+});
+el('surrenderBtn')?.addEventListener('click', () => {
+  if (!confirm('Surrender this match? This immediately ends the game as a loss.')) return;
+  send({ type: 'surrender' });
 });
 
 function send(message) {

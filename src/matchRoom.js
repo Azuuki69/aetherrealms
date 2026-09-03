@@ -123,6 +123,11 @@ export class MatchRoom {
         case 'end_turn':
           endTurn(game, owner);
           break;
+        case 'surrender':
+          game.winner = opponentOf(owner);
+          game.phase = 'gameover';
+          game.log.push(`${owner} surrenders the match.`);
+          break;
         default:
           return this.sendTo(ws, { type: 'error', message: `Unknown message type: ${msg.type}` });
       }
@@ -229,11 +234,16 @@ export class MatchRoom {
   }
 
   // Server-authoritative turn timer, driven by the Durable Object Alarms API
-  // (never a client-side timer, since a forfeit is match-deciding). Rescheduled
-  // to a fresh deadline by every successful player action (see webSocketMessage
-  // and the coinflip_ack branch above) — this only ever fires when 60s have
-  // passed with zero successful actions from whoever's turn it is, including
-  // if that player disconnected entirely and never comes back.
+  // (never a client-side timer, since it forces a real state change).
+  // Rescheduled to a fresh deadline by every successful player action (see
+  // webSocketMessage and the coinflip_ack branch above) — this only ever
+  // fires when 60s have passed with zero successful actions from whoever's
+  // turn it is, including if that player disconnected entirely and never
+  // comes back. Running out of time costs the turn, not the match — it just
+  // forces the same end_turn a player would trigger themselves, so an
+  // unresponsive opponent stalls the game rather than auto-winning it;
+  // surrender (see the 'surrender' case above) is the deliberate way to end
+  // a match early now.
   async alarm() {
     const game = await this.state.storage.get('game');
     if (!game || game.winner || game.phase === 'coinflip') return;
@@ -244,13 +254,18 @@ export class MatchRoom {
       await this.state.storage.setAlarm(game.turnDeadlineAt);
       return;
     }
-    const loser = game.turn;
-    game.winner = opponentOf(loser);
-    game.phase = 'gameover';
-    game.log.push(`${loser} ran out of time and forfeits the match.`);
+    const timedOutPlayer = game.turn;
+    game.log.push(`${timedOutPlayer} ran out of time — turn passes automatically.`);
+    endTurn(game, timedOutPlayer);
+    if (!game.winner) {
+      game.turnDeadlineAt = Date.now() + TURN_TIMEOUT_MS;
+      await this.state.storage.setAlarm(game.turnDeadlineAt);
+    } else {
+      await this.state.storage.deleteAlarm();
+    }
     await this.state.storage.put('game', game);
     this.broadcastState(game);
-    await this.reportResult(game);
+    if (game.winner) await this.reportResult(game);
   }
 
   async webSocketClose(ws) {
