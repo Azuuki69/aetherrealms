@@ -227,6 +227,108 @@ h1 span {
   background: radial-gradient(ellipse at 50% 0%, #2a2013a0 0%, transparent 60%);
 }
 
+/* ---------- Lobby layouts (admin-controlled, see Admin Panel) ---------- */
+/* Site-wide, applied via #lobby[data-layout] set from /api/site-settings on
+   load (client.js's applyLobbyLayout()). "classic" (the default/fallback) is
+   simply the absence of a [data-layout] override above, i.e. today's plain
+   block-flow stack — nothing to define for it.
+
+   Each variant below repositions the SAME existing top-level lobby children
+   via CSS Grid named areas — no markup changes, no duplicated content. Since
+   .lobby-actions and .ai-match-panel are mutually exclusive (client.js toggles
+   one to display:none, which removes it from grid layout entirely), it's safe
+   for them to share one "play" area — only whichever is visible ever actually
+   occupies it. */
+#lobby[data-layout="sidebar"],
+#lobby[data-layout="compact"],
+#lobby[data-layout="showcase"] {
+  display: grid;
+  row-gap: 0;
+}
+#lobby[data-layout="sidebar"] > .logo,
+#lobby[data-layout="compact"] > .logo,
+#lobby[data-layout="showcase"] > .logo { grid-area: logo; }
+#lobby[data-layout="sidebar"] > .account-panel,
+#lobby[data-layout="compact"] > .account-panel,
+#lobby[data-layout="showcase"] > .account-panel { grid-area: acct; }
+#lobby[data-layout="sidebar"] > .faction-picker,
+#lobby[data-layout="compact"] > .faction-picker,
+#lobby[data-layout="showcase"] > .faction-picker { grid-area: fact; }
+#lobby[data-layout="sidebar"] > .deck-compare-trigger,
+#lobby[data-layout="compact"] > .deck-compare-trigger,
+#lobby[data-layout="showcase"] > .deck-compare-trigger { grid-area: dcmp; }
+#lobby[data-layout="sidebar"] > .lobby-hud-preview,
+#lobby[data-layout="compact"] > .lobby-hud-preview,
+#lobby[data-layout="showcase"] > .lobby-hud-preview { grid-area: hud; }
+#lobby[data-layout="sidebar"] > .mode-tabs,
+#lobby[data-layout="compact"] > .mode-tabs,
+#lobby[data-layout="showcase"] > .mode-tabs { grid-area: modes; }
+#lobby[data-layout="sidebar"] > .lobby-actions,
+#lobby[data-layout="sidebar"] > .ai-match-panel,
+#lobby[data-layout="compact"] > .lobby-actions,
+#lobby[data-layout="compact"] > .ai-match-panel,
+#lobby[data-layout="showcase"] > .lobby-actions,
+#lobby[data-layout="showcase"] > .ai-match-panel { grid-area: play; }
+#lobby[data-layout="sidebar"] > .lobby-status,
+#lobby[data-layout="compact"] > .lobby-status,
+#lobby[data-layout="showcase"] > .lobby-status { grid-area: status; }
+#lobby[data-layout="sidebar"] > .rankings-panel,
+#lobby[data-layout="compact"] > .rankings-panel,
+#lobby[data-layout="showcase"] > .rankings-panel { grid-area: rank; }
+
+/* Sidebar: two columns — play options on the left, rankings pinned on the
+   right. Widened from the 900px default since a two-column layout needs
+   more room to breathe. */
+#lobby[data-layout="sidebar"] {
+  max-width: 1100px;
+  grid-template-columns: 1fr 340px;
+  column-gap: 2rem;
+  align-items: start;
+  grid-template-areas:
+    "logo   logo"
+    "fact   fact"
+    "acct   rank"
+    "dcmp   rank"
+    "hud    rank"
+    "modes  rank"
+    "play   rank"
+    "status rank";
+}
+#lobby[data-layout="sidebar"] > .rankings-panel { position: sticky; top: 1rem; }
+
+/* Compact: same single-column stack as Classic, but play options move up
+   ahead of the faction picker — get into a match fast without scrolling past
+   deck browsing you may not need again. */
+#lobby[data-layout="compact"] {
+  grid-template-columns: 1fr;
+  grid-template-areas: "logo" "acct" "modes" "play" "fact" "dcmp" "hud" "status" "rank";
+}
+
+/* Showcase: faction picker is the hero, right under the logo and enlarged;
+   the account panel shrinks to a slim strip below it. */
+#lobby[data-layout="showcase"] {
+  grid-template-columns: 1fr;
+  grid-template-areas: "logo" "fact" "acct" "dcmp" "hud" "modes" "play" "status" "rank";
+}
+#lobby[data-layout="showcase"] > .account-panel { max-width: 640px; padding: 0.6rem 1rem; }
+#lobby[data-layout="showcase"] .faction-card .thumb { width: 100px; height: 150px; }
+
+/* Below the lobby's own mobile breakpoint, every layout collapses back to a
+   plain block-flow stack — grid-area is meaningless once display:block takes
+   over, so this naturally renders in DOM order (Classic's order) regardless
+   of which layout the admin picked. Four bespoke mobile arrangements aren't
+   worth the complexity for a pick-an-example feature. */
+@media (max-width: 720px) {
+  #lobby[data-layout="sidebar"],
+  #lobby[data-layout="compact"],
+  #lobby[data-layout="showcase"] {
+    display: block;
+    max-width: none;
+  }
+  #lobby[data-layout="sidebar"] > .rankings-panel { position: static; }
+  #lobby[data-layout="showcase"] > .account-panel { max-width: 420px; padding: 0.9rem 1.1rem; }
+}
+
 .faction-picker {
   display: grid;
   /* minmax(0,1fr), not bare 1fr: a grid track's implicit min is auto (its
@@ -1458,6 +1560,26 @@ body:has(#chatPanel:not(.collapsed)) .hand {
 .admin-modal-header h2 { margin: 0; color: var(--gold); font-family: var(--font-display); font-size: 1.4rem; }
 .admin-section h3 { margin: 0 0 0.4rem; color: var(--gold); font-family: var(--font-display); font-size: var(--text-base); }
 .admin-section p { margin: 0 0 0.6rem; color: var(--text-secondary); font-size: var(--text-xs); }
+.layout-picker { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.6rem; }
+.layout-btn {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  background: #0f0c08;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.6rem 0.7rem;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  transition: border-color 0.15s, color 0.15s;
+}
+.layout-name { font-weight: bold; color: var(--text-secondary); font-size: var(--text-sm); }
+.layout-desc { color: var(--text-secondary); font-size: var(--text-xs); line-height: 1.3; }
+.layout-btn:hover:not(.active) { border-color: color-mix(in srgb, var(--gold) 50%, var(--border)); }
+.layout-btn.active { border-color: var(--gold); background: linear-gradient(#3a2c14, #241c12); }
+.layout-btn.active .layout-name { color: var(--gold); }
+.layout-btn.active .layout-desc { color: var(--text); }
 .admin-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; }
 .admin-account-list { max-height: 220px; overflow-y: auto; border: 1px solid var(--border); border-radius: 6px; }
 .admin-account-row {
@@ -1667,6 +1789,7 @@ body:has(#chatPanel:not(.collapsed)) .hand {
   .lobby-actions { grid-template-columns: 1fr; gap: 0.8rem; }
   .mode-tabs { flex-direction: column; }
   .difficulty-picker { grid-template-columns: 1fr; }
+  .layout-picker { grid-template-columns: 1fr; }
   /* Fewer, wider columns here (not the desktop 5-across grid) — the deck
      face now carries a badge row, tagline and View Deck button that need
      real width to stay legible, per the master prompt's "stack deck info

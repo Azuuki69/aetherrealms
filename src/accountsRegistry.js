@@ -11,6 +11,7 @@ const ADMIN_USERNAMES = new Set(['kochiyo']);
 function isAdmin(username) {
   return !!username && ADMIN_USERNAMES.has(username.toLowerCase());
 }
+const LOBBY_LAYOUTS = ['classic', 'sidebar', 'compact', 'showcase'];
 
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), { status, headers: { 'content-type': 'application/json' } });
@@ -51,6 +52,8 @@ export class AccountsRegistry {
       if (url.pathname === '/api/admin/reset-players' && request.method === 'POST') return this.handleAdminResetPlayers(request);
       if (url.pathname === '/api/admin/reset-factions' && request.method === 'POST') return this.handleAdminResetFactions(request);
       if (url.pathname === '/api/admin/reset-ai-stats' && request.method === 'POST') return this.handleAdminResetAiStats(request);
+      if (url.pathname === '/api/site-settings' && request.method === 'GET') return this.handleSiteSettings();
+      if (url.pathname === '/api/admin/set-lobby-layout' && request.method === 'POST') return this.handleAdminSetLobbyLayout(request);
       return json({ error: 'Not found' }, 404);
     } catch (err) {
       return json({ error: err.message || String(err) }, 500);
@@ -304,6 +307,26 @@ export class AccountsRegistry {
     const gate = await this.requireAdmin(request);
     if (!gate.ok) return gate.response;
     await this.state.storage.put('aiStats', {});
+    return json({ ok: true });
+  }
+
+  // Public, unauthenticated — every visitor needs this before the lobby can
+  // render in the admin's chosen arrangement, not just logged-in players.
+  async handleSiteSettings() {
+    const siteSettings = (await this.state.storage.get('siteSettings')) || {};
+    return json({ lobbyLayout: siteSettings.lobbyLayout || 'classic' });
+  }
+
+  async handleAdminSetLobbyLayout(request) {
+    const gate = await this.requireAdmin(request);
+    if (!gate.ok) return gate.response;
+    const layout = (gate.body.layout || '').toString();
+    if (!LOBBY_LAYOUTS.includes(layout)) {
+      return json({ error: `layout must be one of: ${LOBBY_LAYOUTS.join(', ')}` }, 400);
+    }
+    const siteSettings = (await this.state.storage.get('siteSettings')) || {};
+    siteSettings.lobbyLayout = layout;
+    await this.state.storage.put('siteSettings', siteSettings);
     return json({ ok: true });
   }
 }

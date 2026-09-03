@@ -2398,10 +2398,17 @@ async function deleteAdminAccount(username) {
   }
 }
 
+function highlightCurrentLayout() {
+  document.querySelectorAll('.layout-btn').forEach((b) => {
+    b.classList.toggle('active', b.dataset.layout === currentLobbyLayout);
+  });
+}
+
 function openAdminPanel() {
   el('adminOverlay').classList.remove('hidden');
   setAdminStatus('');
   loadAdminAccounts();
+  highlightCurrentLayout();
 }
 
 function closeAdminPanel() {
@@ -2413,6 +2420,22 @@ function initAdminPanel() {
   el('adminCloseBtn').addEventListener('click', closeAdminPanel);
   el('adminOverlay').addEventListener('click', (e) => {
     if (e.target === el('adminOverlay')) closeAdminPanel();
+  });
+
+  el('layoutPicker').addEventListener('click', async (e) => {
+    const btn = e.target.closest('.layout-btn');
+    if (!btn) return;
+    const layout = btn.dataset.layout;
+    if (layout === currentLobbyLayout) return;
+    try {
+      await adminPost('api/admin/set-lobby-layout', { layout });
+      currentLobbyLayout = layout;
+      el('lobby').dataset.layout = layout;
+      highlightCurrentLayout();
+      setAdminStatus(`Site layout set to "${btn.querySelector('.layout-name').textContent}".`);
+    } catch (err) {
+      setAdminStatus(err.message || 'Failed to set layout.');
+    }
   });
 
   el('adminResetPlayersBtn').addEventListener('click', async () => {
@@ -2573,6 +2596,21 @@ async function loadRankings() {
   }
 }
 
+// Site-wide, admin-controlled (set from the Admin Panel's Site Layout
+// section) — every visitor gets whatever the admin last picked, not a
+// per-account preference like the battle-screen HUD layout is.
+let currentLobbyLayout = 'classic';
+async function applyLobbyLayout() {
+  try {
+    const res = await fetch('api/site-settings');
+    const data = await res.json();
+    currentLobbyLayout = data.lobbyLayout || 'classic';
+  } catch {
+    currentLobbyLayout = 'classic'; // safe fallback if the fetch fails
+  }
+  el('lobby').dataset.layout = currentLobbyLayout;
+}
+
 function renderFactionThumbnails() {
   for (const faction of FACTION_KEYS) {
     const btn = document.querySelector(`.faction-card[data-faction="${faction}"] .thumb`);
@@ -2585,7 +2623,7 @@ function renderFactionThumbnails() {
 }
 
 (async function init() {
-  await loadFactionData();
+  await Promise.all([loadFactionData(), applyLobbyLayout()]);
   initLobby();
   initDeckPreview();
   initAccount();

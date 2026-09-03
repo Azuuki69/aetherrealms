@@ -52,6 +52,7 @@ export default {
       (url.pathname === '/api/register' && request.method === 'POST') ||
       (url.pathname === '/api/login' && request.method === 'POST') ||
       (url.pathname === '/api/rankings' && request.method === 'GET') ||
+      (url.pathname === '/api/site-settings' && request.method === 'GET') ||
       (url.pathname === '/api/hud-layout/save' && request.method === 'POST') ||
       (url.pathname === '/api/hud-layout/load' && request.method === 'POST') ||
       (url.pathname === '/api/ai-stats' && request.method === 'POST') ||
