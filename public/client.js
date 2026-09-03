@@ -2269,6 +2269,10 @@ function renderPlayerRankings(players) {
 function renderFactionRankings(factions, minFactionGames) {
   const body = el('decksTableBody');
   body.innerHTML = '';
+  if (factions.length === 0) {
+    body.innerHTML = '<tr class="empty-row"><td colspan="4">No deck stats yet — play a ranked match to see win rates here.</td></tr>';
+    return;
+  }
   factions.forEach((f, i) => {
     const tr = document.createElement('tr');
     const pct = Math.round(f.winRate * 100);
@@ -2294,13 +2298,23 @@ function initRankingTabs() {
 }
 
 async function loadRankings() {
+  // A slow connection previously left both tables bare (just headers, no
+  // rows) with nothing to tell the player it was still loading — looked
+  // indistinguishable from broken.
+  const loadingRow = '<tr class="loading-row"><td colspan="4">Loading rankings…</td></tr>';
+  el('playersTableBody').innerHTML = loadingRow;
+  el('decksTableBody').innerHTML = loadingRow;
   try {
     const res = await fetch('api/rankings');
     const data = await res.json();
     renderPlayerRankings(data.players || []);
     renderFactionRankings(data.factions || [], data.minFactionGames || 5);
   } catch {
-    /* rankings are a nice-to-have on the lobby screen — a failed fetch shouldn't block anything else */
+    // Rankings are a nice-to-have on the lobby screen — a failed fetch
+    // shouldn't block anything else, but it shouldn't look broken either.
+    const errorRow = '<tr class="empty-row"><td colspan="4">Couldn\'t load rankings. Refresh to try again.</td></tr>';
+    el('playersTableBody').innerHTML = errorRow;
+    el('decksTableBody').innerHTML = errorRow;
   }
 }
 

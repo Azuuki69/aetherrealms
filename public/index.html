@@ -26,12 +26,14 @@
   <div class="account-panel" id="accountPanel">
     <div id="accountLoggedOut" class="account-view">
       <form id="accountForm" class="account-form">
+        <label class="sr-only" for="accountUsername">Username</label>
         <input id="accountUsername" placeholder="Username" autocomplete="username" maxlength="20" />
+        <label class="sr-only" for="accountPassword">Password</label>
         <input id="accountPassword" type="password" placeholder="Password" autocomplete="current-password" maxlength="60" />
         <button id="accountSubmitBtn" type="submit" class="btn">Log In</button>
         <button id="accountToggleModeBtn" type="button" class="link-btn">Need an account? Register</button>
       </form>
-      <div id="accountStatus" class="account-status"></div>
+      <div id="accountStatus" class="account-status" role="status" aria-live="polite"></div>
     </div>
     <div id="accountLoggedIn" class="account-view hidden">
       <span>Logged in as <strong id="accountUsernameLabel"></strong></span>
@@ -71,12 +73,13 @@
     <div class="lobby-panel">
       <h2>Join a Match</h2>
       <p>Pick a faction above, then enter your friend's room code.</p>
+      <label class="sr-only" for="joinCode">Room code</label>
       <input id="joinCode" maxlength="6" placeholder="ROOM CODE" autocomplete="off" />
       <button id="joinBtn" class="btn">Join Match</button>
     </div>
   </div>
 
-  <div id="lobbyStatus" class="lobby-status"></div>
+  <div id="lobbyStatus" class="lobby-status" role="status" aria-live="polite"></div>
 
   <div class="rankings-panel" id="rankingsPanel">
     <div class="ranking-tabs">
@@ -286,12 +289,15 @@
 
       <div class="deck-preview-cardlist">
         <div class="deck-filter-bar">
+          <label class="sr-only" for="deckSearchInput">Search cards</label>
           <input type="text" id="deckSearchInput" placeholder="Search cards..." autocomplete="off" />
+          <label class="sr-only" for="deckTypeFilter">Filter by card type</label>
           <select id="deckTypeFilter">
             <option value="all">All Types</option>
             <option value="unit">Units</option>
             <option value="spell">Spells</option>
           </select>
+          <label class="sr-only" for="deckCostFilter">Filter by card cost</label>
           <select id="deckCostFilter">
             <option value="all">Any Cost</option>
             <option value="0">0</option>
@@ -304,6 +310,7 @@
             <option value="7">7</option>
             <option value="8+">8+</option>
           </select>
+          <label class="sr-only" for="deckSortSelect">Sort cards by</label>
           <select id="deckSortSelect">
             <option value="cost">Sort: Cost</option>
             <option value="name">Sort: Name</option>
@@ -346,8 +353,9 @@
   <div class="chat-body">
     <div id="chatMessages" class="chat-messages"></div>
     <form id="chatForm" class="chat-form">
+      <label class="sr-only" for="chatInput">Chat message</label>
       <input id="chatInput" maxlength="240" autocomplete="off" placeholder="Message your opponent..." />
-      <button type="submit">Send</button>
+      <button type="submit" aria-label="Send message">Send</button>
     </form>
   </div>
 </div>

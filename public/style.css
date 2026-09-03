@@ -1,18 +1,66 @@
 :root {
   --bg: #14100c;
   --panel: #211a13;
+  --surface: var(--panel);
+  --surface-elevated: #2a2115;
   --border: #7a5c2e;
   --gold: #d9b25c;
   --gold-bright: #f0d896;
   --magic: #8a6fd8;
   --success: #6fd66a;
+  --error: #e05c52;
+  --warning: #e0a94d;
+  --info: #5cb3e0;
   --text: #ecdfc4;
+  --text-secondary: #a5947a;
   --dim: #a5947a;
+  --disabled: #6b6156;
+  --focus-ring: var(--gold);
   --hp: #b5322f;
   --mana: #3c7fd0;
   --vanguard: #3a2c1a;
   --rearguard: #241c12;
   --font-display: 'Cinzel', Georgia, 'Times New Roman', serif;
+  /* System font stack — no external request, always available, reads as a
+     modern UI face. Nothing set this before, so body/UI text silently fell
+     back to the Georgia serif stack meant only for decorative headings. */
+  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  /* Faction accents — the 10 hex values .faction-card[data-faction] already
+     used as bare literals, named so they can be referenced elsewhere too. */
+  --faction-beast: #4f8a3a;
+  --faction-clock: #c17a2e;
+  --faction-damned: #8a1f2b;
+  --faction-dwarf: #d4a017;
+  --faction-dynasty: #2f9e6e;
+  --faction-elf: #3f9eae;
+  --faction-fallen: #7a4fc4;
+  --faction-human: #3c6fd0;
+  --faction-orc: #b5432e;
+  --faction-undead: #8a9e4a;
+
+  /* Spacing scale — 4/8/12/16/24/32px. Applied to components touched in
+     this pass, not a file-wide rewrite of every existing margin/padding. */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+
+  /* Type scale — clamp()-based so it's fluid across viewport widths rather
+     than jumping at breakpoints. Applied to lobby headings/section titles
+     in this pass; the ~55 pre-existing one-off font-size values elsewhere
+     (card text, HUD text tuned against real layout constraints) are left
+     alone rather than force-fit into this scale. */
+  --text-xs: clamp(0.7rem, 0.67rem + 0.15vw, 0.78rem);
+  --text-sm: clamp(0.82rem, 0.78rem + 0.2vw, 0.92rem);
+  --text-base: clamp(0.95rem, 0.9rem + 0.2vw, 1.05rem);
+  --text-md: clamp(1.05rem, 1rem + 0.3vw, 1.2rem);
+  --text-lg: clamp(1.2rem, 1.1rem + 0.4vw, 1.4rem);
+  --text-xl: clamp(1.5rem, 1.3rem + 0.8vw, 1.85rem);
+  --text-2xl: clamp(1.9rem, 1.6rem + 1.4vw, 2.5rem);
+  --text-3xl: clamp(2.3rem, 1.9rem + 2vw, 3.2rem);
 }
 
 * { box-sizing: border-box; }
@@ -20,8 +68,8 @@
 /* A visible focus ring matching the theme for every interactive element —
    nothing suppresses the browser default elsewhere in this file, but the
    default ring reads inconsistently against a dark parchment/gold UI. */
-button:focus-visible, input:focus-visible {
-  outline: 2px solid var(--gold);
+button:focus-visible, input:focus-visible, select:focus-visible, a:focus-visible, [tabindex]:focus-visible {
+  outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
 }
 
@@ -34,8 +82,23 @@ body {
     radial-gradient(ellipse at top, #241c12 0%, var(--bg) 70%),
     radial-gradient(ellipse at 50% 50%, transparent 45%, #000 105%);
   color: var(--text);
-  font-family: 'Georgia', 'Times New Roman', serif;
+  font-family: var(--font-body);
   min-height: 100vh;
+}
+
+/* Visually hidden but still reachable by screen readers/keyboard focus —
+   used for form labels where a visible label would clutter an already-
+   clear layout (login form, chat). */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 /* A handful of slow-drifting motes for a faint sense of ambient magic —
    a separate fixed layer so it can animate independently of the static
@@ -108,7 +171,7 @@ h1 {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  font-size: 2.6rem;
+  font-size: var(--text-3xl);
   letter-spacing: 3px;
   margin: 0;
   text-shadow: 0 2px 10px #00000090;
@@ -117,7 +180,7 @@ h1 span {
   display: block;
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 1rem;
+  font-size: var(--text-sm);
   color: var(--dim);
   letter-spacing: 5px;
   text-transform: uppercase;
@@ -166,7 +229,12 @@ h1 span {
 
 .faction-picker {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  /* minmax(0,1fr), not bare 1fr: a grid track's implicit min is auto (its
+     content's min-content size) unless overridden — .deck-badge's
+     white-space:nowrap pills forced tracks wider than their fair 1fr share
+     on narrow viewports, overflowing the page horizontally. minmax(0,*)
+     lets the track actually shrink to the space it's given. */
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 12px;
   margin: 2rem 0;
 }
@@ -243,10 +311,11 @@ h1 span {
 .deck-badge-difficulty[data-difficulty="Intermediate"] { color: var(--gold-bright); border-color: var(--gold); }
 .deck-badge-difficulty[data-difficulty="Advanced"], .deck-badge-difficulty[data-difficulty="Expert"] { color: #e0897a; border-color: var(--hp); }
 .faction-card .deck-tagline {
-  font-size: 0.68rem;
-  color: var(--dim);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text);
   text-align: center;
-  line-height: 1.25;
+  line-height: 1.35;
   min-height: 1.6em;
 }
 .faction-card .view-deck-btn {
@@ -262,6 +331,7 @@ h1 span {
   transition: border-color 0.15s, color 0.15s;
 }
 .faction-card .view-deck-btn:hover { border-color: var(--gold); color: var(--gold-bright); }
+.faction-card .view-deck-btn:active { background: color-mix(in srgb, var(--gold) 15%, transparent); }
 
 .deck-compare-trigger { text-align: center; margin: -1rem 0 1.5rem; }
 
@@ -293,8 +363,8 @@ h1 span {
 }
 .lobby-panel::before, .account-panel::before, .rankings-panel::before { top: -4px; left: -4px; }
 .lobby-panel::after, .account-panel::after, .rankings-panel::after { bottom: -4px; right: -4px; }
-.lobby-panel h2 { margin-top: 0; color: var(--gold); font-family: var(--font-display); font-weight: 600; font-size: 1.2rem; letter-spacing: 0.5px; }
-.lobby-panel p { color: var(--dim); font-size: 0.9rem; }
+.lobby-panel h2 { margin-top: 0; color: var(--gold); font-family: var(--font-display); font-weight: 600; font-size: var(--text-lg); letter-spacing: 0.5px; }
+.lobby-panel p { color: var(--text-secondary); font-size: var(--text-sm); }
 .lobby-panel input {
   width: 100%;
   padding: 0.6rem;
@@ -363,7 +433,8 @@ h1 span {
   cursor: pointer;
 }
 .btn-secondary:hover:not(:disabled) { background: linear-gradient(var(--gold-bright), var(--gold)); color: #1a140d; }
-.btn-secondary:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-secondary:active:not(:disabled) { transform: translateY(1px); }
+.btn-secondary:disabled { opacity: 0.4; cursor: not-allowed; color: var(--disabled); border-color: var(--disabled); }
 
 /* ---------- Account panel ---------- */
 .account-panel {
@@ -398,8 +469,12 @@ h1 span {
   cursor: pointer;
   font-family: inherit;
   font-size: 0.85rem;
-  padding: 0;
+  padding: 2px 0;
+  transition: color 0.15s;
 }
+.link-btn:hover:not(:disabled) { color: var(--gold-bright); }
+.link-btn:active:not(:disabled) { color: var(--gold); }
+.link-btn:disabled { color: var(--disabled); cursor: not-allowed; text-decoration: none; }
 .account-status { color: var(--hp); font-size: 0.85rem; min-height: 1.2em; text-align: center; }
 #accountLoggedIn { flex-direction: row; }
 #accountLoggedIn strong { color: var(--gold); }
@@ -418,22 +493,26 @@ h1 span {
 .ranking-tabs { display: flex; gap: 0.5rem; margin-bottom: 0.8rem; }
 .ranking-tab {
   flex: 1;
-  background: linear-gradient(#2a2115, var(--panel));
+  background: linear-gradient(var(--surface-elevated), var(--panel));
   border: 1px solid var(--border);
-  color: var(--dim);
+  color: var(--text-secondary);
   font-family: inherit;
   font-weight: bold;
-  padding: 0.5rem;
+  font-size: var(--text-sm);
+  padding: var(--space-2);
   border-radius: 6px;
   cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
 }
+.ranking-tab:hover:not(.active) { border-color: color-mix(in srgb, var(--gold) 50%, var(--border)); color: var(--text); }
+.ranking-tab:active:not(.active) { background: linear-gradient(#1c150d, #150f0a); }
 .ranking-tab.active { border-color: var(--gold); color: var(--gold); background: linear-gradient(#3a2c14, #241c12); }
-.ranking-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.ranking-table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); }
 .ranking-table th { color: var(--gold); text-align: left; border-bottom: 1px solid var(--border); padding: 0.4rem 0.5rem; }
 .ranking-table td { padding: 0.4rem 0.5rem; border-bottom: 1px solid #4a3a2250; color: var(--text); }
 .ranking-table tbody tr:last-child td { border-bottom: none; }
-.ranking-table .few-games { color: var(--dim); font-size: 0.8rem; }
-.ranking-table .empty-row td { text-align: center; color: var(--dim); padding: 0.8rem; }
+.ranking-table .few-games { color: var(--text-secondary); font-size: var(--text-xs); }
+.ranking-table .empty-row td, .ranking-table .loading-row td { text-align: center; color: var(--text-secondary); padding: 0.8rem; }
 
 /* ---------- Game ---------- */
 /* A fluid grid, not a fixed-resolution canvas scaled to fit — each row takes
@@ -490,8 +569,12 @@ h1 span {
   font-size: 0.8rem;
   cursor: pointer;
   box-shadow: 0 4px 14px #000a;
+  transition: background 0.15s, color 0.15s, transform 0.15s;
 }
+.hud-edit-toggle:hover:not(.active), .hud-reset-btn:hover { background: linear-gradient(#4a3a1c, #2e2416); }
+.hud-edit-toggle:active, .hud-reset-btn:active { transform: translateY(1px); }
 .hud-edit-toggle.active { background: linear-gradient(var(--gold-bright), var(--gold)); color: #1a140d; }
+.hud-edit-toggle.active:hover { background: linear-gradient(var(--gold-bright), var(--gold-bright)); }
 
 #hudOverlayLayer { position: absolute; inset: 0; pointer-events: none; z-index: 60; }
 .hud-panel-overlay { position: absolute; display: none; }
@@ -1241,7 +1324,6 @@ body:has(#chatPanel:not(.collapsed)) .hand {
   border-radius: 5px;
 }
 .deck-filter-bar input { flex: 1; min-width: 120px; }
-.deck-filter-bar input:focus, .deck-filter-bar select:focus { outline: 1px solid var(--gold); }
 .deck-card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
@@ -1432,13 +1514,17 @@ body:has(#chatPanel:not(.collapsed)) .hand {
 /* Same collapsible-floating-panel pattern as #chatPanel below, mirrored to
    the left edge instead of the right. */
 #logPanel { position: fixed; left: 16px; bottom: 16px; z-index: 400; width: 300px; max-width: calc(100vw - 32px); }
-.log-toggle { display: flex; align-items: center; gap: 6px; width: 100%; background: linear-gradient(#3a2c14, #241c12); border: 1px solid var(--gold); border-radius: 8px; color: var(--gold); font-family: inherit; font-weight: bold; padding: 0.5rem 0.8rem; cursor: pointer; box-shadow: 0 4px 14px #000a; }
+.log-toggle { display: flex; align-items: center; gap: 6px; width: 100%; background: linear-gradient(#3a2c14, #241c12); border: 1px solid var(--gold); border-radius: 8px; color: var(--gold); font-family: inherit; font-weight: bold; padding: 0.5rem 0.8rem; cursor: pointer; box-shadow: 0 4px 14px #000a; transition: background 0.15s; }
+.log-toggle:hover { background: linear-gradient(#4a3a1c, #2e2416); }
+.log-toggle:active { transform: translateY(1px); }
 .log-body { margin-top: 6px; background: var(--panel); border: 1px solid var(--gold); border-radius: 8px; box-shadow: 0 8px 24px #000c; overflow: hidden; }
 #logPanel.collapsed .log-body { display: none; }
 
 /* ---------- Chat panel ---------- */
 #chatPanel { position: fixed; right: 16px; bottom: 16px; z-index: 400; width: 300px; max-width: calc(100vw - 32px); }
-.chat-toggle { display: flex; align-items: center; gap: 6px; width: 100%; background: linear-gradient(#3a2c14, #241c12); border: 1px solid var(--gold); border-radius: 8px; color: var(--gold); font-family: inherit; font-weight: bold; padding: 0.5rem 0.8rem; cursor: pointer; box-shadow: 0 4px 14px #000a; }
+.chat-toggle { display: flex; align-items: center; gap: 6px; width: 100%; background: linear-gradient(#3a2c14, #241c12); border: 1px solid var(--gold); border-radius: 8px; color: var(--gold); font-family: inherit; font-weight: bold; padding: 0.5rem 0.8rem; cursor: pointer; box-shadow: 0 4px 14px #000a; transition: background 0.15s; }
+.chat-toggle:hover { background: linear-gradient(#4a3a1c, #2e2416); }
+.chat-toggle:active { transform: translateY(1px); }
 .chat-badge { margin-left: auto; background: var(--hp); color: #fff; border-radius: 999px; font-size: 0.7rem; padding: 1px 7px; font-weight: bold; }
 .chat-body { margin-top: 6px; background: var(--panel); border: 1px solid var(--gold); border-radius: 8px; box-shadow: 0 8px 24px #000c; overflow: hidden; }
 #chatPanel.collapsed .chat-body { display: none; }
@@ -1448,14 +1534,19 @@ body:has(#chatPanel:not(.collapsed)) .hand {
 .chat-line.mine .who { color: var(--mana); }
 .chat-form { display: flex; border-top: 1px solid var(--border); }
 .chat-form input { flex: 1; background: #0000004d; border: none; color: var(--text); font-family: inherit; font-size: 0.85rem; padding: 8px 10px; }
-.chat-form input:focus { outline: 1px solid var(--gold); }
-.chat-form button { background: linear-gradient(#e7c877, #b8912f); border: none; padding: 0 14px; font-weight: bold; cursor: pointer; }
+.chat-form button { background: linear-gradient(#e7c877, #b8912f); border: none; padding: 0 14px; font-weight: bold; cursor: pointer; color: #241c12; transition: filter 0.15s; }
+.chat-form button:hover { filter: brightness(1.08); }
+.chat-form button:active { filter: brightness(0.94); }
 
 @media (max-width: 980px) {
-  .faction-picker { grid-template-columns: repeat(5, 1fr); gap: 8px; }
-  .faction-card { padding: 0.6rem 0.3rem; gap: 0.35rem; }
-  .faction-card .thumb { width: 56px; height: 84px; }
-  .faction-card .label { font-size: 0.7rem; }
+  /* Tablet range (roughly 721-980px, e.g. a portrait iPad): 5 columns here
+     left each faction card too narrow for its badge row/tagline/View Deck
+     button — the same crowding problem the 720px breakpoint below already
+     fixes for phones, just one range up. 4 columns gives real width back. */
+  .faction-picker { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+  .faction-card { padding: 0.6rem 0.4rem; gap: 0.4rem; }
+  .faction-card .thumb { width: 60px; height: 90px; }
+  .faction-card .label { font-size: 0.75rem; }
   .deck-preview-body { grid-template-columns: 260px 1fr; }
 }
 
@@ -1467,7 +1558,7 @@ body:has(#chatPanel:not(.collapsed)) .hand {
      face now carries a badge row, tagline and View Deck button that need
      real width to stay legible, per the master prompt's "stack deck info
      vertically on mobile" requirement. */
-  .faction-picker { grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 1rem 0; }
+  .faction-picker { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 1rem 0; }
   .faction-card { padding: 0.5rem 0.3rem; gap: 0.3rem; }
   .faction-card .thumb { width: 52px; height: 78px; }
   .faction-card .label { font-size: 0.68rem; line-height: 1.1; }
@@ -1483,7 +1574,7 @@ body:has(#chatPanel:not(.collapsed)) .hand {
 }
 
 @media (max-width: 480px) {
-  .faction-picker { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .faction-picker { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
   .faction-card { padding: 0.5rem 0.4rem; }
   .faction-card .thumb { width: 64px; height: 96px; }
   .faction-card .label { font-size: 0.72rem; }
