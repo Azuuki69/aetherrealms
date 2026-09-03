@@ -3,31 +3,44 @@
   "displayName": "Fallen",
   "archetype": "Control / Attrition",
   "archetype_pl": "Kontrola / Wyniszczenie",
+  "archetype_es": "Control / Desgaste",
   "difficulty": "Advanced",
   "tagline": "Every death on the battlefield — yours or theirs — fills your hand.",
   "tagline_pl": "Każda śmierć na polu bitwy — twoja lub ich — zapełnia twoją rękę.",
+  "tagline_es": "Cada muerte en el campo de batalla — tuya o suya — llena tu mano.",
   "description": "Fallen grinds opponents down through card advantage rather than raw stats. Salvage and Reap both draw cards whenever any unit dies, and Hoarder units grow more dangerous the longer you hold cards in hand — reinforced by hand-size payoff spells like Scrapheap Salvo.",
   "description_pl": "Upadłe Gwiazdy wyniszczają przeciwników przewagą kartową, a nie surowymi statystykami. Zarówno Odzysk, jak i Żniwo dobierają karty za każdym razem, gdy ginie dowolna jednostka, a jednostki z Chomikowaniem stają się groźniejsze, im dłużej trzymasz karty w ręce — co wzmacniają zaklęcia nagradzające za wielkość ręki, jak Salwa Złomu.",
+  "description_es": "Caídas desgasta a los oponentes mediante ventaja de cartas en lugar de estadísticas puras. Tanto Recuperación como Cosecha roban cartas cada vez que muere cualquier unidad, y las unidades con Acaparador se vuelven más peligrosas cuanto más tiempo mantengas cartas en la mano — reforzado por hechizos que recompensan el tamaño de la mano, como Salva de Chatarra.",
   "gamePlan": "Trade freely and let Salvage/Reap refill your hand, then unleash Hoarder threats once you're sitting on a stockpile of cards.",
   "gamePlan_pl": "Wymieniaj się swobodnie i pozwól, by Odzysk/Żniwo uzupełniały twoją rękę, a następnie uwolnij zagrożenia z Chomikowaniem, gdy zgromadzisz zapas kart.",
+  "gamePlan_es": "Intercambia libremente y deja que Recuperación/Cosecha rellenen tu mano, y luego libera amenazas con Acaparador una vez que tengas una reserva de cartas.",
   "playstyle": "Resist the urge to dump your hand — Fallen actively wants you holding cards, since Hoarder and its payoff spells scale directly off your hand size.",
   "playstyle_pl": "Opieraj się pokusie wyrzucenia całej ręki — Upadłe Gwiazdy wręcz chcą, byś trzymał karty, ponieważ Chomikowanie i wspierające je zaklęcia skalują się bezpośrednio z wielkością twojej ręki.",
+  "playstyle_es": "Resiste la tentación de vaciar tu mano — Caídas quiere activamente que retengas cartas, ya que Acaparador y sus hechizos de recompensa escalan directamente con el tamaño de tu mano.",
   "winCondition": "Out-draw and out-resource the opponent until a Hoarder threat or a hand-fueled spell finishes what attrition started.",
   "winCondition_pl": "Przelicytuj przeciwnika dobieraniem kart i zasobami, aż zagrożenie z Chomikowaniem lub zaklęcie zasilane ręką dokończy to, co zaczęło wyniszczenie.",
+  "winCondition_es": "Supera al oponente en robo de cartas y recursos hasta que una amenaza con Acaparador o un hechizo alimentado por la mano termine lo que empezó el desgaste.",
   "strengths": ["Card advantage engine that triggers off almost any death", "Rewards patient, resource-conscious play", "Hoarder threats scale directly with the deck's strategy"],
   "strengths_pl": ["Silnik przewagi kartowej uruchamiany przez niemal każdą śmierć", "Nagradza cierpliwą, świadomą zasobów grę", "Zagrożenia z Chomikowaniem skalują się bezpośrednio ze strategią talii"],
+  "strengths_es": ["Motor de ventaja de cartas que se activa con casi cualquier muerte", "Premia el juego paciente y consciente de los recursos", "Las amenazas con Acaparador escalan directamente con la estrategia del mazo"],
   "weaknesses": ["Slow to get going — early turns can look passive", "Loses value if forced to dump the hand quickly", "Vulnerable to fast decks that end the game before the engine matters"],
   "weaknesses_pl": ["Wolno się rozkręca — wczesne tury mogą wyglądać na pasywne", "Traci wartość, gdy jest zmuszona szybko opróżnić rękę", "Podatna na szybkie talie, które kończą grę, zanim silnik zacznie działać"],
+  "weaknesses_es": ["Lento para arrancar — los primeros turnos pueden parecer pasivos", "Pierde valor si se ve forzada a vaciar la mano rápidamente", "Vulnerable a mazos rápidos que terminan la partida antes de que el motor importe"],
   "pros": ["Very high card-advantage ceiling", "Flexible — punishes both your trades and the opponent's", "Rewards smart resource management over raw tempo"],
   "pros_pl": ["Bardzo wysoki potencjał przewagi kartowej", "Elastyczna — karze zarówno za twoje wymiany, jak i przeciwnika", "Nagradza mądre zarządzanie zasobami zamiast surowego tempa"],
+  "pros_es": ["Techo de ventaja de cartas muy alto", "Flexible — castiga tanto tus intercambios como los del oponente", "Premia la buena gestión de recursos sobre el tempo puro"],
   "cons": ["Weak against fast aggro that ends the game early", "Needs practice to know when to hold vs. commit cards", "Payoffs are back-loaded, so early turns can feel slow"],
   "cons_pl": ["Słaba przeciwko szybkiej agresji, która kończy grę wcześnie", "Wymaga praktyki, by wiedzieć, kiedy trzymać, a kiedy zagrywać karty", "Premie przychodzą późno, więc wczesne tury mogą wydawać się powolne"],
+  "cons_es": ["Débil contra agresión rápida que termina la partida pronto", "Requiere práctica para saber cuándo retener o jugar cartas", "Las recompensas llegan tarde, así que los primeros turnos pueden parecer lentos"],
   "keyMechanics": ["SALVAGE", "REAP", "HOARDER"],
   "keyMechanics_pl": ["ODZYSK", "ŻNIWO", "CHOMIKOWANIE"],
+  "keyMechanics_es": ["RECUPERACIÓN", "COSECHA", "ACAPARADOR"],
   "beginnerExplainer": "Hoarder cards get stronger the more cards you're holding beyond a small threshold — for this deck, NOT playing a card can sometimes be the correct move.",
   "beginnerExplainer_pl": "Karty z Chomikowaniem stają się silniejsze, im więcej kart trzymasz powyżej niewielkiego progu — w tej talii NIEZAGRANIE karty bywa czasem właściwym posunięciem.",
+  "beginnerExplainer_es": "Las cartas con Acaparador se vuelven más fuertes cuantas más cartas tengas por encima de un pequeño umbral — en este mazo, NO jugar una carta a veces es la jugada correcta.",
   "howToPlay": {"early": "Trade efficiently and let Salvage/Reap refill your hand rather than racing for early damage.", "mid": "Start holding extra cards once you're stable — every card above the threshold is making your Hoarder threats stronger.", "late": "Unleash Hoarder-boosted threats and hand-scaling spells like Scrapheap Salvo to close out the attrition war you've already won."},
   "howToPlay_pl": {"early": "Wymieniaj się efektywnie i pozwól, by Odzysk/Żniwo uzupełniały twoją rękę, zamiast ścigać się o wczesne obrażenia.", "mid": "Zacznij trzymać dodatkowe karty, gdy się ustabilizujesz — każda karta powyżej progu wzmacnia twoje zagrożenia z Chomikowaniem.", "late": "Uwolnij zagrożenia wzmocnione Chomikowaniem i zaklęcia skalujące się z ręką, jak Salwa Złomu, by zakończyć wojnę na wyniszczenie, którą już wygrałeś."},
+  "howToPlay_es": {"early": "Intercambia con eficacia y deja que Recuperación/Cosecha rellenen tu mano en lugar de correr por daño temprano.", "mid": "Empieza a retener cartas extra una vez que estés estable — cada carta por encima del umbral hace más fuertes a tus amenazas con Acaparador.", "late": "Libera amenazas potenciadas por Acaparador y hechizos que escalan con la mano, como Salva de Chatarra, para cerrar la guerra de desgaste que ya has ganado."},
   "cards": [
     {
       "id": "fallen_01",
@@ -37,6 +50,7 @@
       "defense": 2,
       "text": "SALVAGE: Draw a card whenever an allied unit dies.",
       "text_pl": "ODZYSK: Dobierz kartę, gdy zginie sojusznicza jednostka.",
+      "text_es": "RECUPERACIÓN: Roba una carta cada vez que muere una unidad aliada.",
       "image": "assets/cards/art/fallen/fallen_01.png"
     },
     {
@@ -47,6 +61,7 @@
       "defense": 2,
       "text": "REAP: Draw a card whenever an enemy unit dies.",
       "text_pl": "ŻNIWO: Dobierz kartę, gdy zginie wroga jednostka.",
+      "text_es": "COSECHA: Roba una carta cada vez que muere una unidad enemiga.",
       "image": "assets/cards/art/fallen/fallen_02.png"
     },
     {
@@ -57,6 +72,7 @@
       "defense": 1,
       "text": "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
       "text_pl": "SALWA: Może wybrać, którą wrogą linię zaatakować, bez ryzyka kontrataku.",
+      "text_es": "RÁFAGA: Puede elegir atacar cualquiera de las filas enemigas, sin arriesgarse a represalias.",
       "image": "assets/cards/art/fallen/fallen_03.png"
     },
     {
@@ -67,6 +83,7 @@
       "defense": 3,
       "text": "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
       "text_pl": "SALWA: Może wybrać, którą wrogą linię zaatakować, bez ryzyka kontrataku.",
+      "text_es": "RÁFAGA: Puede elegir atacar cualquiera de las filas enemigas, sin arriesgarse a represalias.",
       "image": "assets/cards/art/fallen/fallen_04.png"
     },
     {
@@ -77,6 +94,7 @@
       "defense": 3,
       "text": "SALVAGE: Draw a card whenever an allied unit dies.",
       "text_pl": "ODZYSK: Dobierz kartę, gdy zginie sojusznicza jednostka.",
+      "text_es": "RECUPERACIÓN: Roba una carta cada vez que muere una unidad aliada.",
       "image": "assets/cards/art/fallen/fallen_05.png"
     },
     {
@@ -87,6 +105,7 @@
       "defense": 3,
       "text": "REAP: Draw a card whenever an enemy unit dies.",
       "text_pl": "ŻNIWO: Dobierz kartę, gdy zginie wroga jednostka.",
+      "text_es": "COSECHA: Roba una carta cada vez que muere una unidad enemiga.",
       "image": "assets/cards/art/fallen/fallen_06.png"
     },
     {
@@ -97,6 +116,7 @@
       "defense": 3,
       "text": "SHIELD: Absorbs the next instance of combat damage entirely, then is consumed.",
       "text_pl": "TARCZA: Całkowicie pochłania następne obrażenia bojowe, po czym znika.",
+      "text_es": "ESCUDO: Absorbe por completo el próximo daño de combate y luego se consume.",
       "image": "assets/cards/art/fallen/fallen_07.png"
     },
     {
@@ -107,6 +127,7 @@
       "defense": 3,
       "text": "HOARDER: +1 DMG for each card in your hand beyond 3 (max +3).",
       "text_pl": "CHOMIKOWANIE: +1 DMG za każdą kartę w ręce powyżej 3 (maks. +3).",
+      "text_es": "ACAPARADOR: +1 DMG por cada carta en tu mano por encima de 3 (máx. +3).",
       "image": "assets/cards/art/fallen/fallen_08.png"
     },
     {
@@ -117,6 +138,7 @@
       "defense": 3,
       "text": "SALVAGE: Draw a card whenever an allied unit dies.",
       "text_pl": "ODZYSK: Dobierz kartę, gdy zginie sojusznicza jednostka.",
+      "text_es": "RECUPERACIÓN: Roba una carta cada vez que muere una unidad aliada.",
       "image": "assets/cards/art/fallen/fallen_09.png"
     },
     {
@@ -127,6 +149,7 @@
       "defense": 3,
       "text": "CHARGE: Can attack the turn it is played.",
       "text_pl": "SZARŻA: Może atakować w turze, w której została zagrana.",
+      "text_es": "CARGA: Puede atacar el turno en que es jugada.",
       "image": "assets/cards/art/fallen/fallen_10.png"
     },
     {
@@ -137,6 +160,7 @@
       "defense": 3,
       "text": "SHIELD: Absorbs the next instance of combat damage entirely, then is consumed.",
       "text_pl": "TARCZA: Całkowicie pochłania następne obrażenia bojowe, po czym znika.",
+      "text_es": "ESCUDO: Absorbe por completo el próximo daño de combate y luego se consume.",
       "image": "assets/cards/art/fallen/fallen_11.png"
     },
     {
@@ -147,6 +171,7 @@
       "defense": 4,
       "text": "HOARDER: +1 DMG for each card in your hand beyond 3 (max +3).",
       "text_pl": "CHOMIKOWANIE: +1 DMG za każdą kartę w ręce powyżej 3 (maks. +3).",
+      "text_es": "ACAPARADOR: +1 DMG por cada carta en tu mano por encima de 3 (máx. +3).",
       "image": "assets/cards/art/fallen/fallen_12.png"
     },
     {
@@ -157,6 +182,7 @@
       "defense": 4,
       "text": "SALVAGE: Draw a card whenever an allied unit dies.",
       "text_pl": "ODZYSK: Dobierz kartę, gdy zginie sojusznicza jednostka.",
+      "text_es": "RECUPERACIÓN: Roba una carta cada vez que muere una unidad aliada.",
       "image": "assets/cards/art/fallen/fallen_13.png"
     },
     {
@@ -167,6 +193,7 @@
       "defense": 4,
       "text": "REAP: Draw a card whenever an enemy unit dies.",
       "text_pl": "ŻNIWO: Dobierz kartę, gdy zginie wroga jednostka.",
+      "text_es": "COSECHA: Roba una carta cada vez que muere una unidad enemiga.",
       "image": "assets/cards/art/fallen/fallen_14.png"
     },
     {
@@ -177,6 +204,7 @@
       "defense": 4,
       "text": "SHIELD: Absorbs the next instance of combat damage entirely, then is consumed.",
       "text_pl": "TARCZA: Całkowicie pochłania następne obrażenia bojowe, po czym znika.",
+      "text_es": "ESCUDO: Absorbe por completo el próximo daño de combate y luego se consume.",
       "image": "assets/cards/art/fallen/fallen_15.png"
     },
     {
@@ -187,6 +215,7 @@
       "defense": 5,
       "text": "SALVAGE: Draw a card whenever an allied unit dies. FORTIFY: Gains +1 HP after surviving combat.",
       "text_pl": "ODZYSK: Dobierz kartę, gdy zginie sojusznicza jednostka. UMOCNIENIE: Zyskuje +1 PŻ po przetrwaniu walki.",
+      "text_es": "RECUPERACIÓN: Roba una carta cada vez que muere una unidad aliada. FORTIFICACIÓN: Gana +1 PV tras sobrevivir al combate.",
       "image": "assets/cards/art/fallen/fallen_16.png"
     },
     {
@@ -197,6 +226,7 @@
       "defense": 5,
       "text": "SALVAGE: Draw a card whenever an allied unit dies.",
       "text_pl": "ODZYSK: Dobierz kartę, gdy zginie sojusznicza jednostka.",
+      "text_es": "RECUPERACIÓN: Roba una carta cada vez que muere una unidad aliada.",
       "image": "assets/cards/art/fallen/fallen_17.png"
     },
     {
@@ -207,6 +237,7 @@
       "defense": 5,
       "text": "REAP: Draw a card whenever an enemy unit dies.",
       "text_pl": "ŻNIWO: Dobierz kartę, gdy zginie wroga jednostka.",
+      "text_es": "COSECHA: Roba una carta cada vez que muere una unidad enemiga.",
       "image": "assets/cards/art/fallen/fallen_18.png"
     },
     {
@@ -217,6 +248,7 @@
       "defense": 7,
       "text": "TAUNT: Enemies must attack this unit first.",
       "text_pl": "PROWOKACJA: Wrogowie muszą zaatakować najpierw tę jednostkę.",
+      "text_es": "PROVOCACIÓN: Los enemigos deben atacar primero a esta unidad.",
       "image": "assets/cards/art/fallen/fallen_19.png"
     },
     {
@@ -227,6 +259,7 @@
       "defense": 7,
       "text": "SHIELD: Absorbs the next instance of combat damage entirely, then is consumed.",
       "text_pl": "TARCZA: Całkowicie pochłania następne obrażenia bojowe, po czym znika.",
+      "text_es": "ESCUDO: Absorbe por completo el próximo daño de combate y luego se consume.",
       "image": "assets/cards/art/fallen/fallen_20.png"
     },
     {
@@ -237,6 +270,7 @@
       "defense": 7,
       "text": "TAUNT: Enemies must attack this unit first.",
       "text_pl": "PROWOKACJA: Wrogowie muszą zaatakować najpierw tę jednostkę.",
+      "text_es": "PROVOCACIÓN: Los enemigos deben atacar primero a esta unidad.",
       "image": "assets/cards/art/fallen/fallen_21.png"
     },
     {
@@ -247,6 +281,7 @@
       "defense": 8,
       "text": "REAP: Draw a card whenever an enemy unit dies.",
       "text_pl": "ŻNIWO: Dobierz kartę, gdy zginie wroga jednostka.",
+      "text_es": "COSECHA: Roba una carta cada vez que muere una unidad enemiga.",
       "image": "assets/cards/art/fallen/fallen_22.png"
     },
     {
@@ -257,6 +292,7 @@
       "defense": 6,
       "text": "SHIELD: Absorbs the next instance of combat damage entirely, then is consumed.",
       "text_pl": "TARCZA: Całkowicie pochłania następne obrażenia bojowe, po czym znika.",
+      "text_es": "ESCUDO: Absorbe por completo el próximo daño de combate y luego se consume.",
       "image": "assets/cards/art/fallen/fallen_23.png"
     },
     {
@@ -267,6 +303,7 @@
       "defense": 7,
       "text": "HOARDER: +1 DMG for each card in your hand beyond 3 (max +3).",
       "text_pl": "CHOMIKOWANIE: +1 DMG za każdą kartę w ręce powyżej 3 (maks. +3).",
+      "text_es": "ACAPARADOR: +1 DMG por cada carta en tu mano por encima de 3 (máx. +3).",
       "image": "assets/cards/art/fallen/fallen_24.png"
     },
     {
@@ -277,6 +314,7 @@
       "defense": 8,
       "text": "HOARDER: +1 DMG for each card in your hand beyond 3 (max +3). (This unit is a rare, high-impact threat.)",
       "text_pl": "CHOMIKOWANIE: +1 DMG za każdą kartę w ręce powyżej 3 (maks. +3). (Ta jednostka to rzadkie, potężne zagrożenie.)",
+      "text_es": "ACAPARADOR: +1 DMG por cada carta en tu mano por encima de 3 (máx. +3). (Esta unidad es una amenaza rara de alto impacto.)",
       "image": "assets/cards/art/fallen/fallen_25.png"
     },
     {
@@ -287,6 +325,7 @@
       "defense": 9,
       "text": "HOARDER: +1 DMG for each card in your hand beyond 3 (max +3). (This unit is a rare, high-impact threat.)",
       "text_pl": "CHOMIKOWANIE: +1 DMG za każdą kartę w ręce powyżej 3 (maks. +3). (Ta jednostka to rzadkie, potężne zagrożenie.)",
+      "text_es": "ACAPARADOR: +1 DMG por cada carta en tu mano por encima de 3 (máx. +3). (Esta unidad es una amenaza rara de alto impacto.)",
       "image": "assets/cards/art/fallen/fallen_26.png"
     },
     {
@@ -297,6 +336,7 @@
       "copies": 2,
       "text": "Draw 4 cards.",
       "text_pl": "Dobierz 4 karty.",
+      "text_es": "Roba 4 cartas.",
       "image": "assets/cards/art/fallen/fallen_27.png"
     },
     {
@@ -309,6 +349,7 @@
       "effect": { "kind": "grant_shield" },
       "text": "Target allied unit gains Shield until your next turn.",
       "text_pl": "Wybrana sojusznicza jednostka zyskuje Tarczę do twojej następnej tury.",
+      "text_es": "La unidad aliada objetivo gana Escudo hasta tu próximo turno.",
       "image": "assets/cards/art/fallen/fallen_28.png"
     },
     {
@@ -321,6 +362,7 @@
       "effect": { "kind": "discard_then_draw" },
       "text": "Discard a card, then draw a card.",
       "text_pl": "Odrzuć kartę, a następnie dobierz kartę.",
+      "text_es": "Descarta una carta y luego roba una carta.",
       "image": "assets/cards/art/fallen/fallen_29.png"
     },
     {
@@ -333,6 +375,7 @@
       "effect": { "kind": "heal", "amount": 3 },
       "text": "Heal an allied unit for 3.",
       "text_pl": "Ulecz sojuszniczą jednostkę o 3.",
+      "text_es": "Cura 3 puntos a una unidad aliada.",
       "image": "assets/cards/art/fallen/fallen_30.png"
     },
     {
@@ -345,6 +388,7 @@
       "effect": { "kind": "draw_conditional_death", "base": 1, "bonus": 1 },
       "text": "Draw a card. If an allied unit died this turn, draw two instead.",
       "text_pl": "Dobierz kartę. Jeśli w tej turze zginęła sojusznicza jednostka, dobierz zamiast tego dwie.",
+      "text_es": "Roba una carta. Si una unidad aliada murió este turno, roba dos en su lugar.",
       "image": "assets/cards/art/fallen/fallen_31.png"
     },
     {
@@ -357,6 +401,7 @@
       "effect": { "kind": "damage_prevent", "amount": 4 },
       "text": "Prevent the next 4 damage to target allied unit until your next turn.",
       "text_pl": "Zapobiegnij następnym 4 obrażeniom zadanym wybranej sojuszniczej jednostce do twojej następnej tury.",
+      "text_es": "Evita los próximos 4 puntos de daño a la unidad aliada objetivo hasta tu próximo turno.",
       "image": "assets/cards/art/fallen/fallen_32.png"
     },
     {
@@ -369,6 +414,7 @@
       "effect": { "kind": "damage_then_discard", "amount": 3 },
       "text": "Deal 3 damage to an enemy unit. Discard a card.",
       "text_pl": "Zadaj 3 obrażenia wrogiej jednostce. Odrzuć kartę.",
+      "text_es": "Inflige 3 de daño a una unidad enemiga. Descarta una carta.",
       "image": "assets/cards/art/fallen/fallen_33.png"
     },
     {
@@ -381,6 +427,7 @@
       "effect": { "kind": "buff_power_and_defense", "powerAmount": 2, "defenseAmount": 2 },
       "text": "Target allied unit gains +2/+2 until end of turn.",
       "text_pl": "Wybrana sojusznicza jednostka zyskuje +2/+2 do końca tury.",
+      "text_es": "La unidad aliada objetivo gana +2/+2 hasta el final del turno.",
       "image": "assets/cards/art/fallen/fallen_34.png"
     },
     {
@@ -393,6 +440,7 @@
       "effect": { "kind": "damage_scaling_hand", "perCard": 2, "threshold": 3, "maxAmount": 6 },
       "text": "Deal 2 damage to an enemy unit for each card in your hand beyond 3, up to 6.",
       "text_pl": "Zadaj 2 obrażenia wrogiej jednostce za każdą kartę w twojej ręce powyżej 3, maksymalnie 6.",
+      "text_es": "Inflige 2 de daño a una unidad enemiga por cada carta en tu mano por encima de 3, hasta un máximo de 6.",
       "image": "assets/cards/art/fallen/fallen_35.png"
     },
     {
@@ -405,6 +453,7 @@
       "effect": { "kind": "castle_damage_or_draw", "threshold": 6, "damageAmount": 4, "drawAmount": 1 },
       "text": "If you have 6 or more cards in hand, deal 4 damage to the enemy castle. Otherwise, draw a card.",
       "text_pl": "Jeśli masz 6 lub więcej kart w ręce, zadaj 4 obrażenia wrogiemu zamkowi. W przeciwnym razie dobierz kartę.",
+      "text_es": "Si tienes 6 o más cartas en la mano, inflige 4 de daño al castillo enemigo. De lo contrario, roba una carta.",
       "image": "assets/cards/art/fallen/fallen_36.png"
     },
     {
@@ -417,6 +466,7 @@
       "effect": { "kind": "heal_castle", "amount": 4 },
       "text": "Heal your castle for 4.",
       "text_pl": "Ulecz swój zamek o 4.",
+      "text_es": "Cura 4 puntos a tu castillo.",
       "image": "assets/cards/art/fallen/fallen_37.png"
     }
   ]

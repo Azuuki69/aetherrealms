@@ -3,31 +3,44 @@
   "displayName": "Undead",
   "archetype": "Control / Recursion",
   "archetype_pl": "Kontrola / Odzyskiwanie",
+  "archetype_es": "Control / Recursión",
   "difficulty": "Intermediate",
   "tagline": "Nothing you kill actually stays dead.",
   "tagline_pl": "Nic, co zabijesz, tak naprawdę nie zostaje martwe.",
+  "tagline_es": "Nada de lo que matas se queda realmente muerto.",
   "description": "Undead is built around Rebirth, the single most concentrated keyword in the game — 10 of its 26 units return to your hand at 1 HP the first time they'd die. Curse chips away at the opponent turn after turn, and Raise Dead, the game's only Reanimate spell, can pull a random unit straight back out of the graveyard.",
   "description_pl": "Nieumarli zbudowani są wokół Odrodzenia, najbardziej skoncentrowanego słowa kluczowego w grze — 10 z ich 26 jednostek wraca do twojej ręki z 1 PŻ za pierwszym razem, gdy miałyby zginąć. Klątwa nadgryza przeciwnika turę po turze, a Wskrzeszenie Zmarłych, jedyne zaklęcie z Reanimacją w grze, potrafi wyciągnąć losową jednostkę wprost z cmentarza.",
+  "description_es": "No Muertos está construido en torno a Renacimiento, la palabra clave más concentrada del juego — 10 de sus 26 unidades vuelven a tu mano con 1 PV la primera vez que morirían. Maldición desgasta al oponente turno tras turno, y Levantar Muertos, el único hechizo de Reanimación del juego, puede sacar una unidad aleatoria directamente del cementerio.",
   "gamePlan": "Trade fearlessly with Rebirth units since 'losing' them just returns them to your hand, then grind the opponent down with Curse and recursive value.",
   "gamePlan_pl": "Wymieniaj się bez obaw jednostkami z Odrodzeniem, ponieważ ich „utrata” po prostu zwraca je do twojej ręki, a następnie zetrzyj przeciwnika Klątwą i powtarzalną wartością.",
+  "gamePlan_es": "Intercambia sin miedo con unidades de Renacimiento, ya que «perderlas» simplemente las devuelve a tu mano, y luego desgasta al oponente con Maldición y valor recursivo.",
   "playstyle": "Attack and block aggressively with Rebirth units — a trade that would be a loss for any other deck often costs Undead nothing at all.",
   "playstyle_pl": "Atakuj i blokuj agresywnie jednostkami z Odrodzeniem — wymiana, która dla każdej innej talii byłaby stratą, Nieumarłym często nie kosztuje nic.",
+  "playstyle_es": "Ataca y bloquea agresivamente con unidades de Renacimiento — un intercambio que sería una pérdida para cualquier otro mazo a menudo no le cuesta nada a No Muertos.",
   "winCondition": "Outlast the opponent through recursive value and repeated Curse damage until Dracolich or another late threat closes the game.",
   "winCondition_pl": "Przetrzymaj przeciwnika dzięki powtarzalnej wartości i powtarzającym się obrażeniom z Klątwy, aż Drakolisz lub inne późne zagrożenie zakończy grę.",
+  "winCondition_es": "Resiste al oponente mediante valor recursivo y daño repetido de Maldición hasta que Dracolich u otra amenaza tardía termine la partida.",
   "strengths": ["Rebirth makes most trades effectively free", "Curse provides steady, hard-to-answer damage over time", "Raise Dead can recover a strong unit that already died"],
   "strengths_pl": ["Odrodzenie sprawia, że większość wymian jest praktycznie darmowa", "Klątwa zapewnia stałe, trudne do odparcia obrażenia w czasie", "Wskrzeszenie Zmarłych potrafi odzyskać silną jednostkę, która już zginęła"],
+  "strengths_es": ["Renacimiento hace que la mayoría de los intercambios sean prácticamente gratis", "Maldición proporciona daño constante y difícil de responder con el tiempo", "Levantar Muertos puede recuperar una unidad fuerte que ya murió"],
   "weaknesses": ["Rebirth units return at only 1 HP, so they die again easily on a second hit", "Raise Dead is random — you can't guarantee which unit comes back", "Can be slow to close a game outright"],
   "weaknesses_pl": ["Jednostki z Odrodzeniem wracają tylko z 1 PŻ, więc łatwo giną ponownie od kolejnego trafienia", "Wskrzeszenie Zmarłych jest losowe — nie masz gwarancji, która jednostka wróci", "Może wolno kończyć grę"],
+  "weaknesses_es": ["Las unidades con Renacimiento vuelven con solo 1 PV, así que mueren fácilmente de nuevo con un segundo golpe", "Levantar Muertos es aleatorio — no puedes garantizar qué unidad regresa", "Puede ser lenta para cerrar una partida por completo"],
   "pros": ["Extremely resilient — very hard to fully lose your board", "Forgiving of aggressive trades other decks can't afford to make", "Strong long-game value through recursion"],
   "pros_pl": ["Wyjątkowo odporna — bardzo trudno całkowicie stracić swoją planszę", "Wybacza agresywne wymiany, na które inne talie nie mogą sobie pozwolić", "Silna wartość w długiej grze dzięki odzyskiwaniu jednostek"],
+  "pros_es": ["Extremadamente resistente — muy difícil perder por completo tu tablero", "Perdona los intercambios agresivos que otros mazos no pueden permitirse", "Fuerte valor a largo plazo mediante la recursión"],
   "cons": ["Needs to actually finish the opponent, not just outlast them", "Random Reanimate effects can whiff on the card you wanted", "Rebirth bodies are fragile the second time around"],
   "cons_pl": ["Musi faktycznie wykończyć przeciwnika, a nie tylko go przetrzymać", "Losowe efekty Reanimacji mogą chybić kartę, na której ci zależało", "Jednostki po Odrodzeniu są kruche za drugim razem"],
+  "cons_es": ["Necesita rematar realmente al oponente, no solo resistir", "Los efectos aleatorios de Reanimación pueden fallar la carta que querías", "Las unidades tras Renacimiento son frágiles la segunda vez"],
   "keyMechanics": ["REBIRTH", "CURSE", "REANIMATE"],
   "keyMechanics_pl": ["ODRODZENIE", "KLĄTWA", "REANIMACJA"],
+  "keyMechanics_es": ["RENACIMIENTO", "MALDICIÓN", "REANIMACIÓN"],
   "beginnerExplainer": "Rebirth means a unit doesn't die the first time it would — it returns to your hand at 1 HP instead, so trading it away isn't really a loss.",
   "beginnerExplainer_pl": "Odrodzenie oznacza, że jednostka nie ginie za pierwszym razem, gdy miałaby zginąć — zamiast tego wraca do twojej ręki z 1 PŻ, więc wymienienie jej wcale nie jest stratą.",
+  "beginnerExplainer_es": "Renacimiento significa que una unidad no muere la primera vez que lo haría — en su lugar vuelve a tu mano con 1 PV, así que intercambiarla no es realmente una pérdida.",
   "howToPlay": {"early": "Trade Rebirth units into anything — you'll get them back in hand at 1 HP, so these 'losses' cost you almost nothing.", "mid": "Let Curse chip away at the opponent's castle while you keep recycling Rebirth units through combat.", "late": "Use Raise Dead to pull back a key unit from the graveyard and close with a recursive threat like Dracolich or Lich."},
   "howToPlay_pl": {"early": "Wymieniaj jednostki z Odrodzeniem w cokolwiek — wrócą do ręki z 1 PŻ, więc te „straty” kosztują cię niemal nic.", "mid": "Pozwól, by Klątwa nadgryzała zamek przeciwnika, podczas gdy ty wciąż wykorzystujesz jednostki z Odrodzeniem w walce.", "late": "Użyj Wskrzeszenia Zmarłych, by odzyskać kluczową jednostkę z cmentarza, i zakończ grę powracającym zagrożeniem, jak Drakolisz czy Licz."},
+  "howToPlay_es": {"early": "Intercambia unidades de Renacimiento contra cualquier cosa — volverán a tu mano con 1 PV, así que estas «pérdidas» casi no te cuestan nada.", "mid": "Deja que Maldición desgaste el castillo del oponente mientras sigues reciclando unidades de Renacimiento en combate.", "late": "Usa Levantar Muertos para recuperar una unidad clave del cementerio y cierra con una amenaza recursiva como Dracolich o Liche."},
   "cards": [
     {
       "id": "undead_01",
@@ -37,6 +50,7 @@
       "defense": 2,
       "text": "REBIRTH: The first time this would die, return it to your hand at 1 HP instead.",
       "text_pl": "ODRODZENIE: Za pierwszym razem, gdy ta jednostka miałaby zginąć, wraca zamiast tego do twojej ręki z 1 PŻ.",
+      "text_es": "RENACIMIENTO: La primera vez que esta unidad muera, vuelve a tu mano con 1 PV en su lugar.",
       "image": "assets/cards/art/undead/undead_01.png"
     },
     {
@@ -47,6 +61,7 @@
       "defense": 2,
       "text": "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
       "text_pl": "JAD: Wszelkie obrażenia zadane przez tę jednostkę wrogiej jednostce niszczą ją.",
+      "text_es": "VENENO: Cualquier DMG que esta unidad inflige a una unidad enemiga la destruye.",
       "image": "assets/cards/art/undead/undead_02.png"
     },
     {
@@ -57,6 +72,7 @@
       "defense": 1,
       "text": "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
       "text_pl": "SALWA: Może wybrać, którą wrogą linię zaatakować, bez ryzyka kontrataku.",
+      "text_es": "RÁFAGA: Puede elegir atacar cualquiera de las filas enemigas, sin arriesgarse a represalias.",
       "image": "assets/cards/art/undead/undead_03.png"
     },
     {
@@ -67,6 +83,7 @@
       "defense": 2,
       "text": "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
       "text_pl": "SALWA: Może wybrać, którą wrogą linię zaatakować, bez ryzyka kontrataku.",
+      "text_es": "RÁFAGA: Puede elegir atacar cualquiera de las filas enemigas, sin arriesgarse a represalias.",
       "image": "assets/cards/art/undead/undead_04.png"
     },
     {
@@ -77,6 +94,7 @@
       "defense": 3,
       "text": "REAP: Draw a card whenever an enemy unit dies.",
       "text_pl": "ŻNIWO: Dobierz kartę, gdy zginie wroga jednostka.",
+      "text_es": "COSECHA: Roba una carta cada vez que muere una unidad enemiga.",
       "image": "assets/cards/art/undead/undead_05.png"
     },
     {
@@ -87,6 +105,7 @@
       "defense": 3,
       "text": "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
       "text_pl": "JAD: Wszelkie obrażenia zadane przez tę jednostkę wrogiej jednostce niszczą ją.",
+      "text_es": "VENENO: Cualquier DMG que esta unidad inflige a una unidad enemiga la destruye.",
       "image": "assets/cards/art/undead/undead_06.png"
     },
     {
@@ -97,6 +116,7 @@
       "defense": 3,
       "text": "REBIRTH: The first time this would die, return it to your hand at 1 HP instead.",
       "text_pl": "ODRODZENIE: Za pierwszym razem, gdy ta jednostka miałaby zginąć, wraca zamiast tego do twojej ręki z 1 PŻ.",
+      "text_es": "RENACIMIENTO: La primera vez que esta unidad muera, vuelve a tu mano con 1 PV en su lugar.",
       "image": "assets/cards/art/undead/undead_07.png"
     },
     {
@@ -107,6 +127,7 @@
       "defense": 2,
       "text": "CURSE: Deals 1 DMG to a random enemy at the end of your turn.",
       "text_pl": "KLĄTWA: Zadaje 1 DMG losowemu wrogowi na końcu twojej tury.",
+      "text_es": "MALDICIÓN: Inflige 1 DMG a un enemigo aleatorio al final de tu turno.",
       "image": "assets/cards/art/undead/undead_08.png"
     },
     {
@@ -117,6 +138,7 @@
       "defense": 2,
       "text": "REBIRTH: The first time this would die, return it to your hand at 1 HP instead.",
       "text_pl": "ODRODZENIE: Za pierwszym razem, gdy ta jednostka miałaby zginąć, wraca zamiast tego do twojej ręki z 1 PŻ.",
+      "text_es": "RENACIMIENTO: La primera vez que esta unidad muera, vuelve a tu mano con 1 PV en su lugar.",
       "image": "assets/cards/art/undead/undead_09.png"
     },
     {
@@ -127,6 +149,7 @@
       "defense": 3,
       "text": "REBIRTH: The first time this would die, return it to your hand at 1 HP instead.",
       "text_pl": "ODRODZENIE: Za pierwszym razem, gdy ta jednostka miałaby zginąć, wraca zamiast tego do twojej ręki z 1 PŻ.",
+      "text_es": "RENACIMIENTO: La primera vez que esta unidad muera, vuelve a tu mano con 1 PV en su lugar.",
       "image": "assets/cards/art/undead/undead_10.png"
     },
     {
@@ -137,6 +160,7 @@
       "defense": 3,
       "text": "FORTIFY: Gains +1 HP after surviving combat.",
       "text_pl": "UMOCNIENIE: Zyskuje +1 PŻ po przetrwaniu walki.",
+      "text_es": "FORTIFICACIÓN: Gana +1 PV tras sobrevivir al combate.",
       "image": "assets/cards/art/undead/undead_11.png"
     },
     {
@@ -147,6 +171,7 @@
       "defense": 4,
       "text": "CURSE: Deals 1 DMG to a random enemy at the end of your turn.",
       "text_pl": "KLĄTWA: Zadaje 1 DMG losowemu wrogowi na końcu twojej tury.",
+      "text_es": "MALDICIÓN: Inflige 1 DMG a un enemigo aleatorio al final de tu turno.",
       "image": "assets/cards/art/undead/undead_12.png"
     },
     {
@@ -157,6 +182,7 @@
       "defense": 4,
       "text": "REBIRTH: The first time this would die, return it to your hand at 1 HP instead.",
       "text_pl": "ODRODZENIE: Za pierwszym razem, gdy ta jednostka miałaby zginąć, wraca zamiast tego do twojej ręki z 1 PŻ.",
+      "text_es": "RENACIMIENTO: La primera vez que esta unidad muera, vuelve a tu mano con 1 PV en su lugar.",
       "image": "assets/cards/art/undead/undead_13.png"
     },
     {
@@ -167,6 +193,7 @@
       "defense": 3,
       "text": "REBIRTH: The first time this would die, return it to your hand at 1 HP instead.",
       "text_pl": "ODRODZENIE: Za pierwszym razem, gdy ta jednostka miałaby zginąć, wraca zamiast tego do twojej ręki z 1 PŻ.",
+      "text_es": "RENACIMIENTO: La primera vez que esta unidad muera, vuelve a tu mano con 1 PV en su lugar.",
       "image": "assets/cards/art/undead/undead_14.png"
     },
     {
@@ -177,6 +204,7 @@
       "defense": 4,
       "text": "FORTIFY: Gains +1 HP after surviving combat.",
       "text_pl": "UMOCNIENIE: Zyskuje +1 PŻ po przetrwaniu walki.",
+      "text_es": "FORTIFICACIÓN: Gana +1 PV tras sobrevivir al combate.",
       "image": "assets/cards/art/undead/undead_15.png"
     },
     {
@@ -187,6 +215,7 @@
       "defense": 5,
       "text": "REBIRTH: The first time this would die, return it to your hand at 1 HP instead.",
       "text_pl": "ODRODZENIE: Za pierwszym razem, gdy ta jednostka miałaby zginąć, wraca zamiast tego do twojej ręki z 1 PŻ.",
+      "text_es": "RENACIMIENTO: La primera vez que esta unidad muera, vuelve a tu mano con 1 PV en su lugar.",
       "image": "assets/cards/art/undead/undead_16.png"
     },
     {
@@ -197,6 +226,7 @@
       "defense": 5,
       "text": "REAP: Draw a card whenever an enemy unit dies.",
       "text_pl": "ŻNIWO: Dobierz kartę, gdy zginie wroga jednostka.",
+      "text_es": "COSECHA: Roba una carta cada vez que muere una unidad enemiga.",
       "image": "assets/cards/art/undead/undead_17.png"
     },
     {
@@ -207,6 +237,7 @@
       "defense": 6,
       "text": "TAUNT: Enemies must attack this unit first.",
       "text_pl": "PROWOKACJA: Wrogowie muszą zaatakować najpierw tę jednostkę.",
+      "text_es": "PROVOCACIÓN: Los enemigos deben atacar primero a esta unidad.",
       "image": "assets/cards/art/undead/undead_18.png"
     },
     {
@@ -217,6 +248,7 @@
       "defense": 7,
       "text": "REBIRTH: The first time this would die, return it to your hand at 1 HP instead.",
       "text_pl": "ODRODZENIE: Za pierwszym razem, gdy ta jednostka miałaby zginąć, wraca zamiast tego do twojej ręki z 1 PŻ.",
+      "text_es": "RENACIMIENTO: La primera vez que esta unidad muera, vuelve a tu mano con 1 PV en su lugar.",
       "image": "assets/cards/art/undead/undead_19.png"
     },
     {
@@ -227,6 +259,7 @@
       "defense": 7,
       "text": "CURSE: Deals 1 DMG to a random enemy at the end of your turn.",
       "text_pl": "KLĄTWA: Zadaje 1 DMG losowemu wrogowi na końcu twojej tury.",
+      "text_es": "MALDICIÓN: Inflige 1 DMG a un enemigo aleatorio al final de tu turno.",
       "image": "assets/cards/art/undead/undead_20.png"
     },
     {
@@ -237,6 +270,7 @@
       "defense": 6,
       "text": "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
       "text_pl": "JAD: Wszelkie obrażenia zadane przez tę jednostkę wrogiej jednostce niszczą ją.",
+      "text_es": "VENENO: Cualquier DMG que esta unidad inflige a una unidad enemiga la destruye.",
       "image": "assets/cards/art/undead/undead_21.png"
     },
     {
@@ -247,6 +281,7 @@
       "defense": 6,
       "text": "REBIRTH: The first time this would die, return it to your hand at 1 HP instead. REAP: Draw a card whenever an enemy unit dies.",
       "text_pl": "ODRODZENIE: Za pierwszym razem, gdy ta jednostka miałaby zginąć, wraca zamiast tego do twojej ręki z 1 PŻ. ŻNIWO: Dobierz kartę, gdy zginie wroga jednostka.",
+      "text_es": "RENACIMIENTO: La primera vez que esta unidad muera, vuelve a tu mano con 1 PV en su lugar. COSECHA: Roba una carta cada vez que muere una unidad enemiga.",
       "image": "assets/cards/art/undead/undead_22.png"
     },
     {
@@ -257,6 +292,7 @@
       "defense": 6,
       "text": "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
       "text_pl": "KRADZIEŻ ŻYCIA: Leczy twój zamek o obrażenia zadane przez tę jednostkę w walce.",
+      "text_es": "ROBO DE VIDA: Cura a tu castillo por el DMG que esta unidad inflige en combate.",
       "image": "assets/cards/art/undead/undead_23.png"
     },
     {
@@ -267,6 +303,7 @@
       "defense": 7,
       "text": "CURSE: Deals 1 DMG to a random enemy at the end of your turn.",
       "text_pl": "KLĄTWA: Zadaje 1 DMG losowemu wrogowi na końcu twojej tury.",
+      "text_es": "MALDICIÓN: Inflige 1 DMG a un enemigo aleatorio al final de tu turno.",
       "image": "assets/cards/art/undead/undead_24.png"
     },
     {
@@ -277,6 +314,7 @@
       "defense": 9,
       "text": "TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
       "text_pl": "STRATOWANIE: Nadmiar obrażeń ze śmiertelnego ciosu przechodzi na jednostkę lub zamek za nią.",
+      "text_es": "PISOTEO: El daño sobrante de un golpe mortal pasa a la unidad o castillo detrás de ella.",
       "image": "assets/cards/art/undead/undead_25.png"
     },
     {
@@ -287,6 +325,7 @@
       "defense": 9,
       "text": "REBIRTH: The first time this would die, return it to your hand at 1 HP instead.",
       "text_pl": "ODRODZENIE: Za pierwszym razem, gdy ta jednostka miałaby zginąć, wraca zamiast tego do twojej ręki z 1 PŻ.",
+      "text_es": "RENACIMIENTO: La primera vez que esta unidad muera, vuelve a tu mano con 1 PV en su lugar.",
       "image": "assets/cards/art/undead/undead_26.png"
     },
     {
@@ -297,6 +336,7 @@
       "copies": 2,
       "text": "Draw 4 cards.",
       "text_pl": "Dobierz 4 karty.",
+      "text_es": "Roba 4 cartas.",
       "image": "assets/cards/art/undead/undead_27.png"
     },
     {
@@ -309,6 +349,7 @@
       "effect": { "kind": "damage_then_draw_on_kill", "amount": 1 },
       "text": "Deal 1 damage to an enemy unit. If it dies, draw a card.",
       "text_pl": "Zadaj 1 obrażenie wrogiej jednostce. Jeśli zginie, dobierz kartę.",
+      "text_es": "Inflige 1 de daño a una unidad enemiga. Si muere, roba una carta.",
       "image": "assets/cards/art/undead/undead_28.png"
     },
     {
@@ -321,6 +362,7 @@
       "effect": { "kind": "death_ward" },
       "text": "If target allied unit would die this turn, it returns to your hand at 1 HP instead.",
       "text_pl": "Jeśli wybrana sojusznicza jednostka miałaby zginąć w tej turze, wraca zamiast tego do twojej ręki z 1 PŻ.",
+      "text_es": "Si la unidad aliada objetivo muriera este turno, vuelve a tu mano con 1 PV en su lugar.",
       "image": "assets/cards/art/undead/undead_29.png"
     },
     {
@@ -333,6 +375,7 @@
       "effect": { "kind": "damage_then_delayed", "amount": 1, "delayedAmount": 1 },
       "text": "Deal 1 damage to an enemy unit now, and 1 more at the start of your next turn.",
       "text_pl": "Zadaj 1 obrażenie wrogiej jednostce teraz i kolejne 1 na początku twojej następnej tury.",
+      "text_es": "Inflige 1 de daño a una unidad enemiga ahora, y 1 más al comienzo de tu próximo turno.",
       "image": "assets/cards/art/undead/undead_30.png"
     },
     {
@@ -345,6 +388,7 @@
       "effect": { "kind": "damage", "amount": 3 },
       "text": "Deal 3 damage to an enemy unit.",
       "text_pl": "Zadaj 3 obrażenia wrogiej jednostce.",
+      "text_es": "Inflige 3 de daño a una unidad enemiga.",
       "image": "assets/cards/art/undead/undead_31.png"
     },
     {
@@ -357,6 +401,7 @@
       "effect": { "kind": "reclaim_graveyard" },
       "text": "Return the most recently destroyed unit from your graveyard to your hand.",
       "text_pl": "Zwróć ostatnio zniszczoną jednostkę z twojego cmentarza do swojej ręki.",
+      "text_es": "Devuelve la unidad destruida más recientemente de tu cementerio a tu mano.",
       "image": "assets/cards/art/undead/undead_32.png"
     },
     {
@@ -369,6 +414,7 @@
       "effect": { "kind": "buff_power_then_recoil", "powerAmount": 2, "recoilAmount": 1 },
       "text": "Target allied unit gains +2 DMG until end of turn, then takes 1 recoil damage at the end of the turn.",
       "text_pl": "Wybrana sojusznicza jednostka zyskuje +2 DMG do końca tury, a następnie otrzymuje 1 obrażenie odrzutu na koniec tury.",
+      "text_es": "La unidad aliada objetivo gana +2 DMG hasta el final del turno, y luego recibe 1 de daño de retroceso al final del turno.",
       "image": "assets/cards/art/undead/undead_33.png"
     },
     {
@@ -381,6 +427,7 @@
       "effect": { "kind": "damage_and_heal_castle", "amount": 2, "healAmount": 2 },
       "text": "Deal 2 damage to an enemy unit and heal your castle for 2.",
       "text_pl": "Zadaj 2 obrażenia wrogiej jednostce i ulecz swój zamek o 2.",
+      "text_es": "Inflige 2 de daño a una unidad enemiga y cura 2 puntos a tu castillo.",
       "image": "assets/cards/art/undead/undead_34.png"
     },
     {
@@ -393,6 +440,7 @@
       "effect": { "kind": "draw_per_death", "minimum": 1 },
       "text": "Draw a card for each allied unit that died this turn (minimum 1).",
       "text_pl": "Dobierz kartę za każdą sojuszniczą jednostkę, która zginęła w tej turze (minimum 1).",
+      "text_es": "Roba una carta por cada unidad aliada que murió este turno (mínimo 1).",
       "image": "assets/cards/art/undead/undead_35.png"
     },
     {
@@ -405,6 +453,7 @@
       "effect": { "kind": "damage_all_enemies", "amount": 1 },
       "text": "Deal 1 damage to all enemy units.",
       "text_pl": "Zadaj 1 obrażenie wszystkim wrogim jednostkom.",
+      "text_es": "Inflige 1 de daño a todas las unidades enemigas.",
       "image": "assets/cards/art/undead/undead_36.png"
     },
     {
@@ -417,6 +466,7 @@
       "effect": { "kind": "buff_defense", "amount": 2 },
       "text": "Target allied unit gains +0/+2 until end of turn.",
       "text_pl": "Wybrana sojusznicza jednostka zyskuje +0/+2 do końca tury.",
+      "text_es": "La unidad aliada objetivo gana +0/+2 hasta el final del turno.",
       "image": "assets/cards/art/undead/undead_37.png"
     },
     {
@@ -429,6 +479,7 @@
       "effect": { "kind": "reanimate" },
       "text": "Return a random unit from your graveyard to the battlefield in the chosen empty slot.",
       "text_pl": "Zwróć losową jednostkę z twojego cmentarza na pole bitwy do wybranego pustego miejsca.",
+      "text_es": "Devuelve una unidad aleatoria de tu cementerio al campo de batalla en la casilla vacía elegida.",
       "image": "assets/cards/art/undead/undead_38.png"
     }
   ]

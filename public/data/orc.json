@@ -3,31 +3,44 @@
   "displayName": "Orc",
   "archetype": "Pure Aggro",
   "archetype_pl": "Czysta Agresja",
+  "archetype_es": "Agresión Pura",
   "difficulty": "Beginner",
   "tagline": "Hit first, hit harder, hit again.",
   "tagline_pl": "Uderz pierwszy, uderz mocniej, uderz ponownie.",
+  "tagline_es": "Golpea primero, golpea más fuerte, golpea de nuevo.",
   "description": "Orc fields the single highest power stats in the game — Fire Giant's 11 power at cost 10 tops every other faction — and snowballs from there: Rage permanently grows on taking damage and surviving, Slayer permanently grows on landing a kill, and Orc alone fields Windfury, letting a unit attack twice in the same turn.",
   "description_pl": "Orkowie mają najwyższe pojedyncze obrażenia w całej grze — 11 obrażeń Ognistego Olbrzyma za koszt 10 przewyższa każdą inną frakcję — i tylko się rozkręcają: Wściekłość trwale rośnie po otrzymaniu obrażeń i przetrwaniu, Pogromca trwale rośnie po zabiciu, a tylko Orkowie posiadają Furię Wiatru, pozwalającą jednostce zaatakować dwukrotnie w tej samej turze.",
+  "description_es": "Orco despliega las estadísticas de poder más altas del juego — los 11 de poder de Gigante de Fuego por un coste de 10 superan a cualquier otra facción — y solo va a más desde ahí: Furia crece permanentemente al recibir daño y sobrevivir, Verdugo crece permanentemente al conseguir una muerte, y solo Orco cuenta con Furia del Viento, que permite a una unidad atacar dos veces en el mismo turno.",
   "gamePlan": "Deploy the biggest, hardest-hitting units you can every turn and attack relentlessly — Orc doesn't want to think too hard, it wants to swing.",
   "gamePlan_pl": "Wystawiaj co turę największe, najmocniej uderzające jednostki, na jakie cię stać, i atakuj bezustannie — Orkowie nie chcą zbyt długo myśleć, chcą uderzać.",
+  "gamePlan_es": "Despliega cada turno las unidades más grandes y contundentes que puedas y ataca sin descanso — Orco no quiere pensar demasiado, quiere golpear.",
   "playstyle": "Attack whenever you can; Rage and Slayer both reward staying in combat rather than holding back, and Windfury units should almost always use both of their attacks.",
   "playstyle_pl": "Atakuj, kiedy tylko możesz; zarówno Wściekłość, jak i Pogromca nagradzają pozostawanie w walce zamiast wstrzymywania się, a jednostki z Furią Wiatru powinny niemal zawsze wykorzystywać oba ataki.",
+  "playstyle_es": "Ataca siempre que puedas; tanto Furia como Verdugo premian permanecer en combate en lugar de contenerse, y las unidades con Furia del Viento casi siempre deberían usar sus dos ataques.",
   "winCondition": "Race the opponent's castle down before they can stabilize, snowballing damage output the longer combat continues.",
   "winCondition_pl": "Zniszcz zamek przeciwnika, zanim zdąży się ustabilizować, zwiększając obrażenia w miarę trwania walki.",
+  "winCondition_es": "Adelanta al castillo del oponente antes de que pueda estabilizarse, aumentando el daño cuanto más dura el combate.",
   "strengths": ["Highest raw power output of any faction", "Rage and Slayer snowball out of control if left unanswered", "Windfury doubles a single unit's damage output for free"],
   "strengths_pl": ["Najwyższe surowe obrażenia spośród wszystkich frakcji", "Wściekłość i Pogromca rozkręcają się bez końca, jeśli pozostaną bez odpowiedzi", "Furia Wiatru za darmo podwaja obrażenia pojedynczej jednostki"],
+  "strengths_es": ["El mayor poder bruto de cualquier facción", "Furia y Verdugo se descontrolan si se dejan sin respuesta", "Furia del Viento duplica gratis el daño de una sola unidad"],
   "weaknesses": ["Low toughness across the board means Orc trades poorly if forced onto defense", "Falls off hard if the early aggression gets stopped", "Has few tools to come back from behind"],
   "weaknesses_pl": ["Niska wytrzymałość całej planszy oznacza, że Orkowie źle wymieniają się, gdy są zmuszeni do obrony", "Mocno traci na sile, jeśli wczesna agresja zostanie zatrzymana", "Ma niewiele narzędzi, by wrócić do gry z tyłu"],
+  "weaknesses_es": ["La baja resistencia general hace que Orco intercambie mal si se ve forzado a defender", "Pierde mucha fuerza si se detiene la agresión temprana", "Tiene pocas herramientas para remontar"],
   "pros": ["Simple, direct game plan — one of the easiest decks to pick up", "Extremely high damage ceiling", "Punishes any opponent who stumbles early"],
   "pros_pl": ["Prosty, bezpośredni plan gry — jedna z najłatwiejszych talii do opanowania", "Wyjątkowo wysoki potencjał obrażeń", "Karze każdego przeciwnika, który potknie się na starcie"],
+  "pros_es": ["Plan de juego simple y directo — uno de los mazos más fáciles de aprender", "Techo de daño extremadamente alto", "Castiga a cualquier oponente que se tropiece al principio"],
   "cons": ["Very weak once behind on board or life", "Vulnerable to decks with strong early blockers", "Little to fall back on if the aggression stalls"],
   "cons_pl": ["Bardzo słaba, gdy traci przewagę na planszy lub w życiu", "Podatna na talie z silnymi wczesnymi blokerami", "Niewiele planu awaryjnego, gdy agresja utknie w miejscu"],
+  "cons_es": ["Muy débil una vez que va por detrás en el tablero o en vida", "Vulnerable a mazos con fuertes bloqueadores tempranos", "Poco a lo que recurrir si la agresión se estanca"],
   "keyMechanics": ["RAGE", "SLAYER", "TRAMPLE", "WINDFURY"],
   "keyMechanics_pl": ["WŚCIEKŁOŚĆ", "POGROMCA", "STRATOWANIE", "FURIA WIATRU"],
+  "keyMechanics_es": ["FURIA", "VERDUGO", "PISOTEO", "FURIA DEL VIENTO"],
   "beginnerExplainer": "Windfury units can attack twice in the same turn instead of once — always use both attacks if there's a legal target.",
   "beginnerExplainer_pl": "Jednostki z Furią Wiatru mogą atakować dwukrotnie w tej samej turze zamiast raz — zawsze wykorzystuj oba ataki, jeśli istnieje legalny cel.",
+  "beginnerExplainer_es": "Las unidades con Furia del Viento pueden atacar dos veces en el mismo turno en lugar de una — usa siempre ambos ataques si hay un objetivo legal.",
   "howToPlay": {"early": "Play your biggest available threat every turn and start attacking immediately — Orc rarely wants to hold back.", "mid": "Keep attacking to trigger Rage and Slayer growth, and prioritize getting both hits in with Windfury units.", "late": "Finish the race with a snowballed Rage/Slayer threat or a raw stat finisher like Fire Giant."},
   "howToPlay_pl": {"early": "Zagrywaj co turę swoje największe dostępne zagrożenie i od razu zaczynaj atakować — Orkowie rzadko chcą się wstrzymywać.", "mid": "Kontynuuj ataki, by uruchomić wzrost Wściekłości i Pogromcy, i priorytetowo traktuj wykonanie obu ataków jednostkami z Furią Wiatru.", "late": "Zakończ wyścig rozkręconym zagrożeniem z Wściekłością/Pogromcą lub finiszerem o surowych statystykach, jak Ognisty Olbrzym."},
+  "howToPlay_es": {"early": "Juega tu mayor amenaza disponible cada turno y empieza a atacar de inmediato — Orco rara vez quiere contenerse.", "mid": "Sigue atacando para activar el crecimiento de Furia y Verdugo, y prioriza conseguir ambos golpes con las unidades con Furia del Viento.", "late": "Termina la carrera con una amenaza de Furia/Verdugo ya crecida o un finalizador de estadísticas puras como Gigante de Fuego."},
   "cards": [
     {
       "id": "orc_01",
@@ -37,6 +50,7 @@
       "defense": 2,
       "text": "RAGE: The first time this takes damage and survives, gain +1 DMG.",
       "text_pl": "WŚCIEKŁOŚĆ: Za pierwszym razem, gdy otrzyma obrażenia i przetrwa, zyskuje +1 DMG.",
+      "text_es": "FURIA: La primera vez que reciba daño y sobreviva, gana +1 DMG.",
       "image": "assets/cards/art/orc/orc_01.png"
     },
     {
@@ -47,6 +61,7 @@
       "defense": 2,
       "text": "TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
       "text_pl": "STRATOWANIE: Nadmiar obrażeń ze śmiertelnego ciosu przechodzi na jednostkę lub zamek za nią.",
+      "text_es": "PISOTEO: El daño sobrante de un golpe mortal pasa a la unidad o castillo detrás de ella.",
       "image": "assets/cards/art/orc/orc_02.png"
     },
     {
@@ -57,6 +72,7 @@
       "defense": 1,
       "text": "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
       "text_pl": "SALWA: Może wybrać, którą wrogą linię zaatakować, bez ryzyka kontrataku.",
+      "text_es": "RÁFAGA: Puede elegir atacar cualquiera de las filas enemigas, sin arriesgarse a represalias.",
       "image": "assets/cards/art/orc/orc_03.png"
     },
     {
@@ -67,6 +83,7 @@
       "defense": 2,
       "text": "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
       "text_pl": "SALWA: Może wybrać, którą wrogą linię zaatakować, bez ryzyka kontrataku.",
+      "text_es": "RÁFAGA: Puede elegir atacar cualquiera de las filas enemigas, sin arriesgarse a represalias.",
       "image": "assets/cards/art/orc/orc_04.png"
     },
     {
@@ -77,6 +94,7 @@
       "defense": 2,
       "text": "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
       "text_pl": "SALWA: Może wybrać, którą wrogą linię zaatakować, bez ryzyka kontrataku.",
+      "text_es": "RÁFAGA: Puede elegir atacar cualquiera de las filas enemigas, sin arriesgarse a represalias.",
       "image": "assets/cards/art/orc/orc_05.png"
     },
     {
@@ -87,6 +105,7 @@
       "defense": 3,
       "text": "TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
       "text_pl": "STRATOWANIE: Nadmiar obrażeń ze śmiertelnego ciosu przechodzi na jednostkę lub zamek za nią.",
+      "text_es": "PISOTEO: El daño sobrante de un golpe mortal pasa a la unidad o castillo detrás de ella.",
       "image": "assets/cards/art/orc/orc_06.png"
     },
     {
@@ -97,6 +116,7 @@
       "defense": 3,
       "text": "BLOODPRICE: When played, deal 1 DMG to your own castle. Draw a card.",
       "text_pl": "KRWAWA CENA: Gdy zagrana, zadaje 1 DMG twojemu własnemu zamkowi. Dobierz kartę.",
+      "text_es": "PRECIO DE SANGRE: Al jugarla, inflige 1 DMG a tu propio castillo. Roba una carta.",
       "image": "assets/cards/art/orc/orc_07.png"
     },
     {
@@ -107,6 +127,7 @@
       "defense": 3,
       "text": "CHARGE: Can attack the turn it is played.",
       "text_pl": "SZARŻA: Może atakować w turze, w której została zagrana.",
+      "text_es": "CARGA: Puede atacar el turno en que es jugada.",
       "image": "assets/cards/art/orc/orc_08.png"
     },
     {
@@ -117,6 +138,7 @@
       "defense": 3,
       "text": "CHARGE: Can attack the turn it is played.",
       "text_pl": "SZARŻA: Może atakować w turze, w której została zagrana.",
+      "text_es": "CARGA: Puede atacar el turno en que es jugada.",
       "image": "assets/cards/art/orc/orc_09.png"
     },
     {
@@ -127,6 +149,7 @@
       "defense": 3,
       "text": "TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
       "text_pl": "STRATOWANIE: Nadmiar obrażeń ze śmiertelnego ciosu przechodzi na jednostkę lub zamek za nią.",
+      "text_es": "PISOTEO: El daño sobrante de un golpe mortal pasa a la unidad o castillo detrás de ella.",
       "image": "assets/cards/art/orc/orc_10.png"
     },
     {
@@ -137,6 +160,7 @@
       "defense": 3,
       "text": "BLOODPRICE: When played, deal 1 DMG to your own castle. Draw a card.",
       "text_pl": "KRWAWA CENA: Gdy zagrana, zadaje 1 DMG twojemu własnemu zamkowi. Dobierz kartę.",
+      "text_es": "PRECIO DE SANGRE: Al jugarla, inflige 1 DMG a tu propio castillo. Roba una carta.",
       "image": "assets/cards/art/orc/orc_11.png"
     },
     {
@@ -147,6 +171,7 @@
       "defense": 4,
       "text": "SLAYER: Whenever this destroys an enemy unit in combat, permanently gain +1 DMG.",
       "text_pl": "POGROMCA: Za każdym razem, gdy ta jednostka zniszczy wrogą jednostkę w walce, trwale zyskuje +1 DMG.",
+      "text_es": "VERDUGO: Cada vez que esta unidad destruye a una unidad enemiga en combate, gana permanentemente +1 DMG.",
       "image": "assets/cards/art/orc/orc_12.png"
     },
     {
@@ -157,6 +182,7 @@
       "defense": 3,
       "text": "RAGE: Whenever it takes damage and survives, permanently gain +2 DMG.",
       "text_pl": "WŚCIEKŁOŚĆ: Za każdym razem, gdy otrzyma obrażenia i przetrwa, trwale zyskuje +2 DMG.",
+      "text_es": "FURIA: Cada vez que reciba daño y sobreviva, gana permanentemente +2 DMG.",
       "image": "assets/cards/art/orc/orc_13.png"
     },
     {
@@ -167,6 +193,7 @@
       "defense": 4,
       "text": "TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
       "text_pl": "STRATOWANIE: Nadmiar obrażeń ze śmiertelnego ciosu przechodzi na jednostkę lub zamek za nią.",
+      "text_es": "PISOTEO: El daño sobrante de un golpe mortal pasa a la unidad o castillo detrás de ella.",
       "image": "assets/cards/art/orc/orc_14.png"
     },
     {
@@ -177,6 +204,7 @@
       "defense": 4,
       "text": "MEND: Heals an allied unit for 2 when played.",
       "text_pl": "LECZENIE: Gdy zagrana, leczy sojuszniczą jednostkę o 2.",
+      "text_es": "CURACIÓN: Al jugarla, cura 2 puntos a una unidad aliada.",
       "image": "assets/cards/art/orc/orc_15.png"
     },
     {
@@ -187,6 +215,7 @@
       "defense": 5,
       "text": "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
       "text_pl": "JAD: Wszelkie obrażenia zadane przez tę jednostkę wrogiej jednostce niszczą ją.",
+      "text_es": "VENENO: Cualquier DMG que esta unidad inflige a una unidad enemiga la destruye.",
       "image": "assets/cards/art/orc/orc_16.png"
     },
     {
@@ -197,6 +226,7 @@
       "defense": 3,
       "text": "RAGE: The first time this takes damage and survives, gain +1 DMG.",
       "text_pl": "WŚCIEKŁOŚĆ: Za pierwszym razem, gdy otrzyma obrażenia i przetrwa, zyskuje +1 DMG.",
+      "text_es": "FURIA: La primera vez que reciba daño y sobreviva, gana +1 DMG.",
       "image": "assets/cards/art/orc/orc_17.png"
     },
     {
@@ -207,6 +237,7 @@
       "defense": 5,
       "text": "TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
       "text_pl": "STRATOWANIE: Nadmiar obrażeń ze śmiertelnego ciosu przechodzi na jednostkę lub zamek za nią.",
+      "text_es": "PISOTEO: El daño sobrante de un golpe mortal pasa a la unidad o castillo detrás de ella.",
       "image": "assets/cards/art/orc/orc_18.png"
     },
     {
@@ -217,6 +248,7 @@
       "defense": 6,
       "text": "BLOODPRICE: When played, deal 1 DMG to your own castle. Draw a card.",
       "text_pl": "KRWAWA CENA: Gdy zagrana, zadaje 1 DMG twojemu własnemu zamkowi. Dobierz kartę.",
+      "text_es": "PRECIO DE SANGRE: Al jugarla, inflige 1 DMG a tu propio castillo. Roba una carta.",
       "image": "assets/cards/art/orc/orc_19.png"
     },
     {
@@ -227,6 +259,7 @@
       "defense": 7,
       "text": "SIEGE: A siege weapon that deals damage without risking retaliation.",
       "text_pl": "OBLĘŻENIE: Machina oblężnicza, która zadaje obrażenia bez ryzyka kontrataku.",
+      "text_es": "ASEDIO: Un arma de asedio que inflige daño sin arriesgarse a represalias.",
       "image": "assets/cards/art/orc/orc_20.png"
     },
     {
@@ -237,6 +270,7 @@
       "defense": 6,
       "text": "SIEGE: A siege weapon that deals damage without risking retaliation.",
       "text_pl": "OBLĘŻENIE: Machina oblężnicza, która zadaje obrażenia bez ryzyka kontrataku.",
+      "text_es": "ASEDIO: Un arma de asedio que inflige daño sin arriesgarse a represalias.",
       "image": "assets/cards/art/orc/orc_21.png"
     },
     {
@@ -247,6 +281,7 @@
       "defense": 8,
       "text": "TAUNT: Enemies must attack this unit first. TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
       "text_pl": "PROWOKACJA: Wrogowie muszą zaatakować najpierw tę jednostkę. STRATOWANIE: Nadmiar obrażeń ze śmiertelnego ciosu przechodzi na jednostkę lub zamek za nią.",
+      "text_es": "PROVOCACIÓN: Los enemigos deben atacar primero a esta unidad. PISOTEO: El daño sobrante de un golpe mortal pasa a la unidad o castillo detrás de ella.",
       "image": "assets/cards/art/orc/orc_22.png"
     },
     {
@@ -257,6 +292,7 @@
       "defense": 4,
       "text": "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
       "text_pl": "JAD: Wszelkie obrażenia zadane przez tę jednostkę wrogiej jednostce niszczą ją.",
+      "text_es": "VENENO: Cualquier DMG que esta unidad inflige a una unidad enemiga la destruye.",
       "image": "assets/cards/art/orc/orc_23.png"
     },
     {
@@ -267,6 +303,7 @@
       "defense": 5,
       "text": "SLAYER: Whenever this destroys an enemy unit in combat, permanently gain +1 DMG.",
       "text_pl": "POGROMCA: Za każdym razem, gdy ta jednostka zniszczy wrogą jednostkę w walce, trwale zyskuje +1 DMG.",
+      "text_es": "VERDUGO: Cada vez que esta unidad destruye a una unidad enemiga en combate, gana permanentemente +1 DMG.",
       "image": "assets/cards/art/orc/orc_24.png"
     },
     {
@@ -277,6 +314,7 @@
       "defense": 8,
       "text": "TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
       "text_pl": "STRATOWANIE: Nadmiar obrażeń ze śmiertelnego ciosu przechodzi na jednostkę lub zamek za nią.",
+      "text_es": "PISOTEO: El daño sobrante de un golpe mortal pasa a la unidad o castillo detrás de ella.",
       "image": "assets/cards/art/orc/orc_25.png"
     },
     {
@@ -287,6 +325,7 @@
       "defense": 6,
       "text": "SLAYER: Whenever this destroys an enemy unit in combat, permanently gain +1 DMG. (This unit is a rare, high-impact threat.)",
       "text_pl": "POGROMCA: Za każdym razem, gdy ta jednostka zniszczy wrogą jednostkę w walce, trwale zyskuje +1 DMG. (Ta jednostka to rzadkie, potężne zagrożenie.)",
+      "text_es": "VERDUGO: Cada vez que esta unidad destruye a una unidad enemiga en combate, gana permanentemente +1 DMG. (Esta unidad es una amenaza rara de alto impacto.)",
       "image": "assets/cards/art/orc/orc_26.png"
     },
     {
@@ -297,6 +336,7 @@
       "copies": 2,
       "text": "Draw 4 cards.",
       "text_pl": "Dobierz 4 karty.",
+      "text_es": "Roba 4 cartas.",
       "image": "assets/cards/art/orc/orc_27.png"
     },
     {
@@ -309,6 +349,7 @@
       "effect": { "kind": "self_damage_then_damage", "selfAmount": 1, "amount": 2 },
       "text": "Deal 1 damage to your own castle. Deal 2 damage to an enemy unit.",
       "text_pl": "Zadaj 1 obrażenie własnemu zamkowi. Zadaj 2 obrażenia wrogiej jednostce.",
+      "text_es": "Inflige 1 de daño a tu propio castillo. Inflige 2 de daño a una unidad enemiga.",
       "image": "assets/cards/art/orc/orc_28.png"
     },
     {
@@ -321,6 +362,7 @@
       "effect": { "kind": "buff_power", "amount": 2 },
       "text": "Target allied unit gains +2 DMG until end of turn.",
       "text_pl": "Wybrana sojusznicza jednostka zyskuje +2 DMG do końca tury.",
+      "text_es": "La unidad aliada objetivo gana +2 DMG hasta el final del turno.",
       "image": "assets/cards/art/orc/orc_29.png"
     },
     {
@@ -333,6 +375,7 @@
       "effect": { "kind": "damage", "amount": 3 },
       "text": "Deal 3 damage to an enemy unit.",
       "text_pl": "Zadaj 3 obrażenia wrogiej jednostce.",
+      "text_es": "Inflige 3 de daño a una unidad enemiga.",
       "image": "assets/cards/art/orc/orc_30.png"
     },
     {
@@ -345,6 +388,7 @@
       "effect": { "kind": "self_damage_then_draw", "selfAmount": 1, "drawAmount": 1 },
       "text": "Deal 1 damage to your own castle. Draw a card.",
       "text_pl": "Zadaj 1 obrażenie własnemu zamkowi. Dobierz kartę.",
+      "text_es": "Inflige 1 de daño a tu propio castillo. Roba una carta.",
       "image": "assets/cards/art/orc/orc_31.png"
     },
     {
@@ -357,6 +401,7 @@
       "effect": { "kind": "buff_power_conditional_retain", "turnAmount": 2, "retainAmount": 1 },
       "text": "Target allied unit gains +2 DMG this turn. If it deals damage this turn, it keeps +1 DMG until your next turn.",
       "text_pl": "Wybrana sojusznicza jednostka zyskuje +2 DMG w tej turze. Jeśli zada obrażenia w tej turze, zachowuje +1 DMG do twojej następnej tury.",
+      "text_es": "La unidad aliada objetivo gana +2 DMG este turno. Si inflige daño este turno, conserva +1 DMG hasta tu próximo turno.",
       "image": "assets/cards/art/orc/orc_32.png"
     },
     {
@@ -369,6 +414,7 @@
       "effect": { "kind": "damage_castle_conditional_attacked", "amount": 2, "bonusAmount": 4 },
       "text": "Deal 2 damage to the enemy castle. Deal 4 instead if any of your units attacked last turn.",
       "text_pl": "Zadaj 2 obrażenia wrogiemu zamkowi. Zadaj zamiast tego 4, jeśli którakolwiek z twoich jednostek atakowała w zeszłej turze.",
+      "text_es": "Inflige 2 de daño al castillo enemigo. Inflige 4 en su lugar si alguna de tus unidades atacó el turno pasado.",
       "image": "assets/cards/art/orc/orc_33.png"
     },
     {
@@ -381,6 +427,7 @@
       "effect": { "kind": "damage_castle", "amount": 4 },
       "text": "Deal 4 damage directly to the enemy castle, without risking retaliation.",
       "text_pl": "Zadaj 4 obrażenia bezpośrednio wrogiemu zamkowi, bez ryzyka kontrataku.",
+      "text_es": "Inflige 4 de daño directamente al castillo enemigo, sin arriesgarse a represalias.",
       "image": "assets/cards/art/orc/orc_34.png"
     },
     {
@@ -393,6 +440,7 @@
       "effect": { "kind": "self_damage_then_buff_power_all", "selfAmount": 2, "amount": 1 },
       "text": "Deal 2 damage to your own castle. All allied units gain +1 DMG until end of turn.",
       "text_pl": "Zadaj 2 obrażenia własnemu zamkowi. Wszystkie sojusznicze jednostki zyskują +1 DMG do końca tury.",
+      "text_es": "Inflige 2 de daño a tu propio castillo. Todas las unidades aliadas ganan +1 DMG hasta el final del turno.",
       "image": "assets/cards/art/orc/orc_35.png"
     },
     {
@@ -405,6 +453,7 @@
       "effect": { "kind": "self_damage_then_destroy", "selfAmount": 2, "maxTargetPower": 5 },
       "text": "Deal 2 damage to your own castle. Destroy target enemy unit with 5 or less DMG.",
       "text_pl": "Zadaj 2 obrażenia własnemu zamkowi. Zniszcz wybraną wrogą jednostkę o obrażeniach 5 lub mniej.",
+      "text_es": "Inflige 2 de daño a tu propio castillo. Destruye la unidad enemiga objetivo con 5 o menos DMG.",
       "image": "assets/cards/art/orc/orc_36.png"
     },
     {
@@ -417,6 +466,7 @@
       "effect": { "kind": "buff_defense", "amount": 2 },
       "text": "Target allied unit gains +0/+2 until end of turn.",
       "text_pl": "Wybrana sojusznicza jednostka zyskuje +0/+2 do końca tury.",
+      "text_es": "La unidad aliada objetivo gana +0/+2 hasta el final del turno.",
       "image": "assets/cards/art/orc/orc_37.png"
     },
     {
@@ -427,6 +477,7 @@
       "defense": 3,
       "text": "WINDFURY: This unit may attack twice each turn.",
       "text_pl": "FURIA WIATRU: Ta jednostka może atakować dwukrotnie w każdej turze.",
+      "text_es": "FURIA DEL VIENTO: Esta unidad puede atacar dos veces cada turno.",
       "image": "assets/cards/art/orc/orc_38.png"
     }
   ]

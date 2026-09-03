@@ -3,31 +3,44 @@
   "displayName": "Dwarf",
   "archetype": "Control / Wall",
   "archetype_pl": "Kontrola / Mur",
+  "archetype_es": "Control / Muro",
   "difficulty": "Beginner",
   "tagline": "Outlast anything — nothing in the game hits harder than a Dwarf blocks.",
   "tagline_pl": "Przetrzymaj wszystko — nic w tej grze nie uderza mocniej niż blok Krasnoluda.",
+  "tagline_es": "Aguanta cualquier cosa — nada en el juego golpea más fuerte que el bloqueo de un Enano.",
   "description": "Dwarf fields the toughest bodies in Aether Realms. Vigil units heal themselves back up every turn, Fortify creatures gain HP every time they block, and Phalanx (printed as Stalwart) reduces incoming damage outright — capped off by Frost Giant, the single highest-defense card in the game.",
   "description_pl": "Krasnoludy wystawiają najbardziej wytrzymałe jednostki w Aether Realms. Jednostki z Czujnością leczą się same co turę, stworzenia z Umocnieniem zyskują PŻ za każdym blokiem, a Falanga (opisana jako Niezłomny) wprost zmniejsza otrzymywane obrażenia — a wszystko to wieńczy Lodowy Olbrzym, karta o najwyższej obronie w całej grze.",
+  "description_es": "Enano despliega los cuerpos más resistentes de Aether Realms. Las unidades con Vigilia se curan solas cada turno, las criaturas con Fortificación ganan PV cada vez que bloquean, y la Falange (impresa como Inquebrantable) reduce directamente el daño recibido — todo coronado por Gigante de Hielo, la carta con mayor defensa del juego.",
   "gamePlan": "Stall behind a wall of nearly unkillable blockers until the opponent runs out of ways through, then win on sheer attrition.",
   "gamePlan_pl": "Zwlekaj za murem niemal niezniszczalnych blokerów, aż przeciwnikowi zabraknie sposobów na przebicie się, a następnie wygraj czystym wyniszczeniem.",
+  "gamePlan_es": "Retrasa la partida tras un muro de bloqueadores casi imposibles de matar hasta que al oponente se le acaben las formas de atravesarlo, y luego gana por pura resistencia.",
   "playstyle": "Play your defenders and let the opponent come to you — there's rarely a reason to attack recklessly when your board only gets tougher the longer combat goes on.",
   "playstyle_pl": "Zagrywaj swoich obrońców i pozwól, by to przeciwnik przyszedł do ciebie — rzadko warto atakować lekkomyślnie, gdy twoja plansza staje się tylko twardsza, im dłużej trwa walka.",
+  "playstyle_es": "Juega tus defensores y deja que el oponente venga a ti — rara vez hay motivo para atacar imprudentemente cuando tu tablero solo se vuelve más resistente cuanto más dura el combate.",
   "winCondition": "Grind the opponent's board down against blockers they can't profitably attack into, then finish once they're out of resources.",
   "winCondition_pl": "Zetrzyj planszę przeciwnika o blokerów, w których nie może opłacalnie atakować, a następnie dobij go, gdy zabraknie mu zasobów.",
+  "winCondition_es": "Desgasta el tablero del oponente contra bloqueadores en los que no puede atacar de forma rentable, y remátalo cuando se quede sin recursos.",
   "strengths": ["Hardest board in the game to attack into profitably", "Vigil and Fortify provide sustain with no extra card investment", "Runic Ward and similar spells protect the castle directly"],
   "strengths_pl": ["Najtrudniejsza plansza w grze do opłacalnego zaatakowania", "Czujność i Umocnienie zapewniają regenerację bez dodatkowej inwestycji w karty", "Runiczna Osłona i podobne zaklęcia chronią zamek bezpośrednio"],
+  "strengths_es": ["El tablero más difícil del juego para atacar de forma rentable", "Vigilia y Fortificación ofrecen sostenibilidad sin inversión adicional de cartas", "Guardia Rúnica y hechizos similares protegen el castillo directamente"],
   "weaknesses": ["Low raw power means a slow clock — games can run long", "Struggles to punish an opponent who also refuses to attack", "Few ways to close a game quickly once ahead"],
   "weaknesses_pl": ["Niska surowa siła oznacza wolny zegar — gry mogą się przeciągać", "Ma trudności z ukaraniem przeciwnika, który również unika ataku", "Niewiele sposobów na szybkie zakończenie gry, będąc na prowadzeniu"],
+  "weaknesses_es": ["El bajo poder bruto significa un reloj lento — las partidas pueden alargarse", "Le cuesta castigar a un oponente que también se niega a atacar", "Pocas formas de cerrar una partida rápidamente cuando va por delante"],
   "pros": ["Extremely forgiving of small misplays thanks to high toughness", "Simple, low-risk plan: play tough guys, wait", "Strong against decks that rely on combat damage"],
   "pros_pl": ["Wyjątkowo wybacza drobne błędy dzięki wysokiej wytrzymałości", "Prosty, niskoryzykowny plan: zagrywaj twardzieli, czekaj", "Silna przeciwko taliom polegającym na obrażeniach bojowych"],
+  "pros_es": ["Extremadamente perdonador con pequeños errores gracias a su alta resistencia", "Plan simple y de bajo riesgo: jugar unidades duras y esperar", "Fuerte contra mazos que dependen del daño de combate"],
   "cons": ["Can lose to decks built around direct damage to the castle instead of combat", "Long games favor whichever opponent has more late-game answers", "Low damage output if the wall doesn't ever attack"],
   "cons_pl": ["Może przegrać z taliami opartymi na bezpośrednich obrażeniach zamku zamiast walki", "Długie gry faworyzują tego, kto ma więcej odpowiedzi na późną fazę gry", "Niskie obrażenia, jeśli mur nigdy nie atakuje"],
+  "cons_es": ["Puede perder contra mazos construidos en torno al daño directo al castillo en lugar del combate", "Las partidas largas favorecen a quien tenga más respuestas de final de partida", "Bajo daño si el muro nunca ataca"],
   "keyMechanics": ["VIGIL", "FORTIFY", "PHALANX"],
   "keyMechanics_pl": ["CZUJNOŚĆ", "UMOCNIENIE", "FALANGA"],
+  "keyMechanics_es": ["VIGILIA", "FORTIFICACIÓN", "FALANGE"],
   "beginnerExplainer": "Fortify units get tougher every time they successfully block an attack, so trading them into a big attacker one turn makes them even better blockers the next.",
   "beginnerExplainer_pl": "Jednostki z Umocnieniem stają się twardsze za każdym razem, gdy skutecznie zablokują atak, więc wymiana z dużym atakującym w jednej turze sprawia, że w kolejnej stają się jeszcze lepszymi blokerami.",
+  "beginnerExplainer_es": "Las unidades con Fortificación se vuelven más resistentes cada vez que bloquean con éxito un ataque, así que cambiarlas contra un gran atacante en un turno las convierte en mejores bloqueadoras al siguiente.",
   "howToPlay": {"early": "Deploy your toughest cheap blockers and don't be afraid to just sit still — Dwarf loses very little by passing up an early attack.", "mid": "Let Vigil and Fortify units accumulate HP through repeated blocks; use Runic Ward to blank a burst of incoming castle damage.", "late": "Once the opponent has run out of profitable attacks, start swinging back with your now-massive wall to close the game."},
   "howToPlay_pl": {"early": "Wystawiaj swoich najtwardszych tanich blokerów i nie bój się po prostu stać w miejscu — Krasnolud traci bardzo niewiele, rezygnując z wczesnego ataku.", "mid": "Pozwól jednostkom z Czujnością i Umocnieniem gromadzić PŻ dzięki wielokrotnym blokom; użyj Runicznej Osłony, by zneutralizować nagły napływ obrażeń na zamek.", "late": "Gdy przeciwnikowi zabraknie opłacalnych ataków, zacznij kontratakować swoim już ogromnym murem, by zakończyć grę."},
+  "howToPlay_es": {"early": "Despliega tus bloqueadores baratos más resistentes y no temas quedarte quieto — Enano pierde muy poco al renunciar a un ataque temprano.", "mid": "Deja que las unidades con Vigilia y Fortificación acumulen PV mediante bloqueos repetidos; usa Guardia Rúnica para anular una ráfaga de daño entrante al castillo.", "late": "Una vez que al oponente se le acaben los ataques rentables, empieza a contraatacar con tu muro ya masivo para cerrar la partida."},
   "cards": [
     {
       "id": "dwarf_01",
@@ -37,6 +50,7 @@
       "defense": 2,
       "text": "STALWART: Takes 1 less DMG from attacks.",
       "text_pl": "NIEZŁOMNY: Otrzymuje o 1 mniej DMG z ataków.",
+      "text_es": "INQUEBRANTABLE: Recibe 1 DMG menos de los ataques.",
       "image": "assets/cards/art/dwarf/dwarf_01.png"
     },
     {
@@ -47,6 +61,7 @@
       "defense": 2,
       "text": "FORTIFY: Gains +1 HP after surviving combat.",
       "text_pl": "UMOCNIENIE: Zyskuje +1 PŻ po przetrwaniu walki.",
+      "text_es": "FORTIFICACIÓN: Gana +1 PV tras sobrevivir al combate.",
       "image": "assets/cards/art/dwarf/dwarf_02.png"
     },
     {
@@ -57,6 +72,7 @@
       "defense": 2,
       "text": "FORMATION: +1 DMG while adjacent to another Dwarf unit.",
       "text_pl": "FORMACJA: +1 DMG, gdy sąsiaduje z inną jednostką Krasnoluda.",
+      "text_es": "FORMACIÓN: +1 DMG mientras esté adyacente a otra unidad Enana.",
       "image": "assets/cards/art/dwarf/dwarf_03.png"
     },
     {
@@ -67,6 +83,7 @@
       "defense": 3,
       "text": "VIGIL: Heals 1 HP at the start of your turn.",
       "text_pl": "CZUJNOŚĆ: Leczy 1 PŻ na początku twojej tury.",
+      "text_es": "VIGILIA: Cura 1 PV al comienzo de tu turno.",
       "image": "assets/cards/art/dwarf/dwarf_04.png"
     },
     {
@@ -77,6 +94,7 @@
       "defense": 2,
       "text": "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
       "text_pl": "SALWA: Może wybrać, którą wrogą linię zaatakować, bez ryzyka kontrataku.",
+      "text_es": "RÁFAGA: Puede elegir atacar cualquiera de las filas enemigas, sin arriesgarse a represalias.",
       "image": "assets/cards/art/dwarf/dwarf_05.png"
     },
     {
@@ -87,6 +105,7 @@
       "defense": 2,
       "text": "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
       "text_pl": "SALWA: Może wybrać, którą wrogą linię zaatakować, bez ryzyka kontrataku.",
+      "text_es": "RÁFAGA: Puede elegir atacar cualquiera de las filas enemigas, sin arriesgarse a represalias.",
       "image": "assets/cards/art/dwarf/dwarf_06.png"
     },
     {
@@ -97,6 +116,7 @@
       "defense": 3,
       "text": "FORMATION: +1 DMG while adjacent to another Dwarf unit.",
       "text_pl": "FORMACJA: +1 DMG, gdy sąsiaduje z inną jednostką Krasnoluda.",
+      "text_es": "FORMACIÓN: +1 DMG mientras esté adyacente a otra unidad Enana.",
       "image": "assets/cards/art/dwarf/dwarf_07.png"
     },
     {
@@ -107,6 +127,7 @@
       "defense": 3,
       "text": "VIGIL: Heals 1 HP at the start of your turn.",
       "text_pl": "CZUJNOŚĆ: Leczy 1 PŻ na początku twojej tury.",
+      "text_es": "VIGILIA: Cura 1 PV al comienzo de tu turno.",
       "image": "assets/cards/art/dwarf/dwarf_08.png"
     },
     {
@@ -117,6 +138,7 @@
       "defense": 4,
       "text": "STALWART: Takes 1 less DMG from attacks.",
       "text_pl": "NIEZŁOMNY: Otrzymuje o 1 mniej DMG z ataków.",
+      "text_es": "INQUEBRANTABLE: Recibe 1 DMG menos de los ataques.",
       "image": "assets/cards/art/dwarf/dwarf_09.png"
     },
     {
@@ -127,6 +149,7 @@
       "defense": 3,
       "text": "FORTIFY: Gains +1 HP after surviving combat.",
       "text_pl": "UMOCNIENIE: Zyskuje +1 PŻ po przetrwaniu walki.",
+      "text_es": "FORTIFICACIÓN: Gana +1 PV tras sobrevivir al combate.",
       "image": "assets/cards/art/dwarf/dwarf_10.png"
     },
     {
@@ -137,6 +160,7 @@
       "defense": 3,
       "text": "FORMATION: +1 DMG while adjacent to another Dwarf unit.",
       "text_pl": "FORMACJA: +1 DMG, gdy sąsiaduje z inną jednostką Krasnoluda.",
+      "text_es": "FORMACIÓN: +1 DMG mientras esté adyacente a otra unidad Enana.",
       "image": "assets/cards/art/dwarf/dwarf_11.png"
     },
     {
@@ -147,6 +171,7 @@
       "defense": 4,
       "text": "VIGIL: Heals 1 HP at the start of your turn.",
       "text_pl": "CZUJNOŚĆ: Leczy 1 PŻ na początku twojej tury.",
+      "text_es": "VIGILIA: Cura 1 PV al comienzo de tu turno.",
       "image": "assets/cards/art/dwarf/dwarf_12.png"
     },
     {
@@ -157,6 +182,7 @@
       "defense": 4,
       "text": "MEND: Heals an allied unit for 2 when played.",
       "text_pl": "LECZENIE: Gdy zagrana, leczy sojuszniczą jednostkę o 2.",
+      "text_es": "CURACIÓN: Al jugarla, cura 2 puntos a una unidad aliada.",
       "image": "assets/cards/art/dwarf/dwarf_13.png"
     },
     {
@@ -167,6 +193,7 @@
       "defense": 4,
       "text": "FORTIFY: Gains +1 HP after surviving combat.",
       "text_pl": "UMOCNIENIE: Zyskuje +1 PŻ po przetrwaniu walki.",
+      "text_es": "FORTIFICACIÓN: Gana +1 PV tras sobrevivir al combate.",
       "image": "assets/cards/art/dwarf/dwarf_14.png"
     },
     {
@@ -177,6 +204,7 @@
       "defense": 3,
       "text": "FORMATION: +1 DMG while adjacent to another Dwarf unit.",
       "text_pl": "FORMACJA: +1 DMG, gdy sąsiaduje z inną jednostką Krasnoluda.",
+      "text_es": "FORMACIÓN: +1 DMG mientras esté adyacente a otra unidad Enana.",
       "image": "assets/cards/art/dwarf/dwarf_15.png"
     },
     {
@@ -187,6 +215,7 @@
       "defense": 5,
       "text": "VIGIL: Heals 1 HP at the start of your turn.",
       "text_pl": "CZUJNOŚĆ: Leczy 1 PŻ na początku twojej tury.",
+      "text_es": "VIGILIA: Cura 1 PV al comienzo de tu turno.",
       "image": "assets/cards/art/dwarf/dwarf_16.png"
     },
     {
@@ -197,6 +226,7 @@
       "defense": 7,
       "text": "TAUNT: Enemies must attack this unit first. FORTIFY: Gains +1 HP whenever it blocks an attack.",
       "text_pl": "PROWOKACJA: Wrogowie muszą zaatakować najpierw tę jednostkę. UMOCNIENIE: Zyskuje +1 PŻ za każdym razem, gdy zablokuje atak.",
+      "text_es": "PROVOCACIÓN: Los enemigos deben atacar primero a esta unidad. FORTIFICACIÓN: Gana +1 PV cada vez que bloquea un ataque.",
       "image": "assets/cards/art/dwarf/dwarf_17.png"
     },
     {
@@ -207,6 +237,7 @@
       "defense": 6,
       "text": "TAUNT: Enemies must attack this unit first.",
       "text_pl": "PROWOKACJA: Wrogowie muszą zaatakować najpierw tę jednostkę.",
+      "text_es": "PROVOCACIÓN: Los enemigos deben atacar primero a esta unidad.",
       "image": "assets/cards/art/dwarf/dwarf_18.png"
     },
     {
@@ -217,6 +248,7 @@
       "defense": 6,
       "text": "FORMATION: +1 DMG while adjacent to another Dwarf unit.",
       "text_pl": "FORMACJA: +1 DMG, gdy sąsiaduje z inną jednostką Krasnoluda.",
+      "text_es": "FORMACIÓN: +1 DMG mientras esté adyacente a otra unidad Enana.",
       "image": "assets/cards/art/dwarf/dwarf_19.png"
     },
     {
@@ -227,6 +259,7 @@
       "defense": 6,
       "text": "VIGIL: Heals 1 HP at the start of your turn.",
       "text_pl": "CZUJNOŚĆ: Leczy 1 PŻ na początku twojej tury.",
+      "text_es": "VIGILIA: Cura 1 PV al comienzo de tu turno.",
       "image": "assets/cards/art/dwarf/dwarf_20.png"
     },
     {
@@ -237,6 +270,7 @@
       "defense": 7,
       "text": "SHIELD: Absorbs the next instance of combat damage entirely, then is consumed.",
       "text_pl": "TARCZA: Całkowicie pochłania następne obrażenia bojowe, po czym znika.",
+      "text_es": "ESCUDO: Absorbe por completo el próximo daño de combate y luego se consume.",
       "image": "assets/cards/art/dwarf/dwarf_21.png"
     },
     {
@@ -247,6 +281,7 @@
       "defense": 8,
       "text": "SHIELD: Absorbs the next instance of combat damage entirely, then is consumed.",
       "text_pl": "TARCZA: Całkowicie pochłania następne obrażenia bojowe, po czym znika.",
+      "text_es": "ESCUDO: Absorbe por completo el próximo daño de combate y luego se consume.",
       "image": "assets/cards/art/dwarf/dwarf_22.png"
     },
     {
@@ -257,6 +292,7 @@
       "defense": 8,
       "text": "TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
       "text_pl": "STRATOWANIE: Nadmiar obrażeń ze śmiertelnego ciosu przechodzi na jednostkę lub zamek za nią.",
+      "text_es": "PISOTEO: El daño sobrante de un golpe mortal pasa a la unidad o castillo detrás de ella.",
       "image": "assets/cards/art/dwarf/dwarf_23.png"
     },
     {
@@ -267,6 +303,7 @@
       "defense": 9,
       "text": "TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
       "text_pl": "STRATOWANIE: Nadmiar obrażeń ze śmiertelnego ciosu przechodzi na jednostkę lub zamek za nią.",
+      "text_es": "PISOTEO: El daño sobrante de un golpe mortal pasa a la unidad o castillo detrás de ella.",
       "image": "assets/cards/art/dwarf/dwarf_24.png"
     },
     {
@@ -277,6 +314,7 @@
       "defense": 9,
       "text": "VIGIL: Heals 1 HP at the start of your turn. (This unit is a rare, high-impact threat.)",
       "text_pl": "CZUJNOŚĆ: Leczy 1 PŻ na początku twojej tury. (Ta jednostka to rzadkie, potężne zagrożenie.)",
+      "text_es": "VIGILIA: Cura 1 PV al comienzo de tu turno. (Esta unidad es una amenaza rara de alto impacto.)",
       "image": "assets/cards/art/dwarf/dwarf_25.png"
     },
     {
@@ -287,6 +325,7 @@
       "defense": 11,
       "text": "VIGIL: Heals 1 HP at the start of your turn. (This unit is a rare, high-impact threat.)",
       "text_pl": "CZUJNOŚĆ: Leczy 1 PŻ na początku twojej tury. (Ta jednostka to rzadkie, potężne zagrożenie.)",
+      "text_es": "VIGILIA: Cura 1 PV al comienzo de tu turno. (Esta unidad es una amenaza rara de alto impacto.)",
       "image": "assets/cards/art/dwarf/dwarf_26.png"
     },
     {
@@ -297,6 +336,7 @@
       "copies": 2,
       "text": "Draw 4 cards.",
       "text_pl": "Dobierz 4 karty.",
+      "text_es": "Roba 4 cartas.",
       "image": "assets/cards/art/dwarf/dwarf_27.png"
     },
     {
@@ -309,6 +349,7 @@
       "effect": { "kind": "heal", "amount": 2 },
       "text": "Heal an allied unit for 2.",
       "text_pl": "Ulecz sojuszniczą jednostkę o 2.",
+      "text_es": "Cura 2 puntos a una unidad aliada.",
       "image": "assets/cards/art/dwarf/dwarf_28.png"
     },
     {
@@ -321,6 +362,7 @@
       "effect": { "kind": "grant_shield" },
       "text": "Target allied unit gains Shield until your next turn.",
       "text_pl": "Wybrana sojusznicza jednostka zyskuje Tarczę do twojej następnej tury.",
+      "text_es": "La unidad aliada objetivo gana Escudo hasta tu próximo turno.",
       "image": "assets/cards/art/dwarf/dwarf_29.png"
     },
     {
@@ -333,6 +375,7 @@
       "effect": { "kind": "delayed_heal_castle_repeat", "amount": 1, "times": 2 },
       "text": "Heal your castle for 1 at the start of each of your next two turns.",
       "text_pl": "Ulecz swój zamek o 1 na początku każdej z twoich następnych dwóch tur.",
+      "text_es": "Cura 1 punto a tu castillo al comienzo de cada uno de tus próximos dos turnos.",
       "image": "assets/cards/art/dwarf/dwarf_30.png"
     },
     {
@@ -345,6 +388,7 @@
       "effect": { "kind": "buff_defense", "amount": 3 },
       "text": "Target allied unit gains +0/+3 until end of turn.",
       "text_pl": "Wybrana sojusznicza jednostka zyskuje +0/+3 do końca tury.",
+      "text_es": "La unidad aliada objetivo gana +0/+3 hasta el final del turno.",
       "image": "assets/cards/art/dwarf/dwarf_31.png"
     },
     {
@@ -357,6 +401,7 @@
       "effect": { "kind": "grant_castle_shield", "amount": 3 },
       "text": "Prevent the next 3 damage that would be dealt to your castle until your next turn.",
       "text_pl": "Zapobiegnij następnym 3 obrażeniom, które miałyby zostać zadane twojemu zamkowi, do twojej następnej tury.",
+      "text_es": "Evita los próximos 3 puntos de daño que recibiría tu castillo hasta tu próximo turno.",
       "image": "assets/cards/art/dwarf/dwarf_32.png"
     },
     {
@@ -369,6 +414,7 @@
       "effect": { "kind": "damage", "amount": 3, "maxTargetPower": 3 },
       "text": "Deal 3 damage to an enemy unit with 3 or less DMG.",
       "text_pl": "Zadaj 3 obrażenia wrogiej jednostce o obrażeniach 3 lub mniej.",
+      "text_es": "Inflige 3 de daño a una unidad enemiga con 3 o menos DMG.",
       "image": "assets/cards/art/dwarf/dwarf_33.png"
     },
     {
@@ -381,6 +427,7 @@
       "effect": { "kind": "heal_all_allies", "amount": 1 },
       "text": "Heal all your units for 1.",
       "text_pl": "Ulecz wszystkie swoje jednostki o 1.",
+      "text_es": "Cura 1 punto a todas tus unidades.",
       "image": "assets/cards/art/dwarf/dwarf_34.png"
     },
     {
@@ -393,6 +440,7 @@
       "effect": { "kind": "damage_reduction_team", "amount": 1 },
       "text": "Your units take 1 less damage from all sources until your next turn.",
       "text_pl": "Twoje jednostki otrzymują o 1 mniej obrażeń ze wszystkich źródeł do twojej następnej tury.",
+      "text_es": "Tus unidades reciben 1 de daño menos de todas las fuentes hasta tu próximo turno.",
       "image": "assets/cards/art/dwarf/dwarf_35.png"
     },
     {
@@ -405,6 +453,7 @@
       "effect": { "kind": "damage_all_enemies", "amount": 2 },
       "text": "Deal 2 damage to all enemy units.",
       "text_pl": "Zadaj 2 obrażenia wszystkim wrogim jednostkom.",
+      "text_es": "Inflige 2 de daño a todas las unidades enemigas.",
       "image": "assets/cards/art/dwarf/dwarf_36.png"
     },
     {
@@ -417,6 +466,7 @@
       "effect": { "kind": "buff_power", "amount": 2 },
       "text": "Target allied unit gains +2 DMG until end of turn.",
       "text_pl": "Wybrana sojusznicza jednostka zyskuje +2 DMG do końca tury.",
+      "text_es": "La unidad aliada objetivo gana +2 DMG hasta el final del turno.",
       "image": "assets/cards/art/dwarf/dwarf_37.png"
     }
   ]

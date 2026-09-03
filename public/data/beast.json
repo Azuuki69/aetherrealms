@@ -3,31 +3,44 @@
   "displayName": "Beast",
   "archetype": "Aggro / Tribal",
   "archetype_pl": "Agresja / Plemienna",
+  "archetype_es": "Agresivo / Tribal",
   "difficulty": "Beginner",
   "tagline": "Every Beast makes the next one hit harder — go wide and swing as one pack.",
   "tagline_pl": "Każda Bestia sprawia, że następna uderza mocniej — rozstaw się szeroko i atakuj jak jedna sfora.",
+  "tagline_es": "Cada Bestia hace que la siguiente golpee más fuerte — despliégate y ataca como una manada.",
   "description": "Beast is a tribal go-wide deck built entirely around creatures that grow stronger for every other Beast you control. Pack Hunt units scale their own damage off your board count, Formation buffs reward keeping the line intact, and top-end threats like Chimera and Roc turn a wide board into a Rally-fueled alpha strike.",
   "description_pl": "Bestie to plemienna talia stawiająca na liczebność, zbudowana wokół stworzeń, które stają się silniejsze wraz z każdą inną Bestią, którą kontrolujesz. Jednostki z Polowaniem w Stadzie skalują swoje obrażenia na podstawie liczby jednostek na twojej planszy, premie z Formacji nagradzają utrzymanie nienaruszonej linii, a najpotężniejsze zagrożenia, jak Chimera czy Roc, zamieniają szeroką planszę w druzgocący atak wspierany przez Zbiórkę.",
+  "description_es": "Bestia es un mazo tribal de amplitud construido enteramente en torno a criaturas que se fortalecen por cada otra Bestia que controlas. Las unidades con Caza en Manada escalan su propio daño según tu número de unidades en el tablero, las mejoras de Formación premian mantener la línea intacta, y amenazas de gama alta como Quimera y Roc convierten un tablero amplio en un golpe devastador impulsado por Convocatoria.",
   "gamePlan": "Flood the board with cheap, efficient Beasts early, then let your scaling keywords and Rally payoffs turn that width into overwhelming damage.",
   "gamePlan_pl": "Zalej planszę tanimi, efektywnymi Bestiami na wczesnym etapie, a następnie pozwól, by twoje skalujące się słowa kluczowe i premie ze Zbiórki zamieniły tę liczebność w miażdżące obrażenia.",
+  "gamePlan_es": "Inunda el tablero con Bestias baratas y eficientes al principio, y luego deja que tus palabras clave escalables y las recompensas de Convocatoria conviertan esa amplitud en daño abrumador.",
   "playstyle": "Play a new Beast every turn you can afford one and avoid trading it away — Pack Hunt and Formation both punish you for having fewer bodies on board than your opponent expects.",
   "playstyle_pl": "Zagrywaj nową Bestię w każdej turze, na jaką cię stać, i unikaj wymieniania jej w walce — zarówno Polowanie w Stadzie, jak i Formacja karzą cię za mniejszą liczbę jednostek na planszy, niż spodziewa się przeciwnik.",
+  "playstyle_es": "Juega una nueva Bestia cada turno que puedas permitírtelo y evita cambiarla en combate — tanto Caza en Manada como Formación te penalizan por tener menos criaturas en el tablero de lo que espera tu oponente.",
   "winCondition": "Overrun the enemy castle with a wide board of buffed Beasts before they stabilize.",
   "winCondition_pl": "Zmiażdż wrogi zamek szeroką planszą wzmocnionych Bestii, zanim przeciwnik zdąży się ustabilizować.",
+  "winCondition_es": "Arrasa el castillo enemigo con un tablero amplio de Bestias mejoradas antes de que se estabilicen.",
   "strengths": ["Extremely consistent low curve — always have a play", "Snowballs fast once 3-4 Beasts are on board", "Alpha's Call refills your hand off your own board count"],
   "strengths_pl": ["Wyjątkowo spójna, niska krzywa many — zawsze masz co zagrać", "Szybko nabiera rozpędu, gdy na planszy jest 3-4 Bestii", "Zew Alfy uzupełnia twoją rękę na podstawie liczby jednostek na planszy"],
+  "strengths_es": ["Curva baja extremadamente consistente — siempre tienes algo que jugar", "Se acelera rápido una vez que hay 3-4 Bestias en el tablero", "Llamada del Alfa rellena tu mano según tu propio número de unidades en el tablero"],
   "weaknesses": ["A single wide sweeper or removal spell erases your entire game plan", "Falls off if forced to play from behind", "Few individual threats can close a game alone"],
   "weaknesses_pl": ["Jedno zaklęcie obszarowe lub usuwające jednostki niweczy cały twój plan gry", "Traci na sile, gdy jest zmuszona grać z pozycji doganiającej", "Niewiele pojedynczych zagrożeń potrafi samodzielnie zakończyć grę"],
+  "weaknesses_es": ["Un solo hechizo de área o de eliminación arruina todo tu plan de juego", "Pierde fuerza si se ve obligada a jugar por detrás", "Pocas amenazas individuales pueden cerrar una partida por sí solas"],
   "pros": ["Easiest deck in the game to pick up and pilot", "Rewards proactive, low-risk decisions every turn", "Strong, forgiving early game"],
   "pros_pl": ["Najłatwiejsza talia w grze do nauki i prowadzenia", "Nagradza proaktywne, niskoryzykowne decyzje w każdej turze", "Silna, wybaczająca błędy wczesna faza gry"],
+  "pros_es": ["El mazo más fácil del juego para aprender y pilotar", "Premia decisiones proactivas y de bajo riesgo cada turno", "Inicio de partida fuerte y perdonador"],
   "cons": ["Very board-dependent — no plan B if your units keep dying", "Weak against decks with efficient removal or wide sweepers", "Runs out of gas if the game goes long"],
   "cons_pl": ["Bardzo zależna od planszy — brak planu B, gdy jednostki wciąż giną", "Słaba przeciwko taliom z efektywnym usuwaniem jednostek lub atakami obszarowymi", "Traci impet, gdy gra się przeciąga"],
+  "cons_es": ["Muy dependiente del tablero — sin plan B si tus unidades siguen muriendo", "Débil contra mazos con eliminación eficiente o barridos de área", "Se queda sin gasolina si la partida se alarga"],
   "keyMechanics": ["PACK HUNT", "RALLY", "FORMATION"],
   "keyMechanics_pl": ["POLOWANIE W STADZIE", "ZBIÓRKA", "FORMACJA"],
+  "keyMechanics_es": ["CAZA EN MANADA", "CONVOCATORIA", "FORMACIÓN"],
   "beginnerExplainer": "Most of your creatures get stronger just from having other Beasts next to them in play — the more you have out, the harder each one hits.",
   "beginnerExplainer_pl": "Większość twoich stworzeń staje się silniejsza po prostu dzięki obecności innych Bestii w grze — im więcej ich wystawisz, tym mocniej uderza każda z nich.",
+  "beginnerExplainer_es": "La mayoría de tus criaturas se fortalecen simplemente por tener otras Bestias junto a ellas en juego — cuantas más despliegues, más fuerte golpea cada una.",
   "howToPlay": {"early": "Play your cheapest Beasts on curve to establish board presence — a 1-cost Gnoll or Gnome Slinger is never a wasted turn.", "mid": "Keep adding bodies and start using Formation-buffed units to trade up; avoid attacking into obvious blockers that would shrink your pack.", "late": "Cash in your wide board with Rally threats like Chimera or Roc, and draw extra gas with Alpha's Call if you need to refuel."},
   "howToPlay_pl": {"early": "Zagrywaj swoje najtańsze Bestie zgodnie z krzywą many, by zbudować obecność na planszy — Gnoll czy Gnomi Procarz za 1 many to nigdy zmarnowana tura.", "mid": "Nadal dokładaj jednostki i zacznij wykorzystywać wzmocnione przez Formację jednostki do korzystnych wymian; unikaj atakowania oczywistych blokerów, które zmniejszyłyby twoją sforę.", "late": "Spieniężaj szeroką planszę zagrożeniami ze Zbiórką, jak Chimera czy Roc, a jeśli potrzebujesz dodatkowych kart, dobierz je Zewem Alfy."},
+  "howToPlay_es": {"early": "Juega tus Bestias más baratas según la curva de maná para establecer presencia en el tablero — un Gnoll o un Honderos Gnomo de coste 1 nunca es un turno desperdiciado.", "mid": "Sigue añadiendo criaturas y empieza a usar unidades mejoradas por Formación para cambiar con ventaja; evita atacar bloqueadores obvios que reducirían tu manada.", "late": "Cobra tu tablero amplio con amenazas de Convocatoria como Quimera o Roc, y roba cartas extra con Llamada del Alfa si necesitas reabastecerte."},
   "cards": [
     {
       "id": "beast_01",
@@ -37,6 +50,7 @@
       "defense": 2,
       "text": "PACK HUNT: +1 DMG for each other Beast you control.",
       "text_pl": "POLOWANIE W STADZIE: +1 DMG za każdą inną Bestię, którą kontrolujesz.",
+      "text_es": "CAZA EN MANADA: +1 DMG por cada otra Bestia que controlas.",
       "image": "assets/cards/art/beast/beast_01.png"
     },
     {
@@ -47,6 +61,7 @@
       "defense": 1,
       "text": "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
       "text_pl": "SALWA: Może wybrać, którą wrogą linię zaatakować, bez ryzyka kontrataku.",
+      "text_es": "RÁFAGA: Puede elegir atacar cualquiera de las filas enemigas, sin arriesgarse a represalias.",
       "image": "assets/cards/art/beast/beast_02.png"
     },
     {
@@ -57,6 +72,7 @@
       "defense": 2,
       "text": "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
       "text_pl": "JAD: Wszelkie obrażenia zadane przez tę jednostkę wrogiej jednostce niszczą ją.",
+      "text_es": "VENENO: Cualquier DMG que esta unidad inflige a una unidad enemiga la destruye.",
       "image": "assets/cards/art/beast/beast_03.png"
     },
     {
@@ -67,6 +83,7 @@
       "defense": 3,
       "text": "RALLY: Adjacent Beast allies gain +1 DMG.",
       "text_pl": "ZBIÓRKA: Sąsiednie sojusznicze Bestie zyskują +1 DMG.",
+      "text_es": "CONVOCATORIA: Las Bestias aliadas adyacentes ganan +1 DMG.",
       "image": "assets/cards/art/beast/beast_04.png"
     },
     {
@@ -77,6 +94,7 @@
       "defense": 3,
       "text": "PACK HUNT: +1 DMG for each other Beast you control.",
       "text_pl": "POLOWANIE W STADZIE: +1 DMG za każdą inną Bestię, którą kontrolujesz.",
+      "text_es": "CAZA EN MANADA: +1 DMG por cada otra Bestia que controlas.",
       "image": "assets/cards/art/beast/beast_05.png"
     },
     {
@@ -87,6 +105,7 @@
       "defense": 2,
       "text": "FORMATION: +1 DMG while adjacent to another Beast unit.",
       "text_pl": "FORMACJA: +1 DMG, gdy sąsiaduje z inną jednostką Bestii.",
+      "text_es": "FORMACIÓN: +1 DMG mientras esté adyacente a otra unidad Bestia.",
       "image": "assets/cards/art/beast/beast_06.png"
     },
     {
@@ -97,6 +116,7 @@
       "defense": 2,
       "text": "REBIRTH: The first time this would die, return it to your hand at 1 HP instead.",
       "text_pl": "ODRODZENIE: Za pierwszym razem, gdy ta jednostka miałaby zginąć, wraca zamiast tego do twojej ręki z 1 PŻ.",
+      "text_es": "RENACIMIENTO: La primera vez que esta unidad muera, vuelve a tu mano con 1 PV en su lugar.",
       "image": "assets/cards/art/beast/beast_07.png"
     },
     {
@@ -107,6 +127,7 @@
       "defense": 3,
       "text": "RALLY: Adjacent Beast allies gain +1 DMG.",
       "text_pl": "ZBIÓRKA: Sąsiednie sojusznicze Bestie zyskują +1 DMG.",
+      "text_es": "CONVOCATORIA: Las Bestias aliadas adyacentes ganan +1 DMG.",
       "image": "assets/cards/art/beast/beast_08.png"
     },
     {
@@ -117,6 +138,7 @@
       "defense": 3,
       "text": "PACK HUNT: +1 DMG for each other Beast you control.",
       "text_pl": "POLOWANIE W STADZIE: +1 DMG za każdą inną Bestię, którą kontrolujesz.",
+      "text_es": "CAZA EN MANADA: +1 DMG por cada otra Bestia que controlas.",
       "image": "assets/cards/art/beast/beast_09.png"
     },
     {
@@ -127,6 +149,7 @@
       "defense": 3,
       "text": "FORMATION: +1 DMG while adjacent to another Beast unit.",
       "text_pl": "FORMACJA: +1 DMG, gdy sąsiaduje z inną jednostką Bestii.",
+      "text_es": "FORMACIÓN: +1 DMG mientras esté adyacente a otra unidad Bestia.",
       "image": "assets/cards/art/beast/beast_10.png"
     },
     {
@@ -137,6 +160,7 @@
       "defense": 3,
       "text": "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
       "text_pl": "JAD: Wszelkie obrażenia zadane przez tę jednostkę wrogiej jednostce niszczą ją.",
+      "text_es": "VENENO: Cualquier DMG que esta unidad inflige a una unidad enemiga la destruye.",
       "image": "assets/cards/art/beast/beast_11.png"
     },
     {
@@ -147,6 +171,7 @@
       "defense": 4,
       "text": "RALLY: Adjacent Beast allies gain +1 DMG.",
       "text_pl": "ZBIÓRKA: Sąsiednie sojusznicze Bestie zyskują +1 DMG.",
+      "text_es": "CONVOCATORIA: Las Bestias aliadas adyacentes ganan +1 DMG.",
       "image": "assets/cards/art/beast/beast_12.png"
     },
     {
@@ -157,6 +182,7 @@
       "defense": 4,
       "text": "PACK HUNT: +1 DMG for each other Beast you control.",
       "text_pl": "POLOWANIE W STADZIE: +1 DMG za każdą inną Bestię, którą kontrolujesz.",
+      "text_es": "CAZA EN MANADA: +1 DMG por cada otra Bestia que controlas.",
       "image": "assets/cards/art/beast/beast_13.png"
     },
     {
@@ -167,6 +193,7 @@
       "defense": 4,
       "text": "FORMATION: +1 DMG while adjacent to another Beast unit.",
       "text_pl": "FORMACJA: +1 DMG, gdy sąsiaduje z inną jednostką Bestii.",
+      "text_es": "FORMACIÓN: +1 DMG mientras esté adyacente a otra unidad Bestia.",
       "image": "assets/cards/art/beast/beast_14.png"
     },
     {
@@ -177,6 +204,7 @@
       "defense": 3,
       "text": "PACK HUNT: Gains +1 DMG for each other Beast you control. CHARGE: Can attack the turn it is played.",
       "text_pl": "POLOWANIE W STADZIE: Zyskuje +1 DMG za każdą inną Bestię, którą kontrolujesz. SZARŻA: Może atakować w turze, w której została zagrana.",
+      "text_es": "CAZA EN MANADA: Gana +1 DMG por cada otra Bestia que controlas. CARGA: Puede atacar el turno en que es jugada.",
       "image": "assets/cards/art/beast/beast_15.png"
     },
     {
@@ -187,6 +215,7 @@
       "defense": 5,
       "text": "RALLY: Adjacent Beast allies gain +1 DMG.",
       "text_pl": "ZBIÓRKA: Sąsiednie sojusznicze Bestie zyskują +1 DMG.",
+      "text_es": "CONVOCATORIA: Las Bestias aliadas adyacentes ganan +1 DMG.",
       "image": "assets/cards/art/beast/beast_16.png"
     },
     {
@@ -197,6 +226,7 @@
       "defense": 5,
       "text": "PACK HUNT: +1 DMG for each other Beast you control.",
       "text_pl": "POLOWANIE W STADZIE: +1 DMG za każdą inną Bestię, którą kontrolujesz.",
+      "text_es": "CAZA EN MANADA: +1 DMG por cada otra Bestia que controlas.",
       "image": "assets/cards/art/beast/beast_17.png"
     },
     {
@@ -207,6 +237,7 @@
       "defense": 6,
       "text": "TAUNT: Enemies must attack this unit first. FORMATION: +1 DMG while adjacent to another Beast unit.",
       "text_pl": "PROWOKACJA: Wrogowie muszą zaatakować najpierw tę jednostkę. FORMACJA: +1 DMG, gdy sąsiaduje z inną jednostką Bestii.",
+      "text_es": "PROVOCACIÓN: Los enemigos deben atacar primero a esta unidad. FORMACIÓN: +1 DMG mientras esté adyacente a otra unidad Bestia.",
       "image": "assets/cards/art/beast/beast_18.png"
     },
     {
@@ -217,6 +248,7 @@
       "defense": 6,
       "text": "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
       "text_pl": "JAD: Wszelkie obrażenia zadane przez tę jednostkę wrogiej jednostce niszczą ją.",
+      "text_es": "VENENO: Cualquier DMG que esta unidad inflige a una unidad enemiga la destruye.",
       "image": "assets/cards/art/beast/beast_19.png"
     },
     {
@@ -227,6 +259,7 @@
       "defense": 4,
       "text": "RALLY: Adjacent Beast allies gain +1 DMG.",
       "text_pl": "ZBIÓRKA: Sąsiednie sojusznicze Bestie zyskują +1 DMG.",
+      "text_es": "CONVOCATORIA: Las Bestias aliadas adyacentes ganan +1 DMG.",
       "image": "assets/cards/art/beast/beast_20.png"
     },
     {
@@ -237,6 +270,7 @@
       "defense": 6,
       "text": "PACK HUNT: +1 DMG for each other Beast you control.",
       "text_pl": "POLOWANIE W STADZIE: +1 DMG za każdą inną Bestię, którą kontrolujesz.",
+      "text_es": "CAZA EN MANADA: +1 DMG por cada otra Bestia que controlas.",
       "image": "assets/cards/art/beast/beast_21.png"
     },
     {
@@ -247,6 +281,7 @@
       "defense": 4,
       "text": "FORMATION: +1 DMG while adjacent to another Beast unit.",
       "text_pl": "FORMACJA: +1 DMG, gdy sąsiaduje z inną jednostką Bestii.",
+      "text_es": "FORMACIÓN: +1 DMG mientras esté adyacente a otra unidad Bestia.",
       "image": "assets/cards/art/beast/beast_22.png"
     },
     {
@@ -257,6 +292,7 @@
       "defense": 8,
       "text": "TRAMPLE: Excess damage from a killing blow carries to the unit or castle behind it.",
       "text_pl": "STRATOWANIE: Nadmiar obrażeń ze śmiertelnego ciosu przechodzi na jednostkę lub zamek za nią.",
+      "text_es": "PISOTEO: El daño sobrante de un golpe mortal pasa a la unidad o castillo detrás de ella.",
       "image": "assets/cards/art/beast/beast_23.png"
     },
     {
@@ -267,6 +303,7 @@
       "defense": 7,
       "text": "RALLY: Adjacent Beast allies gain +1 DMG.",
       "text_pl": "ZBIÓRKA: Sąsiednie sojusznicze Bestie zyskują +1 DMG.",
+      "text_es": "CONVOCATORIA: Las Bestias aliadas adyacentes ganan +1 DMG.",
       "image": "assets/cards/art/beast/beast_24.png"
     },
     {
@@ -277,6 +314,7 @@
       "defense": 8,
       "text": "RALLY: Adjacent Beast allies gain +1 DMG. (This unit is a rare, high-impact threat.)",
       "text_pl": "ZBIÓRKA: Sąsiednie sojusznicze Bestie zyskują +1 DMG. (Ta jednostka to rzadkie, potężne zagrożenie.)",
+      "text_es": "CONVOCATORIA: Las Bestias aliadas adyacentes ganan +1 DMG. (Esta unidad es una amenaza rara de alto impacto.)",
       "image": "assets/cards/art/beast/beast_25.png"
     },
     {
@@ -287,6 +325,7 @@
       "defense": 9,
       "text": "RALLY: Adjacent Beast allies gain +1 DMG. (This unit is a rare, high-impact threat.)",
       "text_pl": "ZBIÓRKA: Sąsiednie sojusznicze Bestie zyskują +1 DMG. (Ta jednostka to rzadkie, potężne zagrożenie.)",
+      "text_es": "CONVOCATORIA: Las Bestias aliadas adyacentes ganan +1 DMG. (Esta unidad es una amenaza rara de alto impacto.)",
       "image": "assets/cards/art/beast/beast_26.png"
     },
     {
@@ -297,6 +336,7 @@
       "copies": 2,
       "text": "Draw 4 cards.",
       "text_pl": "Dobierz 4 karty.",
+      "text_es": "Roba 4 cartas.",
       "image": "assets/cards/art/beast/beast_27.png"
     },
     {
@@ -309,6 +349,7 @@
       "effect": { "kind": "buff_power", "amount": 1 },
       "text": "Target allied unit gains +1 DMG until end of turn.",
       "text_pl": "Wybrana sojusznicza jednostka zyskuje +1 DMG do końca tury.",
+      "text_es": "La unidad aliada objetivo gana +1 DMG hasta el final del turno.",
       "image": "assets/cards/art/beast/beast_28.png"
     },
     {
@@ -321,6 +362,7 @@
       "effect": { "kind": "damage", "amount": 2 },
       "text": "Deal 2 damage to an enemy unit.",
       "text_pl": "Zadaj 2 obrażenia wrogiej jednostce.",
+      "text_es": "Inflige 2 de daño a una unidad enemiga.",
       "image": "assets/cards/art/beast/beast_29.png"
     },
     {
@@ -333,6 +375,7 @@
       "effect": { "kind": "heal", "amount": 3 },
       "text": "Heal an allied unit for 3.",
       "text_pl": "Ulecz sojuszniczą jednostkę o 3.",
+      "text_es": "Cura 3 puntos a una unidad aliada.",
       "image": "assets/cards/art/beast/beast_30.png"
     },
     {
@@ -345,6 +388,7 @@
       "effect": { "kind": "discount_next_unit", "amount": 1 },
       "text": "The next unit you play this turn costs 1 less.",
       "text_pl": "Następna jednostka zagrana w tej turze kosztuje o 1 mniej.",
+      "text_es": "La próxima unidad que juegues este turno cuesta 1 menos.",
       "image": "assets/cards/art/beast/beast_31.png"
     },
     {
@@ -357,6 +401,7 @@
       "effect": { "kind": "buff_defense", "amount": 3 },
       "text": "Target allied unit gains +0/+3 until end of turn.",
       "text_pl": "Wybrana sojusznicza jednostka zyskuje +0/+3 do końca tury.",
+      "text_es": "La unidad aliada objetivo gana +0/+3 hasta el final del turno.",
       "image": "assets/cards/art/beast/beast_32.png"
     },
     {
@@ -369,6 +414,7 @@
       "effect": { "kind": "buff_power_and_formation_neighbors", "amount": 2 },
       "text": "Target allied unit and each unit adjacent to it gain +2 DMG until end of turn.",
       "text_pl": "Wybrana sojusznicza jednostka oraz każda sąsiadująca z nią jednostka zyskują +2 DMG do końca tury.",
+      "text_es": "La unidad aliada objetivo y cada unidad adyacente a ella ganan +2 DMG hasta el final del turno.",
       "image": "assets/cards/art/beast/beast_33.png"
     },
     {
@@ -381,6 +427,7 @@
       "effect": { "kind": "draw_per_unit_controlled", "maxDraws": 3 },
       "text": "Draw a card for each Beast unit you control (maximum 3).",
       "text_pl": "Dobierz kartę za każdą jednostkę Bestii, którą kontrolujesz (maksymalnie 3).",
+      "text_es": "Roba una carta por cada unidad Bestia que controlas (máximo 3).",
       "image": "assets/cards/art/beast/beast_34.png"
     },
     {
@@ -393,6 +440,7 @@
       "effect": { "kind": "buff_power_all_allies", "amount": 1 },
       "text": "All allied units gain +1 DMG until end of turn.",
       "text_pl": "Wszystkie sojusznicze jednostki zyskują +1 DMG do końca tury.",
+      "text_es": "Todas las unidades aliadas ganan +1 DMG hasta el final del turno.",
       "image": "assets/cards/art/beast/beast_35.png"
     },
     {
@@ -405,6 +453,7 @@
       "effect": { "kind": "damage", "amount": 3 },
       "text": "Deal 3 damage to an enemy unit.",
       "text_pl": "Zadaj 3 obrażenia wrogiej jednostce.",
+      "text_es": "Inflige 3 de daño a una unidad enemiga.",
       "image": "assets/cards/art/beast/beast_36.png"
     }
   ]

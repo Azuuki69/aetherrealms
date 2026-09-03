@@ -3,31 +3,44 @@
   "displayName": "Damned",
   "archetype": "Aggro-Control",
   "archetype_pl": "Agresja-Kontrola",
+  "archetype_es": "Agresivo-Control",
   "difficulty": "Advanced",
   "tagline": "Pay in your own blood for cards, removal, and power.",
   "tagline_pl": "Płać własną krwią za karty, usuwanie i moc.",
+  "tagline_es": "Paga con tu propia sangre por cartas, eliminación y poder.",
   "description": "Damned converts self-inflicted damage into resources. Bloodprice units chip your own castle to draw extra cards the moment they land, Cull sacrifices your weakest ally to snipe a bigger threat, and Lifesteal creatures heal back what the plan costs you — turning risk into a repeatable engine.",
   "description_pl": "Przeklęci zamieniają zadane sobie obrażenia w zasoby. Jednostki z Krwawą Ceną nadszarpują twój własny zamek, by dobrać dodatkowe karty w chwili wejścia do gry, Selekcja poświęca twoją najsłabszą jednostkę, by wyeliminować większe zagrożenie, a stworzenia z Kradzieżą Życia leczą to, co kosztuje cię ten plan — zamieniając ryzyko w powtarzalny silnik.",
+  "description_es": "Condenados convierte el daño autoinfligido en recursos. Las unidades con Precio de Sangre desgastan tu propio castillo para robar cartas extra en el momento en que entran en juego, Purga sacrifica a tu aliado más débil para eliminar una amenaza mayor, y las criaturas con Robo de Vida curan lo que te cuesta este plan — convirtiendo el riesgo en un motor repetible.",
   "gamePlan": "Spend your own life total deliberately to out-card and out-remove the opponent, then heal the difference back with Lifesteal.",
   "gamePlan_pl": "Świadomie wydawaj własne punkty życia, by przelicytować przeciwnika kartami i usuwaniem, a następnie odzyskaj różnicę dzięki Kradzieży Życia.",
+  "gamePlan_es": "Gasta deliberadamente tu propia vida para superar al oponente en cartas y eliminación, y luego cura la diferencia con Robo de Vida.",
   "playstyle": "Track your own castle HP as a resource, not just a timer — know exactly how much you can afford to spend before a Bloodprice or Cull play becomes reckless.",
   "playstyle_pl": "Traktuj PŻ swojego zamku jak zasób, a nie tylko licznik czasu — wiedz dokładnie, ile możesz sobie pozwolić wydać, zanim zagranie z Krwawą Ceną lub Selekcją stanie się nieroztropne.",
+  "playstyle_es": "Trata los PV de tu propio castillo como un recurso, no solo un contador — sabe exactamente cuánto puedes permitirte gastar antes de que una jugada de Precio de Sangre o Purga se vuelva imprudente.",
   "winCondition": "Out-value the opponent through Bloodprice card draw and Cull removal until your board simply has more left standing.",
   "winCondition_pl": "Przelicytuj przeciwnika dobieraniem kart z Krwawej Ceny i usuwaniem z Selekcji, aż na twojej planszy po prostu zostanie więcej jednostek.",
+  "winCondition_es": "Supera en valor al oponente mediante el robo de cartas de Precio de Sangre y la eliminación de Purga hasta que a tu tablero simplemente le queden más unidades en pie.",
   "strengths": ["Generates card advantage no other faction can match", "Cull provides on-demand removal for any threat", "Lifesteal recoups the life spent fueling the engine"],
   "strengths_pl": ["Generuje przewagę kartową, której nie dorówna żadna inna frakcja", "Selekcja zapewnia usuwanie na żądanie dla dowolnego zagrożenia", "Kradzież Życia odzyskuje życie wydane na napędzanie silnika"],
+  "strengths_es": ["Genera una ventaja de cartas que ninguna otra facción puede igualar", "Purga ofrece eliminación bajo demanda para cualquier amenaza", "Robo de Vida recupera la vida gastada en alimentar el motor"],
   "weaknesses": ["Racing yourself and the opponent's clock at the same time is easy to misjudge", "A fast aggro deck can punish self-damage before Lifesteal catches up", "Requires careful HP math every turn"],
   "weaknesses_pl": ["Łatwo błędnie ocenić wyścig jednocześnie z własnym zegarem i zegarem przeciwnika", "Szybka talia agresywna może ukarać samookaleczanie się, zanim Kradzież Życia nadrobi straty", "Wymaga starannego liczenia PŻ w każdej turze"],
+  "weaknesses_es": ["Es fácil calcular mal la carrera contra ti mismo y contra el reloj del oponente a la vez", "Un mazo agresivo rápido puede castigar el autodaño antes de que Robo de Vida lo compense", "Requiere calcular cuidadosamente los PV cada turno"],
   "pros": ["Highest card-advantage ceiling in the game", "Flexible answers via Cull instead of dedicated removal spells", "Rewards skilled, deliberate play"],
   "pros_pl": ["Najwyższy potencjał przewagi kartowej w grze", "Elastyczne odpowiedzi dzięki Selekcji zamiast dedykowanych zaklęć usuwających", "Nagradza umiejętną, przemyślaną grę"],
+  "pros_es": ["El mayor techo de ventaja de cartas del juego", "Respuestas flexibles mediante Purga en lugar de hechizos de eliminación dedicados", "Premia el juego hábil y deliberado"],
   "cons": ["Unforgiving of misplays — spend too much life and you lose the race", "Weak to fast aggressive decks that outrace the self-damage", "Steeper learning curve than most other decks"],
   "cons_pl": ["Nie wybacza błędów — wydaj zbyt dużo życia, a przegrasz wyścig", "Słaba przeciwko szybkim agresywnym taliom, które wyprzedzają twoje samookaleczanie", "Bardziej stroma krzywa nauki niż w większości innych talii"],
+  "cons_es": ["No perdona los errores — gasta demasiada vida y perderás la carrera", "Débil contra mazos agresivos rápidos que superan tu autodaño", "Curva de aprendizaje más pronunciada que la mayoría de los otros mazos"],
   "keyMechanics": ["BLOODPRICE", "CULL", "LIFESTEAL"],
   "keyMechanics_pl": ["KRWAWA CENA", "SELEKCJA", "KRADZIEŻ ŻYCIA"],
+  "keyMechanics_es": ["PRECIO DE SANGRE", "PURGA", "ROBO DE VIDA"],
   "beginnerExplainer": "Bloodprice cards deal damage to your own castle when you play them — it's a deliberate cost for extra cards, not a mistake, so budget your own HP like a resource.",
   "beginnerExplainer_pl": "Karty z Krwawą Ceną zadają obrażenia twojemu własnemu zamkowi, gdy je zagrywasz — to celowy koszt za dodatkowe karty, a nie pomyłka, więc planuj swoje PŻ jak zasób.",
+  "beginnerExplainer_es": "Las cartas con Precio de Sangre infligen daño a tu propio castillo cuando las juegas — es un coste deliberado por cartas extra, no un error, así que administra tus PV como un recurso.",
   "howToPlay": {"early": "Play cheap Bloodprice units to start drawing extra cards, but don't overspend your own HP before turn 3-4.", "mid": "Use Cull to remove the opponent's best unit by sacrificing your weakest, and lean on Lifesteal creatures to start healing back what you've spent.", "late": "Cash in your card advantage — you should simply have more answers and threats left than the opponent by this point."},
   "howToPlay_pl": {"early": "Zagrywaj tanie jednostki z Krwawą Ceną, by zacząć dobierać dodatkowe karty, ale nie wydawaj zbyt dużo własnych PŻ przed turą 3-4.", "mid": "Wykorzystaj Selekcję, by usunąć najlepszą jednostkę przeciwnika, poświęcając swoją najsłabszą, i polegaj na stworzeniach z Kradzieżą Życia, by zacząć odzyskiwać to, co wydałeś.", "late": "Spieniężaj swoją przewagę kartową — na tym etapie powinieneś mieć po prostu więcej odpowiedzi i zagrożeń niż przeciwnik."},
+  "howToPlay_es": {"early": "Juega unidades baratas con Precio de Sangre para empezar a robar cartas extra, pero no gastes demasiados PV propios antes del turno 3-4.", "mid": "Usa Purga para eliminar la mejor unidad del oponente sacrificando tu unidad más débil, y apóyate en las criaturas con Robo de Vida para empezar a recuperar lo que has gastado.", "late": "Cobra tu ventaja de cartas — a estas alturas deberías tener simplemente más respuestas y amenazas que el oponente."},
   "cards": [
     {
       "id": "damned_01",
@@ -37,6 +50,7 @@
       "defense": 2,
       "text": "BLOODPRICE: When played, deal 1 DMG to your own castle. Draw a card.",
       "text_pl": "KRWAWA CENA: Gdy zagrana, zadaje 1 DMG twojemu własnemu zamkowi. Dobierz kartę.",
+      "text_es": "PRECIO DE SANGRE: Al jugarla, inflige 1 DMG a tu propio castillo. Roba una carta.",
       "image": "assets/cards/art/damned/damned_01.png"
     },
     {
@@ -47,6 +61,7 @@
       "defense": 2,
       "text": "REAP: Draw a card whenever an enemy unit dies.",
       "text_pl": "ŻNIWO: Dobierz kartę, gdy zginie wroga jednostka.",
+      "text_es": "COSECHA: Roba una carta cada vez que muere una unidad enemiga.",
       "image": "assets/cards/art/damned/damned_02.png"
     },
     {
@@ -57,6 +72,7 @@
       "defense": 2,
       "text": "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
       "text_pl": "KRADZIEŻ ŻYCIA: Leczy twój zamek o obrażenia zadane przez tę jednostkę w walce.",
+      "text_es": "ROBO DE VIDA: Cura a tu castillo por el DMG que esta unidad inflige en combate.",
       "image": "assets/cards/art/damned/damned_03.png"
     },
     {
@@ -67,6 +83,7 @@
       "defense": 3,
       "text": "CULL: When played, destroys your weakest allied unit (if any) to deal 2 DMG to a random enemy unit, or the enemy castle if none.",
       "text_pl": "SELEKCJA: Gdy zagrana, niszczy twoją najsłabszą sojuszniczą jednostkę (jeśli taka istnieje), by zadać 2 DMG losowej wrogiej jednostce, lub wrogiemu zamkowi, jeśli żadnej nie ma.",
+      "text_es": "PURGA: Al jugarla, destruye tu unidad aliada más débil (si la hay) para infligir 2 DMG a una unidad enemiga aleatoria, o al castillo enemigo si no hay ninguna.",
       "image": "assets/cards/art/damned/damned_04.png"
     },
     {
@@ -77,6 +94,7 @@
       "defense": 3,
       "text": "BLOODPRICE: When played, deal 1 DMG to your own castle. Draw a card.",
       "text_pl": "KRWAWA CENA: Gdy zagrana, zadaje 1 DMG twojemu własnemu zamkowi. Dobierz kartę.",
+      "text_es": "PRECIO DE SANGRE: Al jugarla, inflige 1 DMG a tu propio castillo. Roba una carta.",
       "image": "assets/cards/art/damned/damned_05.png"
     },
     {
@@ -87,6 +105,7 @@
       "defense": 3,
       "text": "CHARGE: Can attack the turn it is played.",
       "text_pl": "SZARŻA: Może atakować w turze, w której została zagrana.",
+      "text_es": "CARGA: Puede atacar el turno en que es jugada.",
       "image": "assets/cards/art/damned/damned_06.png"
     },
     {
@@ -97,6 +116,7 @@
       "defense": 3,
       "text": "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
       "text_pl": "KRADZIEŻ ŻYCIA: Leczy twój zamek o obrażenia zadane przez tę jednostkę w walce.",
+      "text_es": "ROBO DE VIDA: Cura a tu castillo por el DMG que esta unidad inflige en combate.",
       "image": "assets/cards/art/damned/damned_07.png"
     },
     {
@@ -107,6 +127,7 @@
       "defense": 3,
       "text": "CULL: When played, destroys your weakest allied unit (if any) to deal 2 DMG to a random enemy unit, or the enemy castle if none.",
       "text_pl": "SELEKCJA: Gdy zagrana, niszczy twoją najsłabszą sojuszniczą jednostkę (jeśli taka istnieje), by zadać 2 DMG losowej wrogiej jednostce, lub wrogiemu zamkowi, jeśli żadnej nie ma.",
+      "text_es": "PURGA: Al jugarla, destruye tu unidad aliada más débil (si la hay) para infligir 2 DMG a una unidad enemiga aleatoria, o al castillo enemigo si no hay ninguna.",
       "image": "assets/cards/art/damned/damned_08.png"
     },
     {
@@ -117,6 +138,7 @@
       "defense": 3,
       "text": "BLOODPRICE: When played, deal 1 DMG to your own castle. Draw a card.",
       "text_pl": "KRWAWA CENA: Gdy zagrana, zadaje 1 DMG twojemu własnemu zamkowi. Dobierz kartę.",
+      "text_es": "PRECIO DE SANGRE: Al jugarla, inflige 1 DMG a tu propio castillo. Roba una carta.",
       "image": "assets/cards/art/damned/damned_09.png"
     },
     {
@@ -127,6 +149,7 @@
       "defense": 3,
       "text": "REAP: Draw a card whenever an enemy unit dies.",
       "text_pl": "ŻNIWO: Dobierz kartę, gdy zginie wroga jednostka.",
+      "text_es": "COSECHA: Roba una carta cada vez que muere una unidad enemiga.",
       "image": "assets/cards/art/damned/damned_10.png"
     },
     {
@@ -137,6 +160,7 @@
       "defense": 3,
       "text": "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
       "text_pl": "KRADZIEŻ ŻYCIA: Leczy twój zamek o obrażenia zadane przez tę jednostkę w walce.",
+      "text_es": "ROBO DE VIDA: Cura a tu castillo por el DMG que esta unidad inflige en combate.",
       "image": "assets/cards/art/damned/damned_11.png"
     },
     {
@@ -147,6 +171,7 @@
       "defense": 4,
       "text": "CULL: When played, destroys your weakest allied unit (if any) to deal 2 DMG to a random enemy unit, or the enemy castle if none.",
       "text_pl": "SELEKCJA: Gdy zagrana, niszczy twoją najsłabszą sojuszniczą jednostkę (jeśli taka istnieje), by zadać 2 DMG losowej wrogiej jednostce, lub wrogiemu zamkowi, jeśli żadnej nie ma.",
+      "text_es": "PURGA: Al jugarla, destruye tu unidad aliada más débil (si la hay) para infligir 2 DMG a una unidad enemiga aleatoria, o al castillo enemigo si no hay ninguna.",
       "image": "assets/cards/art/damned/damned_12.png"
     },
     {
@@ -157,6 +182,7 @@
       "defense": 4,
       "text": "BLOODPRICE: When played, deal 1 DMG to your own castle. Draw a card.",
       "text_pl": "KRWAWA CENA: Gdy zagrana, zadaje 1 DMG twojemu własnemu zamkowi. Dobierz kartę.",
+      "text_es": "PRECIO DE SANGRE: Al jugarla, inflige 1 DMG a tu propio castillo. Roba una carta.",
       "image": "assets/cards/art/damned/damned_13.png"
     },
     {
@@ -167,6 +193,7 @@
       "defense": 4,
       "text": "REAP: Draw a card whenever an enemy unit dies.",
       "text_pl": "ŻNIWO: Dobierz kartę, gdy zginie wroga jednostka.",
+      "text_es": "COSECHA: Roba una carta cada vez que muere una unidad enemiga.",
       "image": "assets/cards/art/damned/damned_14.png"
     },
     {
@@ -177,6 +204,7 @@
       "defense": 4,
       "text": "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
       "text_pl": "KRADZIEŻ ŻYCIA: Leczy twój zamek o obrażenia zadane przez tę jednostkę w walce.",
+      "text_es": "ROBO DE VIDA: Cura a tu castillo por el DMG que esta unidad inflige en combate.",
       "image": "assets/cards/art/damned/damned_15.png"
     },
     {
@@ -187,6 +215,7 @@
       "defense": 3,
       "text": "REBIRTH: The first time this would die, return it to your hand at 1 HP instead.",
       "text_pl": "ODRODZENIE: Za pierwszym razem, gdy ta jednostka miałaby zginąć, wraca zamiast tego do twojej ręki z 1 PŻ.",
+      "text_es": "RENACIMIENTO: La primera vez que esta unidad muera, vuelve a tu mano con 1 PV en su lugar.",
       "image": "assets/cards/art/damned/damned_16.png"
     },
     {
@@ -197,6 +226,7 @@
       "defense": 5,
       "text": "BLOODPRICE: When played, deal 1 DMG to your own castle. Draw a card.",
       "text_pl": "KRWAWA CENA: Gdy zagrana, zadaje 1 DMG twojemu własnemu zamkowi. Dobierz kartę.",
+      "text_es": "PRECIO DE SANGRE: Al jugarla, inflige 1 DMG a tu propio castillo. Roba una carta.",
       "image": "assets/cards/art/damned/damned_17.png"
     },
     {
@@ -207,6 +237,7 @@
       "defense": 5,
       "text": "REAP: Draw a card whenever an enemy unit dies.",
       "text_pl": "ŻNIWO: Dobierz kartę, gdy zginie wroga jednostka.",
+      "text_es": "COSECHA: Roba una carta cada vez que muere una unidad enemiga.",
       "image": "assets/cards/art/damned/damned_18.png"
     },
     {
@@ -217,6 +248,7 @@
       "defense": 7,
       "text": "TAUNT: Enemies must attack this unit first.",
       "text_pl": "PROWOKACJA: Wrogowie muszą zaatakować najpierw tę jednostkę.",
+      "text_es": "PROVOCACIÓN: Los enemigos deben atacar primero a esta unidad.",
       "image": "assets/cards/art/damned/damned_19.png"
     },
     {
@@ -227,6 +259,7 @@
       "defense": 7,
       "text": "CULL: When played, destroys your weakest allied unit (if any) to deal 2 DMG to a random enemy unit, or the enemy castle if none.",
       "text_pl": "SELEKCJA: Gdy zagrana, niszczy twoją najsłabszą sojuszniczą jednostkę (jeśli taka istnieje), by zadać 2 DMG losowej wrogiej jednostce, lub wrogiemu zamkowi, jeśli żadnej nie ma.",
+      "text_es": "PURGA: Al jugarla, destruye tu unidad aliada más débil (si la hay) para infligir 2 DMG a una unidad enemiga aleatoria, o al castillo enemigo si no hay ninguna.",
       "image": "assets/cards/art/damned/damned_20.png"
     },
     {
@@ -237,6 +270,7 @@
       "defense": 6,
       "text": "MEND: Heals an allied unit for 2 when played.",
       "text_pl": "LECZENIE: Gdy zagrana, leczy sojuszniczą jednostkę o 2.",
+      "text_es": "CURACIÓN: Al jugarla, cura 2 puntos a una unidad aliada.",
       "image": "assets/cards/art/damned/damned_21.png"
     },
     {
@@ -247,6 +281,7 @@
       "defense": 6,
       "text": "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
       "text_pl": "KRADZIEŻ ŻYCIA: Leczy twój zamek o obrażenia zadane przez tę jednostkę w walce.",
+      "text_es": "ROBO DE VIDA: Cura a tu castillo por el DMG que esta unidad inflige en combate.",
       "image": "assets/cards/art/damned/damned_22.png"
     },
     {
@@ -257,6 +292,7 @@
       "defense": 6,
       "text": "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
       "text_pl": "KRADZIEŻ ŻYCIA: Leczy twój zamek o obrażenia zadane przez tę jednostkę w walce.",
+      "text_es": "ROBO DE VIDA: Cura a tu castillo por el DMG que esta unidad inflige en combate.",
       "image": "assets/cards/art/damned/damned_23.png"
     },
     {
@@ -267,6 +303,7 @@
       "defense": 9,
       "text": "CULL: When played, destroys your weakest allied unit (if any) to deal 2 DMG to a random enemy unit, or the enemy castle if none.",
       "text_pl": "SELEKCJA: Gdy zagrana, niszczy twoją najsłabszą sojuszniczą jednostkę (jeśli taka istnieje), by zadać 2 DMG losowej wrogiej jednostce, lub wrogiemu zamkowi, jeśli żadnej nie ma.",
+      "text_es": "PURGA: Al jugarla, destruye tu unidad aliada más débil (si la hay) para infligir 2 DMG a una unidad enemiga aleatoria, o al castillo enemigo si no hay ninguna.",
       "image": "assets/cards/art/damned/damned_24.png"
     },
     {
@@ -277,6 +314,7 @@
       "defense": 5,
       "text": "BLOODPRICE 2: When played, deal 2 DMG to your own castle. LAST BREATH: Draw 2 cards.",
       "text_pl": "KRWAWA CENA 2: Gdy zagrana, zadaje 2 DMG twojemu własnemu zamkowi. OSTATNIE TCHNIENIE: Dobierz 2 karty.",
+      "text_es": "PRECIO DE SANGRE 2: Al jugarla, inflige 2 DMG a tu propio castillo. ÚLTIMO ALIENTO: Roba 2 cartas.",
       "image": "assets/cards/art/damned/damned_25.png"
     },
     {
@@ -287,6 +325,7 @@
       "defense": 9,
       "text": "CULL: When played, destroys your weakest allied unit (if any) to deal 2 DMG to a random enemy unit, or the enemy castle if none. (This unit is a rare, high-impact threat.)",
       "text_pl": "SELEKCJA: Gdy zagrana, niszczy twoją najsłabszą sojuszniczą jednostkę (jeśli taka istnieje), by zadać 2 DMG losowej wrogiej jednostce, lub wrogiemu zamkowi, jeśli żadnej nie ma. (Ta jednostka to rzadkie, potężne zagrożenie.)",
+      "text_es": "PURGA: Al jugarla, destruye tu unidad aliada más débil (si la hay) para infligir 2 DMG a una unidad enemiga aleatoria, o al castillo enemigo si no hay ninguna. (Esta unidad es una amenaza rara de alto impacto.)",
       "image": "assets/cards/art/damned/damned_26.png"
     },
     {
@@ -297,6 +336,7 @@
       "copies": 2,
       "text": "Draw 4 cards.",
       "text_pl": "Dobierz 4 karty.",
+      "text_es": "Roba 4 cartas.",
       "image": "assets/cards/art/damned/damned_27.png"
     },
     {
@@ -309,6 +349,7 @@
       "effect": { "kind": "self_damage_then_damage", "selfAmount": 1, "amount": 3 },
       "text": "Deal 1 damage to your own castle. Deal 3 damage to an enemy unit.",
       "text_pl": "Zadaj 1 obrażenie własnemu zamkowi. Zadaj 3 obrażenia wrogiej jednostce.",
+      "text_es": "Inflige 1 de daño a tu propio castillo. Inflige 3 de daño a una unidad enemiga.",
       "image": "assets/cards/art/damned/damned_28.png"
     },
     {
@@ -321,6 +362,7 @@
       "effect": { "kind": "self_damage_then_buff_power", "selfAmount": 1, "powerAmount": 3 },
       "text": "Deal 1 damage to your own castle. Target allied unit gains +3 DMG until end of turn.",
       "text_pl": "Zadaj 1 obrażenie własnemu zamkowi. Wybrana sojusznicza jednostka zyskuje +3 DMG do końca tury.",
+      "text_es": "Inflige 1 de daño a tu propio castillo. La unidad aliada objetivo gana +3 DMG hasta el final del turno.",
       "image": "assets/cards/art/damned/damned_29.png"
     },
     {
@@ -333,6 +375,7 @@
       "effect": { "kind": "self_damage_then_draw", "selfAmount": 2, "drawAmount": 2 },
       "text": "Deal 2 damage to your own castle. Draw 2 cards.",
       "text_pl": "Zadaj 2 obrażenia własnemu zamkowi. Dobierz 2 karty.",
+      "text_es": "Inflige 2 de daño a tu propio castillo. Roba 2 cartas.",
       "image": "assets/cards/art/damned/damned_30.png"
     },
     {
@@ -345,6 +388,7 @@
       "effect": { "kind": "damage_and_heal_castle", "amount": 2, "healAmount": 2 },
       "text": "Deal 2 damage to an enemy unit. Heal your castle for 2.",
       "text_pl": "Zadaj 2 obrażenia wrogiej jednostce. Ulecz swój zamek o 2.",
+      "text_es": "Inflige 2 de daño a una unidad enemiga. Cura 2 puntos a tu castillo.",
       "image": "assets/cards/art/damned/damned_31.png"
     },
     {
@@ -357,6 +401,7 @@
       "effect": { "kind": "sacrifice_then_draw", "maxTargetPower": 2, "drawAmount": 2 },
       "text": "Destroy an allied unit with 2 or less DMG. Draw 2 cards.",
       "text_pl": "Zniszcz sojuszniczą jednostkę o obrażeniach 2 lub mniej. Dobierz 2 karty.",
+      "text_es": "Destruye una unidad aliada con 2 o menos DMG. Roba 2 cartas.",
       "image": "assets/cards/art/damned/damned_32.png"
     },
     {
@@ -369,6 +414,7 @@
       "effect": { "kind": "damage_then_weaken", "amount": 2, "reduction": 1 },
       "text": "Deal 2 damage to an enemy unit. The next time it would deal combat damage this turn, it deals 1 less.",
       "text_pl": "Zadaj 2 obrażenia wrogiej jednostce. Następnym razem, gdy zadałaby obrażenia bojowe w tej turze, zada o 1 mniej.",
+      "text_es": "Inflige 2 de daño a una unidad enemiga. La próxima vez que inflija daño de combate este turno, inflige 1 menos.",
       "image": "assets/cards/art/damned/damned_33.png"
     },
     {
@@ -381,6 +427,7 @@
       "effect": { "kind": "self_damage_then_death_ward", "selfAmount": 1 },
       "text": "Deal 1 damage to your own castle. If target allied unit would die this turn, it returns to your hand instead.",
       "text_pl": "Zadaj 1 obrażenie własnemu zamkowi. Jeśli wybrana sojusznicza jednostka miałaby zginąć w tej turze, wraca zamiast tego do twojej ręki.",
+      "text_es": "Inflige 1 de daño a tu propio castillo. Si la unidad aliada objetivo muriera este turno, vuelve a tu mano en su lugar.",
       "image": "assets/cards/art/damned/damned_34.png"
     },
     {
@@ -393,6 +440,7 @@
       "effect": { "kind": "heal_castle_per_death", "perDeath": 3, "maxAmount": 9 },
       "text": "Heal your castle for 3 for each allied unit that died this turn (maximum 9).",
       "text_pl": "Ulecz swój zamek o 3 za każdą sojuszniczą jednostkę, która zginęła w tej turze (maksymalnie 9).",
+      "text_es": "Cura 3 puntos a tu castillo por cada unidad aliada que murió este turno (máximo 9).",
       "image": "assets/cards/art/damned/damned_35.png"
     },
     {
@@ -405,6 +453,7 @@
       "effect": { "kind": "self_damage_then_destroy", "selfAmount": 2, "maxTargetPower": 4 },
       "text": "Deal 2 damage to your own castle. Destroy target enemy unit with 4 or less DMG.",
       "text_pl": "Zadaj 2 obrażenia własnemu zamkowi. Zniszcz wybraną wrogą jednostkę o obrażeniach 4 lub mniej.",
+      "text_es": "Inflige 2 de daño a tu propio castillo. Destruye la unidad enemiga objetivo con 4 o menos DMG.",
       "image": "assets/cards/art/damned/damned_36.png"
     },
     {
@@ -417,6 +466,7 @@
       "effect": { "kind": "buff_defense", "amount": 2 },
       "text": "Target allied unit gains +0/+2 until end of turn.",
       "text_pl": "Wybrana sojusznicza jednostka zyskuje +0/+2 do końca tury.",
+      "text_es": "La unidad aliada objetivo gana +0/+2 hasta el final del turno.",
       "image": "assets/cards/art/damned/damned_37.png"
     }
   ]

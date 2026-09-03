@@ -3,31 +3,44 @@
   "displayName": "Elf",
   "archetype": "Aggro / Glass Cannon",
   "archetype_pl": "Agresja / Szklane Działo",
+  "archetype_es": "Agresivo / Cañón de Cristal",
   "difficulty": "Advanced",
   "tagline": "The hardest-hitting stat lines in the game — if you can survive long enough to swing.",
   "tagline_pl": "Najmocniej uderzające statystyki w grze — jeśli przetrwasz wystarczająco długo, by zaatakować.",
+  "tagline_es": "Las estadísticas más contundentes del juego — si sobrevives lo suficiente para atacar.",
   "description": "Elf runs the highest power-to-defense ratios of any faction, epitomized by the 9-power, 5-defense Archmage. Desperate units get even more dangerous once your own castle drops below half HP, and Lifesteal helps offset the risk of racing on such a fragile board.",
   "description_pl": "Elfy mają najwyższy stosunek obrażeń do obrony spośród wszystkich frakcji, czego uosobieniem jest Arcymag z 9 obrażeniami i 5 obroną. Jednostki z Desperacją stają się jeszcze groźniejsze, gdy twój własny zamek spadnie poniżej połowy PŻ, a Kradzież Życia pomaga zrównoważyć ryzyko wyścigu przy tak kruchej planszy.",
+  "description_es": "Elfo tiene la mayor proporción de poder a defensa de cualquier facción, personificada por Arcimago, con 9 de poder y 5 de defensa. Las unidades con Desesperación se vuelven aún más peligrosas cuando tu propio castillo cae por debajo de la mitad de sus PV, y Robo de Vida ayuda a compensar el riesgo de correr con un tablero tan frágil.",
   "gamePlan": "Apply relentless pressure with efficient, high-power threats, and let Desperate turn your own low life total into a damage bonus instead of a liability.",
   "gamePlan_pl": "Wywieraj nieustanną presję efektywnymi, silnymi zagrożeniami i pozwól, by Desperacja zamieniła twoją niską liczbę punktów życia w premię do obrażeń zamiast obciążenia.",
+  "gamePlan_es": "Aplica presión implacable con amenazas eficientes y de alto poder, y deja que Desesperación convierta tu baja vida en una bonificación de daño en lugar de una desventaja.",
   "playstyle": "Play aggressively and don't be afraid to take damage — Elf's Desperate cards want you below half HP, so a cautious, defensive mindset actively works against this deck.",
   "playstyle_pl": "Graj agresywnie i nie bój się otrzymywać obrażeń — karty Elfów z Desperacją chcą, byś miał mniej niż połowę PŻ, więc ostrożne, defensywne nastawienie wręcz działa przeciwko tej talii.",
+  "playstyle_es": "Juega de forma agresiva y no temas recibir daño — las cartas con Desesperación de Elfo quieren que tengas menos de la mitad de tus PV, así que una mentalidad cautelosa y defensiva juega en contra de este mazo.",
   "winCondition": "Race the opponent down before your fragile defense lets them race back.",
   "winCondition_pl": "Prześcignij przeciwnika, zanim twoja krucha obrona pozwoli mu na kontratak w wyścigu.",
+  "winCondition_es": "Adelanta al oponente en la carrera antes de que tu frágil defensa le permita remontar.",
   "strengths": ["Highest raw power stats in the game for the cost", "Desperate turns being behind on life into a damage bonus", "Lifesteal offsets some of the risk of racing"],
   "strengths_pl": ["Najwyższe surowe statystyki obrażeń w grze w stosunku do kosztu", "Desperacja zamienia zaległość w życiu w premię do obrażeń", "Kradzież Życia niweluje część ryzyka związanego z wyścigiem"],
+  "strengths_es": ["Las estadísticas de poder bruto más altas del juego por su coste", "Desesperación convierte estar por detrás en vida en una bonificación de daño", "Robo de Vida compensa parte del riesgo de correr"],
   "weaknesses": ["Low defense stats mean trades often go badly", "A dedicated removal or control deck can pick this board apart", "Punishing to misplay — there's little cushion for error"],
   "weaknesses_pl": ["Niska obrona oznacza, że wymiany często kończą się źle", "Dedykowana talia z usuwaniem lub kontrolą potrafi rozłożyć tę planszę na czynniki pierwsze", "Bezlitosna dla błędów — jest bardzo mały margines na pomyłki"],
+  "weaknesses_es": ["Las bajas estadísticas de defensa hacen que los intercambios a menudo salgan mal", "Un mazo dedicado de eliminación o control puede desmontar este tablero", "Implacable con los errores — hay muy poco margen"],
   "pros": ["Extremely high damage output for its cost", "Desperate rewards committing to the race instead of playing scared", "Can close games very quickly once ahead"],
   "pros_pl": ["Wyjątkowo wysokie obrażenia w stosunku do kosztu", "Desperacja nagradza zaangażowanie w wyścig zamiast gry z lęku", "Może bardzo szybko zakończyć grę, będąc na prowadzeniu"],
+  "pros_es": ["Producción de daño extremadamente alta por su coste", "Desesperación premia comprometerse con la carrera en lugar de jugar con miedo", "Puede cerrar partidas muy rápido cuando va por delante"],
   "cons": ["Fragile stat lines lose most fair trades", "Requires precise life-total management, unlike simpler aggro decks", "Struggles if the race stalls out"],
   "cons_pl": ["Kruche statystyki przegrywają większość uczciwych wymian", "Wymaga precyzyjnego zarządzania punktami życia, w przeciwieństwie do prostszych talii agresywnych", "Ma problemy, gdy wyścig utknie w miejscu"],
+  "cons_es": ["Las estadísticas frágiles pierden la mayoría de los intercambios justos", "Requiere una gestión precisa de la vida, a diferencia de mazos agresivos más simples", "Tiene problemas si la carrera se estanca"],
   "keyMechanics": ["DESPERATE", "LIFESTEAL", "PRECISE"],
   "keyMechanics_pl": ["DESPERACJA", "KRADZIEŻ ŻYCIA", "PRECYZJA"],
+  "keyMechanics_es": ["DESESPERACIÓN", "ROBO DE VIDA", "PRECISIÓN"],
   "beginnerExplainer": "Desperate cards get stronger once your own castle HP drops below half — for this deck, taking damage isn't just acceptable, it's often the plan.",
   "beginnerExplainer_pl": "Karty z Desperacją stają się silniejsze, gdy PŻ twojego zamku spadną poniżej połowy — w tej talii otrzymywanie obrażeń jest nie tylko dopuszczalne, ale często stanowi część planu.",
+  "beginnerExplainer_es": "Las cartas con Desesperación se vuelven más fuertes cuando los PV de tu propio castillo caen por debajo de la mitad — en este mazo, recibir daño no solo es aceptable, a menudo es el plan.",
   "howToPlay": {"early": "Play your efficient, high-power threats and start applying pressure immediately.", "mid": "Keep racing even as your own HP drops — that's what turns on Desperate — and use Lifesteal units to avoid dying outright.", "late": "Push through with Desperate-buffed damage and finishers like Storm Giant before the opponent stabilizes."},
   "howToPlay_pl": {"early": "Zagrywaj swoje efektywne, silne zagrożenia i od razu zacznij wywierać presję.", "mid": "Kontynuuj wyścig, nawet gdy twoje własne PŻ spadają — to właśnie uruchamia Desperację — i wykorzystuj jednostki z Kradzieżą Życia, by uniknąć całkowitej porażki.", "late": "Przeforsuj obrażenia wzmocnione Desperacją i finiszery, jak Olbrzym Burzy, zanim przeciwnik zdąży się ustabilizować."},
+  "howToPlay_es": {"early": "Juega tus amenazas eficientes y de alto poder y empieza a presionar de inmediato.", "mid": "Sigue corriendo aunque tus propios PV bajen — eso es lo que activa Desesperación — y usa unidades con Robo de Vida para evitar morir de golpe.", "late": "Termina con daño mejorado por Desesperación y finalizadores como Gigante de la Tormenta antes de que el oponente se estabilice."},
   "cards": [
     {
       "id": "elf_01",
@@ -37,6 +50,7 @@
       "defense": 2,
       "text": "TAUNT: Enemies must attack this unit first.",
       "text_pl": "PROWOKACJA: Wrogowie muszą zaatakować najpierw tę jednostkę.",
+      "text_es": "PROVOCACIÓN: Los enemigos deben atacar primero a esta unidad.",
       "image": "assets/cards/art/elf/elf_01.png"
     },
     {
@@ -47,6 +61,7 @@
       "defense": 2,
       "text": "FORMATION: +1 DMG while adjacent to another Elf unit.",
       "text_pl": "FORMACJA: +1 DMG, gdy sąsiaduje z inną jednostką Elfów.",
+      "text_es": "FORMACIÓN: +1 DMG mientras esté adyacente a otra unidad Elfa.",
       "image": "assets/cards/art/elf/elf_02.png"
     },
     {
@@ -57,6 +72,7 @@
       "defense": 2,
       "text": "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
       "text_pl": "KRADZIEŻ ŻYCIA: Leczy twój zamek o obrażenia zadane przez tę jednostkę w walce.",
+      "text_es": "ROBO DE VIDA: Cura a tu castillo por el DMG que esta unidad inflige en combate.",
       "image": "assets/cards/art/elf/elf_03.png"
     },
     {
@@ -67,6 +83,7 @@
       "defense": 3,
       "text": "DESPERATE: Gains +2 DMG while your castle is below half HP.",
       "text_pl": "DESPERACJA: Zyskuje +2 DMG, gdy twój zamek ma mniej niż połowę PŻ.",
+      "text_es": "DESESPERACIÓN: Gana +2 DMG mientras tu castillo tenga menos de la mitad de sus PV.",
       "image": "assets/cards/art/elf/elf_04.png"
     },
     {
@@ -77,6 +94,7 @@
       "defense": 2,
       "text": "VOLLEY: May choose to strike either enemy row, without risking retaliation. Ignores Taunt entirely.",
       "text_pl": "SALWA: Może wybrać, którą wrogą linię zaatakować, bez ryzyka kontrataku. Całkowicie ignoruje Prowokację.",
+      "text_es": "RÁFAGA: Puede elegir atacar cualquiera de las filas enemigas, sin arriesgarse a represalias. Ignora la Provocación por completo.",
       "image": "assets/cards/art/elf/elf_05.png"
     },
     {
@@ -87,6 +105,7 @@
       "defense": 3,
       "text": "FORMATION: +1 DMG while adjacent to another Elf unit.",
       "text_pl": "FORMACJA: +1 DMG, gdy sąsiaduje z inną jednostką Elfów.",
+      "text_es": "FORMACIÓN: +1 DMG mientras esté adyacente a otra unidad Elfa.",
       "image": "assets/cards/art/elf/elf_06.png"
     },
     {
@@ -97,6 +116,7 @@
       "defense": 3,
       "text": "CHARGE: Can attack the turn it is played.",
       "text_pl": "SZARŻA: Może atakować w turze, w której została zagrana.",
+      "text_es": "CARGA: Puede atacar el turno en que es jugada.",
       "image": "assets/cards/art/elf/elf_07.png"
     },
     {
@@ -107,6 +127,7 @@
       "defense": 3,
       "text": "CHARGE: Can attack the turn it is played.",
       "text_pl": "SZARŻA: Może atakować w turze, w której została zagrana.",
+      "text_es": "CARGA: Puede atacar el turno en que es jugada.",
       "image": "assets/cards/art/elf/elf_08.png"
     },
     {
@@ -117,6 +138,7 @@
       "defense": 3,
       "text": "PRECISE: This unit's attacks ignore Taunt.",
       "text_pl": "PRECYZJA: Ataki tej jednostki ignorują Prowokację.",
+      "text_es": "PRECISIÓN: Los ataques de esta unidad ignoran la Provocación.",
       "image": "assets/cards/art/elf/elf_09.png"
     },
     {
@@ -127,6 +149,7 @@
       "defense": 2,
       "text": "FORMATION: +1 DMG while adjacent to another Elf unit.",
       "text_pl": "FORMACJA: +1 DMG, gdy sąsiaduje z inną jednostką Elfów.",
+      "text_es": "FORMACIÓN: +1 DMG mientras esté adyacente a otra unidad Elfa.",
       "image": "assets/cards/art/elf/elf_10.png"
     },
     {
@@ -137,6 +160,7 @@
       "defense": 2,
       "text": "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
       "text_pl": "KRADZIEŻ ŻYCIA: Leczy twój zamek o obrażenia zadane przez tę jednostkę w walce.",
+      "text_es": "ROBO DE VIDA: Cura a tu castillo por el DMG que esta unidad inflige en combate.",
       "image": "assets/cards/art/elf/elf_11.png"
     },
     {
@@ -147,6 +171,7 @@
       "defense": 3,
       "text": "DESPERATE: Gains +2 DMG while your castle is below half HP.",
       "text_pl": "DESPERACJA: Zyskuje +2 DMG, gdy twój zamek ma mniej niż połowę PŻ.",
+      "text_es": "DESESPERACIÓN: Gana +2 DMG mientras tu castillo tenga menos de la mitad de sus PV.",
       "image": "assets/cards/art/elf/elf_12.png"
     },
     {
@@ -157,6 +182,7 @@
       "defense": 4,
       "text": "PRECISE: This unit's attacks ignore Taunt.",
       "text_pl": "PRECYZJA: Ataki tej jednostki ignorują Prowokację.",
+      "text_es": "PRECISIÓN: Los ataques de esta unidad ignoran la Provocación.",
       "image": "assets/cards/art/elf/elf_13.png"
     },
     {
@@ -167,6 +193,7 @@
       "defense": 4,
       "text": "MEND: Heals an allied unit for 2 when played.",
       "text_pl": "LECZENIE: Gdy zagrana, leczy sojuszniczą jednostkę o 2.",
+      "text_es": "CURACIÓN: Al jugarla, cura 2 puntos a una unidad aliada.",
       "image": "assets/cards/art/elf/elf_14.png"
     },
     {
@@ -177,6 +204,7 @@
       "defense": 4,
       "text": "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
       "text_pl": "KRADZIEŻ ŻYCIA: Leczy twój zamek o obrażenia zadane przez tę jednostkę w walce.",
+      "text_es": "ROBO DE VIDA: Cura a tu castillo por el DMG que esta unidad inflige en combate.",
       "image": "assets/cards/art/elf/elf_15.png"
     },
     {
@@ -187,6 +215,7 @@
       "defense": 5,
       "text": "DESPERATE: Gains +2 DMG while your castle is below half HP.",
       "text_pl": "DESPERACJA: Zyskuje +2 DMG, gdy twój zamek ma mniej niż połowę PŻ.",
+      "text_es": "DESESPERACIÓN: Gana +2 DMG mientras tu castillo tenga menos de la mitad de sus PV.",
       "image": "assets/cards/art/elf/elf_16.png"
     },
     {
@@ -197,6 +226,7 @@
       "defense": 5,
       "text": "PRECISE: This unit's attacks ignore Taunt.",
       "text_pl": "PRECYZJA: Ataki tej jednostki ignorują Prowokację.",
+      "text_es": "PRECISIÓN: Los ataques de esta unidad ignoran la Provocación.",
       "image": "assets/cards/art/elf/elf_17.png"
     },
     {
@@ -207,6 +237,7 @@
       "defense": 6,
       "text": "TAUNT: Enemies must attack this unit first.",
       "text_pl": "PROWOKACJA: Wrogowie muszą zaatakować najpierw tę jednostkę.",
+      "text_es": "PROVOCACIÓN: Los enemigos deben atacar primero a esta unidad.",
       "image": "assets/cards/art/elf/elf_18.png"
     },
     {
@@ -217,6 +248,7 @@
       "defense": 6,
       "text": "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
       "text_pl": "KRADZIEŻ ŻYCIA: Leczy twój zamek o obrażenia zadane przez tę jednostkę w walce.",
+      "text_es": "ROBO DE VIDA: Cura a tu castillo por el DMG que esta unidad inflige en combate.",
       "image": "assets/cards/art/elf/elf_19.png"
     },
     {
@@ -227,6 +259,7 @@
       "defense": 6,
       "text": "SIEGE: A siege weapon that deals damage without risking retaliation.",
       "text_pl": "OBLĘŻENIE: Machina oblężnicza, która zadaje obrażenia bez ryzyka kontrataku.",
+      "text_es": "ASEDIO: Un arma de asedio que inflige daño sin arriesgarse a represalias.",
       "image": "assets/cards/art/elf/elf_20.png"
     },
     {
@@ -237,6 +270,7 @@
       "defense": 7,
       "text": "PRECISE: This unit's attacks ignore Taunt.",
       "text_pl": "PRECYZJA: Ataki tej jednostki ignorują Prowokację.",
+      "text_es": "PRECISIÓN: Los ataques de esta unidad ignoran la Provocación.",
       "image": "assets/cards/art/elf/elf_21.png"
     },
     {
@@ -247,6 +281,7 @@
       "defense": 6,
       "text": "CHARGE: Can attack the turn it is played.",
       "text_pl": "SZARŻA: Może atakować w turze, w której została zagrana.",
+      "text_es": "CARGA: Puede atacar el turno en que es jugada.",
       "image": "assets/cards/art/elf/elf_22.png"
     },
     {
@@ -257,6 +292,7 @@
       "defense": 4,
       "text": "LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
       "text_pl": "KRADZIEŻ ŻYCIA: Leczy twój zamek o obrażenia zadane przez tę jednostkę w walce.",
+      "text_es": "ROBO DE VIDA: Cura a tu castillo por el DMG que esta unidad inflige en combate.",
       "image": "assets/cards/art/elf/elf_23.png"
     },
     {
@@ -267,6 +303,7 @@
       "defense": 5,
       "text": "DESPERATE: Gains +2 DMG while your castle is below half HP.",
       "text_pl": "DESPERACJA: Zyskuje +2 DMG, gdy twój zamek ma mniej niż połowę PŻ.",
+      "text_es": "DESESPERACIÓN: Gana +2 DMG mientras tu castillo tenga menos de la mitad de sus PV.",
       "image": "assets/cards/art/elf/elf_24.png"
     },
     {
@@ -277,6 +314,7 @@
       "defense": 9,
       "text": "DESPERATE: Gains +2 DMG while your castle is below half HP. (This unit is a rare, high-impact threat.)",
       "text_pl": "DESPERACJA: Zyskuje +2 DMG, gdy twój zamek ma mniej niż połowę PŻ. (Ta jednostka to rzadkie, potężne zagrożenie.)",
+      "text_es": "DESESPERACIÓN: Gana +2 DMG mientras tu castillo tenga menos de la mitad de sus PV. (Esta unidad es una amenaza rara de alto impacto.)",
       "image": "assets/cards/art/elf/elf_25.png"
     },
     {
@@ -287,6 +325,7 @@
       "defense": 11,
       "text": "DESPERATE: Gains +2 DMG while your castle is below half HP. (This unit is a rare, high-impact threat.)",
       "text_pl": "DESPERACJA: Zyskuje +2 DMG, gdy twój zamek ma mniej niż połowę PŻ. (Ta jednostka to rzadkie, potężne zagrożenie.)",
+      "text_es": "DESESPERACIÓN: Gana +2 DMG mientras tu castillo tenga menos de la mitad de sus PV. (Esta unidad es una amenaza rara de alto impacto.)",
       "image": "assets/cards/art/elf/elf_26.png"
     },
     {
@@ -297,6 +336,7 @@
       "copies": 2,
       "text": "Draw 4 cards.",
       "text_pl": "Dobierz 4 karty.",
+      "text_es": "Roba 4 cartas.",
       "image": "assets/cards/art/elf/elf_27.png"
     },
     {
@@ -309,6 +349,7 @@
       "effect": { "kind": "vulnerable", "amount": 1 },
       "text": "Target enemy unit takes +1 damage from all sources until end of turn.",
       "text_pl": "Wybrana wroga jednostka otrzymuje +1 obrażeń ze wszystkich źródeł do końca tury.",
+      "text_es": "La unidad enemiga objetivo recibe +1 de daño de todas las fuentes hasta el final del turno.",
       "image": "assets/cards/art/elf/elf_28.png"
     },
     {
@@ -321,6 +362,7 @@
       "effect": { "kind": "damage", "amount": 2 },
       "text": "Deal 2 damage to an enemy unit.",
       "text_pl": "Zadaj 2 obrażenia wrogiej jednostce.",
+      "text_es": "Inflige 2 de daño a una unidad enemiga.",
       "image": "assets/cards/art/elf/elf_29.png"
     },
     {
@@ -333,6 +375,7 @@
       "effect": { "kind": "buff_power", "amount": 2 },
       "text": "Target allied unit gains +2 DMG until end of turn.",
       "text_pl": "Wybrana sojusznicza jednostka zyskuje +2 DMG do końca tury.",
+      "text_es": "La unidad aliada objetivo gana +2 DMG hasta el final del turno.",
       "image": "assets/cards/art/elf/elf_30.png"
     },
     {
@@ -345,6 +388,7 @@
       "effect": { "kind": "bounce" },
       "text": "Return target allied unit to your hand.",
       "text_pl": "Zwróć wybraną sojuszniczą jednostkę do swojej ręki.",
+      "text_es": "Devuelve la unidad aliada objetivo a tu mano.",
       "image": "assets/cards/art/elf/elf_31.png"
     },
     {
@@ -357,6 +401,7 @@
       "effect": { "kind": "buff_defense", "amount": 3 },
       "text": "Target allied unit gains +0/+3 until end of turn.",
       "text_pl": "Wybrana sojusznicza jednostka zyskuje +0/+3 do końca tury.",
+      "text_es": "La unidad aliada objetivo gana +0/+3 hasta el final del turno.",
       "image": "assets/cards/art/elf/elf_32.png"
     },
     {
@@ -369,6 +414,7 @@
       "effect": { "kind": "damage_conditional_hp", "amount": 3, "lowHpAmount": 5 },
       "text": "Deal 3 damage to an enemy unit. If your castle is below half HP, deal 5 instead.",
       "text_pl": "Zadaj 3 obrażenia wrogiej jednostce. Jeśli twój zamek ma mniej niż połowę PŻ, zadaj zamiast tego 5.",
+      "text_es": "Inflige 3 de daño a una unidad enemiga. Si tu castillo tiene menos de la mitad de sus PV, inflige 5 en su lugar.",
       "image": "assets/cards/art/elf/elf_33.png"
     },
     {
@@ -381,6 +427,7 @@
       "effect": { "kind": "heal_castle", "amount": 4 },
       "text": "Heal your castle for 4.",
       "text_pl": "Ulecz swój zamek o 4.",
+      "text_es": "Cura 4 puntos a tu castillo.",
       "image": "assets/cards/art/elf/elf_34.png"
     },
     {
@@ -393,6 +440,7 @@
       "effect": { "kind": "multi_damage", "amount": 2, "count": 2 },
       "text": "Deal 2 damage to two different enemy units.",
       "text_pl": "Zadaj 2 obrażenia dwóm różnym wrogim jednostkom.",
+      "text_es": "Inflige 2 de daño a dos unidades enemigas diferentes.",
       "image": "assets/cards/art/elf/elf_35.png"
     },
     {
@@ -405,6 +453,7 @@
       "effect": { "kind": "draw_conditional_hp", "amount": 2, "lowHpAmount": 3 },
       "text": "Draw 2 cards. If your castle is below half HP, draw 3 instead.",
       "text_pl": "Dobierz 2 karty. Jeśli twój zamek ma mniej niż połowę PŻ, dobierz zamiast tego 3.",
+      "text_es": "Roba 2 cartas. Si tu castillo tiene menos de la mitad de sus PV, roba 3 en su lugar.",
       "image": "assets/cards/art/elf/elf_36.png"
     },
     {
@@ -417,6 +466,7 @@
       "effect": { "kind": "buff_defense", "amount": 2 },
       "text": "Target allied unit gains +0/+2 until end of turn.",
       "text_pl": "Wybrana sojusznicza jednostka zyskuje +0/+2 do końca tury.",
+      "text_es": "La unidad aliada objetivo gana +0/+2 hasta el final del turno.",
       "image": "assets/cards/art/elf/elf_37.png"
     },
     {
@@ -427,6 +477,7 @@
       "defense": 2,
       "text": "FIRST STRIKE: This unit deals its combat damage before the defender can retaliate.",
       "text_pl": "PIERWSZY CIOS: Ta jednostka zadaje swoje obrażenia bojowe, zanim obrońca zdąży kontratakować.",
+      "text_es": "PRIMER GOLPE: Esta unidad inflige su daño de combate antes de que el defensor pueda contraatacar.",
       "image": "assets/cards/art/elf/elf_38.png"
     }
   ]

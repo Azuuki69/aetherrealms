@@ -3,31 +3,44 @@
   "displayName": "Human",
   "archetype": "Balanced Midrange",
   "archetype_pl": "Zrównoważony Midrange",
+  "archetype_es": "Midrange Equilibrado",
   "difficulty": "Beginner",
   "tagline": "A little bit of everything, and an answer for almost anything.",
   "tagline_pl": "Odrobina wszystkiego i odpowiedź na niemal wszystko.",
+  "tagline_es": "Un poco de todo, y una respuesta para casi cualquier cosa.",
   "description": "Human is the game's generalist toolbox: War Cry buffs your whole board, Formation rewards grouping units, Fortify (printed as Resolve) provides sustain, and Arcane Discovery is the only spell in the game that lets you pick a card straight from your own faction's full pool.",
   "description_pl": "Ludzie to uniwersalna skrzynka narzędziowa tej gry: Okrzyk Wojenny wzmacnia całą twoją planszę, Formacja nagradza grupowanie jednostek, Umocnienie (opisane jako Hart Ducha) zapewnia regenerację, a Arkaniczne Odkrycie to jedyne zaklęcie w grze, które pozwala wybrać kartę wprost z całej puli twojej frakcji.",
+  "description_es": "Humano es la caja de herramientas generalista del juego: Grito de Guerra mejora todo tu tablero, Formación premia agrupar unidades, Fortificación (impresa como Resolución) proporciona sostenibilidad, y Descubrimiento Arcano es el único hechizo del juego que te permite elegir una carta directamente de toda la reserva de tu facción.",
   "gamePlan": "Adapt turn to turn rather than committing to one single line — Human has a tool for almost every situation, including aggression, defense, and card selection.",
   "gamePlan_pl": "Dostosowuj się turę po turze zamiast trzymać się jednej linii gry — Ludzie mają narzędzie niemal na każdą sytuację, w tym agresję, obronę i selekcję kart.",
+  "gamePlan_es": "Adáptate turno a turno en lugar de comprometerte con una sola línea de juego — Humano tiene una herramienta para casi cualquier situación, incluyendo agresión, defensa y selección de cartas.",
   "playstyle": "Play reactively to what the opponent is doing; Human rarely has a single 'best' line, so read the board and pick the right tool for the moment.",
   "playstyle_pl": "Graj reaktywnie względem tego, co robi przeciwnik; Ludzie rzadko mają jedną „najlepszą” linię gry, więc odczytuj planszę i wybieraj odpowiednie narzędzie na daną chwilę.",
+  "playstyle_es": "Juega de forma reactiva a lo que hace el oponente; Humano rara vez tiene una única línea «óptima», así que lee el tablero y elige la herramienta adecuada para el momento.",
   "winCondition": "Out-value and out-adapt the opponent with a wide mechanical toolkit until a War Cry-buffed board or a late threat like Titan closes it out.",
   "winCondition_pl": "Przelicytuj przeciwnika wartością i zdolnością adaptacji dzięki szerokiemu zestawowi mechanik, aż plansza wzmocniona Okrzykiem Wojennym lub późne zagrożenie, jak Tytan, zakończy grę.",
+  "winCondition_es": "Supera al oponente en valor y adaptabilidad con un amplio conjunto de mecánicas hasta que un tablero mejorado por Grito de Guerra o una amenaza tardía como Titán cierre la partida.",
   "strengths": ["No glaring weakness — has tools for aggro, defense, and value", "Arcane Discovery smooths out bad draws", "Paladin's Taunt-plus-Charge is a flexible, hard-to-answer threat"],
   "strengths_pl": ["Brak wyraźnej słabości — ma narzędzia do agresji, obrony i budowania wartości", "Arkaniczne Odkrycie niweluje pecha w dobieraniu kart", "Połączenie Prowokacji i Szarży Paladyna to elastyczne, trudne do odparcia zagrożenie"],
+  "strengths_es": ["Sin debilidad evidente — tiene herramientas para agresión, defensa y valor", "Descubrimiento Arcano suaviza las manos malas", "La combinación de Provocación y Carga del Paladín es una amenaza flexible y difícil de responder"],
   "weaknesses": ["Lacks a single overpowering game plan compared to more specialized decks", "Jack-of-all-trades identity means no standout strength either", "Can be out-specialized by a deck built to counter one specific angle"],
   "weaknesses_pl": ["Brak jednego dominującego planu gry w porównaniu do bardziej wyspecjalizowanych talii", "Tożsamość „wszystkiego po trochu” oznacza też brak wyróżniającej się mocnej strony", "Może zostać przelicytowana przez talię zbudowaną, by kontrować jeden konkretny aspekt"],
+  "weaknesses_es": ["Carece de un plan de juego dominante único en comparación con mazos más especializados", "Su identidad de todoterreno también implica que no destaca especialmente en nada", "Puede ser superado en especialización por un mazo construido para contrarrestar un ángulo específico"],
   "pros": ["The most forgiving, straightforward deck to learn the whole game on", "Flexible enough to adapt to almost any matchup", "Arcane Discovery reduces variance from bad hands"],
   "pros_pl": ["Najbardziej wybaczająca i prosta talia, na której można nauczyć się całej gry", "Wystarczająco elastyczna, by dostosować się do niemal każdego pojedynku", "Arkaniczne Odkrycie zmniejsza wpływ pechowych rąk"],
+  "pros_es": ["El mazo más indulgente y directo para aprender todo el juego", "Suficientemente flexible para adaptarse a casi cualquier enfrentamiento", "Descubrimiento Arcano reduce la varianza de las manos malas"],
   "cons": ["Doesn't overpower dedicated aggro or dedicated control decks in their own lane", "Less explosive than Beast or Orc, less grindy than Fallen or Undead", "Requires reading the matchup rather than following one fixed plan"],
   "cons_pl": ["Nie przebija dedykowanych talii agresywnych ani kontrolnych na ich własnym terenie", "Mniej wybuchowa niż Bestie czy Orkowie, mniej wyniszczająca niż Upadłe Gwiazdy czy Nieumarli", "Wymaga odczytania pojedynku zamiast trzymania się jednego stałego planu"],
+  "cons_es": ["No supera a mazos agresivos o de control dedicados en su propio terreno", "Menos explosivo que Bestia u Orco, menos desgastante que Caídas o No Muertos", "Requiere leer el enfrentamiento en lugar de seguir un plan fijo"],
   "keyMechanics": ["WAR CRY", "FORMATION", "FORTIFY", "DISCOVER"],
   "keyMechanics_pl": ["OKRZYK WOJENNY", "FORMACJA", "UMOCNIENIE", "ODKRYCIE"],
+  "keyMechanics_es": ["GRITO DE GUERRA", "FORMACIÓN", "FORTIFICACIÓN", "DESCUBRIMIENTO"],
   "beginnerExplainer": "Discover shows you three cards from your own faction's card pool and lets you keep one — it's a way to fill a gap in your hand with exactly what you need.",
   "beginnerExplainer_pl": "Odkrycie pokazuje ci trzy karty z puli kart twojej własnej frakcji i pozwala zatrzymać jedną — to sposób na uzupełnienie luki w ręce dokładnie tym, czego potrzebujesz.",
+  "beginnerExplainer_es": "Descubrimiento te muestra tres cartas de la reserva de tu propia facción y te permite quedarte con una — es una forma de llenar un hueco en tu mano con exactamente lo que necesitas.",
   "howToPlay": {"early": "Play efficient units on curve and use Arcane Discovery if your hand is missing a piece you need.", "mid": "Lean into whichever tool the matchup calls for — War Cry to push damage, Formation and Fortify to hold the board.", "late": "Close with a big War Cry swing or a finisher like Titan once you've read out the game."},
   "howToPlay_pl": {"early": "Zagrywaj efektywne jednostki zgodnie z krzywą many i użyj Arkanicznego Odkrycia, jeśli w ręce brakuje ci potrzebnego elementu.", "mid": "Sięgnij po narzędzie, jakiego wymaga dany pojedynek — Okrzyk Wojenny, by przepchnąć obrażenia, Formację i Umocnienie, by utrzymać planszę.", "late": "Zakończ grę dużym uderzeniem wspartym Okrzykiem Wojennym lub finiszerem, jak Tytan, gdy już rozczytasz przebieg partii."},
+  "howToPlay_es": {"early": "Juega unidades eficientes según la curva de maná y usa Descubrimiento Arcano si a tu mano le falta una pieza que necesitas.", "mid": "Recurre a la herramienta que exija el enfrentamiento — Grito de Guerra para forzar daño, Formación y Fortificación para mantener el tablero.", "late": "Cierra con un gran golpe de Grito de Guerra o un finalizador como Titán una vez que hayas leído la partida."},
   "cards": [
     {
       "id": "human_01",
@@ -37,6 +50,7 @@
       "defense": 2,
       "text": "RESOLVE: Gains +1 HP after surviving combat.",
       "text_pl": "HART DUCHA: Zyskuje +1 PŻ po przetrwaniu walki.",
+      "text_es": "RESOLUCIÓN: Gana +1 PV tras sobrevivir al combate.",
       "image": "assets/cards/art/human/human_01.png"
     },
     {
@@ -47,6 +61,7 @@
       "defense": 2,
       "text": "TAUNT: Enemies must attack this unit first.",
       "text_pl": "PROWOKACJA: Wrogowie muszą zaatakować najpierw tę jednostkę.",
+      "text_es": "PROVOCACIÓN: Los enemigos deben atacar primero a esta unidad.",
       "image": "assets/cards/art/human/human_02.png"
     },
     {
@@ -57,6 +72,7 @@
       "defense": 2,
       "text": "FORMATION: +1 DMG while adjacent to another Human unit.",
       "text_pl": "FORMACJA: +1 DMG, gdy sąsiaduje z inną jednostką Ludzi.",
+      "text_es": "FORMACIÓN: +1 DMG mientras esté adyacente a otra unidad Humana.",
       "image": "assets/cards/art/human/human_03.png"
     },
     {
@@ -67,6 +83,7 @@
       "defense": 2,
       "text": "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
       "text_pl": "SALWA: Może wybrać, którą wrogą linię zaatakować, bez ryzyka kontrataku.",
+      "text_es": "RÁFAGA: Puede elegir atacar cualquiera de las filas enemigas, sin arriesgarse a represalias.",
       "image": "assets/cards/art/human/human_04.png"
     },
     {
@@ -77,6 +94,7 @@
       "defense": 2,
       "text": "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
       "text_pl": "SALWA: Może wybrać, którą wrogą linię zaatakować, bez ryzyka kontrataku.",
+      "text_es": "RÁFAGA: Puede elegir atacar cualquiera de las filas enemigas, sin arriesgarse a represalias.",
       "image": "assets/cards/art/human/human_05.png"
     },
     {
@@ -87,6 +105,7 @@
       "defense": 2,
       "text": "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
       "text_pl": "SALWA: Może wybrać, którą wrogą linię zaatakować, bez ryzyka kontrataku.",
+      "text_es": "RÁFAGA: Puede elegir atacar cualquiera de las filas enemigas, sin arriesgarse a represalias.",
       "image": "assets/cards/art/human/human_06.png"
     },
     {
@@ -97,6 +116,7 @@
       "defense": 3,
       "text": "FORMATION: +1 DMG while adjacent to another Human unit.",
       "text_pl": "FORMACJA: +1 DMG, gdy sąsiaduje z inną jednostką Ludzi.",
+      "text_es": "FORMACIÓN: +1 DMG mientras esté adyacente a otra unidad Humana.",
       "image": "assets/cards/art/human/human_07.png"
     },
     {
@@ -107,6 +127,7 @@
       "defense": 4,
       "text": "WAR CRY: When played, allied units in this row gain +1 DMG until your next turn.",
       "text_pl": "OKRZYK WOJENNY: Gdy zagrana, sojusznicze jednostki w tej linii zyskują +1 DMG do twojej następnej tury.",
+      "text_es": "GRITO DE GUERRA: Al jugarla, las unidades aliadas de esta fila ganan +1 DMG hasta tu próximo turno.",
       "image": "assets/cards/art/human/human_08.png"
     },
     {
@@ -117,6 +138,7 @@
       "defense": 3,
       "text": "RESOLVE: Gains +1 HP after surviving combat.",
       "text_pl": "HART DUCHA: Zyskuje +1 PŻ po przetrwaniu walki.",
+      "text_es": "RESOLUCIÓN: Gana +1 PV tras sobrevivir al combate.",
       "image": "assets/cards/art/human/human_09.png"
     },
     {
@@ -127,6 +149,7 @@
       "defense": 3,
       "text": "TAUNT: Enemies must attack this unit first.",
       "text_pl": "PROWOKACJA: Wrogowie muszą zaatakować najpierw tę jednostkę.",
+      "text_es": "PROVOCACIÓN: Los enemigos deben atacar primero a esta unidad.",
       "image": "assets/cards/art/human/human_10.png"
     },
     {
@@ -137,6 +160,7 @@
       "defense": 3,
       "text": "FORMATION: +1 DMG while adjacent to another Human unit.",
       "text_pl": "FORMACJA: +1 DMG, gdy sąsiaduje z inną jednostką Ludzi.",
+      "text_es": "FORMACIÓN: +1 DMG mientras esté adyacente a otra unidad Humana.",
       "image": "assets/cards/art/human/human_11.png"
     },
     {
@@ -147,6 +171,7 @@
       "defense": 4,
       "text": "MEND: Heals an allied unit for 2 when played.",
       "text_pl": "LECZENIE: Gdy zagrana, leczy sojuszniczą jednostkę o 2.",
+      "text_es": "CURACIÓN: Al jugarla, cura 2 puntos a una unidad aliada.",
       "image": "assets/cards/art/human/human_12.png"
     },
     {
@@ -157,6 +182,7 @@
       "defense": 4,
       "text": "RESOLVE: Gains +1 HP after surviving combat.",
       "text_pl": "HART DUCHA: Zyskuje +1 PŻ po przetrwaniu walki.",
+      "text_es": "RESOLUCIÓN: Gana +1 PV tras sobrevivir al combate.",
       "image": "assets/cards/art/human/human_13.png"
     },
     {
@@ -167,6 +193,7 @@
       "defense": 4,
       "text": "MEND: Heals an allied unit for 2 when played.",
       "text_pl": "LECZENIE: Gdy zagrana, leczy sojuszniczą jednostkę o 2.",
+      "text_es": "CURACIÓN: Al jugarla, cura 2 puntos a una unidad aliada.",
       "image": "assets/cards/art/human/human_14.png"
     },
     {
@@ -177,6 +204,7 @@
       "defense": 4,
       "text": "FORMATION: +1 DMG while adjacent to another Human unit.",
       "text_pl": "FORMACJA: +1 DMG, gdy sąsiaduje z inną jednostką Ludzi.",
+      "text_es": "FORMACIÓN: +1 DMG mientras esté adyacente a otra unidad Humana.",
       "image": "assets/cards/art/human/human_15.png"
     },
     {
@@ -187,6 +215,7 @@
       "defense": 5,
       "text": "WAR CRY: When played, allied units in this row gain +1 DMG until your next turn.",
       "text_pl": "OKRZYK WOJENNY: Gdy zagrana, sojusznicze jednostki w tej linii zyskują +1 DMG do twojej następnej tury.",
+      "text_es": "GRITO DE GUERRA: Al jugarla, las unidades aliadas de esta fila ganan +1 DMG hasta tu próximo turno.",
       "image": "assets/cards/art/human/human_16.png"
     },
     {
@@ -197,6 +226,7 @@
       "defense": 5,
       "text": "RESOLVE: Gains +1 HP after surviving combat.",
       "text_pl": "HART DUCHA: Zyskuje +1 PŻ po przetrwaniu walki.",
+      "text_es": "RESOLUCIÓN: Gana +1 PV tras sobrevivir al combate.",
       "image": "assets/cards/art/human/human_17.png"
     },
     {
@@ -207,6 +237,7 @@
       "defense": 6,
       "text": "ADAPTIVE: This unit has Taunt and Charge.",
       "text_pl": "ADAPTACYJNY: Ta jednostka posiada Prowokację i Szarżę.",
+      "text_es": "ADAPTATIVO: Esta unidad tiene Provocación y Carga.",
       "image": "assets/cards/art/human/human_18.png"
     },
     {
@@ -217,6 +248,7 @@
       "defense": 6,
       "text": "MEND: Heals an allied unit for 2 when played.",
       "text_pl": "LECZENIE: Gdy zagrana, leczy sojuszniczą jednostkę o 2.",
+      "text_es": "CURACIÓN: Al jugarla, cura 2 puntos a una unidad aliada.",
       "image": "assets/cards/art/human/human_19.png"
     },
     {
@@ -227,6 +259,7 @@
       "defense": 7,
       "text": "TAUNT: Enemies must attack this unit first.",
       "text_pl": "PROWOKACJA: Wrogowie muszą zaatakować najpierw tę jednostkę.",
+      "text_es": "PROVOCACIÓN: Los enemigos deben atacar primero a esta unidad.",
       "image": "assets/cards/art/human/human_20.png"
     },
     {
@@ -237,6 +270,7 @@
       "defense": 6,
       "text": "SIEGE: A siege weapon that deals damage without risking retaliation.",
       "text_pl": "OBLĘŻENIE: Machina oblężnicza, która zadaje obrażenia bez ryzyka kontrataku.",
+      "text_es": "ASEDIO: Un arma de asedio que inflige daño sin arriesgarse a represalias.",
       "image": "assets/cards/art/human/human_21.png"
     },
     {
@@ -247,6 +281,7 @@
       "defense": 6,
       "text": "SIEGE: A siege weapon that deals damage without risking retaliation.",
       "text_pl": "OBLĘŻENIE: Machina oblężnicza, która zadaje obrażenia bez ryzyka kontrataku.",
+      "text_es": "ASEDIO: Un arma de asedio que inflige daño sin arriesgarse a represalias.",
       "image": "assets/cards/art/human/human_22.png"
     },
     {
@@ -257,6 +292,7 @@
       "defense": 6,
       "text": "SIEGE: A siege weapon that deals damage without risking retaliation.",
       "text_pl": "OBLĘŻENIE: Machina oblężnicza, która zadaje obrażenia bez ryzyka kontrataku.",
+      "text_es": "ASEDIO: Un arma de asedio que inflige daño sin arriesgarse a represalias.",
       "image": "assets/cards/art/human/human_23.png"
     },
     {
@@ -267,6 +303,7 @@
       "defense": 7,
       "text": "WAR CRY: When played, allied units in this row gain +1 DMG until your next turn.",
       "text_pl": "OKRZYK WOJENNY: Gdy zagrana, sojusznicze jednostki w tej linii zyskują +1 DMG do twojej następnej tury.",
+      "text_es": "GRITO DE GUERRA: Al jugarla, las unidades aliadas de esta fila ganan +1 DMG hasta tu próximo turno.",
       "image": "assets/cards/art/human/human_24.png"
     },
     {
@@ -277,6 +314,7 @@
       "defense": 8,
       "text": "WAR CRY: When played, allied units in this row gain +1 DMG until your next turn. (This unit is a rare, high-impact threat.)",
       "text_pl": "OKRZYK WOJENNY: Gdy zagrana, sojusznicze jednostki w tej linii zyskują +1 DMG do twojej następnej tury. (Ta jednostka to rzadkie, potężne zagrożenie.)",
+      "text_es": "GRITO DE GUERRA: Al jugarla, las unidades aliadas de esta fila ganan +1 DMG hasta tu próximo turno. (Esta unidad es una amenaza rara de alto impacto.)",
       "image": "assets/cards/art/human/human_25.png"
     },
     {
@@ -287,6 +325,7 @@
       "defense": 9,
       "text": "WAR CRY: When played, allied units in this row gain +1 DMG until your next turn. (This unit is a rare, high-impact threat.)",
       "text_pl": "OKRZYK WOJENNY: Gdy zagrana, sojusznicze jednostki w tej linii zyskują +1 DMG do twojej następnej tury. (Ta jednostka to rzadkie, potężne zagrożenie.)",
+      "text_es": "GRITO DE GUERRA: Al jugarla, las unidades aliadas de esta fila ganan +1 DMG hasta tu próximo turno. (Esta unidad es una amenaza rara de alto impacto.)",
       "image": "assets/cards/art/human/human_26.png"
     },
     {
@@ -297,6 +336,7 @@
       "copies": 2,
       "text": "Draw 4 cards.",
       "text_pl": "Dobierz 4 karty.",
+      "text_es": "Roba 4 cartas.",
       "image": "assets/cards/art/human/human_27.png"
     },
     {
@@ -309,6 +349,7 @@
       "effect": { "kind": "buff_power", "amount": 1 },
       "text": "Target allied unit gains +1 DMG until end of turn.",
       "text_pl": "Wybrana sojusznicza jednostka zyskuje +1 DMG do końca tury.",
+      "text_es": "La unidad aliada objetivo gana +1 DMG hasta el final del turno.",
       "image": "assets/cards/art/human/human_28.png"
     },
     {
@@ -321,6 +362,7 @@
       "effect": { "kind": "buff_defense", "amount": 2 },
       "text": "Target allied unit gains +0/+2 until end of turn.",
       "text_pl": "Wybrana sojusznicza jednostka zyskuje +0/+2 do końca tury.",
+      "text_es": "La unidad aliada objetivo gana +0/+2 hasta el final del turno.",
       "image": "assets/cards/art/human/human_29.png"
     },
     {
@@ -333,6 +375,7 @@
       "effect": { "kind": "draw_conditional", "base": 1, "bonus": 1, "threshold": 3 },
       "text": "Draw a card. If you control 3 or more units, draw two instead.",
       "text_pl": "Dobierz kartę. Jeśli kontrolujesz 3 lub więcej jednostek, dobierz zamiast tego dwie.",
+      "text_es": "Roba una carta. Si controlas 3 o más unidades, roba dos en su lugar.",
       "image": "assets/cards/art/human/human_30.png"
     },
     {
@@ -345,6 +388,7 @@
       "effect": { "kind": "heal", "amount": 3 },
       "text": "Heal an allied unit for 3.",
       "text_pl": "Ulecz sojuszniczą jednostkę o 3.",
+      "text_es": "Cura 3 puntos a una unidad aliada.",
       "image": "assets/cards/art/human/human_31.png"
     },
     {
@@ -357,6 +401,7 @@
       "effect": { "kind": "grant_shield" },
       "text": "Target allied unit gains Shield until your next turn.",
       "text_pl": "Wybrana sojusznicza jednostka zyskuje Tarczę do twojej następnej tury.",
+      "text_es": "La unidad aliada objetivo gana Escudo hasta tu próximo turno.",
       "image": "assets/cards/art/human/human_32.png"
     },
     {
@@ -369,6 +414,7 @@
       "effect": { "kind": "buff_power_row", "amount": 1 },
       "text": "Allied units in one row gain +1 DMG until your next turn.",
       "text_pl": "Sojusznicze jednostki w jednej linii zyskują +1 DMG do twojej następnej tury.",
+      "text_es": "Las unidades aliadas de una fila ganan +1 DMG hasta tu próximo turno.",
       "image": "assets/cards/art/human/human_33.png"
     },
     {
@@ -381,6 +427,7 @@
       "effect": { "kind": "damage_then_delayed", "amount": 2, "delayedAmount": 1 },
       "text": "Deal 2 damage to an enemy unit now. If it survives, deal 1 more damage at the start of your next turn.",
       "text_pl": "Zadaj 2 obrażenia wrogiej jednostce teraz. Jeśli przetrwa, zadaj jej 1 dodatkowe obrażenie na początku twojej następnej tury.",
+      "text_es": "Inflige 2 de daño a una unidad enemiga ahora. Si sobrevive, inflige 1 de daño adicional al comienzo de tu próximo turno.",
       "image": "assets/cards/art/human/human_34.png"
     },
     {
@@ -393,6 +440,7 @@
       "effect": { "kind": "split_damage", "total": 3, "maxTargets": 2 },
       "text": "Deal 3 damage, split as you choose between up to two enemy units.",
       "text_pl": "Zadaj 3 obrażenia, rozdzielone według twojego wyboru między maksymalnie dwie wrogie jednostki.",
+      "text_es": "Inflige 3 de daño, repartido como elijas entre hasta dos unidades enemigas.",
       "image": "assets/cards/art/human/human_35.png"
     },
     {
@@ -405,6 +453,7 @@
       "effect": { "kind": "damage_castle", "amount": 4 },
       "text": "Deal 4 damage directly to the enemy castle, without risking retaliation.",
       "text_pl": "Zadaj 4 obrażenia bezpośrednio wrogiemu zamkowi, bez ryzyka kontrataku.",
+      "text_es": "Inflige 4 de daño directamente al castillo enemigo, sin arriesgarse a represalias.",
       "image": "assets/cards/art/human/human_36.png"
     },
     {
@@ -417,6 +466,7 @@
       "effect": { "kind": "heal", "amount": 2 },
       "text": "Heal an allied unit for 2.",
       "text_pl": "Ulecz sojuszniczą jednostkę o 2.",
+      "text_es": "Cura 2 puntos a una unidad aliada.",
       "image": "assets/cards/art/human/human_37.png"
     },
     {
@@ -429,6 +479,7 @@
       "effect": { "kind": "discover" },
       "text": "Discover: Look at 3 cards from your faction's pool and add one to your hand.",
       "text_pl": "Odkrycie: Spójrz na 3 karty z puli swojej frakcji i dodaj jedną z nich do swojej ręki.",
+      "text_es": "Descubrimiento: Mira 3 cartas de la reserva de tu facción y añade una a tu mano.",
       "image": "assets/cards/art/human/human_38.png"
     }
   ]

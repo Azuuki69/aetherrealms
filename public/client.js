@@ -217,6 +217,104 @@ const TRANSLATIONS = {
     aiPracticeLine: 'Trening z AI: {wins}W / {losses}P',
     languagePickerLabel: 'Język',
   },
+  es: {
+    usernameLabel: 'Nombre de usuario', passwordLabel: 'Contraseña', logIn: 'Iniciar sesión', register: 'Registrarse',
+    needAccountRegister: '¿No tienes cuenta? Regístrate', alreadyHaveAccountLogIn: '¿Ya tienes cuenta? Inicia sesión',
+    loggedInAsPrefix: 'Sesión iniciada como', adminBtn: 'Admin', logOut: 'Cerrar sesión',
+    enterUsernamePassword: 'Introduce un nombre de usuario y una contraseña.', somethingWentWrong: 'Algo salió mal.',
+    couldNotReachServer: 'No se pudo conectar con el servidor.',
+    factionBeast: 'Bestias Míticas', factionClock: 'Bastión del Vapor', factionDamned: 'Pacto de los Condenados',
+    factionDwarf: 'Clanes Enanos', factionDynasty: 'Dinastía de Jade', factionElf: 'Corte Élfica',
+    factionFallen: 'Estrellas Caídas', factionHuman: 'Reino Humano', factionOrc: 'Horda Orca', factionUndead: 'Dominio de los No Muertos',
+    viewDeck: 'Ver mazo', compareDecks: 'Comparar mazos',
+    compareDecksDesc: 'Consulta las fortalezas, debilidades y dificultad de cada facción en un solo vistazo.',
+    customizeHud: 'Personalizar diseño del HUD',
+    customizeHudDesc: 'Reorganiza y redimensiona cada panel de batalla a tu ritmo — sin partida, sin límite de tiempo.',
+    modeRanked: 'Clasificatoria', modeRankedDesc: 'Compite contra jugadores reales. ⚠️ Afecta a tu clasificación.',
+    modeAiMatch: 'Partida contra IA', modeAiMatchDesc: 'Practica contra la computadora. ✓ Nunca afecta a tu clasificación.',
+    aiMatchDesc: 'Elige una facción arriba, elige una dificultad y juega una partida completa contra la computadora. Esto nunca afecta a tu clasificación ni a tus estadísticas.',
+    difficultyEasy: 'Fácil', difficultyEasyDesc: 'Ideal para aprender el juego.',
+    difficultyNormal: 'Normal', difficultyNormalDesc: 'Un desafío equilibrado.',
+    difficultyHard: 'Difícil', difficultyHardDesc: 'Para jugadores experimentados.',
+    playVsAi: 'Jugar contra la IA',
+    difficultyBeginner: 'Principiante', difficultyIntermediate: 'Intermedio', difficultyAdvanced: 'Avanzado',
+    createMatchTitle: 'Crear una partida', createMatchDesc: 'Elige una facción arriba, luego crea una sala y comparte el código.',
+    createMatch: 'Crear partida', copy: 'Copiar', copied: '¡Copiado!',
+    joinMatchTitle: 'Unirse a una partida', joinMatchDesc: 'Elige una facción arriba y luego introduce el código de sala de tu amigo.',
+    roomCodeLabel: 'Código de sala', roomCodePlaceholder: 'CÓDIGO DE SALA', joinMatch: 'Unirse a la partida',
+    pickFactionFirst: 'Elige primero una facción.',
+    shareCodeWaiting: 'Comparte este código con tu oponente. Esperando a que se una...',
+    enterRoomCode: 'Introduce un código de sala.', startingAiMatch: 'Iniciando partida contra la IA...',
+    disconnectedFromServer: 'Desconectado del servidor.', connectionError: 'Error de conexión.',
+    waitingForOpponent: 'Esperando a que el oponente se una...',
+    tabPlayers: 'Jugadores', tabDecks: 'Mazos', colRank: '#', colPlayer: 'Jugador', colWins: 'Victorias', colLosses: 'Derrotas',
+    colFaction: 'Facción', colWinRate: 'Ratio de victorias', colGames: 'Partidas',
+    noRankedPlayers: '¡Todavía no hay jugadores clasificados — inicia sesión y gana una partida!',
+    noDeckStats: 'Todavía no hay estadísticas de mazos — juega una partida clasificatoria para ver los ratios de victoria aquí.',
+    fewGames: '(pocas partidas)', loadingRankings: 'Cargando clasificación…',
+    couldntLoadRankings: 'No se pudo cargar la clasificación. Actualiza para intentarlo de nuevo.',
+    featuredMatchup: 'Enfrentamiento destacado', vsLabel: 'VS', topPlayers: 'Mejores jugadores',
+    loadingEllipsis: 'Cargando…', noRankedPlayersShort: 'Todavía no hay jugadores clasificados.', couldntLoad: 'No se pudo cargar.',
+    nowPlaying: 'Reproduciendo ahora', pickTrackBelow: 'Elige una pista abajo', noTrack: 'Sin pista',
+    previousTrack: 'Pista anterior', play: 'Reproducir', pause: 'Pausar', nextTrack: 'Pista siguiente', volume: 'Volumen',
+    showMusicPlayer: 'Mostrar reproductor de música', minimize: 'Minimizar',
+    backToLobby: 'Volver al lobby', editHudLayout: 'Editar diseño del HUD', doneEditingHud: 'Terminar edición del HUD',
+    resetLayout: 'Restablecer diseño', enemyHp: 'PV del enemigo', yourHp: 'Tus PV',
+    goToCombat: 'Ir al combate', attackAll: 'Atacar con todo', endTurn: 'Terminar turno', surrender: 'Rendirse',
+    gameOver: 'Fin de la partida', turnIndicator: 'Turno {n} — {who} ({phase})',
+    aiThinkingTurn: 'Turno {n} — 🤖 la IA está pensando… ({phase})', yourTurnWord: 'Tu turno', opponentTurnWord: 'Turno del oponente',
+    victory: '¡Victoria!', defeat: 'Derrota...',
+    aiMatchResultNote: '{opponent} — este resultado no afecta a tu clasificación ni a tus estadísticas.',
+    aiMatchFallbackName: 'Partida contra IA',
+    youPlayed: 'Jugaste', opponentPlayed: 'El oponente jugó',
+    surrenderConfirm: '¿Rendirte en esta partida? Esto termina la partida inmediatamente como derrota.',
+    youGoFirst: '¡Empiezas tú!', opponentGoesFirst: '¡Empieza el oponente!',
+    hudPreviewNote: 'Esto es una vista previa del diseño del HUD — nada de esto es una partida real.',
+    opponentDisconnected: 'El oponente se ha desconectado. Puede volver a unirse con el mismo código de sala.',
+    opponentReconnected: 'El oponente se ha vuelto a conectar.', errorPrefix: 'Error: ',
+    moreDamageToAssign: '{card}: quedan {n} de daño por asignar — haz clic en otro objetivo.',
+    chooseMoreTargets: '{card}: elige {n} objetivo(s) diferentes más.',
+    discoverTitle: 'Descubrir', discoverWaiting: 'El oponente está eligiendo una carta...', coinFlipTitle: 'Lanzamiento de moneda',
+    panelEnemyInfo: 'Información del enemigo', panelTurnTimer: 'Temporizador de turno', panelYourInfo: 'Tu información',
+    panelEnemyStats: 'Estadísticas del enemigo', panelBattlefield: 'Campo de batalla', panelYourStats: 'Tus estadísticas',
+    panelControls: 'Controles', panelYourHand: 'Tu mano', panelBattleLog: 'Registro de batalla', panelChat: 'Chat',
+    log: 'Registro', chat: 'Chat', chatMessageLabel: 'Mensaje de chat', chatPlaceholder: 'Escribe a tu oponente...',
+    send: 'Enviar', sendMessage: 'Enviar mensaje',
+    close: 'Cerrar', gamePlan: 'Plan de juego', playstyle: 'Estilo de juego', winCondition: 'Condición de victoria',
+    newToThisDeck: '¿Nuevo con este mazo?', keyMechanics: 'Mecánicas clave', bestAt: 'Es mejor contra', weakAgainst: 'Es débil contra',
+    pros: 'Ventajas', cons: 'Desventajas', howToPlay: 'Cómo jugar', earlyLabel: 'Inicio:', midLabel: 'Medio:', lateLabel: 'Final:',
+    deckStats: 'Estadísticas del mazo', cardsInDeck: 'Cartas en el mazo', uniqueCards: 'Cartas únicas', avgCost: 'Coste medio',
+    units: 'Unidades', spells: 'Hechizos', searchCardsLabel: 'Buscar cartas', searchCardsPlaceholder: 'Buscar cartas...',
+    filterByType: 'Filtrar por tipo de carta', allTypes: 'Todos los tipos', filterByCost: 'Filtrar por coste de carta', anyCost: 'Cualquier coste',
+    filterBySort: 'Ordenar cartas por', sortCost: 'Ordenar: Coste', sortName: 'Ordenar: Nombre', sortType: 'Ordenar: Tipo',
+    selectThisDeck: 'Seleccionar este mazo', noCardsMatch: 'Ninguna carta coincide con esos filtros.',
+    deckCompareTitle: 'Comparar mazos', colDeck: 'Mazo', colArchetype: 'Arquetipo', colDifficulty: 'Dificultad',
+    adminPanel: 'Panel de administración', siteLayout: 'Diseño del sitio',
+    siteLayoutDesc: 'Cambia el diseño de la página principal para todos los visitantes.',
+    layoutClassic: 'Clásico', layoutClassicDesc: 'El diseño actual de una sola columna, de arriba a abajo.',
+    layoutSidebar: 'Barra lateral', layoutSidebarDesc: 'Dos columnas: opciones de juego a la izquierda, clasificación fija a la derecha.',
+    layoutCompact: 'Compacto', layoutCompactDesc: 'Opciones de juego justo después de iniciar sesión, selector de facción debajo — la vía más rápida a una partida.',
+    layoutShowcase: 'Escaparate', layoutShowcaseDesc: 'Selector de facción en primer plano, ideal para nuevos jugadores explorando mazos.',
+    layoutSidebarHud: 'Barra lateral + HUD',
+    layoutSidebarHudDesc: 'Diseño de barra lateral con una vista previa de enfrentamiento destacado y un resumen de la clasificación sobre las tablas.',
+    adminRankings: 'Clasificación', adminRankingsDesc: 'Los reinicios son inmediatos y no se pueden deshacer.',
+    resetPlayers: 'Reiniciar jugadores', resetFactions: 'Reiniciar facciones',
+    aiPracticeStats: 'Estadísticas de práctica contra IA', resetAiStats: 'Reiniciar estadísticas de IA', accounts: 'Cuentas', delete: 'Eliminar',
+    loadingAccounts: 'Cargando cuentas…', noAccountsYet: 'Todavía no hay cuentas.',
+    failedToLoadAccounts: 'No se pudieron cargar las cuentas.', deletedAccount: '«{username}» eliminada.',
+    deleteAccountConfirm: '¿Eliminar permanentemente la cuenta «{username}»? Esto no se puede deshacer.',
+    failedToDeleteAccount: 'No se pudo eliminar la cuenta.', siteLayoutSetTo: 'Diseño del sitio establecido en «{layout}».',
+    failedToSetLayout: 'No se pudo establecer el diseño.',
+    resetPlayersConfirm: '¿Reiniciar la clasificación de jugadores (victorias/derrotas de todos)? Esto no se puede deshacer.',
+    playersReset: 'Clasificación de jugadores reiniciada.', failedToResetPlayers: 'No se pudo reiniciar la clasificación de jugadores.',
+    resetFactionsConfirm: '¿Reiniciar las estadísticas de ratio de victoria de las facciones? Esto no se puede deshacer.',
+    factionsReset: 'Estadísticas de facciones reiniciadas.', failedToResetFactions: 'No se pudieron reiniciar las facciones.',
+    resetAiStatsConfirm: '¿Reiniciar las estadísticas de práctica contra IA de todas las cuentas? Esto no se puede deshacer.',
+    aiStatsReset: 'Estadísticas de práctica contra IA reiniciadas.', failedToResetAiStats: 'No se pudieron reiniciar las estadísticas de IA.',
+    requestFailed: 'La solicitud falló.',
+    aiPracticeLine: 'Práctica contra IA: {wins}V / {losses}D',
+    languagePickerLabel: 'Idioma',
+  },
 };
 
 let currentLanguage = 'en';
@@ -268,7 +366,7 @@ function applyTranslations() {
 }
 
 function setLanguage(lang) {
-  if (lang !== 'en' && lang !== 'pl') lang = 'en';
+  if (!TRANSLATIONS[lang]) lang = 'en';
   currentLanguage = lang;
   try { localStorage.setItem('ar_lang', lang); } catch { /* ignore */ }
   document.querySelectorAll('.lang-btn').forEach((b) => b.classList.toggle('active', b.dataset.lang === lang));
@@ -278,7 +376,7 @@ function setLanguage(lang) {
 function initLanguagePicker() {
   let saved = 'en';
   try { saved = localStorage.getItem('ar_lang') || 'en'; } catch { /* ignore */ }
-  currentLanguage = saved === 'pl' ? 'pl' : 'en';
+  currentLanguage = TRANSLATIONS[saved] ? saved : 'en';
   document.querySelectorAll('.lang-btn').forEach((b) => {
     b.classList.toggle('active', b.dataset.lang === currentLanguage);
     b.addEventListener('click', () => setLanguage(b.dataset.lang));
@@ -562,6 +660,7 @@ function demoCardInstance(card, overrides) {
     maxDefense: card.defense,
     text: card.text,
     text_pl: card.text_pl || null,
+    text_es: card.text_es || null,
     image: card.image,
     target: card.target || null,
     effect: card.effect || null,
@@ -760,18 +859,21 @@ function splitAbilityLines(text) {
 // added purely for display — `detectKeywords()`/`firstNumber()` in rules.js
 // keep reading the original English `text` exclusively, so this can never
 // affect real match mechanics. Falls back to English if a translation is
-// ever missing so a card never renders blank.
+// ever missing so a card never renders blank. Generic over currentLanguage
+// so a future language needs no new code here, just a `text_<lang>` field.
 function cardText(instance) {
   if (!instance) return '';
-  return (currentLanguage === 'pl' && instance.text_pl) || instance.text || '';
+  if (currentLanguage === 'en') return instance.text || '';
+  return instance[`text_${currentLanguage}`] || instance.text || '';
 }
 
-// Same Polish-with-English-fallback pattern as cardText(), for the faction
-// narrative fields (description, game plan, strengths/weaknesses, etc.) in
-// public/data/*.json — each has a sibling `<field>_pl` key added in Phase 2.
+// Same non-English-with-English-fallback pattern as cardText(), for the
+// faction narrative fields (description, game plan, strengths/weaknesses,
+// etc.) in public/data/*.json — each has a sibling `<field>_<lang>` key.
 function fd(data, field) {
   if (!data) return undefined;
-  return (currentLanguage === 'pl' && data[`${field}_pl`]) || data[field];
+  if (currentLanguage === 'en') return data[field];
+  return data[`${field}_${currentLanguage}`] || data[field];
 }
 
 const DIFFICULTY_KEYS = { Beginner: 'difficultyBeginner', Intermediate: 'difficultyIntermediate', Advanced: 'difficultyAdvanced' };
@@ -1123,7 +1225,7 @@ function openDeckPreview(factionKey) {
     mechanicsEl.appendChild(chip);
   });
 
-  const howToPlay = (currentLanguage === 'pl' && data.howToPlay_pl) || data.howToPlay || {};
+  const howToPlay = (currentLanguage !== 'en' && data[`howToPlay_${currentLanguage}`]) || data.howToPlay || {};
   el('deckPreviewEarly').textContent = howToPlay.early || '';
   el('deckPreviewMid').textContent = howToPlay.mid || '';
   el('deckPreviewLate').textContent = howToPlay.late || '';

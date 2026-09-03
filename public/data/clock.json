@@ -3,31 +3,44 @@
   "displayName": "Clock",
   "archetype": "Midrange / Control",
   "archetype_pl": "Midrange / Kontrola",
+  "archetype_es": "Midrange / Control",
   "difficulty": "Intermediate",
   "tagline": "Every turn you survive, the clock ticks further in your favor.",
   "tagline_pl": "Z każdą przetrwaną turą zegar tyka bardziej na twoją korzyść.",
+  "tagline_es": "Cada turno que sobrevives, el reloj corre más a tu favor.",
   "description": "Clock is a patient value deck that wins by outlasting the opponent. Growing units get permanently tougher every turn they live, Countdown creatures like Sparkwright deliver a delayed burst of damage and cards, and Reap punishes trades by drawing you extra resources whenever a unit dies nearby.",
   "description_pl": "Zegar to cierpliwa talia wartości, która wygrywa, przetrzymując przeciwnika. Jednostki ze Wzrostem stają się trwale silniejsze z każdą przeżytą turą, stworzenia z Odliczaniem, jak Iskrowiec, dostarczają opóźnionego wybuchu obrażeń i kart, a Żniwo karze za wymiany, dobierając dodatkowe zasoby za każdym razem, gdy w pobliżu ginie jednostka.",
+  "description_es": "Reloj es un mazo paciente de valor que gana resistiendo más que el oponente. Las unidades con Crecimiento se vuelven permanentemente más resistentes cada turno que sobreviven, las criaturas con Cuenta Atrás como Chispero entregan una explosión retardada de daño y cartas, y Cosecha castiga los cambios robándote recursos extra cada vez que muere una unidad cerca.",
   "gamePlan": "Survive the early exchanges with efficient blockers, let your Growing and Countdown effects build up, then close with the value you've stockpiled.",
   "gamePlan_pl": "Przetrwaj wczesne starcia dzięki efektywnym blokerom, pozwól narastać efektom Wzrostu i Odliczania, a następnie zakończ grę zgromadzoną wartością.",
+  "gamePlan_es": "Sobrevive a los primeros intercambios con bloqueadores eficientes, deja que tus efectos de Crecimiento y Cuenta Atrás se acumulen, y luego cierra la partida con el valor que has acumulado.",
   "playstyle": "Think a turn or two ahead — track your Countdown timers and hold up defensive plays like Temporal Ward rather than racing.",
   "playstyle_pl": "Myśl o turę lub dwie do przodu — śledź swoje liczniki Odliczania i trzymaj w zanadrzu zagrania obronne, jak Straż Czasu, zamiast ścigać się z przeciwnikiem.",
+  "playstyle_es": "Piensa uno o dos turnos por delante — controla tus temporizadores de Cuenta Atrás y guarda jugadas defensivas como Guardia Temporal en lugar de correr.",
   "winCondition": "Grind through the midgame until Countdown payoffs and oversized Growing threats like Boiler King simply outsize whatever the opponent has left.",
   "winCondition_pl": "Przetrwaj środkową fazę gry, aż premie z Odliczania i przerośnięte zagrożenia ze Wzrostem, jak Król Kotłów, po prostu przerosną to, co zostało przeciwnikowi.",
+  "winCondition_es": "Resiste la fase intermedia hasta que las recompensas de Cuenta Atrás y amenazas sobredimensionadas de Crecimiento como Rey de Calderas simplemente superen lo que le queda al oponente.",
   "strengths": ["Exceptional at winning long, grindy games", "Countdown and Growing generate value with zero further investment", "Reap turns even losing a trade into card advantage"],
   "strengths_pl": ["Wyjątkowo skuteczna w wygrywaniu długich, wyczerpujących gier", "Odliczanie i Wzrost generują wartość bez dalszych inwestycji", "Żniwo zamienia nawet przegraną wymianę w przewagę kartową"],
+  "strengths_es": ["Excepcional para ganar partidas largas y desgastantes", "Cuenta Atrás y Crecimiento generan valor sin inversión adicional", "Cosecha convierte incluso un cambio perdido en ventaja de cartas"],
   "weaknesses": ["Slow starts can lose to dedicated aggro before the plan comes online", "Countdown effects can be disrupted by removing the unit first", "Needs patience — misplays from racing tend to backfire"],
   "weaknesses_pl": ["Wolny start może przegrać z czystą agresją, zanim plan zacznie działać", "Efekty Odliczania można zniweczyć, usuwając jednostkę wcześniej", "Wymaga cierpliwości — błędy wynikające z pośpiechu zwykle się mszczą"],
+  "weaknesses_es": ["Un inicio lento puede perder contra agresión dedicada antes de que el plan entre en acción", "Los efectos de Cuenta Atrás pueden ser interrumpidos eliminando la unidad primero", "Requiere paciencia — los errores por precipitación suelen salir caros"],
   "pros": ["Rewards good long-term planning over quick reflexes", "Card advantage keeps coming in without extra spells", "Strong defensive toolkit including Temporal Ward"],
   "pros_pl": ["Nagradza dobre długoterminowe planowanie zamiast szybkich refleksów", "Przewaga kartowa napływa bez potrzeby dodatkowych zaklęć", "Silny zestaw narzędzi obronnych, w tym Straż Czasu"],
+  "pros_es": ["Premia la buena planificación a largo plazo sobre los reflejos rápidos", "La ventaja de cartas sigue llegando sin hechizos adicionales", "Sólido conjunto de herramientas defensivas, incluyendo Guardia Temporal"],
   "cons": ["Vulnerable in the first few turns against fast aggro decks", "Countdown clocks can be played around by an attentive opponent", "Less exciting if you prefer proactive, aggressive turns"],
   "cons_pl": ["Podatna w pierwszych turach na szybkie talie agresywne", "Uważny przeciwnik może zagrać wokół liczników Odliczania", "Mniej ekscytująca, jeśli wolisz proaktywne, agresywne tury"],
+  "cons_es": ["Vulnerable en los primeros turnos contra mazos agresivos rápidos", "Un oponente atento puede jugar en torno a los relojes de Cuenta Atrás", "Menos emocionante si prefieres turnos proactivos y agresivos"],
   "keyMechanics": ["GROWING", "COUNTDOWN", "REAP"],
   "keyMechanics_pl": ["WZROST", "ODLICZANIE", "ŻNIWO"],
+  "keyMechanics_es": ["CRECIMIENTO", "CUENTA ATRÁS", "COSECHA"],
   "beginnerExplainer": "Countdown cards don't do anything the turn you play them — they trigger automatically a set number of your turns later, so plan around the payoff instead of expecting it immediately.",
   "beginnerExplainer_pl": "Karty z Odliczaniem nic nie robią w turze, w której je zagrywasz — uruchamiają się automatycznie po określonej liczbie twoich kolejnych tur, więc planuj z myślą o tej premii zamiast oczekiwać jej od razu.",
+  "beginnerExplainer_es": "Las cartas con Cuenta Atrás no hacen nada el turno en que las juegas — se activan automáticamente tras un número determinado de tus turnos, así que planifica pensando en esa recompensa en lugar de esperarla de inmediato.",
   "howToPlay": {"early": "Trade defensively and get a Growing unit down as soon as possible so it starts accumulating stats.", "mid": "Protect your Countdown units and Growing threats from removal; use Reap-triggering trades to keep your hand full.", "late": "Let Countdown payoffs like Sparkwright's delayed burn swing the game, then close with an oversized Growing finisher such as Boiler King."},
   "howToPlay_pl": {"early": "Wymieniaj się defensywnie i jak najszybciej wystaw jednostkę ze Wzrostem, by zaczęła gromadzić statystyki.", "mid": "Chroń swoje jednostki z Odliczaniem i zagrożenia ze Wzrostem przed usunięciem; wykorzystuj wymiany uruchamiające Żniwo, by twoja ręka była pełna.", "late": "Pozwól, by premie z Odliczania, jak opóźniony ogień Iskrowca, przechyliły szalę gry, a następnie zakończ ją przerośniętym finiszerem ze Wzrostem, jak Król Kotłów."},
+  "howToPlay_es": {"early": "Cambia de forma defensiva y despliega una unidad con Crecimiento lo antes posible para que empiece a acumular estadísticas.", "mid": "Protege tus unidades con Cuenta Atrás y las amenazas con Crecimiento de la eliminación; usa cambios que activen Cosecha para mantener tu mano llena.", "late": "Deja que las recompensas de Cuenta Atrás, como el fuego retardado de Chispero, decidan la partida, y cierra con un finalizador sobredimensionado de Crecimiento como Rey de Calderas."},
   "cards": [
     {
       "id": "clock_01",
@@ -37,6 +50,7 @@
       "defense": 2,
       "text": "COUNTDOWN 1: Deals 1 DMG to a random enemy at the start of your next turn.",
       "text_pl": "ODLICZANIE 1: Na początku twojej następnej tury zadaje 1 DMG losowemu wrogowi.",
+      "text_es": "CUENTA ATRÁS 1: Al comienzo de tu próximo turno, inflige 1 DMG a un enemigo aleatorio.",
       "image": "assets/cards/art/clock/clock_01.png"
     },
     {
@@ -47,6 +61,7 @@
       "defense": 2,
       "text": "PRECISE: This unit's attacks ignore Taunt.",
       "text_pl": "PRECYZJA: Ataki tej jednostki ignorują Prowokację.",
+      "text_es": "PRECISIÓN: Los ataques de esta unidad ignoran la Provocación.",
       "image": "assets/cards/art/clock/clock_02.png"
     },
     {
@@ -57,6 +72,7 @@
       "defense": 1,
       "text": "REAP: Draw a card whenever an enemy unit dies.",
       "text_pl": "ŻNIWO: Dobierz kartę, gdy zginie wroga jednostka.",
+      "text_es": "COSECHA: Roba una carta cada vez que muere una unidad enemiga.",
       "image": "assets/cards/art/clock/clock_03.png"
     },
     {
@@ -67,6 +83,7 @@
       "defense": 3,
       "text": "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
       "text_pl": "SALWA: Może wybrać, którą wrogą linię zaatakować, bez ryzyka kontrataku.",
+      "text_es": "RÁFAGA: Puede elegir atacar cualquiera de las filas enemigas, sin arriesgarse a represalias.",
       "image": "assets/cards/art/clock/clock_04.png"
     },
     {
@@ -77,6 +94,7 @@
       "defense": 2,
       "text": "VOLLEY: May choose to strike either enemy row, without risking retaliation.",
       "text_pl": "SALWA: Może wybrać, którą wrogą linię zaatakować, bez ryzyka kontrataku.",
+      "text_es": "RÁFAGA: Puede elegir atacar cualquiera de las filas enemigas, sin arriesgarse a represalias.",
       "image": "assets/cards/art/clock/clock_05.png"
     },
     {
@@ -87,6 +105,7 @@
       "defense": 2,
       "text": "PRECISE: This unit's attacks ignore Taunt.",
       "text_pl": "PRECYZJA: Ataki tej jednostki ignorują Prowokację.",
+      "text_es": "PRECISIÓN: Los ataques de esta unidad ignoran la Provocación.",
       "image": "assets/cards/art/clock/clock_06.png"
     },
     {
@@ -97,6 +116,7 @@
       "defense": 3,
       "text": "TAUNT: Enemies must attack this unit first.",
       "text_pl": "PROWOKACJA: Wrogowie muszą zaatakować najpierw tę jednostkę.",
+      "text_es": "PROVOCACIÓN: Los enemigos deben atacar primero a esta unidad.",
       "image": "assets/cards/art/clock/clock_07.png"
     },
     {
@@ -107,6 +127,7 @@
       "defense": 3,
       "text": "GROWING: Gains +1 HP at the start of each of your turns.",
       "text_pl": "WZROST: Zyskuje +1 PŻ na początku każdej twojej tury.",
+      "text_es": "CRECIMIENTO: Gana +1 PV al comienzo de cada uno de tus turnos.",
       "image": "assets/cards/art/clock/clock_08.png"
     },
     {
@@ -117,6 +138,7 @@
       "defense": 3,
       "text": "CHARGE: Can attack the turn it is played.",
       "text_pl": "SZARŻA: Może atakować w turze, w której została zagrana.",
+      "text_es": "CARGA: Puede atacar el turno en que es jugada.",
       "image": "assets/cards/art/clock/clock_09.png"
     },
     {
@@ -127,6 +149,7 @@
       "defense": 3,
       "text": "PRECISE: This unit's attacks ignore Taunt.",
       "text_pl": "PRECYZJA: Ataki tej jednostki ignorują Prowokację.",
+      "text_es": "PRECISIÓN: Los ataques de esta unidad ignoran la Provocación.",
       "image": "assets/cards/art/clock/clock_10.png"
     },
     {
@@ -137,6 +160,7 @@
       "defense": 3,
       "text": "REAP: Draw a card whenever an enemy unit dies.",
       "text_pl": "ŻNIWO: Dobierz kartę, gdy zginie wroga jednostka.",
+      "text_es": "COSECHA: Roba una carta cada vez que muere una unidad enemiga.",
       "image": "assets/cards/art/clock/clock_11.png"
     },
     {
@@ -147,6 +171,7 @@
       "defense": 4,
       "text": "GROWING: Gains +1 HP at the start of each of your turns.",
       "text_pl": "WZROST: Zyskuje +1 PŻ na początku każdej twojej tury.",
+      "text_es": "CRECIMIENTO: Gana +1 PV al comienzo de cada uno de tus turnos.",
       "image": "assets/cards/art/clock/clock_12.png"
     },
     {
@@ -157,6 +182,7 @@
       "defense": 4,
       "text": "COUNTDOWN 1: Deals 1 DMG to a random enemy at the start of your next turn.",
       "text_pl": "ODLICZANIE 1: Na początku twojej następnej tury zadaje 1 DMG losowemu wrogowi.",
+      "text_es": "CUENTA ATRÁS 1: Al comienzo de tu próximo turno, inflige 1 DMG a un enemigo aleatorio.",
       "image": "assets/cards/art/clock/clock_13.png"
     },
     {
@@ -167,6 +193,7 @@
       "defense": 6,
       "text": "COUNTDOWN 2: At the start of your second turn after this enters play, deal 4 DMG to an enemy and draw a card.",
       "text_pl": "ODLICZANIE 2: Na początku twojej drugiej tury od wejścia tej jednostki do gry, zadaje 4 DMG wrogowi i dobiera kartę.",
+      "text_es": "CUENTA ATRÁS 2: Al comienzo de tu segundo turno después de que esta unidad entra en juego, inflige 4 DMG a un enemigo y roba una carta.",
       "image": "assets/cards/art/clock/clock_14.png"
     },
     {
@@ -177,6 +204,7 @@
       "defense": 4,
       "text": "REAP: Draw a card whenever an enemy unit dies.",
       "text_pl": "ŻNIWO: Dobierz kartę, gdy zginie wroga jednostka.",
+      "text_es": "COSECHA: Roba una carta cada vez que muere una unidad enemiga.",
       "image": "assets/cards/art/clock/clock_15.png"
     },
     {
@@ -187,6 +215,7 @@
       "defense": 5,
       "text": "GROWING: Gains +1 HP at the start of each of your turns.",
       "text_pl": "WZROST: Zyskuje +1 PŻ na początku każdej twojej tury.",
+      "text_es": "CRECIMIENTO: Gana +1 PV al comienzo de cada uno de tus turnos.",
       "image": "assets/cards/art/clock/clock_16.png"
     },
     {
@@ -197,6 +226,7 @@
       "defense": 5,
       "text": "VENOM: Any DMG this unit deals to an enemy unit destroys it.",
       "text_pl": "JAD: Wszelkie obrażenia zadane przez tę jednostkę wrogiej jednostce niszczą ją.",
+      "text_es": "VENENO: Cualquier DMG que esta unidad inflige a una unidad enemiga la destruye.",
       "image": "assets/cards/art/clock/clock_17.png"
     },
     {
@@ -207,6 +237,7 @@
       "defense": 5,
       "text": "SIEGE: A siege weapon that deals damage without risking retaliation.",
       "text_pl": "OBLĘŻENIE: Machina oblężnicza, która zadaje obrażenia bez ryzyka kontrataku.",
+      "text_es": "ASEDIO: Un arma de asedio que inflige daño sin arriesgarse a represalias.",
       "image": "assets/cards/art/clock/clock_18.png"
     },
     {
@@ -217,6 +248,7 @@
       "defense": 7,
       "text": "REAP: Draw a card whenever an enemy unit dies.",
       "text_pl": "ŻNIWO: Dobierz kartę, gdy zginie wroga jednostka.",
+      "text_es": "COSECHA: Roba una carta cada vez que muere una unidad enemiga.",
       "image": "assets/cards/art/clock/clock_19.png"
     },
     {
@@ -227,6 +259,7 @@
       "defense": 6,
       "text": "GROWING: Gains +1 HP at the start of each of your turns.",
       "text_pl": "WZROST: Zyskuje +1 PŻ na początku każdej twojej tury.",
+      "text_es": "CRECIMIENTO: Gana +1 PV al comienzo de cada uno de tus turnos.",
       "image": "assets/cards/art/clock/clock_20.png"
     },
     {
@@ -237,6 +270,7 @@
       "defense": 6,
       "text": "COUNTDOWN 1: Deals 1 DMG to a random enemy at the start of your next turn.",
       "text_pl": "ODLICZANIE 1: Na początku twojej następnej tury zadaje 1 DMG losowemu wrogowi.",
+      "text_es": "CUENTA ATRÁS 1: Al comienzo de tu próximo turno, inflige 1 DMG a un enemigo aleatorio.",
       "image": "assets/cards/art/clock/clock_21.png"
     },
     {
@@ -247,6 +281,7 @@
       "defense": 8,
       "text": "SHIELD: Absorbs the next instance of combat damage entirely, then is consumed.",
       "text_pl": "TARCZA: Całkowicie pochłania następne obrażenia bojowe, po czym znika.",
+      "text_es": "ESCUDO: Absorbe por completo el próximo daño de combate y luego se consume.",
       "image": "assets/cards/art/clock/clock_22.png"
     },
     {
@@ -257,6 +292,7 @@
       "defense": 6,
       "text": "REAP: Draw a card whenever an enemy unit dies.",
       "text_pl": "ŻNIWO: Dobierz kartę, gdy zginie wroga jednostka.",
+      "text_es": "COSECHA: Roba una carta cada vez que muere una unidad enemiga.",
       "image": "assets/cards/art/clock/clock_23.png"
     },
     {
@@ -267,6 +303,7 @@
       "defense": 7,
       "text": "GROWING: Gains +1 HP at the start of each of your turns.",
       "text_pl": "WZROST: Zyskuje +1 PŻ na początku każdej twojej tury.",
+      "text_es": "CRECIMIENTO: Gana +1 PV al comienzo de cada uno de tus turnos.",
       "image": "assets/cards/art/clock/clock_24.png"
     },
     {
@@ -277,6 +314,7 @@
       "defense": 9,
       "text": "GROWING: Gains +1 HP at the start of each of your turns. (This unit is a rare, high-impact threat.)",
       "text_pl": "WZROST: Zyskuje +1 PŻ na początku każdej twojej tury. (Ta jednostka to rzadkie, potężne zagrożenie.)",
+      "text_es": "CRECIMIENTO: Gana +1 PV al comienzo de cada uno de tus turnos. (Esta unidad es una amenaza rara de alto impacto.)",
       "image": "assets/cards/art/clock/clock_25.png"
     },
     {
@@ -287,6 +325,7 @@
       "defense": 9,
       "text": "GROWING: Gains +1 HP at the start of each of your turns. (This unit is a rare, high-impact threat.)",
       "text_pl": "WZROST: Zyskuje +1 PŻ na początku każdej twojej tury. (Ta jednostka to rzadkie, potężne zagrożenie.)",
+      "text_es": "CRECIMIENTO: Gana +1 PV al comienzo de cada uno de tus turnos. (Esta unidad es una amenaza rara de alto impacto.)",
       "image": "assets/cards/art/clock/clock_26.png"
     },
     {
@@ -297,6 +336,7 @@
       "copies": 2,
       "text": "Draw 4 cards.",
       "text_pl": "Dobierz 4 karty.",
+      "text_es": "Roba 4 cartas.",
       "image": "assets/cards/art/clock/clock_27.png"
     },
     {
@@ -309,6 +349,7 @@
       "effect": { "kind": "scry_and_draw", "maxCostToKeep": 5 },
       "text": "Look at the top card of your deck. If it costs 5 or more, put it on the bottom and draw the next card instead.",
       "text_pl": "Spójrz na wierzchnią kartę swojej talii. Jeśli kosztuje 5 many lub więcej, odłóż ją na spód i dobierz zamiast niej następną kartę.",
+      "text_es": "Mira la carta superior de tu mazo. Si cuesta 5 o más, colócala en el fondo y roba la siguiente carta en su lugar.",
       "image": "assets/cards/art/clock/clock_28.png"
     },
     {
@@ -321,6 +362,7 @@
       "effect": { "kind": "damage", "amount": 2 },
       "text": "Deal 2 damage to an enemy unit.",
       "text_pl": "Zadaj 2 obrażenia wrogiej jednostce.",
+      "text_es": "Inflige 2 de daño a una unidad enemiga.",
       "image": "assets/cards/art/clock/clock_29.png"
     },
     {
@@ -333,6 +375,7 @@
       "effect": { "kind": "grant_shield" },
       "text": "Target allied unit gains Shield until your next turn.",
       "text_pl": "Wybrana sojusznicza jednostka zyskuje Tarczę do twojej następnej tury.",
+      "text_es": "La unidad aliada objetivo gana Escudo hasta tu próximo turno.",
       "image": "assets/cards/art/clock/clock_30.png"
     },
     {
@@ -345,6 +388,7 @@
       "effect": { "kind": "bounce" },
       "text": "Return an allied unit to your hand.",
       "text_pl": "Zwróć sojuszniczą jednostkę do swojej ręki.",
+      "text_es": "Devuelve una unidad aliada a tu mano.",
       "image": "assets/cards/art/clock/clock_31.png"
     },
     {
@@ -357,6 +401,7 @@
       "effect": { "kind": "delayed_damage", "amount": 4 },
       "text": "Deal 4 damage to an enemy unit at the start of your next turn.",
       "text_pl": "Na początku twojej następnej tury zadaj 4 obrażenia wrogiej jednostce.",
+      "text_es": "Al comienzo de tu próximo turno, inflige 4 de daño a una unidad enemiga.",
       "image": "assets/cards/art/clock/clock_32.png"
     },
     {
@@ -369,6 +414,7 @@
       "effect": { "kind": "buff_power", "amount": 2 },
       "text": "Target allied unit gains +2 DMG until end of turn.",
       "text_pl": "Wybrana sojusznicza jednostka zyskuje +2 DMG do końca tury.",
+      "text_es": "La unidad aliada objetivo gana +2 DMG hasta el final del turno.",
       "image": "assets/cards/art/clock/clock_33.png"
     },
     {
@@ -381,6 +427,7 @@
       "effect": { "kind": "buff_power_and_defense_long", "powerAmount": 2, "defenseAmount": 2 },
       "text": "Target allied unit gains +2/+2 until your next turn.",
       "text_pl": "Wybrana sojusznicza jednostka zyskuje +2/+2 do twojej następnej tury.",
+      "text_es": "La unidad aliada objetivo gana +2/+2 hasta tu próximo turno.",
       "image": "assets/cards/art/clock/clock_34.png"
     },
     {
@@ -393,6 +440,7 @@
       "effect": { "kind": "damage_all_enemies", "amount": 2 },
       "text": "Deal 2 damage to all enemy units.",
       "text_pl": "Zadaj 2 obrażenia wszystkim wrogim jednostkom.",
+      "text_es": "Inflige 2 de daño a todas las unidades enemigas.",
       "image": "assets/cards/art/clock/clock_35.png"
     },
     {
@@ -405,6 +453,7 @@
       "effect": { "kind": "damage_immunity" },
       "text": "Prevent all damage to target allied unit until your next turn.",
       "text_pl": "Zapobiegnij wszystkim obrażeniom zadawanym wybranej sojuszniczej jednostce do twojej następnej tury.",
+      "text_es": "Evita todo el daño a la unidad aliada objetivo hasta tu próximo turno.",
       "image": "assets/cards/art/clock/clock_36.png"
     },
     {
@@ -417,6 +466,7 @@
       "effect": { "kind": "grant_shield" },
       "text": "Target allied unit gains Shield until your next turn.",
       "text_pl": "Wybrana sojusznicza jednostka zyskuje Tarczę do twojej następnej tury.",
+      "text_es": "La unidad aliada objetivo gana Escudo hasta tu próximo turno.",
       "image": "assets/cards/art/clock/clock_37.png"
     }
   ]
