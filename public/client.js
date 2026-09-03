@@ -28,6 +28,8 @@ function getDeckCopies(card) {
 
 // ---------- Lobby state ----------
 let selectedFaction = null;
+let selectedGameMode = 'ranked'; // 'ranked' | 'ai' — which lobby panel is showing, see initGameModeTabs()
+let selectedDifficulty = 'normal'; // 'easy' | 'normal' | 'hard' — only meaningful when selectedGameMode === 'ai'
 let ws = null;
 let mySeatKey = null; // 'A' or 'B', informational only
 let currentView = null;
@@ -81,6 +83,8 @@ function initLobby() {
     openDeckPreview(btn.closest('.faction-card').dataset.faction);
   });
 
+  initGameModeTabs();
+
   el('createBtn').addEventListener('click', async () => {
     if (!selectedFaction) return setStatus('Pick a faction first.');
     const res = await fetch('api/room', { method: 'POST' });
@@ -113,6 +117,49 @@ function initLobby() {
       btn.textContent = 'Copy';
       btn.classList.remove('copied');
     }, 1500);
+  });
+
+  el('playAiBtn').addEventListener('click', async () => {
+    if (!selectedFaction) return setStatus('Pick a faction first.');
+    setStatus('Starting AI match...');
+    const res = await fetch('api/room', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ mode: 'ai', difficulty: selectedDifficulty }),
+    });
+    const { code } = await res.json();
+    connect(code);
+  });
+}
+
+// Toggles between the "Ranked" (existing create/join-by-code) panel and the
+// "AI Match" panel — reuses the same active/hidden toggle idiom as
+// initRankingTabs() below, just with two panels' worth of content instead of
+// two tables. The copy next to each tab is what makes the ranked-vs-practice
+// distinction impossible to miss, per this feature's core requirement.
+function initGameModeTabs() {
+  el('modeTabRanked').addEventListener('click', () => {
+    selectedGameMode = 'ranked';
+    el('modeTabRanked').classList.add('active');
+    el('modeTabAi').classList.remove('active');
+    el('rankedPanel').classList.remove('hidden');
+    el('aiMatchPanel').classList.add('hidden');
+    setStatus('');
+  });
+  el('modeTabAi').addEventListener('click', () => {
+    selectedGameMode = 'ai';
+    el('modeTabAi').classList.add('active');
+    el('modeTabRanked').classList.remove('active');
+    el('aiMatchPanel').classList.remove('hidden');
+    el('rankedPanel').classList.add('hidden');
+    setStatus('');
+  });
+  el('difficultyPicker').addEventListener('click', (e) => {
+    const btn = e.target.closest('.difficulty-btn');
+    if (!btn) return;
+    selectedDifficulty = btn.dataset.difficulty;
+    document.querySelectorAll('.difficulty-btn').forEach((b) => b.classList.remove('active'));
+    btn.classList.add('active');
   });
 }
 
@@ -991,7 +1038,7 @@ function pulseClass(elm, cssClass) {
 function render() {
   if (!currentView) return;
   const effects = computeEffects(previousView, currentView);
-  const { you, opponent, turn, phase, turnNumber, winner, log, you_key } = currentView;
+  const { you, opponent, turn, phase, turnNumber, winner, log, you_key, mode } = currentView;
   const myTurn = turn === you_key;
   const oppKey = you_key === 'A' ? 'B' : 'A';
 
@@ -1009,6 +1056,8 @@ function render() {
 
   el('turnIndicatorText').textContent = winner
     ? 'Game Over'
+    : mode === 'ai' && !myTurn
+    ? `Turn ${turnNumber} — 🤖 AI is thinking… (${phase})`
     : `Turn ${turnNumber} — ${myTurn ? 'Your' : "Opponent's"} turn (${phase})`;
   el('youInfo').classList.toggle('active-turn', !winner && myTurn);
   el('oppInfo').classList.toggle('active-turn', !winner && !myTurn);
@@ -1045,6 +1094,13 @@ function render() {
   if (winner) {
     el('gameOverOverlay').classList.remove('hidden');
     el('gameOverText').textContent = winner === you_key ? 'Victory!' : 'Defeat...';
+    const aiNote = el('gameOverAiNote');
+    if (aiNote) {
+      aiNote.classList.toggle('hidden', mode !== 'ai');
+      if (mode === 'ai') {
+        aiNote.textContent = `${opponent.username || 'AI Match'} — this result does not affect your Ranked rating or statistics.`;
+      }
+    }
   }
 
   effects.forEach(spawnEffect);
@@ -2230,6 +2286,31 @@ function showLoggedIn(username) {
   el('accountLoggedOut').classList.add('hidden');
   el('accountLoggedIn').classList.remove('hidden');
   el('accountUsernameLabel').textContent = username;
+  loadAiStats();
+}
+
+// Kept entirely separate from loadRankings()/the ranked leaderboard below —
+// AI wins/losses live in their own AccountsRegistry storage key
+// (see /api/ai-stats) and must never be blended into ranked numbers.
+async function loadAiStats() {
+  const stored = getStoredAccount();
+  const line = el('aiStatsLine');
+  if (!line) return;
+  if (!stored.token) {
+    line.textContent = '';
+    return;
+  }
+  try {
+    const res = await fetch('api/ai-stats', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ token: stored.token }),
+    });
+    const data = await res.json();
+    line.textContent = `AI Practice: ${data.wins || 0}W / ${data.losses || 0}L`;
+  } catch {
+    /* best-effort, non-critical UI */
+  }
 }
 
 function showLoggedOut() {

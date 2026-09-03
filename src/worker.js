@@ -20,7 +20,22 @@ export default {
     const url = new URL(request.url);
 
     if (url.pathname === '/api/room' && request.method === 'POST') {
-      return new Response(JSON.stringify({ code: randomCode() }), {
+      const body = await request.json().catch(() => ({}));
+      const code = randomCode();
+      // Fix this room's mode/difficulty server-side, before the code is even
+      // handed back to the client — see MatchRoom.handleInit(). Ranked rooms
+      // (the default, and the only kind that existed before this) skip this
+      // entirely, so they cost no extra Durable Object wake-up.
+      if (body.mode === 'ai') {
+        const id = env.MATCH_ROOM.idFromName(code);
+        const stub = env.MATCH_ROOM.get(id);
+        await stub.fetch('https://room/init', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ mode: 'ai', difficulty: body.difficulty }),
+        });
+      }
+      return new Response(JSON.stringify({ code }), {
         headers: { 'content-type': 'application/json' },
       });
     }
@@ -38,7 +53,8 @@ export default {
       (url.pathname === '/api/login' && request.method === 'POST') ||
       (url.pathname === '/api/rankings' && request.method === 'GET') ||
       (url.pathname === '/api/hud-layout/save' && request.method === 'POST') ||
-      (url.pathname === '/api/hud-layout/load' && request.method === 'POST')
+      (url.pathname === '/api/hud-layout/load' && request.method === 'POST') ||
+      (url.pathname === '/api/ai-stats' && request.method === 'POST')
     ) {
       return accountsStub(env).fetch(request);
     }

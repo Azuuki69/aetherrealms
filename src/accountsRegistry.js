@@ -32,6 +32,8 @@ export class AccountsRegistry {
       if (url.pathname === '/api/rankings' && request.method === 'GET') return this.handleRankings();
       if (url.pathname === '/resolve-session' && request.method === 'POST') return this.handleResolveSession(request);
       if (url.pathname === '/record-result' && request.method === 'POST') return this.handleRecordResult(request);
+      if (url.pathname === '/record-ai-result' && request.method === 'POST') return this.handleRecordAiResult(request);
+      if (url.pathname === '/api/ai-stats' && request.method === 'POST') return this.handleAiStats(request);
       if (url.pathname === '/api/hud-layout/save' && request.method === 'POST') return this.handleSaveHudLayout(request);
       if (url.pathname === '/api/hud-layout/load' && request.method === 'POST') return this.handleLoadHudLayout(request);
       return json({ error: 'Not found' }, 404);
@@ -170,5 +172,32 @@ export class AccountsRegistry {
       await this.state.storage.put('factionStats', factionStats);
     }
     return json({ ok: true });
+  }
+
+  // Entirely separate storage key and code path from handleRecordResult()
+  // above — an AI match never touches `playerStats` or `factionStats` (the
+  // ranked leaderboard), by construction rather than by a shared flag.
+  async handleRecordAiResult(request) {
+    const body = await request.json().catch(() => ({}));
+    const { username, won } = body;
+    if (!username) return json({ ok: true });
+    const aiStats = (await this.state.storage.get('aiStats')) || {};
+    const key = username.toLowerCase();
+    const p = aiStats[key] || { username, wins: 0, losses: 0 };
+    if (won) p.wins += 1;
+    else p.losses += 1;
+    aiStats[key] = p;
+    await this.state.storage.put('aiStats', aiStats);
+    return json({ ok: true });
+  }
+
+  async handleAiStats(request) {
+    const body = await request.json().catch(() => ({}));
+    const token = (body.token || '').toString();
+    const username = await this.resolveUsernameFromToken(token);
+    if (!username) return json({ wins: 0, losses: 0 });
+    const aiStats = (await this.state.storage.get('aiStats')) || {};
+    const p = aiStats[username.toLowerCase()] || { wins: 0, losses: 0 };
+    return json({ wins: p.wins, losses: p.losses });
   }
 }

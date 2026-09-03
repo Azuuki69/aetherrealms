@@ -1754,6 +1754,10 @@ export function viewFor(game, owner) {
     winner: game.winner,
     log: game.log.slice(-30),
     you_key: owner,
+    // Passed through as-is so the client can tell an AI match apart from a
+    // ranked one (turn indicator copy, results screen) — set once at room
+    // creation (see matchRoom.js), never derived or changed here.
+    mode: game.mode || 'ranked',
     lastPlayedCard: game.lastPlayedCard || null,
     turnDeadlineAt: game.turnDeadlineAt || null,
     // Only the choosing player ever sees the actual revealed options — the

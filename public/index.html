@@ -44,6 +44,7 @@
     </div>
     <div id="accountLoggedIn" class="account-view hidden">
       <span>Logged in as <strong id="accountUsernameLabel"></strong></span>
+      <span id="aiStatsLine" class="ai-stats-line"></span>
       <button id="accountLogoutBtn" type="button" class="link-btn">Log Out</button>
     </div>
   </div>
@@ -67,7 +68,18 @@
     <p>Rearrange and resize every battle panel at your own pace — no match, no turn timer.</p>
   </div>
 
-  <div class="lobby-actions">
+  <div class="mode-tabs" id="modeTabs">
+    <button class="mode-tab active" id="modeTabRanked" type="button">
+      <span class="mode-tab-title">Ranked</span>
+      <span class="mode-tab-desc">Compete against real players. ⚠️ Affects your Ranked rating.</span>
+    </button>
+    <button class="mode-tab" id="modeTabAi" type="button">
+      <span class="mode-tab-title">AI Match</span>
+      <span class="mode-tab-desc">Practice against the computer. ✓ Never affects your Ranked rating.</span>
+    </button>
+  </div>
+
+  <div class="lobby-actions" id="rankedPanel">
     <div class="lobby-panel">
       <h2>Create a Match</h2>
       <p>Pick a faction above, then create a room and share the code.</p>
@@ -84,6 +96,26 @@
       <input id="joinCode" maxlength="6" placeholder="ROOM CODE" autocomplete="off" />
       <button id="joinBtn" class="btn">Join Match</button>
     </div>
+  </div>
+
+  <div class="ai-match-panel hidden" id="aiMatchPanel">
+    <h2>AI Match</h2>
+    <p>Pick a faction above, choose a difficulty, and play a full match against the computer. This never affects your Ranked rating or statistics.</p>
+    <div class="difficulty-picker" id="difficultyPicker">
+      <button type="button" class="difficulty-btn" data-difficulty="easy">
+        <span class="difficulty-name">Easy</span>
+        <span class="difficulty-desc">Great for learning the game.</span>
+      </button>
+      <button type="button" class="difficulty-btn active" data-difficulty="normal">
+        <span class="difficulty-name">Normal</span>
+        <span class="difficulty-desc">A balanced challenge.</span>
+      </button>
+      <button type="button" class="difficulty-btn" data-difficulty="hard">
+        <span class="difficulty-name">Hard</span>
+        <span class="difficulty-desc">For experienced players.</span>
+      </button>
+    </div>
+    <button id="playAiBtn" class="btn">Play vs AI</button>
   </div>
 
   <div id="lobbyStatus" class="lobby-status" role="status" aria-live="polite"></div>
@@ -188,6 +220,7 @@
   <div id="gameOverOverlay" class="overlay hidden">
     <div class="overlay-box">
       <h2 id="gameOverText"></h2>
+      <p id="gameOverAiNote" class="game-over-ai-note hidden"></p>
       <button onclick="location.reload()" class="btn">Back to Lobby</button>
     </div>
   </div>
