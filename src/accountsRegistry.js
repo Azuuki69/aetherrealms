@@ -2,6 +2,15 @@ const USERNAME_RE = /^[A-Za-z0-9_]{3,20}$/;
 const MIN_PASSWORD_LENGTH = 6;
 const FACTIONS = ['beast', 'clock', 'damned', 'dwarf', 'dynasty', 'elf', 'fallen', 'human', 'orc', 'undead'];
 const MIN_FACTION_GAMES = 5;
+// The whole "admin" system: a hardcoded, case-insensitive allowlist. Account
+// storage here is a plain KV map with no schema/migration tooling, so this is
+// both the simplest way to grant admin and exactly as secure as a stored
+// isAdmin flag would be — every admin endpoint re-checks this on every
+// request from the session token, never trusting anything the client sends.
+const ADMIN_USERNAMES = new Set(['kochiyo']);
+function isAdmin(username) {
+  return !!username && ADMIN_USERNAMES.has(username.toLowerCase());
+}
 
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), { status, headers: { 'content-type': 'application/json' } });
@@ -36,6 +45,12 @@ export class AccountsRegistry {
       if (url.pathname === '/api/ai-stats' && request.method === 'POST') return this.handleAiStats(request);
       if (url.pathname === '/api/hud-layout/save' && request.method === 'POST') return this.handleSaveHudLayout(request);
       if (url.pathname === '/api/hud-layout/load' && request.method === 'POST') return this.handleLoadHudLayout(request);
+      if (url.pathname === '/api/account-info' && request.method === 'POST') return this.handleAccountInfo(request);
+      if (url.pathname === '/api/admin/accounts' && request.method === 'POST') return this.handleAdminAccounts(request);
+      if (url.pathname === '/api/admin/delete-account' && request.method === 'POST') return this.handleAdminDeleteAccount(request);
+      if (url.pathname === '/api/admin/reset-players' && request.method === 'POST') return this.handleAdminResetPlayers(request);
+      if (url.pathname === '/api/admin/reset-factions' && request.method === 'POST') return this.handleAdminResetFactions(request);
+      if (url.pathname === '/api/admin/reset-ai-stats' && request.method === 'POST') return this.handleAdminResetAiStats(request);
       return json({ error: 'Not found' }, 404);
     } catch (err) {
       return json({ error: err.message || String(err) }, 500);
@@ -199,5 +214,96 @@ export class AccountsRegistry {
     const aiStats = (await this.state.storage.get('aiStats')) || {};
     const p = aiStats[username.toLowerCase()] || { wins: 0, losses: 0 };
     return json({ wins: p.wins, losses: p.losses });
+  }
+
+  async handleAccountInfo(request) {
+    const body = await request.json().catch(() => ({}));
+    const token = (body.token || '').toString();
+    const username = await this.resolveUsernameFromToken(token);
+    return json({ username: username || null, isAdmin: isAdmin(username) });
+  }
+
+  // Every admin endpoint below calls this first. Resolves the session token
+  // itself rather than trusting anything else in the request body — the only
+  // thing that ever grants admin access is ADMIN_USERNAMES, checked fresh on
+  // every call, so no client-visible state (including the panel simply being
+  // open) has any bearing on whether an action actually succeeds.
+  async requireAdmin(request) {
+    const body = await request.json().catch(() => ({}));
+    const token = (body.token || '').toString();
+    const username = await this.resolveUsernameFromToken(token);
+    if (!isAdmin(username)) return { ok: false, response: json({ error: 'Admin access required.' }, 403) };
+    return { ok: true, username, body };
+  }
+
+  async handleAdminAccounts(request) {
+    const gate = await this.requireAdmin(request);
+    if (!gate.ok) return gate.response;
+    const accounts = (await this.state.storage.get('accounts')) || {};
+    return json({ accounts: Object.values(accounts).map((a) => a.username) });
+  }
+
+  async handleAdminDeleteAccount(request) {
+    const gate = await this.requireAdmin(request);
+    if (!gate.ok) return gate.response;
+    const targetUsername = (gate.body.targetUsername || '').toString();
+    const key = targetUsername.toLowerCase();
+    if (!key) return json({ error: 'Missing targetUsername.' }, 400);
+
+    const accounts = (await this.state.storage.get('accounts')) || {};
+    if (!accounts[key]) return json({ error: 'No such account.' }, 404);
+    delete accounts[key];
+    await this.state.storage.put('accounts', accounts);
+
+    // Any session token still pointing at this account must stop working
+    // immediately, not linger until it happens to expire (there is no
+    // expiry) — a deleted account shouldn't stay logged in anywhere.
+    const sessions = (await this.state.storage.get('sessions')) || {};
+    let sessionsChanged = false;
+    for (const [tok, user] of Object.entries(sessions)) {
+      if ((user || '').toLowerCase() === key) {
+        delete sessions[tok];
+        sessionsChanged = true;
+      }
+    }
+    if (sessionsChanged) await this.state.storage.put('sessions', sessions);
+
+    const playerStats = (await this.state.storage.get('playerStats')) || {};
+    if (playerStats[key]) {
+      delete playerStats[key];
+      await this.state.storage.put('playerStats', playerStats);
+    }
+    const aiStats = (await this.state.storage.get('aiStats')) || {};
+    if (aiStats[key]) {
+      delete aiStats[key];
+      await this.state.storage.put('aiStats', aiStats);
+    }
+    const hudLayouts = (await this.state.storage.get('hudLayouts')) || {};
+    if (hudLayouts[key]) {
+      delete hudLayouts[key];
+      await this.state.storage.put('hudLayouts', hudLayouts);
+    }
+    return json({ ok: true });
+  }
+
+  async handleAdminResetPlayers(request) {
+    const gate = await this.requireAdmin(request);
+    if (!gate.ok) return gate.response;
+    await this.state.storage.put('playerStats', {});
+    return json({ ok: true });
+  }
+
+  async handleAdminResetFactions(request) {
+    const gate = await this.requireAdmin(request);
+    if (!gate.ok) return gate.response;
+    await this.state.storage.put('factionStats', {});
+    return json({ ok: true });
+  }
+
+  async handleAdminResetAiStats(request) {
+    const gate = await this.requireAdmin(request);
+    if (!gate.ok) return gate.response;
+    await this.state.storage.put('aiStats', {});
+    return json({ ok: true });
   }
 }

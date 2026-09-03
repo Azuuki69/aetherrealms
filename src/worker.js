@@ -54,7 +54,9 @@ export default {
       (url.pathname === '/api/rankings' && request.method === 'GET') ||
       (url.pathname === '/api/hud-layout/save' && request.method === 'POST') ||
       (url.pathname === '/api/hud-layout/load' && request.method === 'POST') ||
-      (url.pathname === '/api/ai-stats' && request.method === 'POST')
+      (url.pathname === '/api/ai-stats' && request.method === 'POST') ||
+      (url.pathname === '/api/account-info' && request.method === 'POST') ||
+      (url.pathname.startsWith('/api/admin/') && request.method === 'POST')
     ) {
       return accountsStub(env).fetch(request);
     }

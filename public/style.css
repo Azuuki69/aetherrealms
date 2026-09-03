@@ -1308,7 +1308,7 @@ body:has(#chatPanel:not(.collapsed)) .hand {
 .discover-option { width: 160px; }
 
 /* ---------- Deck preview modal ---------- */
-#deckPreviewOverlay, #deckCompareOverlay { position: fixed; z-index: 600; }
+#deckPreviewOverlay, #deckCompareOverlay, #adminOverlay { position: fixed; z-index: 600; }
 .deck-preview-modal {
   width: min(1000px, 92vw);
   max-height: 88vh;
@@ -1451,6 +1451,39 @@ body:has(#chatPanel:not(.collapsed)) .hand {
 .deck-compare-modal h2 { color: var(--gold); text-align: center; }
 .deck-compare-table-wrap { max-height: 65vh; overflow: auto; margin: 1rem 0; }
 .deck-compare-table-wrap .ranking-table { min-width: 640px; }
+
+/* ---------- Admin panel ---------- */
+.admin-modal { width: min(560px, 92vw); max-height: 85vh; text-align: left; display: flex; flex-direction: column; gap: 1.1rem; overflow-y: auto; }
+.admin-modal-header { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.admin-modal-header h2 { margin: 0; color: var(--gold); font-family: var(--font-display); font-size: 1.4rem; }
+.admin-section h3 { margin: 0 0 0.4rem; color: var(--gold); font-family: var(--font-display); font-size: var(--text-base); }
+.admin-section p { margin: 0 0 0.6rem; color: var(--text-secondary); font-size: var(--text-xs); }
+.admin-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+.admin-account-list { max-height: 220px; overflow-y: auto; border: 1px solid var(--border); border-radius: 6px; }
+.admin-account-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0.5rem 0.7rem;
+  border-bottom: 1px solid #4a3a2250;
+  font-size: var(--text-sm);
+}
+.admin-account-row:last-child { border-bottom: none; }
+.admin-delete-btn {
+  background: transparent;
+  border: 1px solid var(--error);
+  color: var(--error);
+  font-family: inherit;
+  font-size: var(--text-xs);
+  padding: 0.3rem 0.6rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.admin-delete-btn:hover { background: var(--error); color: var(--bg); }
+.admin-loading { padding: 0.7rem; color: var(--text-secondary); font-size: var(--text-sm); }
+.admin-status { min-height: 1.4em; color: var(--gold); font-size: var(--text-sm); text-align: center; }
 
 /* ---------- Card play reveal ---------- */
 /* Fires once per server-signaled play (client.js computeEffects/spawnEffect,

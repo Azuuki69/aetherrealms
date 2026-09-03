@@ -45,6 +45,7 @@
     <div id="accountLoggedIn" class="account-view hidden">
       <span>Logged in as <strong id="accountUsernameLabel"></strong></span>
       <span id="aiStatsLine" class="ai-stats-line"></span>
+      <button id="adminPanelBtn" type="button" class="link-btn hidden">⚙ Admin</button>
       <button id="accountLogoutBtn" type="button" class="link-btn">Log Out</button>
     </div>
   </div>
@@ -376,6 +377,38 @@
       </table>
     </div>
     <button type="button" id="deckCompareCloseBtn" class="btn">Close</button>
+  </div>
+</div>
+
+<div id="adminOverlay" class="overlay hidden">
+  <div class="overlay-box admin-modal">
+    <div class="admin-modal-header">
+      <h2>Admin Panel</h2>
+      <button type="button" id="adminCloseBtn" class="deck-preview-close" aria-label="Close">✕</button>
+    </div>
+
+    <div class="admin-section">
+      <h3>Rankings</h3>
+      <p>Resets are immediate and cannot be undone.</p>
+      <div class="admin-actions">
+        <button type="button" id="adminResetPlayersBtn" class="btn-secondary">Reset Players</button>
+        <button type="button" id="adminResetFactionsBtn" class="btn-secondary">Reset Factions</button>
+      </div>
+    </div>
+
+    <div class="admin-section">
+      <h3>AI Practice Stats</h3>
+      <div class="admin-actions">
+        <button type="button" id="adminResetAiStatsBtn" class="btn-secondary">Reset AI Stats</button>
+      </div>
+    </div>
+
+    <div class="admin-section">
+      <h3>Accounts</h3>
+      <div id="adminAccountList" class="admin-account-list"></div>
+    </div>
+
+    <div id="adminStatus" class="admin-status" role="status" aria-live="polite"></div>
   </div>
 </div>
 

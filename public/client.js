@@ -2287,6 +2287,7 @@ function showLoggedIn(username) {
   el('accountLoggedIn').classList.remove('hidden');
   el('accountUsernameLabel').textContent = username;
   loadAiStats();
+  loadAccountInfo();
 }
 
 // Kept entirely separate from loadRankings()/the ranked leaderboard below —
@@ -2316,6 +2317,136 @@ async function loadAiStats() {
 function showLoggedOut() {
   el('accountLoggedIn').classList.add('hidden');
   el('accountLoggedOut').classList.remove('hidden');
+  el('adminPanelBtn').classList.add('hidden');
+}
+
+// ---------- Admin panel ----------
+// The button's visibility here is purely cosmetic — every /api/admin/* call
+// independently re-checks admin status server-side from the session token,
+// so this never has to be treated as the real security boundary.
+async function loadAccountInfo() {
+  const stored = getStoredAccount();
+  if (!stored.token) return;
+  try {
+    const res = await fetch('api/account-info', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ token: stored.token }),
+    });
+    const data = await res.json();
+    el('adminPanelBtn').classList.toggle('hidden', !data.isAdmin);
+  } catch {
+    /* best-effort, non-critical UI */
+  }
+}
+
+function setAdminStatus(text) {
+  el('adminStatus').textContent = text || '';
+}
+
+async function adminPost(path, extra) {
+  const stored = getStoredAccount();
+  const res = await fetch(path, {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ token: stored.token, ...extra }),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(data.error || 'Request failed.');
+  return data;
+}
+
+async function loadAdminAccounts() {
+  const list = el('adminAccountList');
+  list.innerHTML = '<p class="admin-loading">Loading accounts…</p>';
+  try {
+    const data = await adminPost('api/admin/accounts');
+    list.innerHTML = '';
+    if (!data.accounts.length) {
+      list.innerHTML = '<p class="admin-loading">No accounts yet.</p>';
+      return;
+    }
+    for (const username of data.accounts) {
+      const row = document.createElement('div');
+      row.className = 'admin-account-row';
+      const nameSpan = document.createElement('span');
+      nameSpan.textContent = username;
+      const delBtn = document.createElement('button');
+      delBtn.type = 'button';
+      delBtn.className = 'admin-delete-btn';
+      delBtn.textContent = 'Delete';
+      delBtn.addEventListener('click', () => deleteAdminAccount(username));
+      row.appendChild(nameSpan);
+      row.appendChild(delBtn);
+      list.appendChild(row);
+    }
+  } catch (err) {
+    list.innerHTML = '';
+    setAdminStatus(err.message || 'Failed to load accounts.');
+  }
+}
+
+async function deleteAdminAccount(username) {
+  if (!confirm(`Permanently delete the account "${username}"? This cannot be undone.`)) return;
+  try {
+    await adminPost('api/admin/delete-account', { targetUsername: username });
+    setAdminStatus(`Deleted "${username}".`);
+    loadAdminAccounts();
+    loadRankings();
+  } catch (err) {
+    setAdminStatus(err.message || 'Failed to delete account.');
+  }
+}
+
+function openAdminPanel() {
+  el('adminOverlay').classList.remove('hidden');
+  setAdminStatus('');
+  loadAdminAccounts();
+}
+
+function closeAdminPanel() {
+  el('adminOverlay').classList.add('hidden');
+}
+
+function initAdminPanel() {
+  el('adminPanelBtn').addEventListener('click', openAdminPanel);
+  el('adminCloseBtn').addEventListener('click', closeAdminPanel);
+  el('adminOverlay').addEventListener('click', (e) => {
+    if (e.target === el('adminOverlay')) closeAdminPanel();
+  });
+
+  el('adminResetPlayersBtn').addEventListener('click', async () => {
+    if (!confirm('Reset the Players leaderboard (everyone\'s ranked wins/losses)? This cannot be undone.')) return;
+    try {
+      await adminPost('api/admin/reset-players');
+      setAdminStatus('Players leaderboard reset.');
+      loadRankings();
+    } catch (err) {
+      setAdminStatus(err.message || 'Failed to reset players.');
+    }
+  });
+
+  el('adminResetFactionsBtn').addEventListener('click', async () => {
+    if (!confirm('Reset faction win-rate stats? This cannot be undone.')) return;
+    try {
+      await adminPost('api/admin/reset-factions');
+      setAdminStatus('Faction stats reset.');
+      loadRankings();
+    } catch (err) {
+      setAdminStatus(err.message || 'Failed to reset factions.');
+    }
+  });
+
+  el('adminResetAiStatsBtn').addEventListener('click', async () => {
+    if (!confirm('Reset AI practice stats for every account? This cannot be undone.')) return;
+    try {
+      await adminPost('api/admin/reset-ai-stats');
+      setAdminStatus('AI practice stats reset.');
+      loadAiStats();
+    } catch (err) {
+      setAdminStatus(err.message || 'Failed to reset AI stats.');
+    }
+  });
 }
 
 function setAccountStatus(text) {
@@ -2458,6 +2589,7 @@ function renderFactionThumbnails() {
   initLobby();
   initDeckPreview();
   initAccount();
+  initAdminPanel();
   initRankingTabs();
   initChat();
   initLog();
