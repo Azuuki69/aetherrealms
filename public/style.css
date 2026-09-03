@@ -1088,7 +1088,13 @@ h1 span {
    crop's brighter center, cutting off the dark vignette ring the old
    template's compositing left baked into the art's outer edge — see the
    comment on renderCardFace() in client.js for the full story. */
-.card-art { display: block; width: 100%; height: 100%; object-fit: cover; transform: scale(1.5); pointer-events: none; }
+/* object-position biased toward the top: every sampled art in this set
+   (checked across factions) draws the character with its head near the top
+   edge of the square source image and a large empty/vignetted margin below
+   the feet. object-fit's default 50% 50% center-crop clipped the one thing
+   every card needs visible (the head) while leaving the already-dead space
+   at the bottom mostly untouched. */
+.card-art { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; transform: scale(1.5); pointer-events: none; }
 .card-name-plate {
   position: absolute;
   left: 18%; top: 8%; width: 64%; height: 4%;
