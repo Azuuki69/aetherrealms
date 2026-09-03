@@ -440,11 +440,21 @@ function renderCardFace(container, instance) {
   // if cardId is somehow missing, so nothing renders as a broken image.
   const artSrc = faction ? `assets/cards/art/${faction}/${instance.cardId}.png` : instance.image;
 
+  // extract_art.ps1 cropped the art-window rectangle straight out of each
+  // card's old fully-composited JPG, which included that template's own
+  // dark radial vignette fading in from the window's edges — invisible on
+  // a ~100px hand/grid tile, but glaring once magnified in the hover
+  // preview. .card-art-frame clips an oversized, cover-fit + scaled image
+  // so only the brighter center of that crop is ever shown, cropping the
+  // vignette out rather than displaying it.
+  const artFrame = document.createElement('div');
+  artFrame.className = 'card-art-frame';
   const art = document.createElement('img');
   art.className = 'card-art';
   art.src = artSrc;
   art.alt = '';
-  container.appendChild(art);
+  artFrame.appendChild(art);
+  container.appendChild(artFrame);
 
   const namePlate = document.createElement('div');
   namePlate.className = 'card-name-plate';

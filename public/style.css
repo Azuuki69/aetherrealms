@@ -541,8 +541,38 @@ h1 span {
   box-shadow: 0 3px 12px #0007;
   margin-bottom: 4px;
 }
-.hp-panel { display: flex; align-items: center; gap: 0.6rem; min-width: 170px; border: 2px solid transparent; border-radius: 8px; padding: 4px 8px; margin: -4px -8px; transition: border-color 0.2s, box-shadow 0.2s; }
-.hp-panel .name { font-weight: bold; color: var(--gold); min-width: 90px; font-size: 1.05rem; }
+/* This panel is one of the HUD layout manager's independently drag-resizable
+   panels (client.js HUD_PANELS, minW:150) — its rendered width is whatever
+   the player dragged it to, continuously, not one of a few viewport
+   breakpoints. A container query (keyed off the panel's OWN width, like
+   .card's container-type:size for card text) is what actually tracks that,
+   where @media never could. */
+.hp-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  min-width: 150px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  padding: 4px 8px;
+  margin: -4px -8px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  container-type: inline-size;
+  container-name: hp-panel;
+}
+.hp-panel .name {
+  font-weight: bold;
+  color: var(--gold);
+  font-size: clamp(0.68rem, 8.5cqw, 1.05rem);
+  line-height: 1.2;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.hp-panel .panel-row { display: flex; align-items: center; justify-content: center; gap: clamp(3px, 2.5cqw, 10px); flex-wrap: wrap; max-width: 100%; }
 .hp-panel.legal-target { border-color: var(--success); cursor: pointer; animation: pulse-green 1.3s ease-in-out infinite; }
 /* Whose turn it is, at a glance — a slow gold pulse on that player's own
    HP panel, reusing the same "your available action" gold language
@@ -615,20 +645,22 @@ h1 span {
   100% { transform: scale(0.85) rotate(-5deg); opacity: 0.45; }
 }
 
-.mana-crystals { display: flex; gap: 4px; }
+.mana-crystals { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(2px, 1.2cqw, 4px); max-width: 100%; }
 .crystal {
-  width: 13px;
-  height: 13px;
+  width: clamp(7px, 5cqw, 13px);
+  height: clamp(7px, 5cqw, 13px);
   border-radius: 2px;
   transform: rotate(45deg);
   display: inline-block;
+  flex-shrink: 0;
 }
 .crystal.filled {
   background: radial-gradient(circle at 30% 30%, #a9d8ff, var(--mana) 70%);
   box-shadow: 0 0 7px #3c7fd0e0;
 }
 .crystal.spent { background: #1a2433; border: 1px solid #2c3b52; }
-.mana { color: #bfe0ff; font-weight: bold; min-width: 38px; font-size: 1rem; text-shadow: 0 1px 3px #000; }
+.mana { color: #bfe0ff; font-weight: bold; font-size: clamp(0.62rem, 6cqw, 1rem); text-shadow: 0 1px 3px #000; white-space: nowrap; }
+.hp-panel .castle-wrap { width: clamp(24px, 12cqw, 44px); height: clamp(24px, 12cqw, 44px); }
 .turn-indicator {
   display: flex;
   flex-direction: column;
@@ -935,7 +967,12 @@ h1 span {
    card being far too small to hold it, clipping most of the rules text
    inside its own (safely non-spilling, `overflow:hidden`) box. */
 .card-templated { background-image: url('assets/cards/newcardtemplate.png'); background-size: 100% 100%; background-repeat: no-repeat; }
-.card-art { position: absolute; left: 20%; top: 20%; width: 58%; height: 38%; object-fit: contain; pointer-events: none; }
+.card-art-frame { position: absolute; left: 20%; top: 20%; width: 58%; height: 38%; overflow: hidden; pointer-events: none; }
+/* cover (not contain) + a scale past 1 deliberately crops into the source
+   crop's brighter center, cutting off the dark vignette ring the old
+   template's compositing left baked into the art's outer edge — see the
+   comment on renderCardFace() in client.js for the full story. */
+.card-art { display: block; width: 100%; height: 100%; object-fit: cover; transform: scale(1.5); pointer-events: none; }
 .card-name-plate {
   position: absolute;
   left: 18%; top: 8%; width: 64%; height: 4%;
@@ -1095,7 +1132,8 @@ body:has(#chatPanel:not(.collapsed)) .hand {
 }
 .deck-preview-header { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-shrink: 0; }
 .deck-preview-heading { display: flex; align-items: baseline; gap: 0.6rem; flex-wrap: wrap; }
-.deck-preview-heading h2 { margin: 0; color: var(--gold); font-family: var(--font-display); }
+.deck-preview-heading h2 { margin: 0; color: var(--gold); font-family: var(--font-display); font-size: 1.6rem; }
+.deck-preview-heading .deck-badge { font-size: 0.8rem; padding: 3px 9px; }
 .deck-preview-close {
   background: transparent;
   border: 1px solid var(--border);
@@ -1117,31 +1155,31 @@ body:has(#chatPanel:not(.collapsed)) .hand {
   flex: 1 1 auto;
   min-height: 0;
 }
-.deck-preview-description { color: var(--text); line-height: 1.5; }
-.deck-preview-block { margin-bottom: 1rem; }
+.deck-preview-description { color: var(--text); font-size: 1.05rem; line-height: 1.55; }
+.deck-preview-block { margin-bottom: 1.1rem; }
 .deck-preview-block h3 {
-  margin: 0 0 0.3rem;
+  margin: 0 0 0.35rem;
   color: var(--gold);
   font-family: var(--font-display);
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   letter-spacing: 0.4px;
   text-transform: uppercase;
 }
-.deck-preview-block p { margin: 0.15rem 0; color: var(--text); font-size: 0.88rem; line-height: 1.45; }
+.deck-preview-block p { margin: 0.15rem 0; color: var(--text); font-size: 0.98rem; line-height: 1.5; }
 .deck-preview-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-.deck-preview-list { margin: 0; padding-left: 1.1rem; font-size: 0.85rem; color: var(--text); line-height: 1.5; }
+.deck-preview-list { margin: 0; padding-left: 1.2rem; font-size: 0.95rem; color: var(--text); line-height: 1.55; }
 .deck-preview-list-pro li::marker { color: var(--success); }
 .deck-preview-list-con li::marker { color: var(--hp); }
 .deck-mechanic-chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .deck-mechanic-chip {
-  font-size: 0.72rem;
+  font-size: 0.82rem;
   font-family: var(--font-display);
   letter-spacing: 0.3px;
   border: 1px solid var(--magic);
   color: var(--magic);
   background: color-mix(in srgb, var(--magic) 12%, transparent);
   border-radius: 10px;
-  padding: 2px 8px;
+  padding: 3px 9px;
 }
 .deck-stats-grid {
   display: grid;
@@ -1151,12 +1189,12 @@ body:has(#chatPanel:not(.collapsed)) .hand {
   margin-bottom: 0.6rem;
 }
 .deck-stats-grid > div { background: #00000030; border-radius: 6px; padding: 0.4rem 0.2rem; }
-.deck-stats-grid span { display: block; font-family: var(--font-display); font-size: 1.15rem; color: var(--gold-bright); }
-.deck-stats-grid label { display: block; font-size: 0.62rem; color: var(--dim); text-transform: uppercase; letter-spacing: 0.3px; }
+.deck-stats-grid span { display: block; font-family: var(--font-display); font-size: 1.3rem; color: var(--gold-bright); }
+.deck-stats-grid label { display: block; font-size: 0.7rem; color: var(--dim); text-transform: uppercase; letter-spacing: 0.3px; }
 .mana-curve-chart { display: flex; align-items: flex-end; gap: 4px; height: 80px; }
 .mana-curve-col { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%; gap: 2px; }
 .mana-curve-bar { width: 100%; background: linear-gradient(#e7c877, #b8912f); border-radius: 2px 2px 0 0; min-height: 2px; }
-.mana-curve-label { font-size: 0.6rem; color: var(--dim); }
+.mana-curve-label { font-size: 0.7rem; color: var(--dim); }
 
 .deck-preview-cardlist { display: flex; flex-direction: column; min-height: 0; min-width: 0; }
 .deck-filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 0.6rem; }
@@ -1165,21 +1203,28 @@ body:has(#chatPanel:not(.collapsed)) .hand {
   border: 1px solid var(--border);
   color: var(--text);
   font-family: inherit;
-  font-size: 0.8rem;
-  padding: 5px 8px;
+  font-size: 0.9rem;
+  padding: 6px 9px;
   border-radius: 5px;
 }
 .deck-filter-bar input { flex: 1; min-width: 120px; }
 .deck-filter-bar input:focus, .deck-filter-bar select:focus { outline: 1px solid var(--gold); }
 .deck-card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 12px;
   max-height: 58vh;
   overflow-y: auto;
   padding-right: 4px;
   align-content: start;
 }
+/* These tiles are much bigger than a live hand/board card, so they can
+   afford a richer cqh ratio than the shared .card-name-plate/.card-rules-panel
+   rules (tuned against ~80px-wide real hand cards, where a bigger ratio
+   would overflow) — scoped here rather than raised globally. */
+.deck-card-grid .card-name-plate { font-size: clamp(6px, 3.4cqh, 24px); }
+.deck-card-grid .card-rules-panel { font-size: clamp(6px, 3.1cqh, 18px); }
+.deck-card-grid .card-rules-panel:has(.ability-line:nth-child(2)) { font-size: clamp(6px, 2.3cqh, 15px); }
 .deck-card-grid-empty { color: var(--dim); text-align: center; grid-column: 1 / -1; padding: 1.5rem 0; }
 .deck-preview-card { position: relative; cursor: pointer; }
 .deck-card-qty {
@@ -1189,10 +1234,10 @@ body:has(#chatPanel:not(.collapsed)) .hand {
   background: #14100cd0;
   border: 1px solid var(--gold);
   color: var(--gold-bright);
-  font-size: 0.65rem;
+  font-size: 0.75rem;
   font-family: var(--font-display);
   border-radius: 8px;
-  padding: 1px 6px;
+  padding: 2px 7px;
   pointer-events: none;
 }
 .deck-preview-footer { display: flex; justify-content: flex-end; padding-top: 0.4rem; border-top: 1px solid var(--border); flex-shrink: 0; }
@@ -1369,7 +1414,7 @@ body:has(#chatPanel:not(.collapsed)) .hand {
   .deck-preview-modal { width: 96vw; max-height: 92vh; }
   .deck-preview-body { grid-template-columns: 1fr; }
   .deck-preview-columns { grid-template-columns: 1fr; }
-  .deck-card-grid { grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); max-height: 44vh; }
+  .deck-card-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); max-height: 44vh; }
 }
 
 @media (min-width: 1400px) {
@@ -1383,5 +1428,5 @@ body:has(#chatPanel:not(.collapsed)) .hand {
   .faction-card .label { font-size: 0.72rem; }
   #cardPreview { width: 210px; height: 315px; }
   .deck-preview-header { flex-direction: column; align-items: stretch; gap: 0.5rem; }
-  .deck-card-grid { grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); }
+  .deck-card-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
 }
