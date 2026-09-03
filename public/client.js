@@ -2718,6 +2718,7 @@ const SONGS = [
   { file: 'Moonlit Awakening.mp3', title: 'Moonlit Awakening' },
   { file: 'Mythic Beasts Awaken.mp3', title: 'Mythic Beasts Awaken' },
   { file: 'Starfire Foundry.mp3', title: 'Starfire Foundry' },
+  { file: 'Ten Armies Rise.mp3', title: 'Ten Armies Rise' },
 ];
 const music = new Audio();
 music.preload = 'none'; // never fetch a track until it's actually picked
