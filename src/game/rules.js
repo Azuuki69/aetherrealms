@@ -266,6 +266,11 @@ export function effectivePower(game, owner, lane, slotIndex) {
   if (unit.keywords.includes('desperate') && player.hp < player.maxHp / 2) power += 2;
   if (unit.keywords.includes('hoarder')) power += Math.min(3, Math.max(0, player.hand.length - 3));
   if (unit.keywords.includes('bloodhunt')) power += game.players[opponentOf(owner)].diedThisTurn || 0;
+  // Baseline row identity, independent of any keyword: Rearguard hits
+  // harder from safety. Its mirror (Vanguard is tankier) lives in attack()
+  // as a flat combat-damage reduction, matching how Phalanx/Formation-
+  // toughness are also purely combat-side rather than universal.
+  if (lane === 'rearguard') power += 1;
   power += unit.tempPowerBonus || 0;
   power += unit.turnPowerBonus || 0;
   return power;
@@ -1657,11 +1662,16 @@ export function attack(game, owner, attackerLane, attackerSlot, targetLane, targ
     game.log.push(`${unit.name}'s Shield absorbs the retaliation from ${targetUnit.name}.`);
   }
 
+  // Baseline row identity, independent of any keyword: Vanguard is the
+  // tankier row (-1 combat damage taken, stacking with Phalanx/Formation-
+  // toughness the same way those two already stack with each other).
+  // Combat-only, like Phalanx — doesn't reduce spell damage.
   let fwdDmg = 0;
   if (!fwdShielded && !targetUnit.damageImmune) {
     fwdDmg = attackPower + (targetUnit.vulnerableBonus || 0);
     if (targetUnit.keywords.includes('phalanx')) fwdDmg = Math.max(0, fwdDmg - 1);
     if (hasFormationToughness(game, opponentKey, targetLane, targetSlot)) fwdDmg = Math.max(0, fwdDmg - 1);
+    if (targetLane === 'vanguard') fwdDmg = Math.max(0, fwdDmg - 1);
     fwdDmg = Math.max(0, fwdDmg - (opponent.turnDamageReduction || 0));
     if (targetUnit.damageAbsorb) {
       const absorbed = Math.min(targetUnit.damageAbsorb, fwdDmg);
@@ -1680,6 +1690,7 @@ export function attack(game, owner, attackerLane, attackerSlot, targetLane, targ
     backDmg = defenderPower + (unit.vulnerableBonus || 0);
     if (unit.keywords.includes('phalanx')) backDmg = Math.max(0, backDmg - 1);
     if (hasFormationToughness(game, owner, attackerLane, attackerSlot)) backDmg = Math.max(0, backDmg - 1);
+    if (attackerLane === 'vanguard') backDmg = Math.max(0, backDmg - 1);
     backDmg = Math.max(0, backDmg - (player.turnDamageReduction || 0));
     if (unit.damageAbsorb) {
       const absorbed = Math.min(unit.damageAbsorb, backDmg);
