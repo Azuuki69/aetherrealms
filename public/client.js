@@ -2646,8 +2646,15 @@ function initHudLayout() {
     hudCurrentLayout[panel.id] = { ...defaults[panel.id], ...((saved && saved[panel.id]) || {}) };
   }
 
-  for (const panel of HUD_PANELS) applyPanelGeometry(panel);
+  // Handles must exist BEFORE the first geometry pass — applyPanelGeometry()
+  // ends every call with syncHudOverlay(), which silently no-ops if the
+  // overlay div doesn't exist yet (see its own !overlay guard). Run in the
+  // old order, every overlay is created un-positioned and stays that way
+  // until something calls applyPanelGeometry() again — which nothing does
+  // until Reset Layout or a window resize, so dragging looks broken until
+  // then even though hudCurrentLayout was correct the whole time.
   for (const panel of HUD_PANELS) injectHudHandles(panel);
+  for (const panel of HUD_PANELS) applyPanelGeometry(panel);
 
   // Re-applies full geometry, not just the overlay sync — the floating
   // log/chat panels store pixel coordinates derived from #game's rect at
