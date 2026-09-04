@@ -487,7 +487,7 @@
       "power": 5,
       "defense": 5,
       "text": "BLOODHUNT: +1 DMG for each enemy unit that died this turn. TRAMPLE: Excess damage from a killing blow carries through to whatever is behind it.",
-      "image": "assets/cards/art/orc/orc_19.png"
+      "image": "assets/cards/art/orc/orc_39.png"
     },
     {
       "id": "orc_40",
@@ -498,7 +498,7 @@
       "target": "none",
       "effect": { "kind": "self_damage_then_damage_all_enemies", "selfAmount": 2, "amount": 2 },
       "text": "Deal 2 damage to your own castle. Deal 2 damage to all enemy units.",
-      "image": "assets/cards/art/orc/orc_32.png"
+      "image": "assets/cards/art/orc/orc_40.png"
     }
   ]
 }

@@ -487,7 +487,7 @@
       "power": 3,
       "defense": 3,
       "text": "SILENCE: When played, removes all keywords from the enemy's strongest unit. FORMATION: +1 DMG while adjacent to another Dynasty unit.",
-      "image": "assets/cards/art/dynasty/dynasty_13.png"
+      "image": "assets/cards/art/dynasty/dynasty_39.png"
     },
     {
       "id": "dynasty_40",
@@ -498,7 +498,7 @@
       "target": "none",
       "effect": { "kind": "damage_enemy_row_auto", "amount": 3 },
       "text": "Deal 3 damage to all enemy units in whichever row has more of them.",
-      "image": "assets/cards/art/dynasty/dynasty_20.png"
+      "image": "assets/cards/art/dynasty/dynasty_40.png"
     }
   ]
 }

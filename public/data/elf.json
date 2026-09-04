@@ -487,7 +487,7 @@
       "power": 5,
       "defense": 4,
       "text": "DESPERATE: +2 DMG while your castle is below half HP. LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
-      "image": "assets/cards/art/elf/elf_38.png"
+      "image": "assets/cards/art/elf/elf_39.png"
     },
     {
       "id": "elf_40",
@@ -498,7 +498,7 @@
       "target": "none",
       "effect": { "kind": "damage_all_enemies_conditional_hp", "amount": 2, "lowHpAmount": 4 },
       "text": "Deal 2 damage to all enemy units. If your castle is below half HP, deal 4 instead.",
-      "image": "assets/cards/art/elf/elf_33.png"
+      "image": "assets/cards/art/elf/elf_40.png"
     }
   ]
 }

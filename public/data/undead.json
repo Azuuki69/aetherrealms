@@ -489,7 +489,7 @@
       "power": 4,
       "defense": 5,
       "text": "REBIRTH: The first time this would die, return it to your hand at 1 HP instead. CURSE: Deals 1 DMG to a random enemy at the end of your turn.",
-      "image": "assets/cards/art/undead/undead_10.png"
+      "image": "assets/cards/art/undead/undead_39.png"
     },
     {
       "id": "undead_40",
@@ -500,7 +500,7 @@
       "target": "none",
       "effect": { "kind": "destroy_all_damaged_enemies" },
       "text": "Destroy all damaged enemy units.",
-      "image": "assets/cards/art/undead/undead_36.png"
+      "image": "assets/cards/art/undead/undead_40.png"
     }
   ]
 }

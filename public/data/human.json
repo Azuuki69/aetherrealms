@@ -489,7 +489,7 @@
       "power": 3,
       "defense": 4,
       "text": "WAR CRY: When played, allied units in this row gain +1 DMG until your next turn. FORMATION: +1 DMG while adjacent to another Human unit.",
-      "image": "assets/cards/art/human/human_13.png"
+      "image": "assets/cards/art/human/human_39.png"
     },
     {
       "id": "human_40",
@@ -500,7 +500,7 @@
       "target": "none",
       "effect": { "kind": "damage_all_enemies", "amount": 2 },
       "text": "Deal 2 damage to all enemy units.",
-      "image": "assets/cards/art/human/human_35.png"
+      "image": "assets/cards/art/human/human_40.png"
     }
   ]
 }

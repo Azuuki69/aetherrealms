@@ -476,7 +476,7 @@
       "power": 3,
       "defense": 4,
       "text": "REVENGE: Permanently gains +1 DMG whenever another allied unit dies. HOARDER: +1 DMG for each card in hand beyond 3 (max +3).",
-      "image": "assets/cards/art/fallen/fallen_20.png"
+      "image": "assets/cards/art/fallen/fallen_38.png"
     },
     {
       "id": "fallen_39",
@@ -487,7 +487,7 @@
       "target": "none",
       "effect": { "kind": "damage_all_enemies_scaling_hand", "threshold": 3, "perCard": 1, "maxAmount": 3 },
       "text": "Deal 1 damage to all enemy units for each card in your hand beyond 3 (maximum 3).",
-      "image": "assets/cards/art/fallen/fallen_35.png"
+      "image": "assets/cards/art/fallen/fallen_39.png"
     }
   ]
 }

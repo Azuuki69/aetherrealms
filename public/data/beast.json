@@ -463,7 +463,7 @@
       "power": 3,
       "defense": 3,
       "text": "MUSTER: When this dies, summon a 1/1 Beast Pup. PACK HUNT: +1 DMG for each other Beast you control.",
-      "image": "assets/cards/art/beast/beast_10.png"
+      "image": "assets/cards/art/beast/beast_37.png"
     },
     {
       "id": "beast_38",
@@ -474,7 +474,7 @@
       "target": "none",
       "effect": { "kind": "damage_all_enemies_scaling_board", "perUnit": 1, "maxAmount": 4 },
       "text": "Deal 1 damage to all enemy units for each Beast you control (maximum 4).",
-      "image": "assets/cards/art/beast/beast_18.png"
+      "image": "assets/cards/art/beast/beast_38.png"
     }
   ]
 }

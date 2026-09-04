@@ -476,7 +476,7 @@
       "power": 4,
       "defense": 4,
       "text": "BLOODPRICE: When played, deal 1 DMG to your own castle. Draw a card. LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
-      "image": "assets/cards/art/damned/damned_13.png"
+      "image": "assets/cards/art/damned/damned_38.png"
     },
     {
       "id": "damned_39",
@@ -487,7 +487,7 @@
       "target": "none",
       "effect": { "kind": "self_damage_then_damage_all_enemies", "selfAmount": 3, "amount": 2 },
       "text": "Deal 3 damage to your own castle. Deal 2 damage to all enemy units.",
-      "image": "assets/cards/art/damned/damned_35.png"
+      "image": "assets/cards/art/damned/damned_39.png"
     }
   ]
 }
