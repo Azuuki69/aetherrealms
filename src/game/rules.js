@@ -120,6 +120,7 @@ function makeCardInstance(card) {
     keywords,
     hasShield: keywords.includes('shield'),
     wardAvailable: keywords.includes('ward'),
+    vanguardHpBonus: false,
     faction: card.id.split('_')[0],
     usedRebirth: false,
     usedRage: false,
@@ -267,9 +268,8 @@ export function effectivePower(game, owner, lane, slotIndex) {
   if (unit.keywords.includes('hoarder')) power += Math.min(3, Math.max(0, player.hand.length - 3));
   if (unit.keywords.includes('bloodhunt')) power += game.players[opponentOf(owner)].diedThisTurn || 0;
   // Baseline row identity, independent of any keyword: Rearguard hits
-  // harder from safety. Its mirror (Vanguard is tankier) lives in attack()
-  // as a flat combat-damage reduction, matching how Phalanx/Formation-
-  // toughness are also purely combat-side rather than universal.
+  // harder from safety. Its mirror (Vanguard is tankier via +1 max HP)
+  // is a persistent stat mutation instead — see grantVanguardBonusIfNeeded.
   if (lane === 'rearguard') power += 1;
   power += unit.tempPowerBonus || 0;
   power += unit.turnPowerBonus || 0;
@@ -283,6 +283,37 @@ function hasFormationToughness(game, owner, lane, slotIndex) {
   const unit = game.players[owner].board[lane][slotIndex];
   if (!unit || !/\+1 hp/i.test(unit.text || '')) return false;
   return isFormationActive(game, owner, lane, slotIndex);
+}
+
+// Vanguard's baseline row identity: +1 max HP (and current HP) while
+// standing there, live — every hit still chips real health, unlike a flat
+// damage reduction which can floor small hits to zero. Persistent (unlike
+// Rearguard's +1 DMG, which is recomputed live in effectivePower() every
+// time) because defense/maxDefense are real mutable fields, not something
+// computed fresh on every read — so this must be granted/stripped exactly
+// once at every point a unit's row or board presence can change, never left
+// to "just recompute" on its own.
+function grantVanguardBonusIfNeeded(unit) {
+  if (unit.vanguardHpBonus) return;
+  unit.defense += 1;
+  unit.maxDefense += 1;
+  unit.vanguardHpBonus = true;
+}
+
+// Returns true if removing the bonus dropped the unit to 0 HP or below.
+// Can't currently happen in practice — the bonus can only be "at" a unit's
+// current defense when defense already equals the pre-bonus maxDefense, so
+// clamping can only ever land at maxDefense-1, never below the card's own
+// printed floor — but every other buff-revert in this file
+// (revertEndOfTurnBuffs, startTurn's tempDefenseBonus handling) checks
+// anyway, so this does too: free insurance against this becoming possible
+// if the bonus amount or interaction ever changes.
+function stripVanguardBonusIfActive(unit) {
+  if (!unit.vanguardHpBonus) return false;
+  unit.maxDefense -= 1;
+  unit.defense = Math.min(unit.defense, unit.maxDefense);
+  unit.vanguardHpBonus = false;
+  return unit.defense <= 0;
 }
 
 function findLaneOf(player, instanceId) {
@@ -529,6 +560,12 @@ function destroyUnit(game, owner, lane, slotIndex) {
   const player = game.players[owner];
   const unit = player.board[lane][slotIndex];
   if (!unit) return;
+  // Leaving the board by any path (deathWard/Rebirth return-to-hand, or a
+  // normal graveyard death) — a unit off the board never keeps an active
+  // board-position bonus. Matters even for the normal-death path: a
+  // graveyard'd unit's stale inflated maxDefense would otherwise leak into
+  // a later Reanimate, which reads `chosen.maxDefense` as-is.
+  stripVanguardBonusIfActive(unit);
   if (unit.deathWard) {
     unit.deathWard = false;
     unit.defense = 1;
@@ -827,6 +864,7 @@ function resolveSpellEffect(game, owner, card, target) {
       const unit = player.board[target.lane][target.slot];
       if (unit) {
         player.board[target.lane][target.slot] = null;
+        stripVanguardBonusIfActive(unit);
         unit.defense = unit.maxDefense;
         unit.power = unit.basePower;
         unit.tempPowerBonus = 0;
@@ -1000,6 +1038,10 @@ function resolveSpellEffect(game, owner, card, target) {
       // since a hand card gets them freshly re-set by playCard() on replay
       // — a reanimated unit skips playCard() entirely, going straight onto
       // the board, so these must be explicitly set here instead).
+      // (destroyUnit() already strips a vanguard bonus on the way to the
+      // graveyard, but this is a no-op then, not a correctness dependency —
+      // cheap insurance mirroring bounce's own defensive strip.)
+      stripVanguardBonusIfActive(chosen);
       chosen.defense = chosen.maxDefense;
       chosen.power = chosen.basePower;
       chosen.tempPowerBonus = 0;
@@ -1012,6 +1054,7 @@ function resolveSpellEffect(game, owner, card, target) {
       chosen.attackedThisTurn = false;
       chosen.actionsUsedThisTurn = 0;
       player.board[target.lane][target.slot] = chosen;
+      if (target.lane === 'vanguard') grantVanguardBonusIfNeeded(chosen);
       game.log.push(`${card.name} reanimates ${chosen.name} onto the battlefield.`);
       break;
     }
@@ -1465,6 +1508,7 @@ export function playCard(game, owner, cardInstanceId, lane, slotIndex, spellTarg
   if (discount > 0) player.nextUnitDiscount = 0;
   const unit = { ...card, sick: !card.keywords.includes('charge'), attackedThisTurn: false, actionsUsedThisTurn: 0 };
   player.board[lane][slotIndex] = unit;
+  if (lane === 'vanguard') grantVanguardBonusIfNeeded(unit);
   game.playSeq += 1;
   game.lastPlayedCard = { seq: game.playSeq, owner, type: 'unit', cardId: card.cardId, name: card.name, image: card.image, text: card.text, text_pl: card.text_pl, text_es: card.text_es, cost: card.cost };
   game.log.push(`${owner} played ${card.name} to ${lane} ${slotIndex + 1}.`);
@@ -1662,16 +1706,11 @@ export function attack(game, owner, attackerLane, attackerSlot, targetLane, targ
     game.log.push(`${unit.name}'s Shield absorbs the retaliation from ${targetUnit.name}.`);
   }
 
-  // Baseline row identity, independent of any keyword: Vanguard is the
-  // tankier row (-1 combat damage taken, stacking with Phalanx/Formation-
-  // toughness the same way those two already stack with each other).
-  // Combat-only, like Phalanx — doesn't reduce spell damage.
   let fwdDmg = 0;
   if (!fwdShielded && !targetUnit.damageImmune) {
     fwdDmg = attackPower + (targetUnit.vulnerableBonus || 0);
     if (targetUnit.keywords.includes('phalanx')) fwdDmg = Math.max(0, fwdDmg - 1);
     if (hasFormationToughness(game, opponentKey, targetLane, targetSlot)) fwdDmg = Math.max(0, fwdDmg - 1);
-    if (targetLane === 'vanguard') fwdDmg = Math.max(0, fwdDmg - 1);
     fwdDmg = Math.max(0, fwdDmg - (opponent.turnDamageReduction || 0));
     if (targetUnit.damageAbsorb) {
       const absorbed = Math.min(targetUnit.damageAbsorb, fwdDmg);
@@ -1690,7 +1729,6 @@ export function attack(game, owner, attackerLane, attackerSlot, targetLane, targ
     backDmg = defenderPower + (unit.vulnerableBonus || 0);
     if (unit.keywords.includes('phalanx')) backDmg = Math.max(0, backDmg - 1);
     if (hasFormationToughness(game, owner, attackerLane, attackerSlot)) backDmg = Math.max(0, backDmg - 1);
-    if (attackerLane === 'vanguard') backDmg = Math.max(0, backDmg - 1);
     backDmg = Math.max(0, backDmg - (player.turnDamageReduction || 0));
     if (unit.damageAbsorb) {
       const absorbed = Math.min(unit.damageAbsorb, backDmg);
@@ -1899,6 +1937,11 @@ export function moveUnit(game, owner, fromLane, fromSlot, toLane, toSlot) {
   unit.attackedThisTurn = unit.actionsUsedThisTurn >= (unit.keywords.includes('windfury') ? 2 : 1);
 
   if (isFrontBack) {
+    if (toLane === 'vanguard') {
+      grantVanguardBonusIfNeeded(unit);
+    } else if (stripVanguardBonusIfActive(unit)) {
+      destroyUnit(game, owner, toLane, toSlot);
+    }
     game.log.push(`${owner}'s ${unit.name} moves to the ${toLane}.`);
   } else {
     game.log.push(`${owner}'s ${unit.name} moves ${toSlot > fromSlot ? 'right' : 'left'}.`);

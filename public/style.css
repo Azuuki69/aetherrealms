@@ -1242,10 +1242,10 @@ h1 span {
 /* Row labels as an absolutely-positioned overlay rather than a layout row —
    Vanguard/Rearguard clarity without spending any of the board's hard-won
    vertical space on it. Also names the baseline row passive (rules.js
-   effectivePower()/attack()) here, since it applies to every unit
-   regardless of card text and has no other on-screen home. */
+   effectivePower()/grantVanguardBonusIfNeeded()) here, since it applies to
+   every unit regardless of card text and has no other on-screen home. */
 #oppRearguard::before, #youRearguard::before { content: 'Rearguard +1 DMG'; }
-#oppVanguard::before, #youVanguard::before { content: 'Vanguard −1 DMG taken'; }
+#oppVanguard::before, #youVanguard::before { content: 'Vanguard +1 Max HP'; }
 #oppRearguard::before, #youRearguard::before, #oppVanguard::before, #youVanguard::before {
   position: absolute;
   top: 3px;
@@ -2222,11 +2222,11 @@ body.in-game #musicPlayerGame { display: block; }
   /* --- Board: full width, tighter gaps so 5 slots per lane actually fit. --- */
   .board-area { max-width: 100%; padding: 6px 4px; gap: 3px; }
   .lane-row { gap: 4px; padding: 2px; }
-  /* Row labels shrink to icon+number on a phone — the full "Vanguard −1 DMG
-     taken" wording has no room next to slots this small and would overlap
+  /* Row labels shrink to icon+number on a phone — the full "Vanguard +1 Max
+     HP" wording has no room next to slots this small and would overlap
      the first card's art. */
   #oppRearguard::before, #youRearguard::before { content: '🏹 +1'; }
-  #oppVanguard::before, #youVanguard::before { content: '⚔ −1'; }
+  #oppVanguard::before, #youVanguard::before { content: '🛡 +1'; }
   .slot { min-height: 40px; }
 
   /* --- Hand: a horizontal scroll strip, never a multi-row wrap that would
