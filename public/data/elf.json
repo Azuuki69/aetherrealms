@@ -479,6 +479,26 @@
       "text_pl": "PIERWSZY CIOS: Ta jednostka zadaje swoje obrażenia bojowe, zanim obrońca zdąży kontratakować.",
       "text_es": "PRIMER GOLPE: Esta unidad inflige su daño de combate antes de que el defensor pueda contraatacar.",
       "image": "assets/cards/art/elf/elf_38.png"
+    },
+    {
+      "id": "elf_39",
+      "name": "Bloodletting Duelist",
+      "cost": 5,
+      "power": 5,
+      "defense": 4,
+      "text": "DESPERATE: +2 DMG while your castle is below half HP. LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
+      "image": "assets/cards/art/elf/elf_38.png"
+    },
+    {
+      "id": "elf_40",
+      "name": "Reckless Barrage",
+      "cost": 4,
+      "type": "spell",
+      "copies": 1,
+      "target": "none",
+      "effect": { "kind": "damage_all_enemies_conditional_hp", "amount": 2, "lowHpAmount": 4 },
+      "text": "Deal 2 damage to all enemy units. If your castle is below half HP, deal 4 instead.",
+      "image": "assets/cards/art/elf/elf_33.png"
     }
   ]
 }

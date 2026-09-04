@@ -32,7 +32,7 @@
   "cons": ["Very board-dependent — no plan B if your units keep dying", "Weak against decks with efficient removal or wide sweepers", "Runs out of gas if the game goes long"],
   "cons_pl": ["Bardzo zależna od planszy — brak planu B, gdy jednostki wciąż giną", "Słaba przeciwko taliom z efektywnym usuwaniem jednostek lub atakami obszarowymi", "Traci impet, gdy gra się przeciąga"],
   "cons_es": ["Muy dependiente del tablero — sin plan B si tus unidades siguen muriendo", "Débil contra mazos con eliminación eficiente o barridos de área", "Se queda sin gasolina si la partida se alarga"],
-  "keyMechanics": ["PACK HUNT", "RALLY", "FORMATION"],
+  "keyMechanics": ["PACK HUNT", "RALLY", "FORMATION", "MUSTER"],
   "keyMechanics_pl": ["POLOWANIE W STADZIE", "ZBIÓRKA", "FORMACJA"],
   "keyMechanics_es": ["CAZA EN MANADA", "CONVOCATORIA", "FORMACIÓN"],
   "beginnerExplainer": "Most of your creatures get stronger just from having other Beasts next to them in play — the more you have out, the harder each one hits.",
@@ -455,6 +455,26 @@
       "text_pl": "Zadaj 3 obrażenia wrogiej jednostce.",
       "text_es": "Inflige 3 de daño a una unidad enemiga.",
       "image": "assets/cards/art/beast/beast_36.png"
+    },
+    {
+      "id": "beast_37",
+      "name": "Alpha Pup's Keeper",
+      "cost": 3,
+      "power": 3,
+      "defense": 3,
+      "text": "MUSTER: When this dies, summon a 1/1 Beast Pup. PACK HUNT: +1 DMG for each other Beast you control.",
+      "image": "assets/cards/art/beast/beast_10.png"
+    },
+    {
+      "id": "beast_38",
+      "name": "Stampeding Herd",
+      "cost": 5,
+      "type": "spell",
+      "copies": 1,
+      "target": "none",
+      "effect": { "kind": "damage_all_enemies_scaling_board", "perUnit": 1, "maxAmount": 4 },
+      "text": "Deal 1 damage to all enemy units for each Beast you control (maximum 4).",
+      "image": "assets/cards/art/beast/beast_18.png"
     }
   ]
 }

@@ -481,6 +481,26 @@
       "text_pl": "Odkrycie: Spójrz na 3 karty z puli swojej frakcji i dodaj jedną z nich do swojej ręki.",
       "text_es": "Descubrimiento: Mira 3 cartas de la reserva de tu facción y añade una a tu mano.",
       "image": "assets/cards/art/human/human_38.png"
+    },
+    {
+      "id": "human_39",
+      "name": "Banner Sergeant",
+      "cost": 4,
+      "power": 3,
+      "defense": 4,
+      "text": "WAR CRY: When played, allied units in this row gain +1 DMG until your next turn. FORMATION: +1 DMG while adjacent to another Human unit.",
+      "image": "assets/cards/art/human/human_13.png"
+    },
+    {
+      "id": "human_40",
+      "name": "Rallying Volley",
+      "cost": 3,
+      "type": "spell",
+      "copies": 1,
+      "target": "none",
+      "effect": { "kind": "damage_all_enemies", "amount": 2 },
+      "text": "Deal 2 damage to all enemy units.",
+      "image": "assets/cards/art/human/human_35.png"
     }
   ]
 }

@@ -481,6 +481,26 @@
       "text_pl": "Zwróć losową jednostkę z twojego cmentarza na pole bitwy do wybranego pustego miejsca.",
       "text_es": "Devuelve una unidad aleatoria de tu cementerio al campo de batalla en la casilla vacía elegida.",
       "image": "assets/cards/art/undead/undead_38.png"
+    },
+    {
+      "id": "undead_39",
+      "name": "Grave Wraith",
+      "cost": 5,
+      "power": 4,
+      "defense": 5,
+      "text": "REBIRTH: The first time this would die, return it to your hand at 1 HP instead. CURSE: Deals 1 DMG to a random enemy at the end of your turn.",
+      "image": "assets/cards/art/undead/undead_10.png"
+    },
+    {
+      "id": "undead_40",
+      "name": "Withering Plague",
+      "cost": 5,
+      "type": "spell",
+      "copies": 1,
+      "target": "none",
+      "effect": { "kind": "destroy_all_damaged_enemies" },
+      "text": "Destroy all damaged enemy units.",
+      "image": "assets/cards/art/undead/undead_36.png"
     }
   ]
 }

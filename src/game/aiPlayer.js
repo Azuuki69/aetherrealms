@@ -15,6 +15,21 @@ import { opponentOf, getLegalAttackTargets, effectivePower } from './rules.js';
 
 const RANGED_KEYWORDS = ['volley', 'siege'];
 
+// Every one of these effect kinds hits some-or-all of the opponent's board at
+// once rather than a single unit — scoreDeploymentCard() below values them
+// relative to how wide the enemy board actually is instead of the flat
+// per-spell score every other spell gets, so the bot doesn't waste a wipe on
+// an empty board or, worse, ignore one when it's actually the correct play.
+const AOE_EFFECT_KINDS = new Set([
+  'damage_all_enemies',
+  'damage_all_enemies_scaling_board',
+  'damage_all_enemies_conditional_hp',
+  'damage_all_enemies_scaling_hand',
+  'self_damage_then_damage_all_enemies',
+  'damage_enemy_row_auto',
+  'destroy_all_damaged_enemies',
+]);
+
 function isRanged(unit) {
   return unit.keywords.some((k) => RANGED_KEYWORDS.includes(k));
 }
@@ -122,7 +137,19 @@ function scoreDeploymentCard(game, owner, card, preset) {
     const { target, ok } = chooseSpellTarget(game, owner, card);
     if (!ok) return null;
     // Removal/buffs are worth roughly what they'd cost to fight for on board.
-    const score = 4 + card.cost * 0.5;
+    let score = 4 + card.cost * 0.5;
+    if (card.effect && AOE_EFFECT_KINDS.has(card.effect.kind)) {
+      const opp = game.players[opponentOf(owner)];
+      const enemyCount = allUnitsWithLoc(opp).length;
+      // A wipe that hits nothing is a wasted card, not a removal spell — and
+      // one that hits a wide board is worth far more than its flat score.
+      score += enemyCount * 2.5 - (enemyCount === 0 ? 3 : 0);
+      if (card.effect.kind === 'self_damage_then_damage_all_enemies') {
+        // Don't let a low-HP bot keep nuking its own castle for a marginal wipe.
+        const selfAmount = card.effect.selfAmount || 0;
+        score -= selfAmount * (you.hp < you.maxHp * 0.3 ? 3 : 0.5);
+      }
+    }
     return { action: { type: 'play_card', cardInstanceId: card.instanceId, spellTarget: target }, score };
   }
   const preferredLane = isRanged(card) ? 'rearguard' : 'vanguard';

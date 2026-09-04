@@ -32,7 +32,7 @@
   "cons": ["Very weak once behind on board or life", "Vulnerable to decks with strong early blockers", "Little to fall back on if the aggression stalls"],
   "cons_pl": ["Bardzo słaba, gdy traci przewagę na planszy lub w życiu", "Podatna na talie z silnymi wczesnymi blokerami", "Niewiele planu awaryjnego, gdy agresja utknie w miejscu"],
   "cons_es": ["Muy débil una vez que va por detrás en el tablero o en vida", "Vulnerable a mazos con fuertes bloqueadores tempranos", "Poco a lo que recurrir si la agresión se estanca"],
-  "keyMechanics": ["RAGE", "SLAYER", "TRAMPLE", "WINDFURY"],
+  "keyMechanics": ["RAGE", "SLAYER", "TRAMPLE", "WINDFURY", "BLOODHUNT"],
   "keyMechanics_pl": ["WŚCIEKŁOŚĆ", "POGROMCA", "STRATOWANIE", "FURIA WIATRU"],
   "keyMechanics_es": ["FURIA", "VERDUGO", "PISOTEO", "FURIA DEL VIENTO"],
   "beginnerExplainer": "Windfury units can attack twice in the same turn instead of once — always use both attacks if there's a legal target.",
@@ -479,6 +479,26 @@
       "text_pl": "FURIA WIATRU: Ta jednostka może atakować dwukrotnie w każdej turze.",
       "text_es": "FURIA DEL VIENTO: Esta unidad puede atacar dos veces cada turno.",
       "image": "assets/cards/art/orc/orc_38.png"
+    },
+    {
+      "id": "orc_39",
+      "name": "Bloodfang Berserker",
+      "cost": 5,
+      "power": 5,
+      "defense": 5,
+      "text": "BLOODHUNT: +1 DMG for each enemy unit that died this turn. TRAMPLE: Excess damage from a killing blow carries through to whatever is behind it.",
+      "image": "assets/cards/art/orc/orc_19.png"
+    },
+    {
+      "id": "orc_40",
+      "name": "Warband Frenzy",
+      "cost": 4,
+      "type": "spell",
+      "copies": 1,
+      "target": "none",
+      "effect": { "kind": "self_damage_then_damage_all_enemies", "selfAmount": 2, "amount": 2 },
+      "text": "Deal 2 damage to your own castle. Deal 2 damage to all enemy units.",
+      "image": "assets/cards/art/orc/orc_32.png"
     }
   ]
 }

@@ -32,7 +32,7 @@
   "cons": ["Weak against fast aggro that ends the game early", "Needs practice to know when to hold vs. commit cards", "Payoffs are back-loaded, so early turns can feel slow"],
   "cons_pl": ["Słaba przeciwko szybkiej agresji, która kończy grę wcześnie", "Wymaga praktyki, by wiedzieć, kiedy trzymać, a kiedy zagrywać karty", "Premie przychodzą późno, więc wczesne tury mogą wydawać się powolne"],
   "cons_es": ["Débil contra agresión rápida que termina la partida pronto", "Requiere práctica para saber cuándo retener o jugar cartas", "Las recompensas llegan tarde, así que los primeros turnos pueden parecer lentos"],
-  "keyMechanics": ["SALVAGE", "REAP", "HOARDER"],
+  "keyMechanics": ["SALVAGE", "REAP", "HOARDER", "REVENGE"],
   "keyMechanics_pl": ["ODZYSK", "ŻNIWO", "CHOMIKOWANIE"],
   "keyMechanics_es": ["RECUPERACIÓN", "COSECHA", "ACAPARADOR"],
   "beginnerExplainer": "Hoarder cards get stronger the more cards you're holding beyond a small threshold — for this deck, NOT playing a card can sometimes be the correct move.",
@@ -468,6 +468,26 @@
       "text_pl": "Ulecz swój zamek o 4.",
       "text_es": "Cura 4 puntos a tu castillo.",
       "image": "assets/cards/art/fallen/fallen_37.png"
+    },
+    {
+      "id": "fallen_38",
+      "name": "Vengeful Wreck",
+      "cost": 4,
+      "power": 3,
+      "defense": 4,
+      "text": "REVENGE: Permanently gains +1 DMG whenever another allied unit dies. HOARDER: +1 DMG for each card in hand beyond 3 (max +3).",
+      "image": "assets/cards/art/fallen/fallen_20.png"
+    },
+    {
+      "id": "fallen_39",
+      "name": "Scrapfield Purge",
+      "cost": 4,
+      "type": "spell",
+      "copies": 1,
+      "target": "none",
+      "effect": { "kind": "damage_all_enemies_scaling_hand", "threshold": 3, "perCard": 1, "maxAmount": 3 },
+      "text": "Deal 1 damage to all enemy units for each card in your hand beyond 3 (maximum 3).",
+      "image": "assets/cards/art/fallen/fallen_35.png"
     }
   ]
 }

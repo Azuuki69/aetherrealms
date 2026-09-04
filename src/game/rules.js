@@ -55,6 +55,11 @@ function detectKeywords(text) {
   if (/slayer/.test(t)) kw.push('slayer');
   if (/curse/.test(t)) kw.push('curse');
   if (/taunt/.test(t) && !/ignores? taunt/.test(t)) kw.push('taunt');
+  if (/muster/.test(t)) kw.push('muster');
+  if (/revenge/.test(t)) kw.push('revenge');
+  if (/bloodhunt/.test(t)) kw.push('bloodhunt');
+  if (/ward/.test(t)) kw.push('ward');
+  if (/silence/.test(t)) kw.push('silence');
   return kw;
 }
 
@@ -114,6 +119,7 @@ function makeCardInstance(card) {
     image: card.image,
     keywords,
     hasShield: keywords.includes('shield'),
+    wardAvailable: keywords.includes('ward'),
     faction: card.id.split('_')[0],
     usedRebirth: false,
     usedRage: false,
@@ -259,6 +265,7 @@ export function effectivePower(game, owner, lane, slotIndex) {
   }
   if (unit.keywords.includes('desperate') && player.hp < player.maxHp / 2) power += 2;
   if (unit.keywords.includes('hoarder')) power += Math.min(3, Math.max(0, player.hand.length - 3));
+  if (unit.keywords.includes('bloodhunt')) power += game.players[opponentOf(owner)].diedThisTurn || 0;
   power += unit.tempPowerBonus || 0;
   power += unit.turnPowerBonus || 0;
   return power;
@@ -279,6 +286,16 @@ function findLaneOf(player, instanceId) {
     if (idx !== -1) return { lane, idx };
   }
   return null;
+}
+
+function allUnitsWithLocations(player) {
+  const out = [];
+  for (const lane of ['vanguard', 'rearguard']) {
+    player.board[lane].forEach((unit, idx) => {
+      if (unit) out.push({ unit, lane, idx });
+    });
+  }
+  return out;
 }
 
 // Shared entry point for any non-combat source of damage to a unit (spells,
@@ -435,7 +452,8 @@ function mostDamagedAlly(player) {
 }
 
 // Runs whenever any unit is destroyed: Salvage draws for its own controller,
-// Reap draws for whoever is NOT the destroyed unit's controller.
+// Reap draws for whoever is NOT the destroyed unit's controller, and every
+// surviving Revenge unit on the dead unit's own side permanently grows.
 function onUnitDestroyed(game, ownerOfDead) {
   const dead = game.players[ownerOfDead];
   const alive = game.players[opponentOf(ownerOfDead)];
@@ -445,6 +463,61 @@ function onUnitDestroyed(game, ownerOfDead) {
   if (allUnits(alive).some((u) => u.keywords.includes('reap'))) {
     if (draw(alive)) game.log.push(`${opponentOf(ownerOfDead)} draws a card (Reap).`);
   }
+  for (const u of allUnits(dead)) {
+    if (u.keywords.includes('revenge')) {
+      u.power += 1;
+      u.basePower += 1;
+      game.log.push(`${u.name} grows vengeful, permanently gaining +1 DMG (Revenge).`);
+    }
+  }
+}
+
+// Token art/name reuses an existing card's own art rather than a new asset —
+// only Beast has Muster so far, but keyed by faction so a future faction can
+// just add an entry here.
+const MUSTER_TOKEN_TEMPLATES = {
+  beast: { name: 'Beast Pup', image: 'assets/cards/art/beast/beast_01.png' },
+};
+
+// Summons directly into the slot the dying unit just vacated — that slot is
+// guaranteed free by the time destroyUnit() calls this, so Muster never needs
+// to search the board for room, and simply no-ops if that ever isn't true
+// (e.g. a future effect refills the slot first).
+function summonMusterToken(game, owner, lane, slotIndex, faction) {
+  const player = game.players[owner];
+  if (player.board[lane][slotIndex]) return;
+  const tmpl = MUSTER_TOKEN_TEMPLATES[faction];
+  if (!tmpl) return;
+  const token = {
+    instanceId: nextInstanceId(),
+    cardId: `${faction}_token`,
+    name: tmpl.name,
+    type: 'unit',
+    cost: 0,
+    power: 1,
+    basePower: 1,
+    defense: 1,
+    maxDefense: 1,
+    text: '',
+    text_pl: null,
+    text_es: null,
+    image: tmpl.image,
+    keywords: [],
+    hasShield: false,
+    wardAvailable: false,
+    faction,
+    usedRebirth: false,
+    usedRage: false,
+    tempPowerBonus: 0,
+    countdown: null,
+    target: null,
+    effect: null,
+    sick: true,
+    attackedThisTurn: false,
+    actionsUsedThisTurn: 0,
+  };
+  player.board[lane][slotIndex] = token;
+  game.log.push(`A ${tmpl.name} token is summoned (Muster).`);
 }
 
 function destroyUnit(game, owner, lane, slotIndex) {
@@ -473,6 +546,9 @@ function destroyUnit(game, owner, lane, slotIndex) {
   player.graveyard.push(unit);
   player.diedThisTurn = (player.diedThisTurn || 0) + 1;
   game.log.push(`${unit.name} is destroyed.`);
+  if (unit.keywords.includes('muster')) {
+    summonMusterToken(game, owner, lane, slotIndex, unit.faction);
+  }
   if (player.vengefulUntilEndOfTurn) {
     const enemyPlayer = game.players[opponentOf(owner)];
     const enemyUnits = allUnits(enemyPlayer);
@@ -539,6 +615,9 @@ export function startTurn(game, owner) {
           destroyUnit(game, owner, lane, idx);
           return;
         }
+      }
+      if (unit.keywords.includes('ward')) {
+        unit.wardAvailable = true;
       }
       if (unit.keywords.includes('vigil')) {
         const before = unit.defense;
@@ -612,6 +691,19 @@ function resolveSpellEffect(game, owner, card, target) {
     card.target === 'enemy_unit' || card.target === 'multi_enemy_unit' || card.target === 'multi_enemy_unit_distinct'
       ? opponentOf(owner)
       : owner;
+
+  // Ward only negates single-target enemy_unit spells (it reads as "the next
+  // spell that would TARGET this unit") — an all-enemies/multi-target effect
+  // isn't aimed at any one unit the same way, so it isn't blocked by Ward.
+  if (card.target === 'enemy_unit') {
+    const wardedUnit = game.players[targetOwnerKey].board[target.lane]?.[target.slot];
+    if (wardedUnit && wardedUnit.wardAvailable) {
+      wardedUnit.wardAvailable = false;
+      game.log.push(`${wardedUnit.name}'s Ward negates ${card.name}.`);
+      checkWinner(game);
+      return;
+    }
+  }
 
   switch (eff.kind) {
     case 'buff_power': {
@@ -737,6 +829,7 @@ function resolveSpellEffect(game, owner, card, target) {
         unit.turnDefenseBonus = 0;
         unit.vulnerableBonus = 0;
         unit.hasShield = unit.keywords.includes('shield');
+        unit.wardAvailable = unit.keywords.includes('ward');
         delete unit.sick;
         delete unit.attackedThisTurn;
         delete unit.actionsUsedThisTurn;
@@ -786,6 +879,74 @@ function resolveSpellEffect(game, owner, card, target) {
         });
       }
       game.log.push(`${card.name} deals ${eff.amount} damage to all of ${opponentOf(owner)}'s units.`);
+      break;
+    }
+    case 'damage_all_enemies_scaling_board': {
+      const amount = Math.min(eff.maxAmount, allUnits(player).length * eff.perUnit);
+      for (const lane of ['vanguard', 'rearguard']) {
+        opponent.board[lane].forEach((u, idx) => {
+          if (u) dealDamageToUnit(game, opponentOf(owner), lane, idx, amount);
+        });
+      }
+      game.log.push(`${card.name} deals ${amount} damage to all of ${opponentOf(owner)}'s units.`);
+      break;
+    }
+    case 'damage_all_enemies_conditional_hp': {
+      const amount = player.hp < player.maxHp / 2 ? eff.lowHpAmount : eff.amount;
+      for (const lane of ['vanguard', 'rearguard']) {
+        opponent.board[lane].forEach((u, idx) => {
+          if (u) dealDamageToUnit(game, opponentOf(owner), lane, idx, amount);
+        });
+      }
+      game.log.push(`${card.name} deals ${amount} damage to all of ${opponentOf(owner)}'s units.`);
+      break;
+    }
+    case 'damage_all_enemies_scaling_hand': {
+      const excess = Math.max(0, player.hand.length - eff.threshold);
+      const amount = Math.min(eff.maxAmount, excess * eff.perCard);
+      for (const lane of ['vanguard', 'rearguard']) {
+        opponent.board[lane].forEach((u, idx) => {
+          if (u) dealDamageToUnit(game, opponentOf(owner), lane, idx, amount);
+        });
+      }
+      game.log.push(`${card.name} deals ${amount} damage to all of ${opponentOf(owner)}'s units.`);
+      break;
+    }
+    case 'self_damage_then_damage_all_enemies': {
+      player.hp -= eff.selfAmount;
+      for (const lane of ['vanguard', 'rearguard']) {
+        opponent.board[lane].forEach((u, idx) => {
+          if (u) dealDamageToUnit(game, opponentOf(owner), lane, idx, eff.amount);
+        });
+      }
+      game.log.push(`${card.name} costs ${owner} ${eff.selfAmount} and deals ${eff.amount} damage to all of ${opponentOf(owner)}'s units.`);
+      break;
+    }
+    // Auto-targets whichever enemy row is more populated (vanguard on a tie)
+    // rather than letting the caster choose — keeps this spell on the same
+    // target:"none" shape as every other new AoE instead of needing a new
+    // interactive row-picker in the client.
+    case 'damage_enemy_row_auto': {
+      const vCount = opponent.board.vanguard.filter(Boolean).length;
+      const rCount = opponent.board.rearguard.filter(Boolean).length;
+      const lane = rCount > vCount ? 'rearguard' : 'vanguard';
+      opponent.board[lane].forEach((u, idx) => {
+        if (u) dealDamageToUnit(game, opponentOf(owner), lane, idx, eff.amount);
+      });
+      game.log.push(`${card.name} deals ${eff.amount} damage to all enemy units in the ${lane}.`);
+      break;
+    }
+    case 'destroy_all_damaged_enemies': {
+      let destroyed = 0;
+      for (const lane of ['vanguard', 'rearguard']) {
+        opponent.board[lane].forEach((u, idx) => {
+          if (u && u.defense < u.maxDefense) {
+            destroyUnit(game, opponentOf(owner), lane, idx);
+            destroyed += 1;
+          }
+        });
+      }
+      game.log.push(`${card.name} destroys ${destroyed} damaged enemy unit(s).`);
       break;
     }
     case 'delayed_heal_castle_repeat': {
@@ -841,6 +1002,7 @@ function resolveSpellEffect(game, owner, card, target) {
       chosen.turnDefenseBonus = 0;
       chosen.vulnerableBonus = 0;
       chosen.hasShield = chosen.keywords.includes('shield');
+      chosen.wardAvailable = chosen.keywords.includes('ward');
       chosen.sick = !chosen.keywords.includes('charge');
       chosen.attackedThisTurn = false;
       chosen.actionsUsedThisTurn = 0;
@@ -1338,6 +1500,23 @@ export function playCard(game, owner, cardInstanceId, lane, slotIndex, spellTarg
         game.log.push(`${unit.name}'s Cull sacrifices ${victim.name} to deal 2 to the enemy castle.`);
       }
       checkWinner(game);
+    }
+  }
+  if (unit.keywords.includes('silence')) {
+    const opponentPlayer = game.players[opponentOf(owner)];
+    const enemyUnits = allUnitsWithLocations(opponentPlayer);
+    if (enemyUnits.length > 0) {
+      enemyUnits.sort(
+        (a, b) =>
+          effectivePower(game, opponentOf(owner), b.lane, b.idx) - effectivePower(game, opponentOf(owner), a.lane, a.idx)
+      );
+      const strongest = enemyUnits[0].unit;
+      strongest.keywords = [];
+      strongest.hasShield = false;
+      strongest.wardAvailable = false;
+      strongest.deathWard = false;
+      strongest.damageImmune = false;
+      game.log.push(`${unit.name}'s Silence strips all keywords from ${strongest.name}.`);
     }
   }
   if (unit.keywords.includes('bloodprice')) {

@@ -468,6 +468,26 @@
       "text_pl": "Wybrana sojusznicza jednostka zyskuje +0/+2 do końca tury.",
       "text_es": "La unidad aliada objetivo gana +0/+2 hasta el final del turno.",
       "image": "assets/cards/art/damned/damned_37.png"
+    },
+    {
+      "id": "damned_38",
+      "name": "Blood Cultist",
+      "cost": 4,
+      "power": 4,
+      "defense": 4,
+      "text": "BLOODPRICE: When played, deal 1 DMG to your own castle. Draw a card. LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
+      "image": "assets/cards/art/damned/damned_13.png"
+    },
+    {
+      "id": "damned_39",
+      "name": "Blood Sacrifice",
+      "cost": 3,
+      "type": "spell",
+      "copies": 1,
+      "target": "none",
+      "effect": { "kind": "self_damage_then_damage_all_enemies", "selfAmount": 3, "amount": 2 },
+      "text": "Deal 3 damage to your own castle. Deal 2 damage to all enemy units.",
+      "image": "assets/cards/art/damned/damned_35.png"
     }
   ]
 }

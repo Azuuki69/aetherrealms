@@ -32,7 +32,7 @@
   "cons": ["Can lose to decks built around direct damage to the castle instead of combat", "Long games favor whichever opponent has more late-game answers", "Low damage output if the wall doesn't ever attack"],
   "cons_pl": ["Może przegrać z taliami opartymi na bezpośrednich obrażeniach zamku zamiast walki", "Długie gry faworyzują tego, kto ma więcej odpowiedzi na późną fazę gry", "Niskie obrażenia, jeśli mur nigdy nie atakuje"],
   "cons_es": ["Puede perder contra mazos construidos en torno al daño directo al castillo en lugar del combate", "Las partidas largas favorecen a quien tenga más respuestas de final de partida", "Bajo daño si el muro nunca ataca"],
-  "keyMechanics": ["VIGIL", "FORTIFY", "PHALANX"],
+  "keyMechanics": ["VIGIL", "FORTIFY", "PHALANX", "WARD"],
   "keyMechanics_pl": ["CZUJNOŚĆ", "UMOCNIENIE", "FALANGA"],
   "keyMechanics_es": ["VIGILIA", "FORTIFICACIÓN", "FALANGE"],
   "beginnerExplainer": "Fortify units get tougher every time they successfully block an attack, so trading them into a big attacker one turn makes them even better blockers the next.",
@@ -468,6 +468,15 @@
       "text_pl": "Wybrana sojusznicza jednostka zyskuje +2 DMG do końca tury.",
       "text_es": "La unidad aliada objetivo gana +2 DMG hasta el final del turno.",
       "image": "assets/cards/art/dwarf/dwarf_37.png"
+    },
+    {
+      "id": "dwarf_38",
+      "name": "Runeward Sentinel",
+      "cost": 5,
+      "power": 3,
+      "defense": 6,
+      "text": "WARD: Negates the first enemy spell that would target this unit each turn. VIGIL: Heals 1 HP at the start of your turn.",
+      "image": "assets/cards/art/dwarf/dwarf_14.png"
     }
   ]
 }

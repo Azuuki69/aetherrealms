@@ -468,6 +468,15 @@
       "text_pl": "Wybrana sojusznicza jednostka zyskuje Tarczę do twojej następnej tury.",
       "text_es": "La unidad aliada objetivo gana Escudo hasta tu próximo turno.",
       "image": "assets/cards/art/clock/clock_37.png"
+    },
+    {
+      "id": "clock_38",
+      "name": "Timeworn Warden",
+      "cost": 4,
+      "power": 3,
+      "defense": 4,
+      "text": "GROWING: +1 HP at the start of each of your turns. REAP: Draw a card whenever an enemy unit dies.",
+      "image": "assets/cards/art/clock/clock_07.png"
     }
   ]
 }

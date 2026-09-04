@@ -32,7 +32,7 @@
   "cons": ["Positioning mistakes cost real value, unlike simpler decks", "Vulnerable to effects that pick off the Formation partner first", "Needs some practice to sequence plays optimally"],
   "cons_pl": ["Błędy w pozycjonowaniu kosztują realną wartość, w przeciwieństwie do prostszych talii", "Podatna na efekty eliminujące najpierw partnera z Formacji", "Wymaga praktyki, by optymalnie sekwencjonować zagrania"],
   "cons_es": ["Los errores de posicionamiento cuestan valor real, a diferencia de mazos más simples", "Vulnerable a efectos que eliminan primero al compañero de Formación", "Requiere algo de práctica para secuenciar las jugadas de forma óptima"],
-  "keyMechanics": ["FORMATION", "VOLLEY", "PARTING GIFT", "FIRST STRIKE"],
+  "keyMechanics": ["FORMATION", "VOLLEY", "PARTING GIFT", "FIRST STRIKE", "SILENCE"],
   "keyMechanics_pl": ["FORMACJA", "SALWA", "DAR POŻEGNALNY", "PIERWSZY CIOS"],
   "keyMechanics_es": ["FORMACIÓN", "RÁFAGA", "REGALO DE DESPEDIDA", "PRIMER GOLPE"],
   "beginnerExplainer": "Formation units only get their bonus while standing next to another Dynasty unit — losing that neighbor loses the buff, so protect the pair, not just the individual card.",
@@ -479,6 +479,26 @@
       "text_pl": "PIERWSZY CIOS: Ta jednostka zadaje swoje obrażenia bojowe, zanim obrońca zdąży kontratakować.",
       "text_es": "PRIMER GOLPE: Esta unidad inflige su daño de combate antes de que el defensor pueda contraatacar.",
       "image": "assets/cards/art/dynasty/dynasty_38.png"
+    },
+    {
+      "id": "dynasty_39",
+      "name": "Silent Blade",
+      "cost": 4,
+      "power": 3,
+      "defense": 3,
+      "text": "SILENCE: When played, removes all keywords from the enemy's strongest unit. FORMATION: +1 DMG while adjacent to another Dynasty unit.",
+      "image": "assets/cards/art/dynasty/dynasty_13.png"
+    },
+    {
+      "id": "dynasty_40",
+      "name": "Coordinated Volley",
+      "cost": 4,
+      "type": "spell",
+      "copies": 1,
+      "target": "none",
+      "effect": { "kind": "damage_enemy_row_auto", "amount": 3 },
+      "text": "Deal 3 damage to all enemy units in whichever row has more of them.",
+      "image": "assets/cards/art/dynasty/dynasty_20.png"
     }
   ]
 }
