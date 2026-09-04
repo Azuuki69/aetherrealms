@@ -541,6 +541,7 @@ function summonMusterToken(game, owner, lane, slotIndex, faction) {
     keywords: [],
     hasShield: false,
     wardAvailable: false,
+    vanguardHpBonus: false,
     faction,
     usedRebirth: false,
     usedRage: false,
@@ -553,6 +554,7 @@ function summonMusterToken(game, owner, lane, slotIndex, faction) {
     actionsUsedThisTurn: 0,
   };
   player.board[lane][slotIndex] = token;
+  if (lane === 'vanguard') grantVanguardBonusIfNeeded(token);
   game.log.push(`A ${tmpl.name} token is summoned (Muster).`);
 }
 

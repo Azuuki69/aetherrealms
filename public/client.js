@@ -680,10 +680,13 @@ function buildDemoView() {
   const youUnits = units(youCards);
   const oppUnits = units(oppCards);
 
-  const youVanguard = [youUnits[0], null, youUnits[1], null, null].map((c) => (c ? demoCardInstance(c) : null));
-  const youRearguard = [null, youUnits[2], null, null, null].map((c) => (c ? demoCardInstance(c) : null));
-  const oppVanguard = [null, oppUnits[0], null, oppUnits[1], null].map((c) => (c ? demoCardInstance(c) : null));
-  const oppRearguard = [null, null, oppUnits[2], null, null].map((c) => (c ? demoCardInstance(c) : null));
+  // 4 slots per row, matching rules.js's LANES constant — this mock board
+  // has no way to import that constant (server-only code), so it's kept in
+  // sync by hand.
+  const youVanguard = [youUnits[0], null, youUnits[1], null].map((c) => (c ? demoCardInstance(c) : null));
+  const youRearguard = [null, youUnits[2], null, null].map((c) => (c ? demoCardInstance(c) : null));
+  const oppVanguard = [null, oppUnits[0], null, oppUnits[1]].map((c) => (c ? demoCardInstance(c) : null));
+  const oppRearguard = [null, null, oppUnits[2], null].map((c) => (c ? demoCardInstance(c) : null));
 
   const hand = [...units(youCards).slice(3, 6), ...spells(youCards).slice(0, 2)].map((c) => demoCardInstance(c));
 
@@ -1351,7 +1354,14 @@ function computeEffects(prev, next) {
         seenIds.add(u.instanceId);
         const pu = prevUnits.get(u.instanceId);
         if (!pu) return; // freshly-played card — already covered by the card-enter animation
-        if (u.defense < pu.defense) effects.push({ kind: 'unit-damage', side, lane, slot, amount: pu.defense - u.defense });
+        // A shrinking maxDefense (losing the Vanguard +1 HP bonus on
+        // reposition, or a temporary buff wearing off) drops `defense` right
+        // along with it — not real damage, so it must be subtracted out
+        // before deciding whether to flash the red "hit" effect, or every
+        // such stat change reads as a false attack.
+        const maxDrop = Math.max(0, pu.maxDefense - u.maxDefense);
+        const realDamage = (pu.defense - u.defense) - maxDrop;
+        if (realDamage > 0) effects.push({ kind: 'unit-damage', side, lane, slot, amount: realDamage });
         else if (u.defense > pu.defense) effects.push({ kind: 'unit-heal', side, lane, slot, amount: u.defense - pu.defense });
         if (u.power > pu.power) effects.push({ kind: 'unit-buff', side, lane, slot, amount: u.power - pu.power });
         if (u.maxDefense > pu.maxDefense) effects.push({ kind: 'unit-fortify', side, lane, slot, amount: u.maxDefense - pu.maxDefense });
@@ -2501,6 +2511,12 @@ async function loadHudLayoutFromAccount(token) {
     const data = await res.json();
     const saved = data && data.layout && data.layout.v === HUD_LAYOUT_VERSION ? data.layout.panels : null;
     if (!saved || !hudDefaultLayout) return;
+    // This fetch is async and can resolve while the player is mid-drag —
+    // replacing hudCurrentLayout out from under an active hudDragState/
+    // hudResizeState would corrupt the drag's resting position (mousemove
+    // keeps using its captured start-percentages against a swapped-out
+    // geometry object) and then persist that corrupted position on mouseup.
+    if (hudDragState || hudResizeState) return;
     hudCurrentLayout = {};
     for (const panel of HUD_PANELS) {
       hudCurrentLayout[panel.id] = { ...hudDefaultLayout[panel.id], ...(saved[panel.id] || {}) };

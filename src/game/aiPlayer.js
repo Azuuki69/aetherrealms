@@ -121,6 +121,10 @@ function chooseSpellTarget(game, owner, card) {
     const distinctMax = kind === 'multi_enemy_unit' ? eff.maxTargets : need;
     const pool = allUnitsWithLoc(opp).sort((a, b) => a.unit.defense - b.unit.defense);
     if (!pool.length) return { ok: false };
+    // _distinct requires every hit to land on a different unit — unlike the
+    // plain variant, which intentionally allows repeats up to maxTargets —
+    // so a pool smaller than what's needed can never produce a legal target.
+    if (kind === 'multi_enemy_unit_distinct' && pool.length < need) return { ok: false };
     const hits = [];
     for (let i = 0; i < need; i++) {
       const pick = pool[Math.min(i, distinctMax - 1, pool.length - 1)];
