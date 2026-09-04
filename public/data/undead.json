@@ -488,7 +488,7 @@
       "cost": 5,
       "power": 4,
       "defense": 5,
-      "text": "REBIRTH: The first time this would die, return it to your hand at 1 HP instead. CURSE: Deals 1 DMG to a random enemy at the end of your turn.",
+      "text": "REBIRTH: The first time this dies, return to hand at 1 HP instead. CURSE: Deals 1 DMG to a random enemy at end of turn.",
       "image": "assets/cards/art/undead/undead_39.png"
     },
     {

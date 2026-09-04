@@ -488,7 +488,7 @@
       "cost": 4,
       "power": 3,
       "defense": 4,
-      "text": "WAR CRY: When played, allied units in this row gain +1 DMG until your next turn. FORMATION: +1 DMG while adjacent to another Human unit.",
+      "text": "WAR CRY: Allied units in this row gain +1 DMG until your next turn. FORMATION: +1 DMG while adjacent to another Human unit.",
       "image": "assets/cards/art/human/human_39.png"
     },
     {

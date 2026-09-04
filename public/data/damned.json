@@ -475,7 +475,7 @@
       "cost": 4,
       "power": 4,
       "defense": 4,
-      "text": "BLOODPRICE: When played, deal 1 DMG to your own castle. Draw a card. LIFESTEAL: Heals your castle for the DMG this unit deals in combat.",
+      "text": "BLOODPRICE: Deal 1 DMG to your own castle when played. Draw a card. LIFESTEAL: Heals your castle for combat DMG dealt.",
       "image": "assets/cards/art/damned/damned_38.png"
     },
     {

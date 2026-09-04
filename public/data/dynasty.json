@@ -486,7 +486,7 @@
       "cost": 4,
       "power": 3,
       "defense": 3,
-      "text": "SILENCE: When played, removes all keywords from the enemy's strongest unit. FORMATION: +1 DMG while adjacent to another Dynasty unit.",
+      "text": "SILENCE: Strips the enemy's strongest unit of all keywords. FORMATION: +1 DMG while adjacent to another Dynasty unit.",
       "image": "assets/cards/art/dynasty/dynasty_39.png"
     },
     {

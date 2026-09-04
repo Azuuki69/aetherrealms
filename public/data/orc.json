@@ -486,7 +486,7 @@
       "cost": 5,
       "power": 5,
       "defense": 5,
-      "text": "BLOODHUNT: +1 DMG for each enemy unit that died this turn. TRAMPLE: Excess damage from a killing blow carries through to whatever is behind it.",
+      "text": "BLOODHUNT: +1 DMG for each enemy unit that died this turn. TRAMPLE: Excess damage carries to the unit or castle behind it.",
       "image": "assets/cards/art/orc/orc_39.png"
     },
     {
