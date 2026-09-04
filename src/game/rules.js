@@ -10,7 +10,7 @@ import orc from '../../public/data/orc.json';
 import undead from '../../public/data/undead.json';
 
 export const FACTIONS = { beast, clock, damned, dwarf, dynasty, elf, fallen, human, orc, undead };
-export const LANES = 5;
+export const LANES = 4;
 export const STARTING_HP = 50;
 export const MAX_MANA = 10;
 export const STARTING_HAND_SIZE = 5;
