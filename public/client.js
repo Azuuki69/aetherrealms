@@ -40,6 +40,7 @@ const TRANSLATIONS = {
     shareCodeWaiting: 'Share this code with your opponent. Waiting for them to join...',
     enterRoomCode: 'Enter a room code.', startingAiMatch: 'Starting AI match...',
     disconnectedFromServer: 'Disconnected from server.', connectionError: 'Connection error.',
+    reconnecting: '🔌 Connection lost — reconnecting…', reconnected: '🔌 Reconnected.',
     waitingForOpponent: 'Waiting for opponent to join...',
     // Rankings
     tabPlayers: 'Players', tabDecks: 'Decks', colRank: '#', colPlayer: 'Player', colWins: 'Wins', colLosses: 'Losses',
@@ -148,6 +149,7 @@ const TRANSLATIONS = {
     shareCodeWaiting: 'Udostępnij ten kod przeciwnikowi. Oczekiwanie na dołączenie...',
     enterRoomCode: 'Podaj kod pokoju.', startingAiMatch: 'Uruchamianie meczu z AI...',
     disconnectedFromServer: 'Rozłączono z serwerem.', connectionError: 'Błąd połączenia.',
+    reconnecting: '🔌 Utracono połączenie — ponowne łączenie…', reconnected: '🔌 Połączono ponownie.',
     waitingForOpponent: 'Oczekiwanie na dołączenie przeciwnika...',
     tabPlayers: 'Gracze', tabDecks: 'Talie', colRank: '#', colPlayer: 'Gracz', colWins: 'Wygrane', colLosses: 'Przegrane',
     colFaction: 'Frakcja', colWinRate: 'Skuteczność', colGames: 'Mecze',
@@ -246,6 +248,7 @@ const TRANSLATIONS = {
     shareCodeWaiting: 'Comparte este código con tu oponente. Esperando a que se una...',
     enterRoomCode: 'Introduce un código de sala.', startingAiMatch: 'Iniciando partida contra la IA...',
     disconnectedFromServer: 'Desconectado del servidor.', connectionError: 'Error de conexión.',
+    reconnecting: '🔌 Conexión perdida — reconectando…', reconnected: '🔌 Reconectado.',
     waitingForOpponent: 'Esperando a que el oponente se una...',
     tabPlayers: 'Jugadores', tabDecks: 'Mazos', colRank: '#', colPlayer: 'Jugador', colWins: 'Victorias', colLosses: 'Derrotas',
     colFaction: 'Facción', colWinRate: 'Ratio de victorias', colGames: 'Partidas',
@@ -430,6 +433,17 @@ let coinFlipAckSent = false;
 let hudLayoutInitialized = false; // true once the HUD layout manager's default geometry has been captured
 let hudAccountSyncedForToken; // undefined = never checked; tracks which login (if any) the layout was last synced for
 
+// ---------- Reconnection ----------
+// The room this tab is (or was) connected to, so a dropped socket has
+// somewhere to reconnect to — mobile home-screen/standalone-launched apps
+// in particular get their WebSocket silently killed by OS network
+// suspension while backgrounded, with no clean close event, and previously
+// had no recovery path at all short of a full restart.
+let currentRoomCode = null;
+let reconnectAttempt = 0;
+let reconnectTimer = null;
+let wasDisconnectedMidMatch = false; // drives the "Reconnected." log line once a fresh state arrives
+
 // ---------- Drag-to-target arrow ----------
 let dragCandidate = null; // { lane, slot, startX, startY } — set on mousedown, before the drag threshold is crossed
 let isDragging = false;
@@ -553,12 +567,30 @@ function setStatus(text) {
   el('lobbyStatus').textContent = text;
 }
 
+// The server's afterJoin() (matchRoom.js) already resends the current
+// match state the instant a fresh WebSocket reaches it — no rejoin message
+// needed — so reconnecting is just "open a new connect(currentRoomCode)."
+// Backoff (1s/2s/4s/8s, capped 15s) covers the case where the old socket
+// hasn't been reaped server-side yet and a reconnect attempt would land on
+// an already-occupied seat.
+function scheduleReconnect() {
+  if (reconnectTimer || !currentRoomCode) return;
+  if (currentView && currentView.winner) return; // match is over — nothing to resync
+  const delay = Math.min(1000 * 2 ** reconnectAttempt, 15000);
+  reconnectAttempt += 1;
+  reconnectTimer = setTimeout(() => {
+    reconnectTimer = null;
+    connect(currentRoomCode);
+  }, delay);
+}
+
 function connect(code) {
   // A prior socket (e.g. an abandoned create/join attempt from earlier in
   // this tab) must be closed, not just overwritten — otherwise it keeps
   // receiving server messages and mutating the shared currentView/mySeatKey
   // out from under the connection the player actually cares about now.
   if (ws) ws.close();
+  currentRoomCode = code;
   coinFlipAckSent = false;
   // Entering the HUD preview from here on would let hand/board clicks send
   // real game actions over this socket before a real match view ever
@@ -568,6 +600,9 @@ function connect(code) {
   const proto = location.protocol === 'https:' ? 'wss' : 'ws';
   const socket = new WebSocket(`${proto}://${location.host}/api/room/${code}/ws`);
   ws = socket;
+  socket.addEventListener('open', () => {
+    reconnectAttempt = 0;
+  });
   socket.addEventListener('message', (ev) => handleMessage(JSON.parse(ev.data)));
   socket.addEventListener('close', () => {
     setStatus(t('disconnectedFromServer'));
@@ -575,6 +610,13 @@ function connect(code) {
     // abandoned socket we just superseded above closing later must not
     // re-enable the button on behalf of the newer connection in flight.
     if (ws === socket && !currentView) el('customizeHudBtn').disabled = false;
+    if (ws === socket) {
+      if (currentView && !currentView.winner) {
+        wasDisconnectedMidMatch = true;
+        logLine(t('reconnecting'));
+      }
+      scheduleReconnect();
+    }
   });
   socket.addEventListener('error', () => setStatus(t('connectionError')));
 }
@@ -599,6 +641,10 @@ function handleMessage(msg) {
         el('hudPreviewExitBtn').classList.add('hidden');
         previousView = null;
         previousBoardIds = new Set();
+      }
+      if (wasDisconnectedMidMatch) {
+        wasDisconnectedMidMatch = false;
+        logLine(t('reconnected'));
       }
       showGame();
       currentView = msg;
@@ -1494,6 +1540,19 @@ document.addEventListener('visibilitychange', () => {
     if (currentView && !currentView.winner && currentView.turn === currentView.you_key) startTurnFlash();
   } else {
     stopTurnFlash();
+    // The moment a player reopens/foregrounds the app is exactly when a
+    // connection silently killed by OS background-network-suspension
+    // (mobile home-screen/standalone apps do this far more aggressively
+    // than a normal desktop tab) should be noticed and repaired — don't
+    // wait out a backoff timer that may still have several cycles left.
+    if (currentRoomCode && !(currentView && currentView.winner) && (!ws || ws.readyState !== WebSocket.OPEN)) {
+      if (reconnectTimer) {
+        clearTimeout(reconnectTimer);
+        reconnectTimer = null;
+      }
+      reconnectAttempt = 0;
+      connect(currentRoomCode);
+    }
   }
 });
 
@@ -2165,7 +2224,25 @@ el('surrenderBtn')?.addEventListener('click', () => {
 });
 
 function send(message) {
-  if (ws && ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify(message));
+  if (ws && ws.readyState === WebSocket.OPEN) {
+    ws.send(JSON.stringify(message));
+    return;
+  }
+  // A dead/dropped socket must never eat a click silently — that's exactly
+  // the mobile-standalone-app freeze this fixes (buttons looked live but
+  // did nothing). Kick the reconnect off right away rather than waiting for
+  // close/visibilitychange to notice, since a truly stale-but-not-yet-
+  // `close`d socket might not fire either event for a while.
+  // Skip if a connection attempt is already in flight (CONNECTING) — no
+  // need to tear down and restart something already on its way up.
+  if (currentRoomCode && (!ws || ws.readyState !== WebSocket.CONNECTING)) {
+    if (reconnectTimer) {
+      clearTimeout(reconnectTimer);
+      reconnectTimer = null;
+    }
+    reconnectAttempt = 0;
+    connect(currentRoomCode);
+  }
 }
 
 function logIcon(text) {
