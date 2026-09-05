@@ -19,6 +19,11 @@ export const SINGLE_ROW_LANES = 5;
 export const STARTING_HP = 50;
 export const MAX_MANA = 10;
 export const STARTING_HAND_SIZE = 5;
+// Matches Hearthstone/Legends of Runeterra's own cap and this game's own
+// MAX_MANA — comfortably above Fallen's Hoarder/hand-size payoffs, which
+// all stop scaling at a 6-card hand, so it never interferes with that
+// faction's build-around.
+export const MAX_HAND_SIZE = 10;
 
 // Cards are written against a small shared keyword vocabulary. Everything is
 // detected from the printed text (including any numeric magnitude) rather
@@ -222,13 +227,25 @@ export function createGame(factionA, factionB, firstPlayer = 'A', usernameA = nu
 // Falls back to shuffling the graveyard back into the deck once the deck runs
 // dry, so a long match never stalls out just because the draw pile emptied —
 // only losing when there are truly no cards left anywhere.
-function draw(player) {
+function draw(game, player) {
   if (player.deck.length === 0) {
     if (player.graveyard.length === 0) return false;
     player.deck = shuffle(player.graveyard);
     player.graveyard = [];
   }
-  player.hand.push(player.deck.shift());
+  const card = player.deck.shift();
+  // A card still leaves the deck at the hand cap — the draw itself still
+  // "happens" (fatigue/reshuffle above is unaffected, and count-based
+  // callers like `if (draw(...)) drew++` stay accurate) — it just never
+  // reaches the hand, going straight to the graveyard instead, same as
+  // any other discard (see discardRandomCard() below).
+  if (player.hand.length >= MAX_HAND_SIZE) {
+    player.graveyard.push(card);
+    const owner = game.players.A === player ? 'A' : 'B';
+    game.log.push(`${owner}'s hand is full — ${card.name} is discarded.`);
+  } else {
+    player.hand.push(card);
+  }
   return true;
 }
 
@@ -512,10 +529,10 @@ function onUnitDestroyed(game, ownerOfDead) {
   const dead = game.players[ownerOfDead];
   const alive = game.players[opponentOf(ownerOfDead)];
   if (allUnits(dead).some((u) => u.keywords.includes('salvage'))) {
-    if (draw(dead)) game.log.push(`${ownerOfDead} draws a card (Salvage).`);
+    if (draw(game, dead)) game.log.push(`${ownerOfDead} draws a card (Salvage).`);
   }
   if (allUnits(alive).some((u) => u.keywords.includes('reap'))) {
-    if (draw(alive)) game.log.push(`${opponentOf(ownerOfDead)} draws a card (Reap).`);
+    if (draw(game, alive)) game.log.push(`${opponentOf(ownerOfDead)} draws a card (Reap).`);
   }
   for (const u of allUnits(dead)) {
     if (u.keywords.includes('revenge')) {
@@ -626,7 +643,7 @@ function destroyUnit(game, owner, lane, slotIndex) {
     // compound card text (e.g. "Bloodprice 2: ... Last Breath: Draw 2
     // cards.") has more than one number in it.
     const n = firstNumber(unit.text.split(/last breath/i)[1] || '', 1);
-    for (let i = 0; i < n; i++) draw(player);
+    for (let i = 0; i < n; i++) draw(game, player);
     game.log.push(`${owner} draws ${n} card(s) (Last Breath).`);
   }
   if (unit.keywords.includes('partinggift')) {
@@ -720,7 +737,7 @@ function resolveCountdown(game, owner, lane, slotIndex) {
     game.log.push(`${unit.name}'s Countdown deals ${dmg} to the enemy castle.`);
   }
   if (/draw a card/i.test(unit.text)) {
-    draw(game.players[owner]);
+    draw(game, game.players[owner]);
     game.log.push(`${owner} draws a card (Countdown).`);
   }
   checkWinner(game);
@@ -735,7 +752,7 @@ function resolveSpell(game, owner, card) {
     const n = parseInt(drawMatch[1], 10);
     let drew = 0;
     for (let i = 0; i < n; i++) {
-      if (draw(player)) drew++;
+      if (draw(game, player)) drew++;
     }
     game.log.push(`${owner} draws ${drew} card(s) (${card.name}).`);
   }
@@ -817,7 +834,7 @@ function resolveSpellEffect(game, owner, card, target) {
     case 'draw_conditional': {
       const n = allUnits(player).length >= eff.threshold ? eff.base + eff.bonus : eff.base;
       let drew = 0;
-      for (let i = 0; i < n; i++) if (draw(player)) drew++;
+      for (let i = 0; i < n; i++) if (draw(game, player)) drew++;
       game.log.push(`${owner} draws ${drew} card(s) (${card.name}).`);
       break;
     }
@@ -910,7 +927,7 @@ function resolveSpellEffect(game, owner, card, target) {
     case 'draw_conditional_hp': {
       const n = player.hp < player.maxHp / 2 ? eff.lowHpAmount : eff.amount;
       let drew = 0;
-      for (let i = 0; i < n; i++) if (draw(player)) drew++;
+      for (let i = 0; i < n; i++) if (draw(game, player)) drew++;
       game.log.push(`${owner} draws ${drew} card(s) (${card.name}).`);
       break;
     }
@@ -1113,7 +1130,7 @@ function resolveSpellEffect(game, owner, card, target) {
     case 'draw_per_death': {
       const n = Math.max(eff.minimum, player.diedThisTurn || 0);
       let drew = 0;
-      for (let i = 0; i < n; i++) if (draw(player)) drew++;
+      for (let i = 0; i < n; i++) if (draw(game, player)) drew++;
       game.log.push(`${owner} draws ${drew} card(s) (${card.name}).`);
       break;
     }
@@ -1122,13 +1139,13 @@ function resolveSpellEffect(game, owner, card, target) {
       const stillThere = game.players[targetOwnerKey].board[target.lane][target.slot];
       game.log.push(`${card.name} deals ${eff.amount} damage.`);
       if (!stillThere) {
-        if (draw(player)) game.log.push(`${owner} draws a card (${card.name}).`);
+        if (draw(game, player)) game.log.push(`${owner} draws a card (${card.name}).`);
       }
       break;
     }
     case 'discard_then_draw': {
       const discarded = discardRandomCard(player);
-      draw(player);
+      draw(game, player);
       game.log.push(
         discarded
           ? `${card.name} discards ${discarded.name} and draws a card.`
@@ -1139,7 +1156,7 @@ function resolveSpellEffect(game, owner, card, target) {
     case 'draw_conditional_death': {
       const n = (player.diedThisTurn || 0) > 0 ? eff.base + eff.bonus : eff.base;
       let drew = 0;
-      for (let i = 0; i < n; i++) if (draw(player)) drew++;
+      for (let i = 0; i < n; i++) if (draw(game, player)) drew++;
       game.log.push(`${owner} draws ${drew} card(s) (${card.name}).`);
       break;
     }
@@ -1183,23 +1200,23 @@ function resolveSpellEffect(game, owner, card, target) {
         game.log.push(`${card.name} deals ${eff.damageAmount} to the enemy castle.`);
       } else {
         let drew = 0;
-        for (let i = 0; i < eff.drawAmount; i++) if (draw(player)) drew++;
+        for (let i = 0; i < eff.drawAmount; i++) if (draw(game, player)) drew++;
         game.log.push(`${owner} draws ${drew} card(s) (${card.name}).`);
       }
       break;
     }
     case 'scry_and_draw': {
       if (player.deck.length === 0) {
-        if (draw(player)) game.log.push(`${owner} draws a card (${card.name}).`);
+        if (draw(game, player)) game.log.push(`${owner} draws a card (${card.name}).`);
         break;
       }
       const top = player.deck[0];
       if (top.cost <= eff.maxCostToKeep) {
-        draw(player);
+        draw(game, player);
         game.log.push(`${card.name} keeps the top card and draws it.`);
       } else {
         player.deck.push(player.deck.shift());
-        draw(player);
+        draw(game, player);
         game.log.push(`${card.name} sends a costly card to the bottom and draws the next one.`);
       }
       break;
@@ -1257,7 +1274,7 @@ function resolveSpellEffect(game, owner, card, target) {
     case 'self_damage_then_draw': {
       player.hp -= eff.selfAmount;
       let drew = 0;
-      for (let i = 0; i < eff.drawAmount; i++) if (draw(player)) drew++;
+      for (let i = 0; i < eff.drawAmount; i++) if (draw(game, player)) drew++;
       game.log.push(`${card.name} costs ${owner} ${eff.selfAmount} and draws ${drew} card(s).`);
       break;
     }
@@ -1267,7 +1284,7 @@ function resolveSpellEffect(game, owner, card, target) {
         const name = unit.name;
         destroyUnit(game, owner, target.lane, target.slot);
         let drew = 0;
-        for (let i = 0; i < eff.drawAmount; i++) if (draw(player)) drew++;
+        for (let i = 0; i < eff.drawAmount; i++) if (draw(game, player)) drew++;
         game.log.push(`${card.name} sacrifices ${name} and draws ${drew} card(s).`);
       }
       break;
@@ -1366,7 +1383,7 @@ function resolveSpellEffect(game, owner, card, target) {
       const count = player.board[target.lane].filter(Boolean).length;
       const n = Math.min(eff.maxDraws, count);
       let drew = 0;
-      for (let i = 0; i < n; i++) if (draw(player)) drew++;
+      for (let i = 0; i < n; i++) if (draw(game, player)) drew++;
       game.log.push(`${owner} draws ${drew} card(s) (${card.name}).`);
       break;
     }
@@ -1377,7 +1394,7 @@ function resolveSpellEffect(game, owner, card, target) {
     }
     case 'draw': {
       let drew = 0;
-      for (let i = 0; i < eff.amount; i++) if (draw(player)) drew++;
+      for (let i = 0; i < eff.amount; i++) if (draw(game, player)) drew++;
       game.log.push(`${owner} draws ${drew} card(s) (${card.name}).`);
       break;
     }
@@ -1389,7 +1406,7 @@ function resolveSpellEffect(game, owner, card, target) {
     case 'draw_per_unit_controlled': {
       const n = Math.min(eff.maxDraws, allUnits(player).length);
       let drew = 0;
-      for (let i = 0; i < n; i++) if (draw(player)) drew++;
+      for (let i = 0; i < n; i++) if (draw(game, player)) drew++;
       game.log.push(`${owner} draws ${drew} card(s) (${card.name}).`);
       break;
     }
@@ -1609,7 +1626,7 @@ export function playCard(game, owner, cardInstanceId, lane, slotIndex, spellTarg
     player.hp -= n;
     game.log.push(`${unit.name}'s Bloodprice deals ${n} to ${owner}'s own castle.`);
     if (/draw a card/i.test(unit.text)) {
-      draw(player);
+      draw(game, player);
       game.log.push(`${owner} draws a card (Bloodprice).`);
     }
     checkWinner(game);
@@ -1917,7 +1934,7 @@ export function endTurn(game, owner) {
   const drawCount = game.turnNumber <= 5 ? 1 : game.turnNumber <= 10 ? 2 : 3;
   let cardsDrawn = 0;
   for (let i = 0; i < drawCount; i++) {
-    if (!draw(player)) {
+    if (!draw(game, player)) {
       game.winner = opponentOf(owner);
       game.phase = 'gameover';
       game.log.push(`${owner}'s deck and graveyard are both empty — ${owner} decks out and loses!`);

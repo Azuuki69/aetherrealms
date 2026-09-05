@@ -1,4 +1,4 @@
-import { createGame, playCard, moveToCombat, attack, moveUnit, endTurn, viewFor, opponentOf } from './game/rules.js';
+import { createGame, playCard, moveToCombat, attack, moveUnit, endTurn, viewFor, opponentOf, MAX_HAND_SIZE } from './game/rules.js';
 import { decideAiTurn } from './game/aiPlayer.js';
 
 const SEATS = ['seatA', 'seatB'];
@@ -350,8 +350,15 @@ export class MatchRoom {
     if (!Number.isInteger(idx) || idx < 0 || idx >= choice.options.length) {
       throw new Error('Invalid choice.');
     }
-    game.players[owner].hand.push(choice.options[idx]);
-    game.log.push(`${owner} discovers ${choice.options[idx].name}.`);
+    const chosen = choice.options[idx];
+    const player = game.players[owner];
+    if (player.hand.length >= MAX_HAND_SIZE) {
+      player.graveyard.push(chosen);
+      game.log.push(`${owner}'s hand is full — ${chosen.name} is discarded.`);
+    } else {
+      player.hand.push(chosen);
+      game.log.push(`${owner} discovers ${chosen.name}.`);
+    }
     game.pendingChoice = null;
   }
 
