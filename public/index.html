@@ -142,6 +142,17 @@
     </button>
   </div>
 
+  <div class="board-mode-picker" id="attackModePicker">
+    <button type="button" class="attack-mode-btn active" data-attack-mode="normal">
+      <span class="board-mode-name" data-i18n="attackModeNormal">Normal Combat</span>
+      <span class="board-mode-desc" data-i18n="attackModeNormalDesc">Attacks resolve the instant you send them.</span>
+    </button>
+    <button type="button" class="attack-mode-btn" data-attack-mode="planning">
+      <span class="board-mode-name" data-i18n="attackModePlanning">Attack Planning (Experimental)</span>
+      <span class="board-mode-desc" data-i18n="attackModePlanningDesc">Queue several attacks, preview the outcome, then commit them all with Attack All.</span>
+    </button>
+  </div>
+
   <div id="lobbyStatus" class="lobby-status" role="status" aria-live="polite"></div>
 
   <div class="rankings-panel" id="rankingsPanel">
@@ -264,6 +275,8 @@
 
   <div class="controls" id="controls">
     <button id="combatBtn" class="btn" data-i18n="goToCombat">Go to Combat</button>
+    <span id="attackPlanSummary" class="hidden"></span>
+    <button id="clearPlanBtn" class="btn hidden" data-i18n="clearPlan">Clear Plan</button>
     <button id="attackAllBtn" class="btn" data-i18n="attackAll">Attack All</button>
     <button id="endTurnBtn" class="btn" data-i18n="endTurn">End Turn</button>
     <button id="surrenderBtn" class="btn btn-danger" data-i18n="surrender">Surrender</button>
@@ -287,6 +300,8 @@
   <path id="arrowPath"></path>
   <polygon id="arrowHead" points="0,0 -22,-9 -16,0 -22,9"></polygon>
 </svg>
+
+<svg id="attackPlanArrows" class="hidden"></svg>
 
 <div id="coinFlipOverlay" class="overlay hidden">
   <div class="overlay-box coin-flip-box">

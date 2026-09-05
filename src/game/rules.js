@@ -159,7 +159,7 @@ export function opponentOf(owner) {
   return owner === 'A' ? 'B' : 'A';
 }
 
-export function createGame(factionA, factionB, firstPlayer = 'A', usernameA = null, usernameB = null, boardMode = 'classic') {
+export function createGame(factionA, factionB, firstPlayer = 'A', usernameA = null, usernameB = null, boardMode = 'classic', attackMode = 'normal') {
   const lanes = boardMode === 'single' ? SINGLE_ROW_LANES : LANES;
   const deckA = buildDeck(factionA);
   const deckB = buildDeck(factionB);
@@ -206,6 +206,7 @@ export function createGame(factionA, factionB, firstPlayer = 'A', usernameA = nu
   return {
     players,
     boardMode,
+    attackMode,
     lanes,
     turn: firstPlayer,
     phase: 'coinflip',
@@ -1922,6 +1923,55 @@ export function attack(game, owner, attackerLane, attackerSlot, targetLane, targ
   return game;
 }
 
+// Attack Planning Mode support: runs `plannedAttacks` against a disposable
+// clone of `game`, one at a time, through the real attack() above — never a
+// second implementation of combat math. Each step re-validates against the
+// CURRENT state of the clone (reflecting every earlier step in this same
+// batch — Bloodhunt/Pack Hunt/Formation/Rally all depend on live board
+// state). An illegal/stale step is caught and marked rejected rather than
+// aborting the rest of the batch. Never mutates the real `game` — the clone
+// is discarded once a preview is produced.
+export function simulateAttackPlan(game, owner, plannedAttacks) {
+  const clone = structuredClone(game);
+  const opponentKey = opponentOf(owner);
+
+  const results = plannedAttacks.map((planned, index) => {
+    const { attackerLane, attackerSlot, targetLane, targetSlot } = planned;
+    const attackerBefore = clone.players[owner]?.board?.[attackerLane]?.[attackerSlot] || null;
+    const targetBefore = targetLane === 'commander'
+      ? null
+      : clone.players[opponentKey]?.board?.[targetLane]?.[targetSlot] || null;
+    const attackerId = attackerBefore?.instanceId ?? null;
+    const targetId = targetBefore?.instanceId ?? null;
+
+    try {
+      attack(clone, owner, attackerLane, attackerSlot, targetLane, targetSlot);
+      const attackerAfter = clone.players[owner]?.board?.[attackerLane]?.[attackerSlot] || null;
+      const targetAfter = targetLane === 'commander'
+        ? null
+        : clone.players[opponentKey]?.board?.[targetLane]?.[targetSlot] || null;
+      // Instance-id comparison, not "is the slot null" — Death Ward/Rebirth
+      // can remove a unit from this slot while it survives elsewhere, and a
+      // Muster token can respawn into this exact slot, so a null/non-null
+      // check alone can't tell "died" from "still here" or "replaced".
+      return {
+        index, attackerLane, attackerSlot, targetLane, targetSlot,
+        applied: true, reason: null,
+        attackerDestroyed: attackerId !== null && attackerAfter?.instanceId !== attackerId,
+        targetDestroyed: targetLane !== 'commander' && targetId !== null && targetAfter?.instanceId !== targetId,
+      };
+    } catch (err) {
+      return {
+        index, attackerLane, attackerSlot, targetLane, targetSlot,
+        applied: false, reason: err.message || String(err),
+        attackerDestroyed: false, targetDestroyed: false,
+      };
+    }
+  });
+
+  return { results, preview: viewFor(clone, owner) };
+}
+
 export function endTurn(game, owner) {
   requireActive(game, owner);
   game.phase = 'end';
@@ -2069,6 +2119,7 @@ export function viewFor(game, owner) {
     // creation (see matchRoom.js), never derived or changed here.
     mode: game.mode || 'ranked',
     boardMode: game.boardMode || 'classic',
+    attackMode: game.attackMode || 'normal',
     lastPlayedCard: game.lastPlayedCard || null,
     turnDeadlineAt: game.turnDeadlineAt || null,
     // Only the choosing player ever sees the actual revealed options — the

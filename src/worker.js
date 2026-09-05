@@ -22,18 +22,19 @@ export default {
     if (url.pathname === '/api/room' && request.method === 'POST') {
       const body = await request.json().catch(() => ({}));
       const code = randomCode();
-      // Fix this room's mode/difficulty/boardMode server-side, before the code
-      // is even handed back to the client — see MatchRoom.handleInit(). A
-      // default ranked room on the Classic board (the only kind that existed
-      // before boardMode) skips this entirely, so it costs no extra Durable
-      // Object wake-up.
-      if (body.mode === 'ai' || body.boardMode === 'single') {
+      // Fix this room's mode/difficulty/boardMode/attackMode server-side,
+      // before the code is even handed back to the client — see
+      // MatchRoom.handleInit(). A default ranked room on the Classic board
+      // with normal attack resolution (the only kind that existed before
+      // boardMode/attackMode) skips this entirely, so it costs no extra
+      // Durable Object wake-up.
+      if (body.mode === 'ai' || body.boardMode === 'single' || body.attackMode === 'planning') {
         const id = env.MATCH_ROOM.idFromName(code);
         const stub = env.MATCH_ROOM.get(id);
         await stub.fetch('https://room/init', {
           method: 'POST',
           headers: { 'content-type': 'application/json' },
-          body: JSON.stringify({ mode: body.mode, difficulty: body.difficulty, boardMode: body.boardMode }),
+          body: JSON.stringify({ mode: body.mode, difficulty: body.difficulty, boardMode: body.boardMode, attackMode: body.attackMode }),
         });
       }
       return new Response(JSON.stringify({ code }), {

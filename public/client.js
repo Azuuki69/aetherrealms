@@ -32,6 +32,8 @@ const TRANSLATIONS = {
     difficultyBeginner: 'Beginner', difficultyIntermediate: 'Intermediate', difficultyAdvanced: 'Advanced',
     boardModeClassic: 'Classic (Vanguard/Rearguard)', boardModeClassicDesc: '4 lanes, two rows — reposition units front and back.',
     boardModeSingle: 'Single Row', boardModeSingleDesc: 'One row of 5 slots per side — no Vanguard/Rearguard.',
+    attackModeNormal: 'Normal Combat', attackModeNormalDesc: 'Attacks resolve the instant you send them.',
+    attackModePlanning: 'Attack Planning (Experimental)', attackModePlanningDesc: 'Queue several attacks, preview the outcome, then commit them all with Attack All.',
     // Create/Join
     createMatchTitle: 'Create a Match', createMatchDesc: 'Pick a faction above, then create a room and share the code.',
     createMatch: 'Create Match', copy: 'Copy', copied: 'Copied!',
@@ -77,6 +79,10 @@ const TRANSLATIONS = {
     moreDamageToAssign: '{card}: {n} more damage left to assign — click another target.',
     chooseMoreTargets: '{card}: choose {n} more different target(s).',
     discoverTitle: 'Discover', discoverWaiting: 'Opponent is choosing a card...', coinFlipTitle: 'Coin Flip',
+    clearPlan: 'Clear Plan',
+    attacksPlannedCount: '{n} attack(s) planned', planArrowLabel: 'Planned attack #{n}',
+    planArrowRejectedLabel: 'No longer legal — remove or retarget before Attack All',
+    planPredictedHpLabel: 'Predicted HP after your planned attacks',
     // HUD panel labels
     panelEnemyInfo: 'Enemy Info', panelTurnTimer: 'Turn Timer', panelYourInfo: 'Your Info',
     panelEnemyStats: 'Enemy Stats', panelBattlefield: 'Battlefield', panelYourStats: 'Your Stats',
@@ -146,6 +152,8 @@ const TRANSLATIONS = {
     difficultyBeginner: 'Początkujący', difficultyIntermediate: 'Średniozaawansowany', difficultyAdvanced: 'Zaawansowany',
     boardModeClassic: 'Klasyczna (Vanguard/Rearguard)', boardModeClassicDesc: '4 tory, dwa rzędy — przesuwaj jednostki w przód i w tył.',
     boardModeSingle: 'Jeden rząd', boardModeSingleDesc: 'Jeden rząd 5 miejsc na stronę — bez Vanguard/Rearguard.',
+    attackModeNormal: 'Walka normalna', attackModeNormalDesc: 'Ataki rozstrzygają się natychmiast po wysłaniu.',
+    attackModePlanning: 'Planowanie ataków (Eksperymentalne)', attackModePlanningDesc: 'Zaplanuj kilka ataków, zobacz przewidywany wynik, a potem zatwierdź je wszystkie przyciskiem Attack All.',
     createMatchTitle: 'Stwórz mecz', createMatchDesc: 'Wybierz frakcję powyżej, stwórz pokój i udostępnij kod.',
     createMatch: 'Stwórz mecz', copy: 'Kopiuj', copied: 'Skopiowano!',
     joinMatchTitle: 'Dołącz do meczu', joinMatchDesc: 'Wybierz frakcję powyżej, a następnie podaj kod pokoju znajomego.',
@@ -185,6 +193,10 @@ const TRANSLATIONS = {
     moreDamageToAssign: '{card}: pozostało {n} obrażeń do przydzielenia — kliknij kolejny cel.',
     chooseMoreTargets: '{card}: wybierz jeszcze {n} innych celów.',
     discoverTitle: 'Odkrycie', discoverWaiting: 'Przeciwnik wybiera kartę...', coinFlipTitle: 'Rzut monetą',
+    clearPlan: 'Wyczyść plan',
+    attacksPlannedCount: 'Zaplanowane ataki: {n}', planArrowLabel: 'Zaplanowany atak #{n}',
+    planArrowRejectedLabel: 'Już nielegalny — usuń lub zmień cel przed Attack All',
+    planPredictedHpLabel: 'Przewidywane HP po zaplanowanych atakach',
     panelEnemyInfo: 'Info o przeciwniku', panelTurnTimer: 'Licznik tury', panelYourInfo: 'Twoje info',
     panelEnemyStats: 'Statystyki przeciwnika', panelBattlefield: 'Pole bitwy', panelYourStats: 'Twoje statystyki',
     panelControls: 'Sterowanie', panelYourHand: 'Twoja ręka', panelBattleLog: 'Dziennik bitwy', panelChat: 'Czat',
@@ -248,6 +260,8 @@ const TRANSLATIONS = {
     difficultyBeginner: 'Principiante', difficultyIntermediate: 'Intermedio', difficultyAdvanced: 'Avanzado',
     boardModeClassic: 'Clásico (Vanguard/Rearguard)', boardModeClassicDesc: '4 carriles, dos filas — reposiciona unidades adelante y atrás.',
     boardModeSingle: 'Fila única', boardModeSingleDesc: 'Una fila de 5 espacios por lado — sin Vanguard/Rearguard.',
+    attackModeNormal: 'Combate normal', attackModeNormalDesc: 'Los ataques se resuelven en cuanto los envías.',
+    attackModePlanning: 'Planificación de ataques (Experimental)', attackModePlanningDesc: 'Encola varios ataques, previsualiza el resultado y confírmalos todos con Attack All.',
     createMatchTitle: 'Crear una partida', createMatchDesc: 'Elige una facción arriba, luego crea una sala y comparte el código.',
     createMatch: 'Crear partida', copy: 'Copiar', copied: '¡Copiado!',
     joinMatchTitle: 'Unirse a una partida', joinMatchDesc: 'Elige una facción arriba y luego introduce el código de sala de tu amigo.',
@@ -287,6 +301,10 @@ const TRANSLATIONS = {
     moreDamageToAssign: '{card}: quedan {n} de daño por asignar — haz clic en otro objetivo.',
     chooseMoreTargets: '{card}: elige {n} objetivo(s) diferentes más.',
     discoverTitle: 'Descubrir', discoverWaiting: 'El oponente está eligiendo una carta...', coinFlipTitle: 'Lanzamiento de moneda',
+    clearPlan: 'Borrar plan',
+    attacksPlannedCount: '{n} ataque(s) planeado(s)', planArrowLabel: 'Ataque planeado #{n}',
+    planArrowRejectedLabel: 'Ya no es legal — quita o cambia el objetivo antes de Attack All',
+    planPredictedHpLabel: 'PV previsto tras tus ataques planeados',
     panelEnemyInfo: 'Información del enemigo', panelTurnTimer: 'Temporizador de turno', panelYourInfo: 'Tu información',
     panelEnemyStats: 'Estadísticas del enemigo', panelBattlefield: 'Campo de batalla', panelYourStats: 'Tus estadísticas',
     panelControls: 'Controles', panelYourHand: 'Tu mano', panelBattleLog: 'Registro de batalla', panelChat: 'Chat',
@@ -472,6 +490,7 @@ let selectedFaction = null;
 let selectedGameMode = 'ranked'; // 'ranked' | 'ai' — which lobby panel is showing, see initGameModeTabs()
 let selectedDifficulty = 'normal'; // 'easy' | 'normal' | 'hard' — only meaningful when selectedGameMode === 'ai'
 let selectedBoardMode = 'classic'; // 'classic' | 'single' — applies to both ranked and AI matches, see boardModePicker
+let selectedAttackMode = 'normal'; // 'normal' | 'planning' — fixed for the room at creation, like boardMode, see attackModePicker
 let ws = null;
 let mySeatKey = null; // 'A' or 'B', informational only
 let currentView = null;
@@ -510,6 +529,26 @@ const DRAG_THRESHOLD = 8; // px of mouse movement before a mousedown becomes a d
 // that, no mousemove has necessarily fired yet since the click landed.
 let lastMouseX = 0;
 let lastMouseY = 0;
+
+// ---------- Attack Planning Mode (experimental) ----------
+// A room-level match mode, fixed at creation like boardMode — chosen via
+// attackModePicker in the lobby, sent with the create-room/AI-match request,
+// and echoed back on every state broadcast as currentView.attackMode. Set
+// from that field in handleMessage's 'state' case, never toggled locally
+// mid-match. The server itself stays unaware of *when* a planned attack was
+// queued — it only ever receives ordinary individual {type:'attack'}
+// messages once the player commits, exactly like normal mode's immediate
+// Attack All already sends — this flag only ever governs the client's own
+// input handling.
+let attackPlanningEnabled = false;
+// { attackerInstanceId, attackerLane, attackerSlot, targetLane, targetSlot }[]
+// Keyed by attacker instanceId, never trusted lane/slot alone — a planned
+// unit can be repositioned via moveUnit after being queued, so every send
+// re-resolves its current location via findUnitLocation() first.
+let plannedAttacks = [];
+let planPreview = null; // last { results, preview } from an 'attack_plan_preview' reply, or null
+let planPreviewDebounceTimer = null;
+let committingPlan = false; // mirrors autoAttackRunning's role while draining a committed plan
 
 const el = (id) => document.getElementById(id);
 
@@ -550,7 +589,7 @@ function initLobby() {
     const res = await fetch('api/room', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ boardMode: selectedBoardMode }),
+      body: JSON.stringify({ boardMode: selectedBoardMode, attackMode: selectedAttackMode }),
     });
     const { code } = await res.json();
     el('createdCodeText').textContent = code;
@@ -591,7 +630,7 @@ function initLobby() {
     const res = await fetch('api/room', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ mode: 'ai', difficulty: selectedDifficulty, boardMode: selectedBoardMode }),
+      body: JSON.stringify({ mode: 'ai', difficulty: selectedDifficulty, boardMode: selectedBoardMode, attackMode: selectedAttackMode }),
     });
     const { code } = await res.json();
     connect(code);
@@ -632,6 +671,13 @@ function initGameModeTabs() {
     if (!btn) return;
     selectedBoardMode = btn.dataset.boardMode;
     document.querySelectorAll('.board-mode-btn').forEach((b) => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+  el('attackModePicker').addEventListener('click', (e) => {
+    const btn = e.target.closest('.attack-mode-btn');
+    if (!btn) return;
+    selectedAttackMode = btn.dataset.attackMode;
+    document.querySelectorAll('.attack-mode-btn').forEach((b) => b.classList.remove('active'));
     btn.classList.add('active');
   });
 }
@@ -756,6 +802,16 @@ function handleMessage(msg) {
       selectedHandCardId = null;
       selectedUnit = null;
       pendingSpell = null;
+      // Fixed for the room at creation, like boardMode — read fresh off
+      // every broadcast rather than cached, same reasoning as boardMode's
+      // own "read the actual server state, don't trust a separately-held
+      // copy" comment elsewhere in this file.
+      attackPlanningEnabled = msg.attackMode === 'planning';
+      // A fresh state means the turn/phase may have changed (or the match
+      // ended) since the plan was queued — a stale plan pointing at a past
+      // turn's board makes no sense, so this is the single choke point
+      // every such change already flows through.
+      clearAttackPlan();
       if (msg.phase === 'coinflip') {
         renderCoinFlip(msg);
       } else {
@@ -779,6 +835,10 @@ function handleMessage(msg) {
       break;
     case 'chat':
       addChatMessage(msg.owner, msg.text, msg.owner === mySeatKey);
+      break;
+    case 'attack_plan_preview':
+      planPreview = msg;
+      renderAttackPlanOverlay();
       break;
   }
 }
@@ -1843,8 +1903,8 @@ function render() {
   renderHand(you.hand, myTurn && phase === 'deployment');
 
   el('combatBtn').disabled = !(myTurn && phase === 'deployment');
-  el('attackAllBtn').disabled = !(myTurn && phase === 'combat') || autoAttackRunning;
-  el('endTurnBtn').disabled = !(myTurn && (phase === 'combat' || phase === 'deployment')) || autoAttackRunning;
+  el('attackAllBtn').disabled = !(myTurn && phase === 'combat') || autoAttackRunning || committingPlan;
+  el('endTurnBtn').disabled = !(myTurn && (phase === 'combat' || phase === 'deployment')) || autoAttackRunning || committingPlan;
   // Surrendering isn't a turn action — usable on either player's turn, any
   // phase once the match is actually underway.
   el('surrenderBtn').disabled = !!winner || phase === 'coinflip';
@@ -1856,6 +1916,7 @@ function render() {
   el('log').scrollTop = el('log').scrollHeight;
 
   highlightSelections();
+  renderAttackPlanOverlay();
 
   if (winner) {
     el('gameOverOverlay').classList.remove('hidden');
@@ -1928,6 +1989,7 @@ function updateSfxToggleUI() {
   btn.textContent = on ? '🔊' : '🔇';
   btn.setAttribute('aria-label', on ? t('sfxOn') : t('sfxOff'));
 }
+
 function toggleSfx() {
   saveSfxPrefs({ enabled: !sfxEnabled() });
   updateSfxToggleUI();
@@ -2212,12 +2274,19 @@ function onBoardCardClick(side, lane, slotIndex) {
   if (pendingSpell) { handleSpellTargetClick(side, lane, slotIndex); return; }
   const { turn, phase, you_key } = currentView;
   const myTurn = turn === you_key;
-  if (!myTurn || phase !== 'combat' || autoAttackRunning) return;
+  if (!myTurn || phase !== 'combat' || autoAttackRunning || committingPlan) return;
 
   if (side === 'you') {
     const unit = currentView.you.board[lane][slotIndex];
     if (!unit || unit.sick || unit.attackedThisTurn) return;
     selectedHandCardId = null;
+    // Re-clicking a unit that already has a planned attack queued removes
+    // it — the direct extension of "click the same unit again to deselect"
+    // to planning mode's own notion of a per-unit selection state.
+    if (attackPlanningEnabled && plannedAttacks.some((p) => p.attackerInstanceId === unit.instanceId)) {
+      removePlannedAttack(unit.instanceId);
+      return;
+    }
     selectedUnit =
       selectedUnit && selectedUnit.lane === lane && selectedUnit.slot === slotIndex
         ? null
@@ -2233,6 +2302,10 @@ function onBoardCardClick(side, lane, slotIndex) {
     (t) => t.type === 'unit' && t.lane === lane && t.slot === slotIndex
   );
   if (!isLegal) return;
+  if (attackPlanningEnabled) {
+    planAttack(selectedUnit, lane, slotIndex);
+    return;
+  }
   send({
     type: 'attack',
     attackerLane: selectedUnit.lane,
@@ -2246,9 +2319,13 @@ function onBoardCardClick(side, lane, slotIndex) {
 
 function onCastleClick() {
   const { turn, phase, you_key } = currentView;
-  if (turn !== you_key || phase !== 'combat' || autoAttackRunning || !selectedUnit) return;
+  if (turn !== you_key || phase !== 'combat' || autoAttackRunning || committingPlan || !selectedUnit) return;
   const isLegal = legalAttackTargets(selectedUnit).some((t) => t.type === 'castle');
   if (!isLegal) return;
+  if (attackPlanningEnabled) {
+    planAttack(selectedUnit, 'commander', undefined);
+    return;
+  }
   send({
     type: 'attack',
     attackerLane: selectedUnit.lane,
@@ -2271,7 +2348,7 @@ const EPSILON = 0.5;
 function onCardPointerDown(e, side, lane, slotIndex) {
   if (side !== 'you') return;
   const { turn, phase, you_key } = currentView || {};
-  if (turn !== you_key || phase !== 'combat' || autoAttackRunning) return;
+  if (turn !== you_key || phase !== 'combat' || autoAttackRunning || committingPlan) return;
   const unit = currentView.you.board[lane][slotIndex];
   if (!unit || unit.sick || unit.attackedThisTurn) return;
   // Pointer Events (not separate mouse/touch listeners) so mouse-drag and
@@ -2436,6 +2513,265 @@ function legalAttackTargets(attacker) {
   return targets;
 }
 
+// ---------- Attack Planning Mode (experimental) ----------
+// Purely additive on top of the arrow/targeting system above: planAttack()
+// is called instead of send() from onBoardCardClick/onCastleClick's enemy-
+// facing branches whenever attackPlanningEnabled is true (see those
+// functions) — the drag-to-target arrow's drop resolution already funnels
+// into those same two functions, so dragging and plain-clicking both route
+// through here automatically with no separate hook needed.
+
+// Scans both lanes for a unit by instanceId — used to re-resolve a planned
+// attacker's current position every time it's sent to the server, since
+// moveUnit() can reposition a unit after it was queued.
+function findUnitLocation(playerView, instanceId) {
+  for (const lane of ['vanguard', 'rearguard']) {
+    const idx = playerView.board[lane].findIndex((u) => u && u.instanceId === instanceId);
+    if (idx !== -1) return { lane, slot: idx };
+  }
+  return null;
+}
+
+function castleCenter(side) {
+  const rect = el(side === 'you' ? 'youInfo' : 'oppInfo')?.getBoundingClientRect();
+  if (!rect) return null;
+  return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+}
+
+function planAttack(attacker, targetLane, targetSlot) {
+  const unit = currentView.you.board[attacker.lane][attacker.slot];
+  if (!unit) { selectedUnit = null; render(); return; }
+  // One attacker, one planned attack, always — re-targeting replaces the
+  // previous entry rather than appending a second one.
+  plannedAttacks = plannedAttacks.filter((p) => p.attackerInstanceId !== unit.instanceId);
+  plannedAttacks.push({
+    attackerInstanceId: unit.instanceId,
+    attackerLane: attacker.lane,
+    attackerSlot: attacker.slot,
+    targetLane,
+    targetSlot,
+  });
+  selectedUnit = null;
+  render();
+  schedulePlanPreview();
+}
+
+function removePlannedAttack(attackerInstanceId) {
+  plannedAttacks = plannedAttacks.filter((p) => p.attackerInstanceId !== attackerInstanceId);
+  render();
+  schedulePlanPreview();
+}
+
+function clearAttackPlan() {
+  plannedAttacks = [];
+  planPreview = null;
+  clearTimeout(planPreviewDebounceTimer);
+  renderAttackPlanOverlay();
+}
+
+function schedulePlanPreview() {
+  clearTimeout(planPreviewDebounceTimer);
+  if (!attackPlanningEnabled || plannedAttacks.length === 0) {
+    planPreview = null;
+    renderAttackPlanOverlay();
+    return;
+  }
+  // Short debounce: batches rapid re-targeting into one request rather than
+  // firing a round-trip per intermediate drag frame.
+  planPreviewDebounceTimer = setTimeout(sendPlanPreview, 150);
+}
+
+function sendPlanPreview() {
+  if (!currentView) return;
+  const attacks = plannedAttacks.map((p) => {
+    const loc = findUnitLocation(currentView.you, p.attackerInstanceId);
+    return {
+      attackerLane: loc ? loc.lane : p.attackerLane,
+      attackerSlot: loc ? loc.slot : p.attackerSlot,
+      targetLane: p.targetLane,
+      targetSlot: p.targetSlot,
+    };
+  });
+  send({ type: 'preview_attack_plan', attacks });
+}
+
+// Renders the queued plan as a persistent overlay — arrows, order badges,
+// death-preview markers, and a ghost predicted-HP badge per unique target.
+// Called every render() (after highlightSelections(), which is the existing
+// precedent for state that must survive render()'s full board-DOM rebuild)
+// so it always re-applies against freshly-rebuilt slot/card elements.
+function renderAttackPlanOverlay() {
+  const svg = el('attackPlanArrows');
+  document.querySelectorAll('.card.plan-death-preview').forEach((c) => c.classList.remove('plan-death-preview'));
+  document.querySelectorAll('.plan-hp-badge').forEach((b) => b.remove());
+  updatePlanSummaryBar();
+
+  if (!svg) return;
+  if (!attackPlanningEnabled || plannedAttacks.length === 0 || !currentView) {
+    svg.innerHTML = '';
+    svg.classList.add('hidden');
+    return;
+  }
+  svg.innerHTML = '';
+  svg.classList.remove('hidden');
+
+  // Only trust planPreview's per-step results if they still line up 1:1
+  // with the current plan — an edit made after a preview request was sent
+  // but before its reply arrived means the indices no longer correspond;
+  // the next debounced reply (≤150ms later) supersedes this regardless.
+  const results = planPreview && planPreview.results && planPreview.results.length === plannedAttacks.length
+    ? planPreview.results
+    : null;
+  const finalBoard = planPreview ? planPreview.preview : null;
+  const badgedTargets = new Set();
+
+  plannedAttacks.forEach((p, i) => {
+    const loc = findUnitLocation(currentView.you, p.attackerInstanceId);
+    if (!loc) return; // attacker no longer on the board at all — nothing to draw
+    const from = cardCenter('you', loc.lane, loc.slot);
+    const to = p.targetLane === 'commander' ? castleCenter('opp') : cardCenter('opp', p.targetLane, p.targetSlot);
+    if (!from || !to) return;
+
+    const result = results ? results[i] : null;
+    const rejected = result ? !result.applied : false;
+    drawPlanArrow(svg, from, to, i + 1, { lethal: !!result?.targetDestroyed, rejected });
+
+    if (result?.attackerDestroyed) markDeathPreview('you', loc.lane, loc.slot);
+    if (result?.targetDestroyed && p.targetLane !== 'commander') markDeathPreview('opp', p.targetLane, p.targetSlot);
+
+    if (!rejected && finalBoard && p.targetLane !== 'commander') {
+      const key = `${p.targetLane}-${p.targetSlot}`;
+      if (!badgedTargets.has(key)) {
+        badgedTargets.add(key);
+        attachPredictedHpBadge(p.targetLane, p.targetSlot, finalBoard);
+      }
+    }
+  });
+}
+
+function drawPlanArrow(svg, from, to, orderNumber, { lethal, rejected }) {
+  const p1 = computeControlPoint(from, to);
+  const mid = bezierPoint(0.5, from, p1, to);
+  const beforeEnd = bezierPoint(0.95, from, p1, to);
+  const angleDeg = (Math.atan2(to.y - beforeEnd.y, to.x - beforeEnd.x) * 180) / Math.PI;
+  const state = rejected ? ' plan-arrow-rejected' : lethal ? ' plan-arrow-lethal' : '';
+
+  const ns = 'http://www.w3.org/2000/svg';
+  const path = document.createElementNS(ns, 'path');
+  path.setAttribute('d', `M ${from.x},${from.y} Q ${p1.x},${p1.y} ${to.x},${to.y}`);
+  path.setAttribute('class', `plan-arrow-path${state}`);
+
+  const head = document.createElementNS(ns, 'polygon');
+  head.setAttribute('points', '0,0 -18,-7 -13,0 -18,7');
+  head.setAttribute('class', `plan-arrow-head${state}`);
+  head.setAttribute('transform', `translate(${to.x},${to.y}) rotate(${angleDeg})`);
+
+  const badgeBg = document.createElementNS(ns, 'circle');
+  badgeBg.setAttribute('cx', mid.x);
+  badgeBg.setAttribute('cy', mid.y);
+  badgeBg.setAttribute('r', 10);
+  badgeBg.setAttribute('class', `plan-order-badge-bg${state}`);
+
+  const badgeText = document.createElementNS(ns, 'text');
+  badgeText.setAttribute('x', mid.x);
+  badgeText.setAttribute('y', mid.y + 4);
+  badgeText.setAttribute('text-anchor', 'middle');
+  badgeText.setAttribute('class', 'plan-order-badge');
+  badgeText.textContent = rejected ? '!' : String(orderNumber);
+  const title = document.createElementNS(ns, 'title');
+  title.textContent = rejected
+    ? t('planArrowRejectedLabel')
+    : t('planArrowLabel', { n: orderNumber });
+  path.appendChild(title);
+
+  svg.append(path, head, badgeBg, badgeText);
+}
+
+function markDeathPreview(side, lane, slot) {
+  const containerId = (side === 'you' ? 'you' : 'opp') + capitalize(lane);
+  const slotEl = document.querySelectorAll(`#${containerId} .slot`)[slot];
+  const cardEl = slotEl?.querySelector('.card');
+  if (cardEl) cardEl.classList.add('plan-death-preview');
+}
+
+function attachPredictedHpBadge(lane, slot, finalBoard) {
+  const predictedUnit = finalBoard?.opponent?.board?.[lane]?.[slot];
+  const containerId = 'opp' + capitalize(lane);
+  const slotEl = document.querySelectorAll(`#${containerId} .slot`)[slot];
+  const cardEl = slotEl?.querySelector('.card');
+  if (!cardEl) return;
+  const badge = document.createElement('div');
+  badge.className = 'plan-hp-badge';
+  badge.textContent = predictedUnit ? String(predictedUnit.defense) : '💀';
+  badge.title = t('planPredictedHpLabel');
+  cardEl.appendChild(badge);
+}
+
+function updatePlanSummaryBar() {
+  const summary = el('attackPlanSummary');
+  const clearBtn = el('clearPlanBtn');
+  if (!summary || !clearBtn) return;
+  const show = attackPlanningEnabled && plannedAttacks.length > 0;
+  summary.classList.toggle('hidden', !show);
+  clearBtn.classList.toggle('hidden', !show);
+  if (show) summary.textContent = t('attacksPlannedCount', { n: plannedAttacks.length });
+}
+
+// Drains the queued plan through the real attack protocol — the same
+// send→await-state→pace→repeat shape runAttackAll() already uses, just
+// consuming plannedAttacks instead of auto-picking a target. Left
+// completely separate from runAttackAll() so normal mode's behavior is
+// untouched byte-for-byte.
+async function commitAttackPlan() {
+  if (committingPlan || autoAttackRunning) return;
+  committingPlan = true;
+  render();
+  try {
+    const queue = plannedAttacks.slice();
+    for (const planned of queue) {
+      if (!currentView || currentView.winner || currentView.phase !== 'combat') break;
+      if (!ws || ws.readyState !== WebSocket.OPEN) break;
+
+      // Re-validate against the LATEST currentView immediately before
+      // sending — a queued attack can have gone stale since it was queued
+      // (attacker moved/died, or an earlier step in this same commit run
+      // already killed the target). A stale entry is skipped, not treated
+      // as a failure — the player queued several independent attacks and
+      // one going stale shouldn't block the rest.
+      const loc = findUnitLocation(currentView.you, planned.attackerInstanceId);
+      plannedAttacks = plannedAttacks.filter((p) => p !== planned);
+      if (!loc) continue;
+      const unit = currentView.you.board[loc.lane][loc.slot];
+      if (!unit || unit.sick || unit.attackedThisTurn) continue;
+      const stillLegal = legalAttackTargets(loc).some((tgt) =>
+        planned.targetLane === 'commander'
+          ? tgt.type === 'castle'
+          : tgt.type === 'unit' && tgt.lane === planned.targetLane && tgt.slot === planned.targetSlot
+      );
+      if (!stillLegal) continue;
+
+      send({
+        type: 'attack',
+        attackerLane: loc.lane,
+        attackerSlot: loc.slot,
+        targetLane: planned.targetLane,
+        targetSlot: planned.targetLane === 'commander' ? undefined : planned.targetSlot,
+      });
+      const result = await waitForCombatEvent();
+      // A server-side rejection (as opposed to our own client-side
+      // staleness check above) means something unexpected happened —
+      // stop the whole run here, matching runAttackAll's existing
+      // stop-on-first-error behavior exactly.
+      if (result === 'error') break;
+      await new Promise((r) => setTimeout(r, 500));
+    }
+  } finally {
+    planPreview = null;
+    committingPlan = false;
+    render();
+  }
+}
+
 function highlightSelections() {
   document.querySelectorAll('.slot').forEach((s) => s.classList.remove('can-play', 'legal-target', 'spell-target'));
   document.querySelectorAll('.card.attack-ready').forEach((c) => c.classList.remove('attack-ready'));
@@ -2590,7 +2926,11 @@ el('customizeHudBtn')?.addEventListener('click', enterHudPreview);
 el('hudPreviewExitBtn')?.addEventListener('click', exitHudPreview);
 el('oppInfo')?.addEventListener('click', onCastleClick);
 el('combatBtn')?.addEventListener('click', () => send({ type: 'move_to_combat' }));
-el('attackAllBtn')?.addEventListener('click', runAttackAll);
+el('attackAllBtn')?.addEventListener('click', () => {
+  if (attackPlanningEnabled && plannedAttacks.length > 0) commitAttackPlan();
+  else runAttackAll();
+});
+el('clearPlanBtn')?.addEventListener('click', clearAttackPlan);
 el('endTurnBtn')?.addEventListener('click', () => {
   selectedHandCardId = null;
   selectedUnit = null;

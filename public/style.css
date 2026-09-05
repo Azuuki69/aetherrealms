@@ -333,6 +333,10 @@ h1 span {
 #lobby[data-layout="compact"] > #boardModePicker,
 #lobby[data-layout="showcase"] > #boardModePicker,
 #lobby[data-layout="sidebar-hud"] > #boardModePicker { grid-area: boardmode; }
+#lobby[data-layout="sidebar"] > #attackModePicker,
+#lobby[data-layout="compact"] > #attackModePicker,
+#lobby[data-layout="showcase"] > #attackModePicker,
+#lobby[data-layout="sidebar-hud"] > #attackModePicker { grid-area: attackmode; }
 #lobby[data-layout="showcase"] > .rankings-panel { grid-area: rank; }
 
 /* Sidebar: same width/centering as Classic at every screen size (see the
@@ -342,7 +346,7 @@ h1 span {
    of the single column exactly like Classic, and only pops out to a fixed
    dock on the right edge once the viewport is comfortably wide enough. */
 #lobby[data-layout="sidebar"] {
-  grid-template-areas: "logo" "acct" "fact" "dcmp" "hud" "modes" "play" "boardmode" "status";
+  grid-template-areas: "logo" "acct" "fact" "dcmp" "hud" "modes" "play" "boardmode" "attackmode" "status";
 }
 @media (min-width: 1350px) {
   #lobby[data-layout="sidebar"] > .rankings-panel {
@@ -363,7 +367,7 @@ h1 span {
    multiple fixed-position panels to get right. Rankings alone still gets the
    same wide-screen fixed dock as Sidebar/Compact. */
 #lobby[data-layout="sidebar-hud"] {
-  grid-template-areas: "logo" "acct" "modes" "play" "boardmode" "fact" "dcmp" "hud" "status" "preview" "highlights" "rank";
+  grid-template-areas: "logo" "acct" "modes" "play" "boardmode" "attackmode" "fact" "dcmp" "hud" "status" "preview" "highlights" "rank";
 }
 #lobby[data-layout="sidebar-hud"] > #lobbySidebarPreview { grid-area: preview; }
 #lobby[data-layout="sidebar-hud"] > #lobbySidebarHighlights { grid-area: highlights; }
@@ -445,7 +449,7 @@ h1 span {
    grid-area assigned here, so it just falls back to plain auto-placement at
    the end of the single column (same spot as Classic) by default. */
 #lobby[data-layout="compact"] {
-  grid-template-areas: "logo" "acct" "modes" "play" "boardmode" "fact" "dcmp" "hud" "status";
+  grid-template-areas: "logo" "acct" "modes" "play" "boardmode" "attackmode" "fact" "dcmp" "hud" "status";
 }
 /* Only on screens wide enough that a 300px dock on the right edge can't
    possibly overlap the still-centered 900px column (comfortable margin
@@ -466,7 +470,7 @@ h1 span {
    the account panel shrinks to a slim strip below it. */
 #lobby[data-layout="showcase"] {
   grid-template-columns: 1fr;
-  grid-template-areas: "logo" "fact" "acct" "dcmp" "hud" "modes" "play" "boardmode" "status" "rank";
+  grid-template-areas: "logo" "fact" "acct" "dcmp" "hud" "modes" "play" "boardmode" "attackmode" "status" "rank";
 }
 #lobby[data-layout="showcase"] > .account-panel { max-width: 640px; padding: 0.6rem 1rem; }
 #lobby[data-layout="showcase"] .faction-card .thumb { width: 100px; height: 150px; }
@@ -745,7 +749,7 @@ h1 span {
 .ai-stats-line { color: var(--text-secondary); font-size: var(--text-sm); }
 
 .board-mode-picker { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.6rem; margin: 0.8rem 0 1.2rem; }
-.board-mode-btn {
+.board-mode-btn, .attack-mode-btn {
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
@@ -760,10 +764,10 @@ h1 span {
 }
 .board-mode-name { font-weight: bold; color: var(--text-secondary); font-size: var(--text-sm); }
 .board-mode-desc { color: var(--text-secondary); font-size: var(--text-xs); line-height: 1.3; }
-.board-mode-btn:hover:not(.active) { border-color: color-mix(in srgb, var(--gold) 50%, var(--border)); }
-.board-mode-btn.active { border-color: var(--gold); background: linear-gradient(#3a2c14, #241c12); }
-.board-mode-btn.active .board-mode-name { color: var(--gold); }
-.board-mode-btn.active .board-mode-desc { color: var(--text); }
+.board-mode-btn:hover:not(.active), .attack-mode-btn:hover:not(.active) { border-color: color-mix(in srgb, var(--gold) 50%, var(--border)); }
+.board-mode-btn.active, .attack-mode-btn.active { border-color: var(--gold); background: linear-gradient(#3a2c14, #241c12); }
+.board-mode-btn.active .board-mode-name, .attack-mode-btn.active .board-mode-name { color: var(--gold); }
+.board-mode-btn.active .board-mode-desc, .attack-mode-btn.active .board-mode-desc { color: var(--text); }
 .game-over-ai-note { color: var(--text-secondary); font-size: var(--text-sm); max-width: 26em; }
 
 .lobby-hud-preview {
@@ -2267,6 +2271,81 @@ body.in-game #musicPlayerGame { display: block; }
 #arrowHead { fill: var(--gold); filter: drop-shadow(0 0 6px #d9b25c90); }
 #targetArrow.arrow-illegal #arrowPath { stroke: var(--hp); filter: drop-shadow(0 0 6px #b5322f90); }
 #targetArrow.arrow-illegal #arrowHead { fill: var(--hp); filter: drop-shadow(0 0 6px #b5322f90); }
+
+/* ---------- Attack Planning Mode (experimental) ---------- */
+/* A separate, persistent sibling to #targetArrow (never modified) — one
+   dashed arrow per queued attack, distinct from the live drag arrow's solid
+   animated stroke so the two are never confused at a glance. Sits just
+   below #targetArrow's z-index so the live drag/selection arrow always
+   draws on top of any already-queued plan arrows. */
+#attackPlanArrows {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 895;
+  pointer-events: none;
+  overflow: visible;
+}
+#attackPlanArrows.hidden { display: none; }
+.plan-arrow-path {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 7 7;
+  opacity: 0.8;
+}
+.plan-arrow-path.plan-arrow-lethal { stroke: var(--hp); }
+.plan-arrow-path.plan-arrow-rejected { stroke: var(--disabled); opacity: 0.5; }
+.plan-arrow-head { fill: var(--gold); opacity: 0.8; }
+.plan-arrow-head.plan-arrow-lethal { fill: var(--hp); }
+.plan-arrow-head.plan-arrow-rejected { fill: var(--disabled); opacity: 0.5; }
+.plan-order-badge-bg { fill: var(--gold); stroke: #1a1410; stroke-width: 1.5; }
+.plan-order-badge-bg.plan-arrow-lethal { fill: var(--hp); }
+.plan-order-badge-bg.plan-arrow-rejected { fill: var(--disabled); }
+.plan-order-badge { font: bold 11px Georgia, serif; fill: #1a1410; }
+
+/* Death-preview overlay — reuses the same "this is a prediction, not the
+   real state" visual language as .plan-hp-badge below: obviously distinct
+   from the game's other death/damage feedback (unit-death, combat-impact),
+   which only ever plays once a real attack actually lands. */
+.card.plan-death-preview { filter: grayscale(0.85) brightness(0.55); }
+.card.plan-death-preview::after {
+  content: '☠';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2em;
+  color: #fff;
+  text-shadow: 0 0 6px #000;
+  pointer-events: none;
+}
+
+/* Ghost predicted-HP badge — deliberately NOT styled like the real
+   .hp-badge (dashed border, muted gold, offset above the card) so it can
+   never be mistaken for the unit's actual, already-changed HP. */
+.plan-hp-badge {
+  position: absolute;
+  top: -10px;
+  right: -6px;
+  z-index: 3;
+  background: rgba(20, 16, 12, 0.85);
+  border: 1px dashed var(--gold);
+  color: var(--gold-bright);
+  font: bold 11px Georgia, serif;
+  border-radius: 8px;
+  padding: 1px 5px;
+  pointer-events: none;
+}
+
+#attackPlanSummary {
+  align-self: center;
+  color: var(--gold-bright);
+  font-size: 0.9rem;
+}
 
 /* ---------- Log panel ---------- */
 /* Same collapsible-floating-panel pattern as #chatPanel below, mirrored to
