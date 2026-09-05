@@ -98,6 +98,16 @@ body {
   color: var(--text);
   font-family: var(--font-body);
   min-height: 100vh;
+  /* A UX deterrent against casual Ctrl+A/click-drag selection, not real
+     protection — anyone can still bypass this via DevTools. Re-enabled
+     below on every actual text-entry element so typing/selecting in forms,
+     chat, and search boxes is completely unaffected. */
+  user-select: none;
+  -webkit-user-select: none;
+}
+input, textarea, [contenteditable] {
+  user-select: text;
+  -webkit-user-select: text;
 }
 
 /* Visually hidden but still reachable by screen readers/keyboard focus —
@@ -2786,6 +2796,24 @@ body.in-game #musicPlayerGame { display: block; }
   /* Corner badge instead of an inline margin-left:auto pill — there's no
      "far right of a wide button" left once the button is a small circle. */
   #chatPanel.collapsed .chat-badge { position: absolute; top: -2px; right: -2px; margin-left: 0; }
+
+  /* --- Card preview, in-match only: docked to the bottom edge instead of
+     vertically centered, and shrunk further. Centered-and-tall (the base
+     rule further up, shared with the lobby's deck browser, which has no
+     board to hide behind it) sat on top of a meaningful chunk of the board
+     on a phone — exactly the space a small screen can least afford to
+     lose. Gated on body.in-game since #cardPreview is one shared element
+     used by both screens (it lives outside both #lobby and #game in the
+     markup), so the lobby's own preview is untouched. --- */
+  body.in-game #cardPreview {
+    left: 50%;
+    right: auto;
+    top: auto;
+    bottom: max(env(safe-area-inset-bottom, 8px), 8px);
+    transform: translateX(-50%) scale(0.97);
+    height: min(200px, 30vh);
+  }
+  body.in-game #cardPreview.visible { transform: translateX(-50%) scale(1); }
 }
 
 /* ---------- Landscape phone (height-constrained, not width-constrained)
@@ -2891,6 +2919,18 @@ body.in-game #musicPlayerGame { display: block; }
      down) was tuned for a short DESKTOP window, not a ~375-430px-tall
      phone — it collapses to an unreadable sliver there. --- */
   #cardPreview { height: min(280px, calc(100dvh - 40px)); }
+  /* In-match only (see the portrait breakpoint's identical comment) —
+     smaller still and bottom-docked, so it doesn't sit over the board in
+     an orientation where height is already the scarce resource. */
+  body.in-game #cardPreview {
+    left: 50%;
+    right: auto;
+    top: auto;
+    bottom: max(env(safe-area-inset-bottom, 4px), 4px);
+    transform: translateX(-50%) scale(0.97);
+    height: min(160px, 45vh);
+  }
+  body.in-game #cardPreview.visible { transform: translateX(-50%) scale(1); }
 
   /* --- Log/Chat: same collapsed-icon treatment portrait mobile uses,
      anchored tighter since there's no bottom hand strip to clear here —

@@ -4947,6 +4947,12 @@ function renderFactionThumbnails() {
   }
 }
 
+// A UX deterrent against casual right-click → Inspect/View Source, not real
+// protection — anyone can still open DevTools directly. Site-wide, no
+// exceptions: there's no legitimate right-click use anywhere in this game
+// (the room code has its own dedicated Copy button already).
+document.addEventListener('contextmenu', (e) => e.preventDefault());
+
 (async function init() {
   // Synchronous and first — applied before anything renders a single card
   // (deck preview, faction thumbnails, etc. all follow below), so nothing
