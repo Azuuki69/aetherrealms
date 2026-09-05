@@ -406,6 +406,46 @@ async function loadFactionData() {
   );
 }
 
+// Which resolveSpellEffect() kinds (src/game/rules.js) deal damage to
+// multiple enemies/a row vs. one enemy unit or the castle — drives which
+// spell-cast visual (if any) plays on top of the generic combat feedback.
+// Classified by effect.kind rather than the card's `target` field, since
+// `target` is inconsistently "none" for both whole-board damage spells and
+// unrelated non-damage spells (e.g. Damned's Dark Pact).
+const AOE_DAMAGE_KINDS = new Set([
+  'damage_all_enemies',
+  'damage_all_enemies_scaling_board',
+  'damage_all_enemies_conditional_hp',
+  'damage_all_enemies_scaling_hand',
+  'self_damage_then_damage_all_enemies',
+  'damage_enemy_row_auto',
+  'multi_damage',
+  'split_damage',
+]);
+const SINGLE_DAMAGE_KINDS = new Set([
+  'damage',
+  'damage_castle',
+  'damage_conditional_hp',
+  'damage_scaling_hand',
+  'damage_then_delayed',
+  'damage_and_heal_castle',
+  'damage_then_draw_on_kill',
+  'damage_then_discard',
+  'damage_then_weaken',
+  'damage_then_splash_on_kill',
+  'self_damage_then_damage',
+  'damage_castle_conditional_attacked',
+  'castle_damage_or_draw',
+]);
+
+function classifySpellDamage(faction, cardId) {
+  const card = factionData[faction]?.cards?.find((c) => c.id === cardId);
+  if (!card || card.type !== 'spell' || !card.effect) return null;
+  if (AOE_DAMAGE_KINDS.has(card.effect.kind)) return 'aoe';
+  if (SINGLE_DAMAGE_KINDS.has(card.effect.kind)) return 'single';
+  return null;
+}
+
 // Mirrors src/game/rules.js's buildDeck() copies formula exactly — that
 // module is server-only (no bundler exposes it to this plain static
 // client.js), so the deck-preview's quantity badges duplicate the same
@@ -1394,9 +1434,19 @@ function renderCastle(sidePanelId, hp, maxHp, faction) {
 function computeEffects(prev, next) {
   if (!prev) return [];
   const effects = [];
+  let singleTargetSpellCast = false;
 
   if (next.lastPlayedCard && next.lastPlayedCard.seq !== prev.lastPlayedCard?.seq) {
     effects.push({ kind: 'card-reveal', owner: next.lastPlayedCard.owner, card: next.lastPlayedCard });
+    const casterSide = next.lastPlayedCard.owner === next.you_key ? 'you' : 'opponent';
+    const spellDamageKind = classifySpellDamage(next[casterSide].faction, next.lastPlayedCard.cardId);
+    if (spellDamageKind === 'aoe') {
+      effects.push({ kind: 'spell-cast-aoe', side: casterSide === 'you' ? 'opponent' : 'you' });
+    } else if (spellDamageKind === 'single') {
+      // Resolved once the per-side diff loop below has computed this
+      // tick's actual hit location(s) — no separate targeting data needed.
+      singleTargetSpellCast = true;
+    }
   }
 
   for (const side of ['you', 'opponent']) {
@@ -1443,6 +1493,16 @@ function computeEffects(prev, next) {
       const loc = findPrevLoc(prevP, id);
       if (loc) effects.push({ kind: 'unit-death', side, lane: loc.lane, slot: loc.slot });
       deathsShown++;
+    }
+  }
+  if (singleTargetSpellCast) {
+    const hitsThisTick = effects.filter((fx) => fx.kind === 'unit-damage' || fx.kind === 'unit-death' || fx.kind === 'castle-damage');
+    for (const fx of hitsThisTick) {
+      effects.push(
+        fx.kind === 'castle-damage'
+          ? { kind: 'spell-cast-single', side: fx.side }
+          : { kind: 'spell-cast-single', side: fx.side, lane: fx.lane, slot: fx.slot }
+      );
     }
   }
   return effects;
@@ -1493,6 +1553,21 @@ function spawnEffect(fx) {
     pulseClass(overlay, 'reveal-active');
     return;
   }
+  if (fx.kind === 'spell-cast-aoe') {
+    const vanguardEl = document.getElementById(fx.side === 'you' ? 'youVanguard' : 'oppVanguard');
+    const rearguardEl = document.getElementById(fx.side === 'you' ? 'youRearguard' : 'oppRearguard');
+    if (vanguardEl) pulseClass(vanguardEl, 'spell-aoe-flash');
+    if (rearguardEl) pulseClass(rearguardEl, 'spell-aoe-flash');
+    spawnAoeBurst();
+    return;
+  }
+  if (fx.kind === 'spell-cast-single') {
+    const anchor = fx.lane
+      ? findUnitAnchorEl(fx.side, fx.lane, fx.slot)
+      : document.querySelector(`#${fx.side === 'you' ? 'youInfo' : 'oppInfo'} .castle-wrap`);
+    if (anchor) floatNumber(anchor, '✦', 'fx-spell-impact');
+    return;
+  }
   const anchor = findUnitAnchorEl(fx.side, fx.lane, fx.slot);
   if (!anchor) return;
   switch (fx.kind) {
@@ -1521,6 +1596,15 @@ function floatNumber(anchorEl, text, cssClass) {
   node.className = `fx-float ${cssClass}`;
   node.textContent = text;
   anchorEl.appendChild(node);
+  node.addEventListener('animationend', () => node.remove());
+}
+
+function spawnAoeBurst() {
+  const boardArea = el('boardArea');
+  if (!boardArea) return;
+  const node = document.createElement('div');
+  node.className = 'spell-aoe-burst';
+  boardArea.appendChild(node);
   node.addEventListener('animationend', () => node.remove());
 }
 
