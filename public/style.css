@@ -2288,3 +2288,132 @@ body.in-game #musicPlayerGame { display: block; }
      "far right of a wide button" left once the button is a small circle. */
   #chatPanel.collapsed .chat-badge { position: absolute; top: -2px; right: -2px; margin-left: 0; }
 }
+
+/* ---------- Landscape phone (height-constrained, not width-constrained)
+   ---------- */
+/* A phone turned sideways is wide but short — the opposite resource
+   constraint from the max-width:760px block above, which assumes width is
+   scarce and height is plentiful. Most modern phones in landscape are
+   WIDER than 760px (iPhone 12 mini/14/15 land at 780-930px), so without a
+   height-based breakpoint they'd fall straight into the desktop layout
+   instead, which has no height floor at all: .slot's hard min-height:60px
+   (below) alone exceeds the ~200-230px a ~375-430px-tall viewport actually
+   has for 4 rows once the topbar/controls are subtracted, and #game/
+   body.in-game both clip overflow rather than scroll it. isMobileLayout()
+   in client.js needs this same height threshold, or the HUD manager's
+   free-form inline positioning (which always wins over stylesheet rules)
+   would silently override everything below.
+   Placed after the max-width block so it wins the cascade for a phone
+   that's BOTH narrow and short (e.g. iPhone SE landscape, 667x375). 500px
+   comfortably covers every real phone in landscape while excluding
+   tablets (~768px+ even sideways) and ordinary desktop windows — as a
+   bonus this also fixes #cardPreview's existing short-window formula
+   further down, which its own comment already flags as never having been
+   tuned this short. */
+@media (max-height: 500px) {
+  #game {
+    grid-template-columns: minmax(0, 1fr) 6px minmax(88px, 15vw);
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      "topbar   topbar topbar"
+      "board    handle hand"
+      "controls handle hand";
+    width: 100vw;
+    height: 100dvh;
+    padding: env(safe-area-inset-top, 2px) env(safe-area-inset-right, 4px)
+      env(safe-area-inset-bottom, 2px) env(safe-area-inset-left, 4px);
+    gap: 3px;
+  }
+  #game:has(#hudPreviewExitBtn:not(.hidden)) {
+    padding-top: max(env(safe-area-inset-top, 2px), 40px);
+  }
+
+  /* --- Top bar: same flex-wrap fallback as portrait mobile, just tighter
+     since there's a fraction of the vertical room to spend on it. --- */
+  #topBar { flex-wrap: wrap; gap: 3px; padding: 2px 4px; }
+  .hp-panel { min-width: 0; flex: 1 1 auto; }
+  .hp-panel .name { font-size: clamp(0.6rem, 2.5vw, 0.8rem); }
+  .turn-indicator { font-size: 0.75rem; flex: 0 0 100%; order: 3; }
+  .hp-panel .castle-wrap { display: flex; width: clamp(18px, 4vh, 28px); height: clamp(18px, 4vh, 28px); margin: 0 auto; }
+  .hp-panel .castle-hp-value { display: block; text-align: center; }
+
+  /* --- Board + side-panels: back to a row, like desktop, not portrait
+     mobile's stacked horizontal strips — width is abundant here, height
+     isn't, so wasting a whole horizontal band on each side-panel would be
+     the wrong trade in this orientation. --- */
+  .board-wrap { flex-direction: row; gap: 4px; }
+  .side-panel {
+    width: clamp(44px, 9vw, 72px);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    padding: 3px;
+    border-radius: 8px;
+  }
+  .castle-hp-block { flex-direction: column; width: 100%; gap: 2px; }
+  .castle-owner-label { display: none; }
+  .castle-hp-bar { width: 100%; }
+  .panel-stat { min-width: 0; padding: 2px 4px; font-size: 0.7rem; gap: 2px; }
+  .panel-icon { font-size: 0.8rem; }
+
+  /* --- Board: every pixel of row height is scarcer here than even on
+     portrait mobile (which at least had a tall, narrow viewport to work
+     with) — shrink the slot floor further than that breakpoint's 40px. --- */
+  .board-area { padding: 3px; gap: 2px; }
+  .lane-row { gap: 3px; padding: 1px; }
+  .slot { min-height: 28px; }
+
+  /* --- Hand: a side column (like desktop), not a bottom strip — a bottom
+     strip would spend ~100px of the one dimension this orientation can't
+     spare. Narrower than desktop's default column and scrollable, since
+     only a card or two is visible at once at this width. --- */
+  #hand {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    gap: 4px;
+    padding: 3px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .hand-card { flex: 0 0 auto; }
+
+  /* --- Controls: compact, still thumb-usable. --- */
+  .controls { padding: 3px; gap: 0.3rem; }
+  .controls .btn { padding: 0.35rem 0.6rem; font-size: 0.7rem; min-height: 32px; }
+
+  /* Free-form HUD customization can't work here either — see
+     isMobileLayout() in client.js, which now also checks height. */
+  #hudEditToggle, #hudResetLayout { display: none; }
+
+  /* --- Card preview: the existing calc(100vh - 340px) formula (further
+     down) was tuned for a short DESKTOP window, not a ~375-430px-tall
+     phone — it collapses to an unreadable sliver there. --- */
+  #cardPreview { height: min(280px, calc(100dvh - 40px)); }
+
+  /* --- Log/Chat: same collapsed-icon treatment portrait mobile uses,
+     anchored tighter since there's no bottom hand strip to clear here —
+     the controls bar is the only thing below them — and height-capped so
+     an expanded panel can't grow past what's actually on screen. --- */
+  #logPanel, #chatPanel {
+    bottom: max(calc(env(safe-area-inset-bottom, 0px) + 40px), 40px);
+  }
+  #logPanel { left: 4px; }
+  #chatPanel { right: 4px; }
+  #logPanel.collapsed, #chatPanel.collapsed { width: 38px; max-width: 38px; }
+  #logPanel:not(.collapsed), #chatPanel:not(.collapsed) {
+    width: min(240px, calc(100vw - 16px));
+    max-height: min(240px, calc(100dvh - 60px));
+  }
+  #logPanel.collapsed .log-toggle, #chatPanel.collapsed .chat-toggle {
+    position: relative;
+    width: 38px;
+    height: 38px;
+    padding: 0;
+    justify-content: center;
+    border-radius: 50%;
+  }
+  #logPanel.collapsed .toggle-label, #chatPanel.collapsed .toggle-label { display: none; }
+  #chatPanel.collapsed .chat-badge { position: absolute; top: -2px; right: -2px; margin-left: 0; }
+}

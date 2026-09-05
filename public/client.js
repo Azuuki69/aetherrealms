@@ -2382,9 +2382,14 @@ let hudFloatingCollapsedHeight = {};
 // a phone's entire width, so below this breakpoint every non-floating panel
 // falls back to a dedicated mobile CSS grid instead (see the
 // max-width:760px block in style.css) rather than fighting drag/resize math
-// that can't work with a fingertip on a screen this size.
+// that can't work with a fingertip on a screen this size. The height check
+// catches phone landscape too (most landscape phones are WIDER than 760px,
+// so width alone would miss them) — see the max-height:500px block in
+// style.css, which needs this same bailout or the free-form inline
+// position/left/top/width/height styles below would win over it (inline
+// always beats stylesheet rules, regardless of media query specificity).
 function isMobileLayout() {
-  return window.innerWidth <= 760;
+  return window.innerWidth <= 760 || window.innerHeight <= 500;
 }
 
 function applyPanelGeometry(panel) {
