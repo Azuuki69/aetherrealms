@@ -1564,8 +1564,12 @@ function computeEffects(prev, next) {
   // a plain combat attack or a passive keyword tick (Curse, Countdown) —
   // both read fine as "something struck this target," so no server-side
   // "last attack" plumbing is needed just to tell them apart from spells.
+  // Includes unit-death: a killing blow never produces a unit-damage entry
+  // (the target's gone from next's board entirely, so the per-slot diff
+  // loop above never visits it) — without this, every lethal hit, which is
+  // most of them, would show no impact effect at all.
   if (!spellDamageCastThisTick) {
-    const hitsThisTick = effects.filter((fx) => fx.kind === 'unit-damage' || fx.kind === 'castle-damage');
+    const hitsThisTick = effects.filter((fx) => fx.kind === 'unit-damage' || fx.kind === 'unit-death' || fx.kind === 'castle-damage');
     for (const fx of hitsThisTick) {
       effects.push(
         fx.kind === 'castle-damage'
