@@ -1943,6 +1943,7 @@ export function simulateAttackPlan(game, owner, plannedAttacks) {
       : clone.players[opponentKey]?.board?.[targetLane]?.[targetSlot] || null;
     const attackerId = attackerBefore?.instanceId ?? null;
     const targetId = targetBefore?.instanceId ?? null;
+    const winnerBefore = clone.winner;
 
     try {
       attack(clone, owner, attackerLane, attackerSlot, targetLane, targetSlot);
@@ -1953,12 +1954,17 @@ export function simulateAttackPlan(game, owner, plannedAttacks) {
       // Instance-id comparison, not "is the slot null" — Death Ward/Rebirth
       // can remove a unit from this slot while it survives elsewhere, and a
       // Muster token can respawn into this exact slot, so a null/non-null
-      // check alone can't tell "died" from "still here" or "replaced".
+      // check alone can't tell "died" from "still here" or "replaced". A
+      // castle-targeted attack has no unit to diff, so "destroyed" instead
+      // means "this specific hit was the lethal blow" (winner flipped to
+      // the attacker on this exact step, not already decided before it).
       return {
         index, attackerLane, attackerSlot, targetLane, targetSlot,
         applied: true, reason: null,
         attackerDestroyed: attackerId !== null && attackerAfter?.instanceId !== attackerId,
-        targetDestroyed: targetLane !== 'commander' && targetId !== null && targetAfter?.instanceId !== targetId,
+        targetDestroyed: targetLane === 'commander'
+          ? (!winnerBefore && clone.winner === owner)
+          : (targetId !== null && targetAfter?.instanceId !== targetId),
       };
     } catch (err) {
       return {

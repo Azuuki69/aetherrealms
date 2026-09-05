@@ -145,7 +145,8 @@ body::after {
   .slot.can-play,
   .slot.spell-target,
   .lane-divider,
-  .turn-timer.timer-critical {
+  .turn-timer.timer-critical,
+  .plan-castle-lethal {
     animation: none;
   }
 }
@@ -2322,6 +2323,14 @@ body.in-game #musicPlayerGame { display: block; }
   color: #fff;
   text-shadow: 0 0 6px #000;
   pointer-events: none;
+}
+
+/* Castle equivalent of .plan-death-preview — no card element to grey out,
+   so the castle panel itself gets a pulsing red outline instead. */
+.plan-castle-lethal { outline: 2px solid var(--hp); outline-offset: 2px; animation: plan-castle-lethal-pulse 1s ease-in-out infinite; }
+@keyframes plan-castle-lethal-pulse {
+  0%, 100% { outline-color: color-mix(in srgb, var(--hp) 60%, transparent); }
+  50% { outline-color: var(--hp); }
 }
 
 /* Ghost predicted-HP badge — deliberately NOT styled like the real

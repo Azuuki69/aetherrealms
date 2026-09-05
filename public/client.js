@@ -810,8 +810,14 @@ function handleMessage(msg) {
       // A fresh state means the turn/phase may have changed (or the match
       // ended) since the plan was queued — a stale plan pointing at a past
       // turn's board makes no sense, so this is the single choke point
-      // every such change already flows through.
-      clearAttackPlan();
+      // every such change already flows through. BUT skip this while
+      // commitAttackPlan() is actively draining the plan — each attack it
+      // sends produces its own 'state' broadcast, and wiping plannedAttacks
+      // here on every one of those would erase the still-queued remainder
+      // (and its arrows) after just the first hit, even though the commit
+      // loop is still working through the rest. commitAttackPlan's own
+      // finally block clears what's left once the whole run ends.
+      if (!committingPlan) clearAttackPlan();
       if (msg.phase === 'coinflip') {
         renderCoinFlip(msg);
       } else {
@@ -1903,7 +1909,11 @@ function render() {
   renderHand(you.hand, myTurn && phase === 'deployment');
 
   el('combatBtn').disabled = !(myTurn && phase === 'deployment');
-  el('attackAllBtn').disabled = !(myTurn && phase === 'combat') || autoAttackRunning || committingPlan;
+  el('attackAllBtn').disabled =
+    !(myTurn && phase === 'combat') ||
+    autoAttackRunning ||
+    committingPlan ||
+    (attackPlanningEnabled && plannedAttacks.length === 0);
   el('endTurnBtn').disabled = !(myTurn && (phase === 'combat' || phase === 'deployment')) || autoAttackRunning || committingPlan;
   // Surrendering isn't a turn action — usable on either player's turn, any
   // phase once the match is actually underway.
@@ -2604,6 +2614,7 @@ function renderAttackPlanOverlay() {
   const svg = el('attackPlanArrows');
   document.querySelectorAll('.card.plan-death-preview').forEach((c) => c.classList.remove('plan-death-preview'));
   document.querySelectorAll('.plan-hp-badge').forEach((b) => b.remove());
+  document.querySelectorAll('.plan-castle-lethal').forEach((p) => p.classList.remove('plan-castle-lethal'));
   updatePlanSummaryBar();
 
   if (!svg) return;
@@ -2624,6 +2635,7 @@ function renderAttackPlanOverlay() {
     : null;
   const finalBoard = planPreview ? planPreview.preview : null;
   const badgedTargets = new Set();
+  let castleBadged = false;
 
   plannedAttacks.forEach((p, i) => {
     const loc = findUnitLocation(currentView.you, p.attackerInstanceId);
@@ -2637,13 +2649,23 @@ function renderAttackPlanOverlay() {
     drawPlanArrow(svg, from, to, i + 1, { lethal: !!result?.targetDestroyed, rejected });
 
     if (result?.attackerDestroyed) markDeathPreview('you', loc.lane, loc.slot);
-    if (result?.targetDestroyed && p.targetLane !== 'commander') markDeathPreview('opp', p.targetLane, p.targetSlot);
+    if (result?.targetDestroyed) {
+      if (p.targetLane === 'commander') markCastleDeathPreview('opp');
+      else markDeathPreview('opp', p.targetLane, p.targetSlot);
+    }
 
-    if (!rejected && finalBoard && p.targetLane !== 'commander') {
-      const key = `${p.targetLane}-${p.targetSlot}`;
-      if (!badgedTargets.has(key)) {
-        badgedTargets.add(key);
-        attachPredictedHpBadge(p.targetLane, p.targetSlot, finalBoard);
+    if (!rejected && finalBoard) {
+      if (p.targetLane === 'commander') {
+        if (!castleBadged) {
+          castleBadged = true;
+          attachPredictedCastleHpBadge('opp', finalBoard);
+        }
+      } else {
+        const key = `${p.targetLane}-${p.targetSlot}`;
+        if (!badgedTargets.has(key)) {
+          badgedTargets.add(key);
+          attachPredictedHpBadge(p.targetLane, p.targetSlot, finalBoard);
+        }
       }
     }
   });
@@ -2692,6 +2714,26 @@ function markDeathPreview(side, lane, slot) {
   const slotEl = document.querySelectorAll(`#${containerId} .slot`)[slot];
   const cardEl = slotEl?.querySelector('.card');
   if (cardEl) cardEl.classList.add('plan-death-preview');
+}
+
+// Castle equivalent of markDeathPreview — there's no card element to grey
+// out, so this highlights the castle panel itself instead.
+function markCastleDeathPreview(side) {
+  el(side === 'you' ? 'youInfo' : 'oppInfo')?.classList.add('plan-castle-lethal');
+}
+
+// Castle equivalent of attachPredictedHpBadge — anchors to the castle panel
+// (already position:absolute via the HUD layout manager, so a plain
+// position:absolute child anchors correctly with no extra CSS needed).
+function attachPredictedCastleHpBadge(side, finalBoard) {
+  const panel = el(side === 'you' ? 'youInfo' : 'oppInfo');
+  const predictedHp = finalBoard?.[side === 'you' ? 'you' : 'opponent']?.hp;
+  if (!panel || predictedHp === undefined) return;
+  const badge = document.createElement('div');
+  badge.className = 'plan-hp-badge';
+  badge.textContent = String(Math.max(0, predictedHp));
+  badge.title = t('planPredictedHpLabel');
+  panel.appendChild(badge);
 }
 
 function attachPredictedHpBadge(lane, slot, finalBoard) {
@@ -2927,8 +2969,15 @@ el('hudPreviewExitBtn')?.addEventListener('click', exitHudPreview);
 el('oppInfo')?.addEventListener('click', onCastleClick);
 el('combatBtn')?.addEventListener('click', () => send({ type: 'move_to_combat' }));
 el('attackAllBtn')?.addEventListener('click', () => {
-  if (attackPlanningEnabled && plannedAttacks.length > 0) commitAttackPlan();
-  else runAttackAll();
+  if (attackPlanningEnabled) {
+    // In planning mode, Attack All only ever commits the queued plan — it
+    // must never silently fall back to auto-picking targets itself, which
+    // would bypass the whole point of the mode (the player controls every
+    // attack that goes out). Nothing queued means nothing happens.
+    if (plannedAttacks.length > 0) commitAttackPlan();
+    return;
+  }
+  runAttackAll();
 });
 el('clearPlanBtn')?.addEventListener('click', clearAttackPlan);
 el('endTurnBtn')?.addEventListener('click', () => {
