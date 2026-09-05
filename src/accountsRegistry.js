@@ -1,3 +1,5 @@
+import { validateDeck } from './game/rules.js';
+
 const USERNAME_RE = /^[A-Za-z0-9_]{3,20}$/;
 const MIN_PASSWORD_LENGTH = 6;
 const FACTIONS = ['beast', 'clock', 'damned', 'dwarf', 'dynasty', 'elf', 'fallen', 'human', 'orc', 'undead'];
@@ -12,6 +14,8 @@ function isAdmin(username) {
   return !!username && ADMIN_USERNAMES.has(username.toLowerCase());
 }
 const LOBBY_LAYOUTS = ['classic', 'sidebar', 'compact', 'showcase', 'sidebar-hud'];
+const MAX_CUSTOM_DECKS_PER_USER = 30;
+const MAX_CUSTOM_DECK_NAME_LENGTH = 60;
 
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), { status, headers: { 'content-type': 'application/json' } });
@@ -48,6 +52,9 @@ export class AccountsRegistry {
       if (url.pathname === '/api/hud-layout/load' && request.method === 'POST') return this.handleLoadHudLayout(request);
       if (url.pathname === '/api/card-font/save' && request.method === 'POST') return this.handleSaveCardFontScale(request);
       if (url.pathname === '/api/card-font/load' && request.method === 'POST') return this.handleLoadCardFontScale(request);
+      if (url.pathname === '/api/custom-decks/save' && request.method === 'POST') return this.handleSaveCustomDeck(request);
+      if (url.pathname === '/api/custom-decks/load' && request.method === 'POST') return this.handleLoadCustomDecks(request);
+      if (url.pathname === '/api/custom-decks/delete' && request.method === 'POST') return this.handleDeleteCustomDeck(request);
       if (url.pathname === '/api/account-info' && request.method === 'POST') return this.handleAccountInfo(request);
       if (url.pathname === '/api/admin/accounts' && request.method === 'POST') return this.handleAdminAccounts(request);
       if (url.pathname === '/api/admin/delete-account' && request.method === 'POST') return this.handleAdminDeleteAccount(request);
@@ -180,6 +187,84 @@ export class AccountsRegistry {
     return json({ scale: cardFontPrefs[username.toLowerCase()]?.scale ?? null });
   }
 
+  // Never trusts a client-reported deck size/quantity list — re-validates
+  // with the same authoritative validateDeck() a match join re-checks
+  // against, so a save can't smuggle in an illegal deck any more than a
+  // join could. Creates (no id, or an id this account doesn't own) or
+  // updates in place (a matching, owned id — preserving createdAt).
+  async handleSaveCustomDeck(request) {
+    const body = await request.json().catch(() => ({}));
+    const token = (body.token || '').toString();
+    const username = await this.resolveUsernameFromToken(token);
+    if (!username) return json({ error: 'Not logged in.' }, 401);
+
+    const input = body.deck && typeof body.deck === 'object' ? body.deck : {};
+    const factionKey = (input.factionKey || '').toString();
+    const cards = input.cards;
+    const check = validateDeck(factionKey, cards);
+    if (!check.valid) return json({ errors: check.errors }, 400);
+
+    const name = (input.name || '').toString().trim().slice(0, MAX_CUSTOM_DECK_NAME_LENGTH) || `My ${factionKey} Deck`;
+
+    const key = username.toLowerCase();
+    const customDecks = (await this.state.storage.get('customDecks')) || {};
+    const ownDecks = customDecks[key] || [];
+    const clientId = typeof input.id === 'string' && input.id ? input.id : null;
+    const existingIdx = clientId ? ownDecks.findIndex((d) => d.id === clientId) : -1;
+
+    const now = Date.now();
+    let saved;
+    if (existingIdx !== -1) {
+      const existing = ownDecks[existingIdx];
+      saved = { ...existing, name, factionKey, cards, updatedAt: now };
+      ownDecks[existingIdx] = saved;
+    } else {
+      if (ownDecks.length >= MAX_CUSTOM_DECKS_PER_USER) {
+        return json({ error: `You can only save up to ${MAX_CUSTOM_DECKS_PER_USER} custom decks.` }, 400);
+      }
+      // Adopts the client-generated id (this game's decks are always
+      // created client-side, id included, for a local-first save that
+      // works before login too) rather than minting a new one — otherwise
+      // the local cache and the account copy would end up as two
+      // differently-id'd decks the moment this first save round-trips.
+      saved = {
+        id: clientId || `cd_${now.toString(36)}_${Math.random().toString(36).slice(2, 8)}`,
+        name,
+        factionKey,
+        cards,
+        createdAt: now,
+        updatedAt: now,
+      };
+      ownDecks.push(saved);
+    }
+    customDecks[key] = ownDecks;
+    await this.state.storage.put('customDecks', customDecks);
+    return json({ ok: true, deck: saved });
+  }
+
+  async handleLoadCustomDecks(request) {
+    const body = await request.json().catch(() => ({}));
+    const token = (body.token || '').toString();
+    const username = await this.resolveUsernameFromToken(token);
+    if (!username) return json({ decks: [] });
+    const customDecks = (await this.state.storage.get('customDecks')) || {};
+    return json({ decks: customDecks[username.toLowerCase()] || [] });
+  }
+
+  async handleDeleteCustomDeck(request) {
+    const body = await request.json().catch(() => ({}));
+    const token = (body.token || '').toString();
+    const id = (body.id || '').toString();
+    const username = await this.resolveUsernameFromToken(token);
+    if (!username) return json({ error: 'Not logged in.' }, 401);
+    const key = username.toLowerCase();
+    const customDecks = (await this.state.storage.get('customDecks')) || {};
+    const ownDecks = customDecks[key] || [];
+    customDecks[key] = ownDecks.filter((d) => d.id !== id);
+    await this.state.storage.put('customDecks', customDecks);
+    return json({ ok: true });
+  }
+
   async handleRecordResult(request) {
     const body = await request.json().catch(() => ({}));
     const { winnerUsername, winnerFaction, loserUsername, loserFaction } = body;
@@ -309,6 +394,11 @@ export class AccountsRegistry {
     if (hudLayouts[key]) {
       delete hudLayouts[key];
       await this.state.storage.put('hudLayouts', hudLayouts);
+    }
+    const customDecks = (await this.state.storage.get('customDecks')) || {};
+    if (customDecks[key]) {
+      delete customDecks[key];
+      await this.state.storage.put('customDecks', customDecks);
     }
     return json({ ok: true });
   }

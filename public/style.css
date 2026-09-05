@@ -591,11 +591,11 @@ h1 span {
   line-height: 1.35;
   min-height: 1.6em;
 }
-.faction-card .view-deck-btn {
+.faction-card .deck-action-row { display: flex; gap: 6px; margin-top: 2px; }
+.faction-card .view-deck-btn, .faction-card .build-deck-btn {
   font-family: inherit;
   font-size: 0.68rem;
   padding: 2px 10px;
-  margin-top: 2px;
   border: 1px solid var(--border);
   background: transparent;
   color: var(--gold);
@@ -603,8 +603,8 @@ h1 span {
   cursor: pointer;
   transition: border-color 0.15s, color 0.15s;
 }
-.faction-card .view-deck-btn:hover { border-color: var(--gold); color: var(--gold-bright); }
-.faction-card .view-deck-btn:active { background: color-mix(in srgb, var(--gold) 15%, transparent); }
+.faction-card .view-deck-btn:hover, .faction-card .build-deck-btn:hover { border-color: var(--gold); color: var(--gold-bright); }
+.faction-card .view-deck-btn:active, .faction-card .build-deck-btn:active { background: color-mix(in srgb, var(--gold) 15%, transparent); }
 
 .deck-compare-trigger {
   text-align: center;
@@ -615,6 +615,39 @@ h1 span {
   background: #1c150d40;
 }
 .deck-compare-trigger p { margin: 0.5rem 0 0; color: var(--dim); font-size: 0.85rem; }
+
+.my-custom-decks-panel {
+  margin: 0 0 1.4rem;
+  padding: 0.9rem 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #1c150d40;
+}
+.my-custom-decks-panel h3 {
+  margin: 0 0 0.6rem;
+  color: var(--gold);
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+}
+.my-custom-decks-empty { margin: 0; color: var(--dim); font-size: 0.88rem; }
+.my-custom-decks-list { display: flex; flex-direction: column; gap: 8px; }
+.my-custom-deck-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #00000030;
+}
+.my-custom-deck-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.my-custom-deck-name { font-family: var(--font-display); color: var(--text); font-size: 0.95rem; }
+.my-custom-deck-meta { color: var(--dim); font-size: 0.78rem; }
+.my-custom-deck-actions { display: flex; gap: 0.9rem; flex-shrink: 0; }
+.my-custom-deck-delete-btn.confirm-armed { color: var(--hp); }
 
 .lobby-actions {
   display: grid;
@@ -1921,6 +1954,103 @@ body:has(#chatPanel:not(.collapsed)) .hand {
 }
 .deck-preview-footer { display: flex; justify-content: flex-end; padding-top: 0.4rem; border-top: 1px solid var(--border); flex-shrink: 0; }
 
+/* ---------- Deck Builder ---------- */
+/* Shares .deck-preview-modal/.deck-preview-body/.deck-preview-cardlist/
+   .deck-filter-bar/.deck-card-grid/.deck-card-tile wholesale with the
+   read-only "View Deck" preview above — only the left info pane (deck-in-
+   progress instead of kingdom lore) and each card tile's stepper (instead
+   of a static ×N badge) are specific to the builder. */
+.deck-builder-info { display: flex; flex-direction: column; min-height: 0; gap: 0.7rem; }
+.deck-builder-name-input {
+  background: #0000004d;
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 1rem;
+  padding: 7px 10px;
+  border-radius: 6px;
+}
+.deck-builder-summary-bar { display: flex; align-items: center; justify-content: space-between; gap: 0.8rem; }
+.deck-builder-count-readout { font-family: var(--font-display); font-size: 1.1rem; color: var(--dim); }
+.deck-builder-count-readout.at-target { color: var(--success); }
+.deck-builder-count-readout.over-target { color: var(--hp); }
+.deck-builder-errors { display: flex; flex-direction: column; gap: 3px; }
+.deck-builder-error { margin: 0; color: var(--hp); font-size: 0.8rem; }
+.deck-builder-list {
+  flex: 1 1 auto;
+  min-height: 80px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-right: 4px;
+}
+.deck-builder-list-empty { color: var(--dim); font-size: 0.85rem; text-align: center; padding: 1rem 0; }
+.deck-builder-list-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: #00000030;
+  font-size: 0.85rem;
+}
+.deck-builder-list-name { color: var(--text); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.deck-builder-list-remove {
+  background: transparent;
+  border: none;
+  color: var(--dim);
+  cursor: pointer;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  padding: 0 2px;
+}
+.deck-builder-list-remove:hover { color: var(--hp); }
+
+/* Floats over the bottom of the card face, same convention as
+   .deck-card-qty above — the tile's aspect ratio never needs to change to
+   make room for it. */
+.deck-builder-stepper {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  pointer-events: none;
+}
+.deck-builder-stepper-dec, .deck-builder-stepper-inc {
+  pointer-events: auto;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid var(--gold);
+  background: #14100cd0;
+  color: var(--gold-bright);
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.deck-builder-stepper-dec:disabled, .deck-builder-stepper-inc:disabled { border-color: var(--disabled); color: var(--disabled); cursor: not-allowed; }
+.deck-builder-stepper-dec:hover:not(:disabled), .deck-builder-stepper-inc:hover:not(:disabled) { border-color: var(--gold-bright); }
+.deck-builder-stepper-count {
+  pointer-events: auto;
+  min-width: 18px;
+  text-align: center;
+  background: #14100cd0;
+  border: 1px solid var(--gold);
+  color: var(--gold-bright);
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  border-radius: 8px;
+  padding: 2px 5px;
+}
+
 .deck-compare-modal { width: min(900px, 92vw); max-height: 85vh; text-align: left; }
 .deck-compare-modal h2 { color: var(--gold); text-align: center; }
 .deck-compare-table-wrap { max-height: 65vh; overflow: auto; margin: 1rem 0; }
@@ -2483,6 +2613,20 @@ body.in-game #musicPlayerGame { display: block; }
   .deck-preview-body { grid-template-columns: 1fr; }
   .deck-preview-columns { grid-template-columns: 1fr; }
   .deck-card-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); max-height: 44vh; }
+  .deck-builder-list { max-height: 30vh; }
+  /* .deck-builder-body reuses .deck-preview-body's single-column stack
+     above rather than a separate drawer/bottom-sheet component — the one
+     addition a builder needs on top of the read-only preview is this: the
+     card count and Save button pinned in place while the (now much
+     taller, single-column) card grid scrolls underneath them. */
+  .deck-builder-summary-bar {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: var(--panel);
+    padding: 6px 0;
+    margin-top: -6px;
+  }
 }
 
 @media (min-width: 1400px) {

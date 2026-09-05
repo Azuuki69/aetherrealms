@@ -111,6 +111,77 @@ export function buildDeck(factionKey) {
   return shuffle(deck);
 }
 
+export const CUSTOM_DECK_SIZE = 50;
+export const CUSTOM_DECK_MAX_COPIES = 3;
+
+// Authoritative validation for a player-built custom deck — collects every
+// applicable error rather than stopping at the first, so a builder UI can
+// show every problem at once. `cards` is untrusted client input, shaped
+// [{cardId, quantity}]. Mirrored (not shared — this file can't be loaded
+// raw in the browser) by validateDeckClient() in public/client.js; keep
+// the two in sync if these rules ever change.
+export function validateDeck(factionKey, cards) {
+  const faction = FACTIONS[factionKey];
+  if (!faction) {
+    return { valid: false, errors: [{ type: 'invalid_faction', message: 'Unknown kingdom.' }] };
+  }
+  if (!Array.isArray(cards)) {
+    return { valid: false, errors: [{ type: 'malformed_entry', message: 'Deck must be a list of cards.' }] };
+  }
+
+  const errors = [];
+  // Sum duplicate cardId entries before checking the copy cap, so a client
+  // can't smuggle 4 copies of one card past the limit by splitting it
+  // across two entries.
+  const totals = new Map();
+  for (const entry of cards) {
+    const cardId = entry && entry.cardId;
+    const quantity = entry && entry.quantity;
+    if (typeof cardId !== 'string' || !Number.isInteger(quantity) || quantity <= 0) {
+      errors.push({ type: 'malformed_entry', message: 'Every deck entry needs a cardId and a positive whole quantity.' });
+      continue;
+    }
+    totals.set(cardId, (totals.get(cardId) || 0) + quantity);
+  }
+
+  const validIds = new Set(faction.cards.map((c) => c.id));
+  let total = 0;
+  for (const [cardId, quantity] of totals) {
+    if (!validIds.has(cardId)) {
+      errors.push({ type: 'unknown_card', message: `${cardId} is not part of the ${factionKey} kingdom's card pool.` });
+      continue;
+    }
+    if (quantity > CUSTOM_DECK_MAX_COPIES) {
+      errors.push({ type: 'copy_limit', message: `A deck can hold at most ${CUSTOM_DECK_MAX_COPIES} copies of ${cardId}.` });
+    }
+    total += quantity;
+  }
+
+  if (total !== CUSTOM_DECK_SIZE) {
+    errors.push({ type: 'deck_size', message: `A custom deck must contain exactly ${CUSTOM_DECK_SIZE} cards (currently ${total}).` });
+  }
+
+  return { valid: errors.length === 0, errors };
+}
+
+// Sibling to buildDeck() for a player-built custom deck instead of a
+// faction's full pool. Trusts its input completely (validateDeck() already
+// ran on it) — an unresolvable cardId is silently skipped as a defensive
+// no-op rather than thrown, since by this point the deck was already
+// accepted.
+export function buildDeckFromCustomList(factionKey, cards) {
+  const faction = FACTIONS[factionKey];
+  if (!faction) throw new Error('Unknown faction: ' + factionKey);
+  const byId = new Map(faction.cards.map((c) => [c.id, c]));
+  const deck = [];
+  for (const { cardId, quantity } of cards) {
+    const card = byId.get(cardId);
+    if (!card) continue;
+    for (let i = 0; i < quantity; i++) deck.push(makeCardInstance(card));
+  }
+  return shuffle(deck);
+}
+
 function makeCardInstance(card) {
   const keywords = detectKeywords(card.text);
   return {
@@ -159,10 +230,10 @@ export function opponentOf(owner) {
   return owner === 'A' ? 'B' : 'A';
 }
 
-export function createGame(factionA, factionB, firstPlayer = 'A', usernameA = null, usernameB = null, boardMode = 'classic', attackMode = 'normal') {
+export function createGame(factionA, factionB, firstPlayer = 'A', usernameA = null, usernameB = null, boardMode = 'classic', attackMode = 'normal', customDeckA = null, customDeckB = null) {
   const lanes = boardMode === 'single' ? SINGLE_ROW_LANES : LANES;
-  const deckA = buildDeck(factionA);
-  const deckB = buildDeck(factionB);
+  const deckA = customDeckA ? buildDeckFromCustomList(factionA, customDeckA) : buildDeck(factionA);
+  const deckB = customDeckB ? buildDeckFromCustomList(factionB, customDeckB) : buildDeck(factionB);
   const players = {
     A: {
       faction: factionA,

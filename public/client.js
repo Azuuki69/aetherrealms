@@ -19,6 +19,15 @@ const TRANSLATIONS = {
     factionFallen: 'Star-Fallen', factionHuman: 'Human Realm', factionOrc: 'Orc Horde', factionUndead: 'Undead Dominion',
     viewDeck: 'View Deck', compareDecks: 'Compare Decks',
     compareDecksDesc: "See every faction's strengths, weaknesses, and difficulty side by side.",
+    // Custom Deck Builder
+    buildDeck: 'Build Deck', myCustomDecks: 'My Custom Decks',
+    noCustomDecksYet: 'You haven’t built any custom decks yet — pick a kingdom above and hit "Build Deck".',
+    fullCollectionDeck: 'Full Collection',
+    fullCollectionDeckDesc: "Every card in this kingdom's pool, at the game's default copy counts.",
+    deckNameLabel: 'Deck name', saveDeck: 'Save Deck', deckSaved: 'Deck saved.',
+    playDeck: 'Play', editDeck: 'Edit', deleteDeck: 'Delete', confirmDeleteDeck: 'Confirm delete?',
+    deckBuilderEmptyList: 'Add cards from the right to build your deck.',
+    unsavedDeckChangesConfirm: 'Discard unsaved changes to this deck?',
     customizeHud: 'Customize HUD Layout',
     customizeHudDesc: 'Rearrange and resize every battle panel at your own pace — no match, no turn timer.',
     // Mode tabs / AI match
@@ -396,6 +405,8 @@ function applyTranslations() {
     renderDeckCardGrid(deckPreviewFaction);
   }
   if (!el('deckCompareOverlay').classList.contains('hidden')) renderDeckCompareTable();
+  if (typeof renderMyCustomDecks === 'function' && el('myCustomDecksList')) renderMyCustomDecks();
+  if (selectedFaction) renderDeckPicker();
 }
 
 function setLanguage(lang) {
@@ -511,6 +522,18 @@ let hudAccountSyncedForToken; // undefined = never checked; tracks which login (
 let cardFontScale = 1; // 0.8-1.5, multiplies --card-text-scale — see applyCardTextScale()
 let cardFontAccountSyncedForToken; // mirrors hudAccountSyncedForToken, tracked separately since either preference can sync independently
 
+// ---------- Custom decks ----------
+let myCustomDecks = []; // this browser's custom decks — local-first, see loadCustomDecksLocal()/syncCustomDecksWithAccount()
+let customDecksAccountSyncedForToken; // mirrors hudAccountSyncedForToken/cardFontAccountSyncedForToken
+let selectedDeckId = null; // null = Full Collection (today's behavior), else a custom deck's id — reset whenever the faction changes or a join is rejected
+let deckPendingDelete = null; // id of the "My Decks" row currently armed for its second delete click, or null
+// Deck Builder overlay session state — only meaningful while #deckBuilderOverlay is open (see openDeckBuilder()).
+let builderFaction = null;
+let builderDeckId = null; // null while creating a new deck, else the id being edited
+let builderCards = {}; // { cardId: quantity }
+let builderName = '';
+let builderDirty = false; // true once anything has changed since openDeckBuilder() — gates the unsaved-changes confirm on close
+
 // ---------- Reconnection ----------
 // The room this tab is (or was) connected to, so a dropped socket has
 // somewhere to reconnect to — mobile home-screen/standalone-launched apps
@@ -561,13 +584,14 @@ function selectFactionCard(card) {
   document.querySelectorAll('.faction-card').forEach((b) => b.classList.remove('selected'));
   card.classList.add('selected');
   selectedFaction = card.dataset.faction;
+  renderDeckPicker();
 }
 
 function initLobby() {
   el('factionPicker').addEventListener('click', (e) => {
     // .faction-card is a div (not a <button>) so it can legally contain the
-    // View Deck button — that click must not also select the card.
-    if (e.target.closest('.view-deck-btn')) return;
+    // View Deck/Build Deck buttons — those clicks must not also select the card.
+    if (e.target.closest('.view-deck-btn') || e.target.closest('.build-deck-btn')) return;
     const card = e.target.closest('.faction-card');
     if (!card) return;
     selectFactionCard(card);
@@ -584,6 +608,12 @@ function initLobby() {
     if (!btn) return;
     e.stopPropagation();
     openDeckPreview(btn.closest('.faction-card').dataset.faction);
+  });
+  el('factionPicker').addEventListener('click', (e) => {
+    const btn = e.target.closest('.build-deck-btn');
+    if (!btn) return;
+    e.stopPropagation();
+    openDeckBuilder(btn.closest('.faction-card').dataset.faction, null);
   });
 
   initGameModeTabs();
@@ -778,9 +808,22 @@ function connect(code) {
 
 function handleMessage(msg) {
   switch (msg.type) {
-    case 'need_faction':
-      ws.send(JSON.stringify({ type: 'join', faction: selectedFaction, token: getStoredAccount().token }));
+    case 'need_faction': {
+      // Sends the deck's actual card list, not just its id — the server has
+      // no other way to know what an anonymous (not logged in) player's
+      // locally-saved deck contains, and this is what lets a custom deck
+      // work without requiring login at all, per this feature's design.
+      // The server independently re-validates these cards before ever
+      // using them, the same as it would distrust any other client value.
+      const deck = selectedDeckId ? myCustomDecks.find((d) => d.id === selectedDeckId) : null;
+      ws.send(JSON.stringify({
+        type: 'join',
+        faction: selectedFaction,
+        token: getStoredAccount().token,
+        customDeck: deck ? { cards: deck.cards } : null,
+      }));
       break;
+    }
     case 'waiting_for_opponent':
       setStatus(t('waitingForOpponent'));
       break;
@@ -841,7 +884,19 @@ function handleMessage(msg) {
       logLine(t('opponentReconnected'));
       break;
     case 'error':
-      logLine(t('errorPrefix') + msg.message);
+      // Before a match exists, #log is invisible (still behind the lobby
+      // screen) — a rejected join (e.g. a stale custom deck) must surface
+      // where the player can actually see it, and must reset the deck pick
+      // so a retry defaults back to Full Collection instead of repeating
+      // the same rejected deck.
+      if (!currentView) {
+        showTopNotice(msg.message);
+        setStatus(msg.message);
+        selectedDeckId = null;
+        renderDeckPicker();
+      } else {
+        logLine(t('errorPrefix') + msg.message);
+      }
       combatResolvers.splice(0).forEach((r) => r('error'));
       break;
     case 'chat':
@@ -1355,12 +1410,17 @@ function renderDeckStats(factionKey) {
   });
 }
 
-function getFilteredSortedCards(factionKey) {
+// `ids` lets a second card-browser (the Deck Builder, see openDeckBuilder())
+// reuse this exact filter/sort logic against its own set of controls rather
+// than the "View Deck" preview's — two DOM elements can never share an id,
+// so the builder's search/type/cost/sort inputs are separate elements.
+function getFilteredSortedCards(factionKey, ids) {
+  const { search: searchId = 'deckSearchInput', type: typeId = 'deckTypeFilter', cost: costId = 'deckCostFilter', sort: sortId = 'deckSortSelect' } = ids || {};
   const cards = (factionData[factionKey] && factionData[factionKey].cards) || [];
-  const search = el('deckSearchInput').value.trim().toLowerCase();
-  const typeFilter = el('deckTypeFilter').value;
-  const costFilter = el('deckCostFilter').value;
-  const sort = el('deckSortSelect').value;
+  const search = el(searchId).value.trim().toLowerCase();
+  const typeFilter = el(typeId).value;
+  const costFilter = el(costId).value;
+  const sort = el(sortId).value;
 
   const filtered = cards.filter((card) => {
     if (search && !card.name.toLowerCase().includes(search)) return false;
@@ -1528,6 +1588,524 @@ function initDeckPreview() {
     el('deckCompareOverlay').classList.remove('hidden');
   });
   el('deckCompareCloseBtn').addEventListener('click', () => el('deckCompareOverlay').classList.add('hidden'));
+}
+
+// ---------- Custom Deck Builder ----------
+// Player-built decks alongside the 10 premade full-collection ones: exactly
+// 50 cards, max 3 copies each, locked to one kingdom's own card pool. Local
+// storage is always the source of truth for what's on screen; when logged
+// in, an account copy follows the player across devices (same local-first +
+// best-effort account-sync shape as HUD layout/card text size above).
+const CUSTOM_DECK_SIZE = 50;
+const CUSTOM_DECK_MAX_COPIES = 3;
+const CUSTOM_DECKS_STORAGE_KEY = 'ar_custom_decks';
+const CUSTOM_DECKS_VERSION = 1;
+
+function loadCustomDecksLocal() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(CUSTOM_DECKS_STORAGE_KEY));
+    return parsed && parsed.v === CUSTOM_DECKS_VERSION && Array.isArray(parsed.decks) ? parsed.decks : [];
+  } catch {
+    return [];
+  }
+}
+function saveCustomDecksLocal(decks) {
+  try {
+    localStorage.setItem(CUSTOM_DECKS_STORAGE_KEY, JSON.stringify({ v: CUSTOM_DECKS_VERSION, decks }));
+  } catch {
+    /* localStorage unavailable — decks still work this session, just won't persist */
+  }
+}
+
+// Mirrors validateDeck() in src/game/rules.js exactly — that file can't be
+// imported here (its bare JSON imports only work bundled, server-side), so
+// this is a UX-only, kept-in-sync copy. The server independently re-runs
+// the authoritative version at both save-time and match-join-time; this
+// copy only ever gates the Save button and the inline error list below it.
+function validateDeckClient(factionKey, cards) {
+  const data = factionData[factionKey];
+  if (!data) return { valid: false, errors: [{ type: 'invalid_faction', message: 'Unknown kingdom.' }] };
+  if (!Array.isArray(cards)) return { valid: false, errors: [{ type: 'malformed_entry', message: 'Deck must be a list of cards.' }] };
+
+  const errors = [];
+  const totals = new Map();
+  for (const entry of cards) {
+    const cardId = entry && entry.cardId;
+    const quantity = entry && entry.quantity;
+    if (typeof cardId !== 'string' || !Number.isInteger(quantity) || quantity <= 0) {
+      errors.push({ type: 'malformed_entry', message: 'Every deck entry needs a cardId and a positive whole quantity.' });
+      continue;
+    }
+    totals.set(cardId, (totals.get(cardId) || 0) + quantity);
+  }
+
+  const validIds = new Set((data.cards || []).map((c) => c.id));
+  let total = 0;
+  for (const [cardId, quantity] of totals) {
+    if (!validIds.has(cardId)) {
+      errors.push({ type: 'unknown_card', message: `${cardId} is not part of this kingdom's card pool.` });
+      continue;
+    }
+    if (quantity > CUSTOM_DECK_MAX_COPIES) {
+      errors.push({ type: 'copy_limit', message: `A deck can hold at most ${CUSTOM_DECK_MAX_COPIES} copies of that card.` });
+    }
+    total += quantity;
+  }
+
+  if (total !== CUSTOM_DECK_SIZE) {
+    errors.push({ type: 'deck_size', message: `A custom deck must contain exactly ${CUSTOM_DECK_SIZE} cards (currently ${total}).` });
+  }
+
+  return { valid: errors.length === 0, errors };
+}
+
+function saveCustomDeckToAccount(deck) {
+  const { token } = getStoredAccount();
+  if (!token) return;
+  fetch('api/custom-decks/save', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ token, deck }),
+  }).catch(() => {
+    /* best-effort — account sync failing should never break the local save */
+  });
+}
+
+function deleteCustomDeckFromAccount(id) {
+  const { token } = getStoredAccount();
+  if (!token) return;
+  fetch('api/custom-decks/delete', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ token, id }),
+  }).catch(() => {
+    /* best-effort */
+  });
+}
+
+// On login, whatever the account has saved overrides the local cache — same
+// rule loadHudLayoutFromAccount() already applies.
+async function loadCustomDecksFromAccount(token) {
+  try {
+    const res = await fetch('api/custom-decks/load', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ token }),
+    });
+    const data = await res.json();
+    if (!Array.isArray(data.decks)) return;
+    myCustomDecks = data.decks;
+    saveCustomDecksLocal(myCustomDecks);
+    renderMyCustomDecks();
+    renderDeckPicker();
+  } catch {
+    /* best-effort — no account decks yet, or the request failed */
+  }
+}
+
+function syncCustomDecksWithAccount() {
+  const { token } = getStoredAccount();
+  if (token === customDecksAccountSyncedForToken) return;
+  customDecksAccountSyncedForToken = token;
+  if (token) loadCustomDecksFromAccount(token);
+}
+
+// Shown only when the currently-selected faction has at least one saved
+// custom deck — structurally identical to boardModePicker/attackModePicker
+// (a static "default" button plus delegated click/.active handling), with
+// this picker's non-default buttons rebuilt fresh each time since the deck
+// list itself can change.
+function renderDeckPicker() {
+  const picker = el('deckPicker');
+  const fullCollectionBtn = picker.querySelector('.board-mode-btn');
+  picker.querySelectorAll('.board-mode-btn[data-deck-id]:not([data-deck-id=""])').forEach((b) => b.remove());
+  selectedDeckId = null;
+
+  const matching = selectedFaction ? myCustomDecks.filter((d) => d.factionKey === selectedFaction) : [];
+  picker.classList.toggle('hidden', matching.length === 0);
+  fullCollectionBtn.classList.add('active');
+
+  matching.forEach((deck) => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'board-mode-btn';
+    btn.dataset.deckId = deck.id;
+    const name = document.createElement('span');
+    name.className = 'board-mode-name';
+    name.textContent = deck.name;
+    const desc = document.createElement('span');
+    desc.className = 'board-mode-desc';
+    const total = deck.cards.reduce((s, c) => s + c.quantity, 0);
+    desc.textContent = `${total} cards`;
+    btn.appendChild(name);
+    btn.appendChild(desc);
+    picker.appendChild(btn);
+  });
+}
+
+function playCustomDeck(deck) {
+  const card = document.querySelector(`.faction-card[data-faction="${deck.factionKey}"]`);
+  if (card) selectFactionCard(card); // rebuilds #deckPicker for this faction, defaulting to Full Collection
+  const btn = el('deckPicker').querySelector(`.board-mode-btn[data-deck-id="${deck.id}"]`);
+  if (!btn) return;
+  selectedDeckId = deck.id;
+  el('deckPicker').querySelectorAll('.board-mode-btn').forEach((b) => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function deleteCustomDeck(id) {
+  myCustomDecks = myCustomDecks.filter((d) => d.id !== id);
+  saveCustomDecksLocal(myCustomDecks);
+  deleteCustomDeckFromAccount(id);
+  if (selectedDeckId === id) selectedDeckId = null;
+  renderMyCustomDecks();
+  renderDeckPicker();
+}
+
+// Delete is a two-step in-place confirm (this codebase's Delete Account is
+// the one place it uses a real confirm() dialog — everything list-shaped
+// like this uses the lighter click-again pattern instead): a first click
+// arms the row and relabels its own button; a second click within 4s
+// actually deletes; any other click, or the 4s timeout, disarms it again.
+function renderMyCustomDecks() {
+  const empty = el('myCustomDecksEmpty');
+  const list = el('myCustomDecksList');
+  list.innerHTML = '';
+  if (myCustomDecks.length === 0) {
+    empty.classList.remove('hidden');
+    return;
+  }
+  empty.classList.add('hidden');
+
+  myCustomDecks.forEach((deck) => {
+    const row = document.createElement('div');
+    row.className = 'my-custom-deck-row';
+
+    const info = document.createElement('div');
+    info.className = 'my-custom-deck-info';
+    const name = document.createElement('span');
+    name.className = 'my-custom-deck-name';
+    name.textContent = deck.name;
+    const meta = document.createElement('span');
+    meta.className = 'my-custom-deck-meta';
+    const total = deck.cards.reduce((s, c) => s + c.quantity, 0);
+    const factionLabel = (factionData[deck.factionKey] && factionData[deck.factionKey].displayName) || deck.factionKey;
+    meta.textContent = `${factionLabel} · ${total} cards`;
+    info.appendChild(name);
+    info.appendChild(meta);
+
+    const actions = document.createElement('div');
+    actions.className = 'my-custom-deck-actions';
+
+    const playBtn = document.createElement('button');
+    playBtn.type = 'button';
+    playBtn.className = 'link-btn';
+    playBtn.textContent = t('playDeck');
+    playBtn.addEventListener('click', () => playCustomDeck(deck));
+
+    const editBtn = document.createElement('button');
+    editBtn.type = 'button';
+    editBtn.className = 'link-btn';
+    editBtn.textContent = t('editDeck');
+    editBtn.addEventListener('click', () => openDeckBuilder(deck.factionKey, deck));
+
+    const delBtn = document.createElement('button');
+    delBtn.type = 'button';
+    delBtn.className = 'link-btn my-custom-deck-delete-btn';
+    delBtn.textContent = deckPendingDelete === deck.id ? t('confirmDeleteDeck') : t('deleteDeck');
+    if (deckPendingDelete === deck.id) delBtn.classList.add('confirm-armed');
+    delBtn.addEventListener('click', () => {
+      if (deckPendingDelete === deck.id) {
+        deckPendingDelete = null;
+        deleteCustomDeck(deck.id);
+        return;
+      }
+      deckPendingDelete = deck.id;
+      renderMyCustomDecks();
+      setTimeout(() => {
+        if (deckPendingDelete === deck.id) {
+          deckPendingDelete = null;
+          renderMyCustomDecks();
+        }
+      }, 4000);
+    });
+
+    actions.appendChild(playBtn);
+    actions.appendChild(editBtn);
+    actions.appendChild(delBtn);
+    row.appendChild(info);
+    row.appendChild(actions);
+    list.appendChild(row);
+  });
+}
+
+function builderCardsArray() {
+  return Object.entries(builderCards)
+    .filter(([, qty]) => qty > 0)
+    .map(([cardId, quantity]) => ({ cardId, quantity }));
+}
+
+function builderTotal() {
+  return Object.values(builderCards).reduce((s, q) => s + q, 0);
+}
+
+function buildBuilderCardEl(card) {
+  const instance = demoCardInstance(card);
+  const cardEl = buildCardEl(instance, { context: 'board' });
+  const tile = document.createElement('div');
+  tile.className = 'deck-card-tile deck-builder-tile';
+  tile.dataset.cardId = card.id;
+  tile.appendChild(cardEl);
+
+  const qty = builderCards[card.id] || 0;
+  const stepper = document.createElement('div');
+  stepper.className = 'deck-builder-stepper';
+  const decBtn = document.createElement('button');
+  decBtn.type = 'button';
+  decBtn.className = 'deck-builder-stepper-dec';
+  decBtn.textContent = '−';
+  decBtn.disabled = qty <= 0;
+  decBtn.setAttribute('aria-label', `Remove one ${card.name}`);
+  const count = document.createElement('span');
+  count.className = 'deck-builder-stepper-count';
+  count.textContent = String(qty);
+  const incBtn = document.createElement('button');
+  incBtn.type = 'button';
+  incBtn.className = 'deck-builder-stepper-inc';
+  incBtn.textContent = '+';
+  incBtn.disabled = qty >= CUSTOM_DECK_MAX_COPIES || builderTotal() >= CUSTOM_DECK_SIZE;
+  incBtn.setAttribute('aria-label', `Add one ${card.name}`);
+
+  decBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    setBuilderCardQuantity(card.id, (builderCards[card.id] || 0) - 1);
+  });
+  incBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    setBuilderCardQuantity(card.id, (builderCards[card.id] || 0) + 1);
+  });
+
+  stepper.appendChild(decBtn);
+  stepper.appendChild(count);
+  stepper.appendChild(incBtn);
+  tile.appendChild(stepper);
+
+  tile.addEventListener('click', (e) => {
+    e.stopPropagation();
+    showPreview(instance, tile);
+  });
+  return tile;
+}
+
+function renderBuilderCardGrid() {
+  const grid = el('builderCardGrid');
+  grid.innerHTML = '';
+  const cards = getFilteredSortedCards(builderFaction, {
+    search: 'builderSearchInput', type: 'builderTypeFilter', cost: 'builderCostFilter', sort: 'builderSortSelect',
+  });
+  if (cards.length === 0) {
+    const empty = document.createElement('p');
+    empty.className = 'deck-card-grid-empty';
+    empty.textContent = t('noCardsMatch');
+    grid.appendChild(empty);
+    return;
+  }
+  cards.forEach((card) => grid.appendChild(buildBuilderCardEl(card)));
+}
+
+function renderBuilderDeckList() {
+  const list = el('builderDeckList');
+  list.innerHTML = '';
+  const data = factionData[builderFaction];
+  const byId = new Map(((data && data.cards) || []).map((c) => [c.id, c]));
+  const entries = builderCardsArray().sort((a, b) => {
+    const ca = byId.get(a.cardId);
+    const cb = byId.get(b.cardId);
+    return (ca && ca.name || '').localeCompare(cb && cb.name || '');
+  });
+
+  if (entries.length === 0) {
+    const empty = document.createElement('p');
+    empty.className = 'deck-builder-list-empty';
+    empty.textContent = t('deckBuilderEmptyList');
+    list.appendChild(empty);
+    return;
+  }
+
+  entries.forEach(({ cardId, quantity }) => {
+    const card = byId.get(cardId);
+    if (!card) return;
+    const row = document.createElement('div');
+    row.className = 'deck-builder-list-row';
+    const name = document.createElement('span');
+    name.className = 'deck-builder-list-name';
+    name.textContent = `${card.name} ×${quantity}`;
+    const removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.className = 'deck-builder-list-remove';
+    removeBtn.textContent = '✕';
+    removeBtn.setAttribute('aria-label', `Remove ${card.name} from the deck`);
+    removeBtn.addEventListener('click', () => setBuilderCardQuantity(cardId, 0));
+    row.appendChild(name);
+    row.appendChild(removeBtn);
+    list.appendChild(row);
+  });
+}
+
+// Refreshes every tile's + button (not just the one just changed) since
+// crossing the 50-card cap must disable adding ANY new card, not just the
+// one that happened to hit it.
+function refreshBuilderIncButtons() {
+  const atCap = builderTotal() >= CUSTOM_DECK_SIZE;
+  document.querySelectorAll('#builderCardGrid .deck-builder-tile').forEach((tile) => {
+    const qty = builderCards[tile.dataset.cardId] || 0;
+    const incBtn = tile.querySelector('.deck-builder-stepper-inc');
+    if (incBtn) incBtn.disabled = qty >= CUSTOM_DECK_MAX_COPIES || atCap;
+  });
+}
+
+function updateBuilderCountAndValidation() {
+  const total = builderTotal();
+  const readout = el('builderCountReadout');
+  readout.textContent = `${total} / ${CUSTOM_DECK_SIZE}`;
+  readout.classList.toggle('at-target', total === CUSTOM_DECK_SIZE);
+  readout.classList.toggle('over-target', total > CUSTOM_DECK_SIZE);
+
+  const check = validateDeckClient(builderFaction, builderCardsArray());
+  const errorsEl = el('builderErrors');
+  errorsEl.innerHTML = '';
+  check.errors.forEach((err) => {
+    const p = document.createElement('p');
+    p.className = 'deck-builder-error';
+    p.textContent = err.message;
+    errorsEl.appendChild(p);
+  });
+  el('builderSaveBtn').disabled = !check.valid;
+  return check;
+}
+
+function setBuilderCardQuantity(cardId, qty) {
+  const clamped = Math.max(0, Math.min(CUSTOM_DECK_MAX_COPIES, qty));
+  if (clamped === 0) delete builderCards[cardId];
+  else builderCards[cardId] = clamped;
+  builderDirty = true;
+
+  const tile = document.querySelector(`#builderCardGrid .deck-builder-tile[data-card-id="${cardId}"]`);
+  if (tile) {
+    const newQty = builderCards[cardId] || 0;
+    tile.querySelector('.deck-builder-stepper-count').textContent = String(newQty);
+    tile.querySelector('.deck-builder-stepper-dec').disabled = newQty <= 0;
+  }
+  refreshBuilderIncButtons();
+  renderBuilderDeckList();
+  updateBuilderCountAndValidation();
+}
+
+// `existingDeck` is null when building a brand-new deck (Build Deck from a
+// faction card), or a saved deck object when editing (My Decks' Edit
+// button) — the faction is locked to whichever one this was opened for;
+// editing never lets a deck switch kingdoms, since a deck's card ids only
+// make sense within the pool they were drawn from.
+function openDeckBuilder(factionKey, existingDeck) {
+  const data = factionData[factionKey];
+  if (!data) return;
+  builderFaction = factionKey;
+  builderDeckId = existingDeck ? existingDeck.id : null;
+  builderCards = {};
+  if (existingDeck) {
+    for (const { cardId, quantity } of existingDeck.cards) builderCards[cardId] = quantity;
+  }
+  builderName = existingDeck ? existingDeck.name : `My ${data.displayName} Deck`;
+  builderDirty = false;
+
+  el('builderFactionName').textContent = data.displayName;
+  el('builderNameInput').value = builderName;
+  el('builderSearchInput').value = '';
+  el('builderTypeFilter').value = 'all';
+  el('builderCostFilter').value = 'all';
+  el('builderSortSelect').value = 'cost';
+
+  renderBuilderCardGrid();
+  renderBuilderDeckList();
+  updateBuilderCountAndValidation();
+
+  el('deckBuilderOverlay').classList.remove('hidden');
+}
+
+function closeDeckBuilder() {
+  el('deckBuilderOverlay').classList.add('hidden');
+  hidePreview();
+  builderFaction = null;
+  builderDeckId = null;
+  builderCards = {};
+}
+
+function requestCloseDeckBuilder() {
+  if (builderDirty && !confirm(t('unsavedDeckChangesConfirm'))) return;
+  closeDeckBuilder();
+}
+
+function saveBuilderDeck() {
+  const cards = builderCardsArray();
+  const check = updateBuilderCountAndValidation();
+  if (!check.valid) return;
+
+  const data = factionData[builderFaction];
+  const name = el('builderNameInput').value.trim().slice(0, 60) || `My ${data.displayName} Deck`;
+  const now = Date.now();
+  const existingIdx = builderDeckId ? myCustomDecks.findIndex((d) => d.id === builderDeckId) : -1;
+
+  let saved;
+  if (existingIdx !== -1) {
+    saved = { ...myCustomDecks[existingIdx], name, factionKey: builderFaction, cards, updatedAt: now };
+    myCustomDecks[existingIdx] = saved;
+  } else {
+    // Generated here, client-side, so the id is identical whether or not
+    // the player happens to be logged in — see saveCustomDeckToAccount()
+    // and accountsRegistry.js's handleSaveCustomDeck(), which adopts this
+    // same id rather than minting its own.
+    saved = {
+      id: `cd_${now.toString(36)}_${Math.random().toString(36).slice(2, 8)}`,
+      name,
+      factionKey: builderFaction,
+      cards,
+      createdAt: now,
+      updatedAt: now,
+    };
+    myCustomDecks.push(saved);
+  }
+
+  saveCustomDecksLocal(myCustomDecks);
+  saveCustomDeckToAccount(saved);
+  builderDeckId = saved.id;
+  builderDirty = false;
+  renderMyCustomDecks();
+  renderDeckPicker();
+  showTopNotice(t('deckSaved'));
+}
+
+function initDeckBuilder() {
+  myCustomDecks = loadCustomDecksLocal();
+  renderMyCustomDecks();
+
+  el('deckBuilderCloseBtn').addEventListener('click', requestCloseDeckBuilder);
+  el('builderSaveBtn').addEventListener('click', saveBuilderDeck);
+  el('builderNameInput').addEventListener('input', () => { builderDirty = true; });
+  el('builderSearchInput').addEventListener('input', renderBuilderCardGrid);
+  el('builderTypeFilter').addEventListener('change', renderBuilderCardGrid);
+  el('builderCostFilter').addEventListener('change', renderBuilderCardGrid);
+  el('builderSortSelect').addEventListener('change', renderBuilderCardGrid);
+  el('deckBuilderBody').addEventListener('click', (e) => {
+    if (!e.target.closest('.card')) hidePreview();
+  });
+
+  el('deckPicker').addEventListener('click', (e) => {
+    const btn = e.target.closest('.board-mode-btn');
+    if (!btn) return;
+    selectedDeckId = btn.dataset.deckId || null;
+    el('deckPicker').querySelectorAll('.board-mode-btn').forEach((b) => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
 }
 
 function renderCastle(sidePanelId, hp, maxHp, faction) {
@@ -3735,6 +4313,7 @@ function showLoggedIn(username) {
   el('accountUsernameLabel').textContent = username;
   loadAiStats();
   loadAccountInfo();
+  syncCustomDecksWithAccount();
 }
 
 // Kept entirely separate from loadRankings()/the ranked leaderboard below —
@@ -4361,6 +4940,7 @@ function renderFactionThumbnails() {
   refreshSidebarWidgets();
   initLobby();
   initDeckPreview();
+  initDeckBuilder();
   initAccount();
   initAdminPanel();
   initRankingTabs();

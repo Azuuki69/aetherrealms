@@ -59,6 +59,9 @@ export default {
       (url.pathname === '/api/hud-layout/load' && request.method === 'POST') ||
       (url.pathname === '/api/card-font/save' && request.method === 'POST') ||
       (url.pathname === '/api/card-font/load' && request.method === 'POST') ||
+      (url.pathname === '/api/custom-decks/save' && request.method === 'POST') ||
+      (url.pathname === '/api/custom-decks/load' && request.method === 'POST') ||
+      (url.pathname === '/api/custom-decks/delete' && request.method === 'POST') ||
       (url.pathname === '/api/ai-stats' && request.method === 'POST') ||
       (url.pathname === '/api/account-info' && request.method === 'POST') ||
       (url.pathname.startsWith('/api/admin/') && request.method === 'POST')

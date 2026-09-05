@@ -1,4 +1,4 @@
-import { createGame, playCard, moveToCombat, attack, moveUnit, endTurn, viewFor, opponentOf, MAX_HAND_SIZE, simulateAttackPlan } from './game/rules.js';
+import { createGame, playCard, moveToCombat, attack, moveUnit, endTurn, viewFor, opponentOf, MAX_HAND_SIZE, simulateAttackPlan, validateDeck } from './game/rules.js';
 import { decideAiTurn } from './game/aiPlayer.js';
 
 const SEATS = ['seatA', 'seatB'];
@@ -115,7 +115,7 @@ export class MatchRoom {
           return this.sendTo(ws, { type: 'state', ...viewFor(existingGame, owner) });
         }
         const username = await this.resolveUsername(msg.token);
-        await this.handleJoin(seat, msg.faction, username);
+        await this.handleJoin(seat, msg.faction, username, msg.customDeck);
         return;
       }
 
@@ -224,6 +224,26 @@ export class MatchRoom {
     }
   }
 
+  // The client already holds its own custom decks locally (localStorage,
+  // regardless of login state — see client.js's local-first storage), so
+  // it sends the deck's actual card list along with 'join' rather than a
+  // bare id the server would have to look up — that's what lets an
+  // anonymous player use a custom deck at all, per this feature's "works
+  // without requiring login" decision. No network round-trip is needed
+  // here either way: this only ever independently re-validates with the
+  // authoritative validateDeck() before it's ever allowed near
+  // createGame() — a client-sent deck is never trusted just because it
+  // came from what looks like a legitimate build, same as every other
+  // client-reported value this file already re-checks.
+  resolveCustomDeck(faction, customDeck) {
+    if (!customDeck || !Array.isArray(customDeck.cards)) return { customDeck: null, error: null };
+    const check = validateDeck(faction, customDeck.cards);
+    if (!check.valid) {
+      return { customDeck: null, error: check.errors[0]?.message || 'That custom deck is invalid.' };
+    }
+    return { customDeck: customDeck.cards, error: null };
+  }
+
   // Dispatches to one of two entirely separate reporting paths depending on
   // `game.mode`, fixed once at room creation and never touched by any client
   // message (see handleInit/handleJoin). Deliberately not "one function with
@@ -278,11 +298,22 @@ export class MatchRoom {
     }
   }
 
-  async handleJoin(seat, faction, username) {
+  async handleJoin(seat, faction, username, requestedCustomDeck) {
     if (!VALID_FACTIONS.includes(faction)) {
       const ws = this.state.getWebSockets(seat)[0];
       return this.sendTo(ws, { type: 'error', message: 'Pick a valid faction.' });
     }
+
+    // Resolved and re-validated BEFORE any storage mutation below — a
+    // rejected custom deck must never leave this seat's faction/username
+    // half-committed, and must never silently fall back to a different
+    // deck than the one the player actually asked for.
+    const { customDeck, error } = this.resolveCustomDeck(faction, requestedCustomDeck);
+    if (error) {
+      const ws = this.state.getWebSockets(seat)[0];
+      return this.sendTo(ws, { type: 'error', message: error });
+    }
+
     const factions = (await this.state.storage.get('factions')) || {};
     factions[seat] = faction;
     await this.state.storage.put('factions', factions);
@@ -290,6 +321,10 @@ export class MatchRoom {
     const usernames = (await this.state.storage.get('usernames')) || {};
     usernames[seat] = username || null;
     await this.state.storage.put('usernames', usernames);
+
+    const customDecks = (await this.state.storage.get('customDecks')) || {};
+    customDecks[seat] = customDeck;
+    await this.state.storage.put('customDecks', customDecks);
 
     const mode = (await this.state.storage.get('mode')) || 'ranked';
     const boardMode = (await this.state.storage.get('boardMode')) || 'classic';
@@ -307,7 +342,7 @@ export class MatchRoom {
       await this.state.storage.put('usernames', usernames);
 
       const firstPlayer = crypto.getRandomValues(new Uint32Array(1))[0] % 2 === 0 ? 'A' : 'B';
-      const game = createGame(factions.seatA, factions.seatB, firstPlayer, usernames.seatA, usernames.seatB, boardMode, attackMode);
+      const game = createGame(factions.seatA, factions.seatB, firstPlayer, usernames.seatA, usernames.seatB, boardMode, attackMode, customDecks.seatA, null);
       game.mode = 'ai';
       game.difficulty = difficulty;
       // The bot has no coin-flip animation to watch — it acks instantly, so
@@ -321,7 +356,7 @@ export class MatchRoom {
     const otherSeat = seat === 'seatA' ? 'seatB' : 'seatA';
     if (factions[otherSeat]) {
       const firstPlayer = crypto.getRandomValues(new Uint32Array(1))[0] % 2 === 0 ? 'A' : 'B';
-      const game = createGame(factions.seatA, factions.seatB, firstPlayer, usernames.seatA, usernames.seatB, boardMode, attackMode);
+      const game = createGame(factions.seatA, factions.seatB, firstPlayer, usernames.seatA, usernames.seatB, boardMode, attackMode, customDecks.seatA, customDecks.seatB);
       await this.state.storage.put('game', game);
       this.broadcastState(game);
     } else {
