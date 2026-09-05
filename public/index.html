@@ -89,17 +89,6 @@
     </button>
   </div>
 
-  <div class="board-mode-picker" id="boardModePicker">
-    <button type="button" class="board-mode-btn active" data-board-mode="classic">
-      <span class="board-mode-name" data-i18n="boardModeClassic">Classic (Vanguard/Rearguard)</span>
-      <span class="board-mode-desc" data-i18n="boardModeClassicDesc">4 lanes, two rows — reposition units front and back.</span>
-    </button>
-    <button type="button" class="board-mode-btn" data-board-mode="single">
-      <span class="board-mode-name" data-i18n="boardModeSingle">Single Row</span>
-      <span class="board-mode-desc" data-i18n="boardModeSingleDesc">One row of 5 slots per side — no Vanguard/Rearguard.</span>
-    </button>
-  </div>
-
   <div class="lobby-actions" id="rankedPanel">
     <div class="lobby-panel">
       <h2 data-i18n="createMatchTitle">Create a Match</h2>
@@ -137,6 +126,17 @@
       </button>
     </div>
     <button id="playAiBtn" class="btn" data-i18n="playVsAi">Play vs AI</button>
+  </div>
+
+  <div class="board-mode-picker" id="boardModePicker">
+    <button type="button" class="board-mode-btn active" data-board-mode="classic">
+      <span class="board-mode-name" data-i18n="boardModeClassic">Classic (Vanguard/Rearguard)</span>
+      <span class="board-mode-desc" data-i18n="boardModeClassicDesc">4 lanes, two rows — reposition units front and back.</span>
+    </button>
+    <button type="button" class="board-mode-btn" data-board-mode="single">
+      <span class="board-mode-name" data-i18n="boardModeSingle">Single Row</span>
+      <span class="board-mode-desc" data-i18n="boardModeSingleDesc">One row of 5 slots per side — no Vanguard/Rearguard.</span>
+    </button>
   </div>
 
   <div id="lobbyStatus" class="lobby-status" role="status" aria-live="polite"></div>
