@@ -57,6 +57,7 @@ const TRANSLATIONS = {
     // Music player
     nowPlaying: 'Now Playing', pickTrackBelow: 'Pick a track below', noTrack: 'No track',
     previousTrack: 'Previous track', play: 'Play', pause: 'Pause', nextTrack: 'Next track', volume: 'Volume',
+    sfxOn: 'Mute turn sounds', sfxOff: 'Unmute turn sounds',
     showMusicPlayer: 'Show music player', minimize: 'Minimize',
     // Game top bar / controls
     backToLobby: 'Back to Lobby', editHudLayout: 'Edit HUD Layout', doneEditingHud: 'Done Editing HUD',
@@ -165,6 +166,7 @@ const TRANSLATIONS = {
     loadingEllipsis: 'Wczytywanie…', noRankedPlayersShort: 'Brak graczy w rankingu.', couldntLoad: 'Nie udało się wczytać.',
     nowPlaying: 'Teraz odtwarzane', pickTrackBelow: 'Wybierz utwór poniżej', noTrack: 'Brak utworu',
     previousTrack: 'Poprzedni utwór', play: 'Odtwórz', pause: 'Wstrzymaj', nextTrack: 'Następny utwór', volume: 'Głośność',
+    sfxOn: 'Wycisz dźwięki tury', sfxOff: 'Włącz dźwięki tury',
     showMusicPlayer: 'Pokaż odtwarzacz muzyki', minimize: 'Minimalizuj',
     backToLobby: 'Powrót do lobby', editHudLayout: 'Edytuj układ HUD', doneEditingHud: 'Zakończ edycję HUD',
     resetLayout: 'Przywróć domyślny układ', enemyHp: 'PŻ Przeciwnika', yourHp: 'Twoje PŻ',
@@ -266,6 +268,7 @@ const TRANSLATIONS = {
     loadingEllipsis: 'Cargando…', noRankedPlayersShort: 'Todavía no hay jugadores clasificados.', couldntLoad: 'No se pudo cargar.',
     nowPlaying: 'Reproduciendo ahora', pickTrackBelow: 'Elige una pista abajo', noTrack: 'Sin pista',
     previousTrack: 'Pista anterior', play: 'Reproducir', pause: 'Pausar', nextTrack: 'Pista siguiente', volume: 'Volumen',
+    sfxOn: 'Silenciar sonidos de turno', sfxOff: 'Activar sonidos de turno',
     showMusicPlayer: 'Mostrar reproductor de música', minimize: 'Minimizar',
     backToLobby: 'Volver al lobby', editHudLayout: 'Editar diseño del HUD', doneEditingHud: 'Terminar edición del HUD',
     resetLayout: 'Restablecer diseño', enemyHp: 'PV del enemigo', yourHp: 'Tus PV',
@@ -474,6 +477,7 @@ let selectedHandCardId = null;
 let selectedUnit = null; // { lane, slot } — your own unit selected as the acting unit for this turn: clicking a legal move destination moves it, clicking a legal enemy target/the castle attacks with it
 let pendingSpell = null; // { card, hits: [] } — a hand spell awaiting a target click; hits accumulates split-damage picks
 let previousView = null; // diff source for the combat feedback effect system (computeEffects)
+let previousMyTurn = null; // edge-detects "it just became my turn" for the turn-start chime, see render()
 let combatResolvers = [];
 let autoAttackRunning = false;
 let coinFlipAckSent = false;
@@ -1665,6 +1669,9 @@ function render() {
   const myTurn = turn === you_key;
   const oppKey = you_key === 'A' ? 'B' : 'A';
 
+  if (myTurn && !previousMyTurn && !winner) playTurnStartChime();
+  previousMyTurn = myTurn;
+
   if (myTurn && !winner && document.hidden) startTurnFlash();
   else stopTurnFlash();
 
@@ -1747,15 +1754,110 @@ function render() {
   syncHudLayoutWithAccount();
 }
 
+// ---------- SFX (turn-start chime, last-10-seconds tick) ----------
+// Synthesized on the fly via the Web Audio API rather than recorded audio
+// files — there's no existing SFX asset pipeline in this codebase (only
+// the music player's background tracks), so this establishes its own
+// lightweight pattern: short oscillator+gain-envelope tones, no files to
+// author or manage. Swappable for real recorded SFX later (a new
+// assets/sfx/ folder, mirroring assets/songs/) without touching any of
+// the trigger logic below.
+let sfxAudioCtx = null;
+function ensureSfxAudioCtx() {
+  if (!sfxAudioCtx) sfxAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (sfxAudioCtx.state === 'suspended') sfxAudioCtx.resume().catch(() => {});
+  return sfxAudioCtx;
+}
+// Browsers block audio until a genuine user gesture has reached the page —
+// this primes the shared context on the very first click anywhere, so
+// it's already unlocked by the time a turn-start/timer moment needs it.
+document.addEventListener('click', () => ensureSfxAudioCtx(), { once: true });
+
+function loadSfxPrefs() {
+  try {
+    const raw = localStorage.getItem('ar_sfx_prefs');
+    return raw ? JSON.parse(raw) : {};
+  } catch {
+    return {};
+  }
+}
+function saveSfxPrefs(patch) {
+  try {
+    const prefs = { ...loadSfxPrefs(), ...patch };
+    localStorage.setItem('ar_sfx_prefs', JSON.stringify(prefs));
+  } catch {
+    /* localStorage unavailable — sound still plays, just won't persist the toggle */
+  }
+}
+function sfxEnabled() {
+  return loadSfxPrefs().enabled !== false; // default on
+}
+function updateSfxToggleUI() {
+  const btn = el('sfxToggleBtn');
+  if (!btn) return;
+  const on = sfxEnabled();
+  btn.textContent = on ? '🔊' : '🔇';
+  btn.setAttribute('aria-label', on ? t('sfxOn') : t('sfxOff'));
+}
+function toggleSfx() {
+  saveSfxPrefs({ enabled: !sfxEnabled() });
+  updateSfxToggleUI();
+}
+
+// A short two-note ascending chime (C5 -> G5) echoing the mana-crystal
+// motif already used elsewhere in the UI — plays once the moment a fresh
+// turn actually starts (see the previousMyTurn edge-detection in render()).
+function playTurnStartChime() {
+  if (!sfxEnabled()) return;
+  const ctx = ensureSfxAudioCtx();
+  const now = ctx.currentTime;
+  [523.25, 783.99].forEach((freq, i) => {
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'triangle';
+    osc.frequency.value = freq;
+    const start = now + i * 0.11;
+    gain.gain.setValueAtTime(0, start);
+    gain.gain.linearRampToValueAtTime(0.18, start + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.001, start + 0.35);
+    osc.connect(gain).connect(ctx.destination);
+    osc.start(start);
+    osc.stop(start + 0.4);
+  });
+}
+
+// A short, sharp click meant to play once per second during the last 10
+// seconds of your own turn (see tickTurnTimer()) — pitch/gain nudge up
+// slightly as secondsLeft approaches 1, so the final couple of ticks read
+// as more urgent, matching the chess-clock/Gwent-style escalation.
+function playTick(secondsLeft) {
+  if (!sfxEnabled()) return;
+  const ctx = ensureSfxAudioCtx();
+  const now = ctx.currentTime;
+  const urgency = Math.max(0, 10 - secondsLeft) / 9; // 0 at 10s, 1 at 1s
+  const osc = ctx.createOscillator();
+  const gain = ctx.createGain();
+  osc.type = 'square';
+  osc.frequency.value = 1000 + urgency * 400;
+  gain.gain.setValueAtTime(0.001, now);
+  gain.gain.linearRampToValueAtTime(0.12 + urgency * 0.08, now + 0.005);
+  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+  osc.connect(gain).connect(ctx.destination);
+  osc.start(now);
+  osc.stop(now + 0.06);
+}
+
 // ---------- Turn timer ----------
 // Ticks locally off currentView.turnDeadlineAt (a server wall-clock
 // timestamp) rather than waiting for a broadcast every second — the
 // server's Durable Object alarm is the actual source of truth for the
 // forfeit itself, this is purely the visible countdown.
+let lastTickedSecond = null;
 function tickTurnTimer() {
   const timerEl = el('turnTimer');
   if (!currentView || !currentView.turnDeadlineAt || currentView.winner || currentView.phase === 'coinflip') {
     timerEl.classList.add('hidden');
+    lastTickedSecond = null;
     return;
   }
   const remainingMs = currentView.turnDeadlineAt - Date.now();
@@ -1763,10 +1865,26 @@ function tickTurnTimer() {
   timerEl.textContent = `⏱ ${remainingSec}s`;
   timerEl.classList.remove('hidden');
   timerEl.classList.toggle('timer-critical', remainingSec <= 10);
+
+  // Once per integer second (this loop runs every 500ms — twice as often
+  // — so lastTickedSecond guards against firing the tick twice for the
+  // same second), and only for the local player's own countdown, never
+  // the opponent's.
+  const isMyTurn = currentView.turn === currentView.you_key;
+  if (isMyTurn && remainingSec >= 1 && remainingSec <= 10) {
+    if (lastTickedSecond !== remainingSec) {
+      playTick(remainingSec);
+      lastTickedSecond = remainingSec;
+    }
+  } else {
+    lastTickedSecond = null;
+  }
 }
 
 function initTurnTimer() {
   setInterval(tickTurnTimer, 500);
+  updateSfxToggleUI();
+  el('sfxToggleBtn').addEventListener('click', toggleSfx);
 }
 
 function collectBoardIds(you, opponent) {

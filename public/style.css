@@ -1180,6 +1180,18 @@ h1 span {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.5; }
 }
+.sfx-toggle-btn {
+  background: none;
+  border: none;
+  color: var(--dim);
+  font-size: 0.85rem;
+  line-height: 1;
+  padding: 2px;
+  cursor: pointer;
+  opacity: 0.75;
+  transition: opacity 0.15s, color 0.15s;
+}
+.sfx-toggle-btn:hover { opacity: 1; color: var(--gold); }
 
 .board-wrap {
   display: flex;
