@@ -123,7 +123,7 @@ export const CUSTOM_DECK_MAX_COPIES = 3;
 export function validateDeck(factionKey, cards) {
   const faction = FACTIONS[factionKey];
   if (!faction) {
-    return { valid: false, errors: [{ type: 'invalid_faction', message: 'Unknown kingdom.' }] };
+    return { valid: false, errors: [{ type: 'invalid_faction', message: 'Unknown faction.' }] };
   }
   if (!Array.isArray(cards)) {
     return { valid: false, errors: [{ type: 'malformed_entry', message: 'Deck must be a list of cards.' }] };
@@ -148,7 +148,7 @@ export function validateDeck(factionKey, cards) {
   let total = 0;
   for (const [cardId, quantity] of totals) {
     if (!validIds.has(cardId)) {
-      errors.push({ type: 'unknown_card', message: `${cardId} is not part of the ${factionKey} kingdom's card pool.` });
+      errors.push({ type: 'unknown_card', message: `${cardId} is not part of the ${factionKey} faction's card pool.` });
       continue;
     }
     if (quantity > CUSTOM_DECK_MAX_COPIES) {

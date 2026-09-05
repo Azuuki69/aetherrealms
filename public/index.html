@@ -71,15 +71,16 @@
     <div class="faction-card" data-faction="orc" role="button" tabindex="0"><span class="thumb"></span><span class="label" data-i18n="factionOrc">Orc Horde</span><span class="deck-badge-row"></span><span class="deck-tagline"></span><span class="deck-action-row"><button type="button" class="view-deck-btn" data-i18n="viewDeck">View Deck</button><button type="button" class="build-deck-btn" data-i18n="buildDeck">Build Deck</button></span></div>
     <div class="faction-card" data-faction="undead" role="button" tabindex="0"><span class="thumb"></span><span class="label" data-i18n="factionUndead">Undead Dominion</span><span class="deck-badge-row"></span><span class="deck-tagline"></span><span class="deck-action-row"><button type="button" class="view-deck-btn" data-i18n="viewDeck">View Deck</button><button type="button" class="build-deck-btn" data-i18n="buildDeck">Build Deck</button></span></div>
   </div>
-  <div class="deck-compare-trigger">
-    <button type="button" id="compareDecksBtn" class="btn-secondary">📊 <span data-i18n="compareDecks">Compare Decks</span></button>
-    <p data-i18n="compareDecksDesc">See every faction's strengths, weaknesses, and difficulty side by side.</p>
-  </div>
 
   <div class="my-custom-decks-panel" id="myCustomDecksPanel">
     <h3 data-i18n="myCustomDecks">My Custom Decks</h3>
-    <p class="my-custom-decks-empty" id="myCustomDecksEmpty" data-i18n="noCustomDecksYet">You haven't built any custom decks yet — pick a kingdom above and hit "Build Deck".</p>
+    <p class="my-custom-decks-empty" id="myCustomDecksEmpty" data-i18n="noCustomDecksYet">You haven't built any custom decks yet — pick a faction above and hit "Build Deck".</p>
     <div class="my-custom-decks-list" id="myCustomDecksList"></div>
+  </div>
+
+  <div class="deck-compare-trigger">
+    <button type="button" id="compareDecksBtn" class="btn-secondary">📊 <span data-i18n="compareDecks">Compare Decks</span></button>
+    <p data-i18n="compareDecksDesc">See every faction's strengths, weaknesses, and difficulty side by side.</p>
   </div>
 
   <div class="lobby-hud-preview">
@@ -140,7 +141,7 @@
   <div class="board-mode-picker hidden" id="deckPicker">
     <button type="button" class="board-mode-btn active" data-deck-id="">
       <span class="board-mode-name" data-i18n="fullCollectionDeck">Full Collection</span>
-      <span class="board-mode-desc" data-i18n="fullCollectionDeckDesc">Every card in this kingdom's pool, at the game's default copy counts.</span>
+      <span class="board-mode-desc" data-i18n="fullCollectionDeckDesc">Every card in this faction's pool, at the game's default copy counts.</span>
     </button>
   </div>
 

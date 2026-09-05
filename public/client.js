@@ -1,6 +1,6 @@
 // ---------- i18n ----------
 // English is the authoritative source and fallback for any missing/future
-// key; Polish is the only other language for now. Card names, song titles,
+// key; Polish and Spanish are the other supported languages. Card names, song titles,
 // and the game's own brand name ("Aether Realms: Clash of Armies") are
 // deliberately never in this dictionary — see the translation plan for why.
 // Battle-log lines built server-side from templated English sentences are
@@ -21,9 +21,9 @@ const TRANSLATIONS = {
     compareDecksDesc: "See every faction's strengths, weaknesses, and difficulty side by side.",
     // Custom Deck Builder
     buildDeck: 'Build Deck', myCustomDecks: 'My Custom Decks',
-    noCustomDecksYet: 'You haven’t built any custom decks yet — pick a kingdom above and hit "Build Deck".',
+    noCustomDecksYet: 'You haven’t built any custom decks yet — pick a faction above and hit "Build Deck".',
     fullCollectionDeck: 'Full Collection',
-    fullCollectionDeckDesc: "Every card in this kingdom's pool, at the game's default copy counts.",
+    fullCollectionDeckDesc: "Every card in this faction's pool, at the game's default copy counts.",
     deckNameLabel: 'Deck name', saveDeck: 'Save Deck', deckSaved: 'Deck saved.',
     playDeck: 'Play', editDeck: 'Edit', deleteDeck: 'Delete', confirmDeleteDeck: 'Confirm delete?',
     deckBuilderEmptyList: 'Add cards from the right to build your deck.',
@@ -150,6 +150,14 @@ const TRANSLATIONS = {
     // fallback (dict[key] ?? TRANSLATIONS.en[key]), same as card/song names.
     viewDeck: 'Zobacz talię', compareDecks: 'Porównaj talie',
     compareDecksDesc: 'Zobacz mocne i słabe strony oraz trudność każdej frakcji obok siebie.',
+    buildDeck: 'Zbuduj talię', myCustomDecks: 'Moje własne talie',
+    noCustomDecksYet: 'Nie masz jeszcze żadnych własnych talii — wybierz frakcję powyżej i kliknij „Zbuduj talię”.',
+    fullCollectionDeck: 'Pełna kolekcja',
+    fullCollectionDeckDesc: 'Każda karta z puli tej frakcji, w domyślnej liczbie kopii.',
+    deckNameLabel: 'Nazwa talii', saveDeck: 'Zapisz talię', deckSaved: 'Talia zapisana.',
+    playDeck: 'Graj', editDeck: 'Edytuj', deleteDeck: 'Usuń', confirmDeleteDeck: 'Potwierdź usunięcie?',
+    deckBuilderEmptyList: 'Dodaj karty z prawej strony, aby zbudować talię.',
+    unsavedDeckChangesConfirm: 'Odrzucić niezapisane zmiany w tej talii?',
     customizeHud: 'Dostosuj układ HUD',
     customizeHudDesc: 'Przestaw i przeskaluj każdy panel bitwy we własnym tempie — bez meczu, bez licznika tury.',
     modeRanked: 'Rankingowa', modeRankedDesc: 'Rywalizuj z prawdziwymi graczami. ⚠️ Wpływa na Twój ranking.',
@@ -259,6 +267,14 @@ const TRANSLATIONS = {
     // fallback (dict[key] ?? TRANSLATIONS.en[key]), same as card/song names.
     viewDeck: 'Ver mazo', compareDecks: 'Comparar mazos',
     compareDecksDesc: 'Consulta las fortalezas, debilidades y dificultad de cada facción en un solo vistazo.',
+    buildDeck: 'Crear mazo', myCustomDecks: 'Mis mazos personalizados',
+    noCustomDecksYet: 'Todavía no has creado ningún mazo personalizado — elige una facción arriba y pulsa «Crear mazo».',
+    fullCollectionDeck: 'Colección completa',
+    fullCollectionDeckDesc: 'Todas las cartas de la colección de esta facción, con el número de copias predeterminado del juego.',
+    deckNameLabel: 'Nombre del mazo', saveDeck: 'Guardar mazo', deckSaved: 'Mazo guardado.',
+    playDeck: 'Jugar', editDeck: 'Editar', deleteDeck: 'Eliminar', confirmDeleteDeck: '¿Confirmar eliminación?',
+    deckBuilderEmptyList: 'Añade cartas desde la derecha para construir tu mazo.',
+    unsavedDeckChangesConfirm: '¿Descartar los cambios sin guardar en este mazo?',
     customizeHud: 'Personalizar diseño del HUD',
     customizeHudDesc: 'Reorganiza y redimensiona cada panel de batalla a tu ritmo — sin partida, sin límite de tiempo.',
     modeRanked: 'Clasificatoria', modeRankedDesc: 'Compite contra jugadores reales. ⚠️ Afecta a tu clasificación.',
@@ -1624,7 +1640,7 @@ function saveCustomDecksLocal(decks) {
 // copy only ever gates the Save button and the inline error list below it.
 function validateDeckClient(factionKey, cards) {
   const data = factionData[factionKey];
-  if (!data) return { valid: false, errors: [{ type: 'invalid_faction', message: 'Unknown kingdom.' }] };
+  if (!data) return { valid: false, errors: [{ type: 'invalid_faction', message: 'Unknown faction.' }] };
   if (!Array.isArray(cards)) return { valid: false, errors: [{ type: 'malformed_entry', message: 'Deck must be a list of cards.' }] };
 
   const errors = [];
@@ -1643,7 +1659,7 @@ function validateDeckClient(factionKey, cards) {
   let total = 0;
   for (const [cardId, quantity] of totals) {
     if (!validIds.has(cardId)) {
-      errors.push({ type: 'unknown_card', message: `${cardId} is not part of this kingdom's card pool.` });
+      errors.push({ type: 'unknown_card', message: `${cardId} is not part of this faction's card pool.` });
       continue;
     }
     if (quantity > CUSTOM_DECK_MAX_COPIES) {
