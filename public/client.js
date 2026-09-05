@@ -1111,7 +1111,14 @@ function splitAbilityLines(text) {
   const t = (text || '').trim();
   if (!t) return { lines: [], footer: null };
 
-  const KEYWORD_CLAUSE = /[A-Z][A-Z ]{2,}:\s*/g;
+  // \p{Lu} (Unicode "uppercase letter") with the /u flag, not plain A-Z —
+  // ASCII-only A-Z doesn't recognize accented capitals (Ż, Ą, Ę, Ł, Ó, Ć,
+  // Ś, Ź, Á, Í, Ú, Ñ, ...), so a Polish/Spanish keyword header containing
+  // one (e.g. "DAR POŻEGNALNY:") would silently break the character run
+  // and let this regex find a spurious second match INSIDE the word right
+  // after the accented letter (e.g. matching "EGNALNY:" on its own),
+  // splitting one word into two separate ability lines.
+  const KEYWORD_CLAUSE = /[\p{Lu}][\p{Lu} ]{2,}:\s*/gu;
   const matches = [...t.matchAll(KEYWORD_CLAUSE)];
   let segments;
   if (matches.length === 0) {

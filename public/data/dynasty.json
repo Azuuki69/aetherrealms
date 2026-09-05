@@ -331,12 +331,14 @@
     {
       "id": "dynasty_27",
       "name": "Ancient Wisdom",
-      "cost": 5,
+      "cost": 3,
       "type": "spell",
       "copies": 2,
-      "text": "Draw 4 cards.",
-      "text_pl": "Dobierz 4 karty.",
-      "text_es": "Roba 4 cartas.",
+      "target": "none",
+      "effect": { "kind": "draw_random", "options": [2, 3] },
+      "text": "Draw 2 or 3 cards.",
+      "text_pl": "Dobierz 2 lub 3 karty.",
+      "text_es": "Roba 2 o 3 cartas.",
       "image": "assets/cards/art/dynasty/dynasty_27.png"
     },
     {

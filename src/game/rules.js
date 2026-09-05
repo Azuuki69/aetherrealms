@@ -70,6 +70,9 @@ function detectKeywords(text) {
   if (/bloodhunt/.test(t)) kw.push('bloodhunt');
   if (/ward/.test(t)) kw.push('ward');
   if (/silence/.test(t)) kw.push('silence');
+  if (/demolish/.test(t)) kw.push('demolish');
+  if (/bastion/.test(t)) kw.push('bastion');
+  if (/haunt/.test(t)) kw.push('haunt');
   return kw;
 }
 
@@ -1491,6 +1494,13 @@ function resolveSpellEffect(game, owner, card, target) {
       game.log.push(`${owner} draws ${drew} card(s) (${card.name}).`);
       break;
     }
+    case 'draw_random': {
+      const amount = eff.options[Math.floor(Math.random() * eff.options.length)];
+      let drew = 0;
+      for (let i = 0; i < amount; i++) if (draw(game, player) === 'hand') drew++;
+      game.log.push(`${owner} draws ${drew} card(s) (${card.name}).`);
+      break;
+    }
     case 'discount_next_unit': {
       player.nextUnitDiscount = (player.nextUnitDiscount || 0) + eff.amount;
       game.log.push(`${card.name} makes ${owner}'s next unit this turn cost ${eff.amount} less.`);
@@ -1722,6 +1732,35 @@ export function playCard(game, owner, cardInstanceId, lane, slotIndex, spellTarg
       if (draw(game, player) === 'hand') game.log.push(`${owner} draws a card (Bloodprice).`);
     }
     checkWinner(game);
+  }
+  if (unit.keywords.includes('demolish')) {
+    const opponentPlayer = game.players[opponentOf(owner)];
+    let hit = 0;
+    for (const lane of ['vanguard', 'rearguard']) {
+      opponentPlayer.board[lane].forEach((enemy, idx) => {
+        if (enemy) {
+          dealDamageToUnit(game, opponentOf(owner), lane, idx, 1);
+          hit++;
+        }
+      });
+    }
+    if (hit > 0) game.log.push(`${unit.name}'s Demolish deals 1 to all of ${opponentOf(owner)}'s units.`);
+    checkWinner(game);
+  }
+  if (unit.keywords.includes('bastion')) {
+    player.castleShield = (player.castleShield || 0) + 2;
+    game.log.push(`${unit.name}'s Bastion shields ${owner}'s castle against the next 2 damage.`);
+  }
+  if (unit.keywords.includes('haunt')) {
+    const opponentPlayer = game.players[opponentOf(owner)];
+    const enemyUnits = allUnits(opponentPlayer);
+    if (enemyUnits.length > 0) {
+      const target = enemyUnits[Math.floor(Math.random() * enemyUnits.length)];
+      const targetLoc = findLaneOf(opponentPlayer, target.instanceId);
+      dealDamageToUnit(game, opponentOf(owner), targetLoc.lane, targetLoc.idx, 1);
+      game.log.push(`${unit.name}'s Haunt deals 1 to ${target.name}.`);
+      checkWinner(game);
+    }
   }
 
   return unit;
