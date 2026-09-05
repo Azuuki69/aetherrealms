@@ -505,6 +505,11 @@ let dragOrigin = null; // { x, y } — attacker card center, captured once when 
 let dragCurveOffset = 90; // px cap, recomputed per-drag from the board's actual current rendered size
 let suppressNextClick = false; // a drag that starts/ends on the same element still fires a native click after mouseup
 const DRAG_THRESHOLD = 8; // px of mouse movement before a mousedown becomes a drag rather than a plain click
+// Tracked continuously (not just while dragging) so the arrow can be seeded
+// at the right spot the instant a plain click selects an attacker — before
+// that, no mousemove has necessarily fired yet since the click landed.
+let lastMouseX = 0;
+let lastMouseY = 0;
 
 const el = (id) => document.getElementById(id);
 
@@ -1482,6 +1487,7 @@ function computeEffects(prev, next) {
   if (!prev) return [];
   const effects = [];
   let singleTargetSpellCast = false;
+  let spellDamageCastThisTick = false;
 
   if (next.lastPlayedCard && next.lastPlayedCard.seq !== prev.lastPlayedCard?.seq) {
     effects.push({ kind: 'card-reveal', owner: next.lastPlayedCard.owner, card: next.lastPlayedCard });
@@ -1489,10 +1495,12 @@ function computeEffects(prev, next) {
     const spellDamageKind = classifySpellDamage(next[casterSide].faction, next.lastPlayedCard.cardId);
     if (spellDamageKind === 'aoe') {
       effects.push({ kind: 'spell-cast-aoe', side: casterSide === 'you' ? 'opponent' : 'you' });
+      spellDamageCastThisTick = true;
     } else if (spellDamageKind === 'single') {
       // Resolved once the per-side diff loop below has computed this
       // tick's actual hit location(s) — no separate targeting data needed.
       singleTargetSpellCast = true;
+      spellDamageCastThisTick = true;
     }
   }
 
@@ -1549,6 +1557,20 @@ function computeEffects(prev, next) {
         fx.kind === 'castle-damage'
           ? { kind: 'spell-cast-single', side: fx.side }
           : { kind: 'spell-cast-single', side: fx.side, lane: fx.lane, slot: fx.slot }
+      );
+    }
+  }
+  // Any damage this tick that ISN'T from a spell (checked above) is either
+  // a plain combat attack or a passive keyword tick (Curse, Countdown) —
+  // both read fine as "something struck this target," so no server-side
+  // "last attack" plumbing is needed just to tell them apart from spells.
+  if (!spellDamageCastThisTick) {
+    const hitsThisTick = effects.filter((fx) => fx.kind === 'unit-damage' || fx.kind === 'castle-damage');
+    for (const fx of hitsThisTick) {
+      effects.push(
+        fx.kind === 'castle-damage'
+          ? { kind: 'combat-impact', side: fx.side }
+          : { kind: 'combat-impact', side: fx.side, lane: fx.lane, slot: fx.slot }
       );
     }
   }
@@ -1615,6 +1637,16 @@ function spawnEffect(fx) {
     if (anchor) floatNumber(anchor, '✦', 'fx-spell-impact');
     return;
   }
+  if (fx.kind === 'combat-impact') {
+    const anchor = fx.lane
+      ? findUnitAnchorEl(fx.side, fx.lane, fx.slot)
+      : document.querySelector(`#${fx.side === 'you' ? 'youInfo' : 'oppInfo'} .castle-wrap`);
+    if (anchor) {
+      spawnCombatImpact(anchor);
+      pulseClass(anchor, 'combat-impact-shake');
+    }
+    return;
+  }
   const anchor = findUnitAnchorEl(fx.side, fx.lane, fx.slot);
   if (!anchor) return;
   switch (fx.kind) {
@@ -1652,6 +1684,16 @@ function spawnAoeBurst() {
   const node = document.createElement('div');
   node.className = 'spell-aoe-burst';
   boardArea.appendChild(node);
+  node.addEventListener('animationend', () => node.remove());
+}
+
+// A sharp, fast "clang" at the exact point of impact — deliberately quicker
+// and more physical than spell-aoe-burst's slower magic bloom, so an attack
+// landing reads as a distinct kind of hit from a spell resolving.
+function spawnCombatImpact(anchorEl) {
+  const node = document.createElement('div');
+  node.className = 'combat-impact-burst';
+  anchorEl.appendChild(node);
   node.addEventListener('animationend', () => node.remove());
 }
 
@@ -2333,6 +2375,15 @@ document.addEventListener('pointerup', (e) => {
   dragCandidate = null;
 });
 
+// Keeps the arrow following the cursor for a plain (non-drag) selection —
+// the pointermove listener above already owns arrow updates during an
+// actual drag, so this only acts when one isn't in progress.
+document.addEventListener('mousemove', (e) => {
+  lastMouseX = e.clientX;
+  lastMouseY = e.clientY;
+  if (!isDragging && selectedUnit && dragOrigin) updateArrowTo(e.clientX, e.clientY);
+});
+
 // Mirrors getLegalAttackTargets() in src/game/rules.js — the single source
 // of truth for "can this attacker legally hit this target" lives server-
 // side; this mirror only drives which targets get highlighted/clickable.
@@ -2395,7 +2446,7 @@ function highlightSelections() {
     });
   }
 
-  if (selectedUnit) {
+  if (selectedUnit && currentView.phase === 'combat') {
     legalMoveDestinations(selectedUnit).forEach(({ lane, slot }) => {
       const containerId = lane === 'vanguard' ? 'youVanguard' : 'youRearguard';
       const slotEl = document.querySelectorAll(`#${containerId} .slot`)[slot];
@@ -2410,6 +2461,18 @@ function highlightSelections() {
       const slotEl = document.querySelectorAll(`#${containerId} .slot`)[t.slot];
       if (slotEl) slotEl.classList.add('legal-target');
     });
+    // The drag-to-target arrow used to only appear mid-drag — now it shows
+    // for a plain click-selected attacker too, seeded at the last known
+    // cursor position (updated continuously by the mousemove listener
+    // below) so it's never a frame behind wherever the mouse actually is.
+    dragOrigin = cardCenter('you', selectedUnit.lane, selectedUnit.slot);
+    if (dragOrigin) {
+      el('targetArrow').classList.remove('hidden');
+      updateArrowTo(lastMouseX, lastMouseY);
+    }
+  } else if (!isDragging) {
+    el('targetArrow').classList.add('hidden');
+    dragOrigin = null;
   }
 
   if (pendingSpell) {

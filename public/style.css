@@ -1608,6 +1608,35 @@ h1 span {
   100% { transform: scale(8); opacity: 0; }
 }
 
+/* A plain combat attack landing — deliberately sharper and much faster
+   than the magic-purple spell-aoe-burst above, so a sword/arrow hit reads
+   as a distinct, more physical kind of impact than a spell resolving. */
+.combat-impact-burst {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 26px;
+  height: 26px;
+  margin: -13px 0 0 -13px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff6d8 0%, #ffb04d 45%, transparent 75%);
+  pointer-events: none;
+  z-index: 50;
+  animation: combat-impact-burst 0.3s ease-out forwards;
+}
+@keyframes combat-impact-burst {
+  0% { transform: scale(0.4); opacity: 1; }
+  100% { transform: scale(3.5); opacity: 0; }
+}
+.combat-impact-shake { animation: combat-impact-shake 0.25s ease-out; }
+@keyframes combat-impact-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-4px); }
+  40% { transform: translateX(3px); }
+  60% { transform: translateX(-2px); }
+  80% { transform: translateX(1px); }
+}
+
 .controls { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; padding: 0.35rem; }
 .controls .btn { padding: 0.4rem 1.4rem; font-size: 0.95rem; }
 
