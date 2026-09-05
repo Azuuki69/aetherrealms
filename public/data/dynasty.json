@@ -381,7 +381,7 @@
     {
       "id": "dynasty_31",
       "name": "Steady the Line",
-      "cost": 2,
+      "cost": 1,
       "type": "spell",
       "copies": 1,
       "target": "ally_unit",

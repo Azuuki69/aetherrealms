@@ -223,7 +223,7 @@
       "name": "Warden",
       "cost": 4,
       "power": 2,
-      "defense": 7,
+      "defense": 6,
       "text": "TAUNT: Enemies must attack this unit first. FORTIFY: Gains +1 HP whenever it blocks an attack.",
       "text_pl": "PROWOKACJA: Wrogowie muszą zaatakować najpierw tę jednostkę. UMOCNIENIE: Zyskuje +1 PŻ za każdym razem, gdy zablokuje atak.",
       "text_es": "PROVOCACIÓN: Los enemigos deben atacar primero a esta unidad. FORTIFICACIÓN: Gana +1 PV cada vez que bloquea un ataque.",
@@ -459,7 +459,7 @@
     {
       "id": "dwarf_37",
       "name": "Hammer Strike",
-      "cost": 2,
+      "cost": 1,
       "type": "spell",
       "copies": 1,
       "target": "ally_unit",

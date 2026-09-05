@@ -95,8 +95,13 @@ function chooseSpellTarget(game, owner, card) {
     // but unbuffed body.
     const pool = allUnitsWithLoc(opp).filter((e) => withinLimit(e.unit));
     if (!pool.length) return { ok: false };
-    pool.sort((a, b) => effectivePower(game, opponentOf(owner), b.lane, b.slot) - effectivePower(game, opponentOf(owner), a.lane, a.slot));
-    return { target: { lane: pool[0].lane, slot: pool[0].slot }, ok: true };
+    // A Warded unit fully negates whatever targets it, for zero effect — only
+    // fall back to one anyway if every legal target happens to be warded,
+    // rather than wasting the spell when an unwarded option exists.
+    const unwarded = pool.filter((e) => !e.unit.wardAvailable);
+    const candidates = unwarded.length ? unwarded : pool;
+    candidates.sort((a, b) => effectivePower(game, opponentOf(owner), b.lane, b.slot) - effectivePower(game, opponentOf(owner), a.lane, a.slot));
+    return { target: { lane: candidates[0].lane, slot: candidates[0].slot }, ok: true };
   }
   if (kind === 'ally_unit') {
     const pool = allUnitsWithLoc(you).filter((e) => withinLimit(e.unit));

@@ -424,6 +424,7 @@ const AOE_DAMAGE_KINDS = new Set([
   'damage_enemy_row_auto',
   'multi_damage',
   'split_damage',
+  'destroy_all_damaged_enemies',
 ]);
 const SINGLE_DAMAGE_KINDS = new Set([
   'damage',
@@ -439,6 +440,8 @@ const SINGLE_DAMAGE_KINDS = new Set([
   'self_damage_then_damage',
   'damage_castle_conditional_attacked',
   'castle_damage_or_draw',
+  'delayed_damage',
+  'self_damage_then_destroy',
 ]);
 
 function classifySpellDamage(faction, cardId) {
@@ -1669,7 +1672,12 @@ function render() {
   const myTurn = turn === you_key;
   const oppKey = you_key === 'A' ? 'B' : 'A';
 
-  if (myTurn && !previousMyTurn && !winner) playTurnStartChime();
+  // previousMyTurn === null means this is the first render since a fresh
+  // page load/reconnect — the turn could already be in progress (e.g.
+  // reloading mid-turn), so that first render just records where things
+  // stand rather than assuming "it just became true" and firing a chime
+  // for a turn that actually started before the page ever loaded.
+  if (myTurn && previousMyTurn === false && !winner) playTurnStartChime();
   previousMyTurn = myTurn;
 
   if (myTurn && !winner && document.hidden) startTurnFlash();

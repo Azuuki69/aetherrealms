@@ -1074,7 +1074,7 @@ function resolveSpellEffect(game, owner, card, target) {
       chosen.attackedThisTurn = false;
       chosen.actionsUsedThisTurn = 0;
       player.board[target.lane][target.slot] = chosen;
-      if (target.lane === 'vanguard') grantVanguardBonusIfNeeded(chosen);
+      if (target.lane === 'vanguard' && game.boardMode !== 'single') grantVanguardBonusIfNeeded(chosen);
       game.log.push(`${card.name} reanimates ${chosen.name} onto the battlefield.`);
       break;
     }

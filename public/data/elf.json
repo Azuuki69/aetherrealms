@@ -420,7 +420,7 @@
     {
       "id": "elf_34",
       "name": "Elder Renewal",
-      "cost": 3,
+      "cost": 2,
       "type": "spell",
       "copies": 1,
       "target": "none",

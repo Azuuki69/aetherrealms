@@ -381,7 +381,7 @@
     {
       "id": "human_31",
       "name": "Field Medic",
-      "cost": 2,
+      "cost": 1,
       "type": "spell",
       "copies": 2,
       "target": "ally_unit",
@@ -394,7 +394,7 @@
     {
       "id": "human_32",
       "name": "Shieldwall Order",
-      "cost": 2,
+      "cost": 1,
       "type": "spell",
       "copies": 1,
       "target": "ally_unit",
