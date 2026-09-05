@@ -85,6 +85,7 @@ const TRANSLATIONS = {
     planPredictedHpLabel: 'Predicted HP after your planned attacks',
     // HUD panel labels
     panelEnemyInfo: 'Enemy Info', panelTurnTimer: 'Turn Timer', panelYourInfo: 'Your Info',
+    cardTextSize: 'Card Text Size', decreaseCardTextSize: 'Decrease card text size', increaseCardTextSize: 'Increase card text size',
     panelEnemyStats: 'Enemy Stats', panelBattlefield: 'Battlefield', panelYourStats: 'Your Stats',
     panelControls: 'Controls', panelYourHand: 'Your Hand', panelBattleLog: 'Battle Log', panelChat: 'Chat',
     // Log/Chat
@@ -198,6 +199,7 @@ const TRANSLATIONS = {
     planArrowRejectedLabel: 'Już nielegalny — usuń lub zmień cel przed Attack All',
     planPredictedHpLabel: 'Przewidywane HP po zaplanowanych atakach',
     panelEnemyInfo: 'Info o przeciwniku', panelTurnTimer: 'Licznik tury', panelYourInfo: 'Twoje info',
+    cardTextSize: 'Rozmiar tekstu kart', decreaseCardTextSize: 'Zmniejsz rozmiar tekstu kart', increaseCardTextSize: 'Zwiększ rozmiar tekstu kart',
     panelEnemyStats: 'Statystyki przeciwnika', panelBattlefield: 'Pole bitwy', panelYourStats: 'Twoje statystyki',
     panelControls: 'Sterowanie', panelYourHand: 'Twoja ręka', panelBattleLog: 'Dziennik bitwy', panelChat: 'Czat',
     log: 'Dziennik', chat: 'Czat', chatMessageLabel: 'Wiadomość na czacie', chatPlaceholder: 'Napisz do przeciwnika...',
@@ -306,6 +308,7 @@ const TRANSLATIONS = {
     planArrowRejectedLabel: 'Ya no es legal — quita o cambia el objetivo antes de Attack All',
     planPredictedHpLabel: 'PV previsto tras tus ataques planeados',
     panelEnemyInfo: 'Información del enemigo', panelTurnTimer: 'Temporizador de turno', panelYourInfo: 'Tu información',
+    cardTextSize: 'Tamaño del texto de las cartas', decreaseCardTextSize: 'Reducir el tamaño del texto de las cartas', increaseCardTextSize: 'Aumentar el tamaño del texto de las cartas',
     panelEnemyStats: 'Estadísticas del enemigo', panelBattlefield: 'Campo de batalla', panelYourStats: 'Tus estadísticas',
     panelControls: 'Controles', panelYourHand: 'Tu mano', panelBattleLog: 'Registro de batalla', panelChat: 'Chat',
     log: 'Registro', chat: 'Chat', chatMessageLabel: 'Mensaje de chat', chatPlaceholder: 'Escribe a tu oponente...',
@@ -505,6 +508,8 @@ let autoAttackRunning = false;
 let coinFlipAckSent = false;
 let hudLayoutInitialized = false; // true once the HUD layout manager's default geometry has been captured
 let hudAccountSyncedForToken; // undefined = never checked; tracks which login (if any) the layout was last synced for
+let cardFontScale = 1; // 0.8-1.5, multiplies --card-text-scale — see applyCardTextScale()
+let cardFontAccountSyncedForToken; // mirrors hudAccountSyncedForToken, tracked separately since either preference can sync independently
 
 // ---------- Reconnection ----------
 // The room this tab is (or was) connected to, so a dropped socket has
@@ -1961,6 +1966,7 @@ function render() {
     initHudLayout();
   }
   syncHudLayoutWithAccount();
+  syncCardFontScaleWithAccount();
 }
 
 // ---------- SFX (turn-start chime, last-10-seconds tick) ----------
@@ -3398,12 +3404,94 @@ function syncHudLayoutWithAccount() {
   if (token) loadHudLayoutFromAccount(token);
 }
 
+// ---------- Card text size (HUD-editing toolbar stepper) ----------
+// Same local-first, account-mirrored shape as HUD layout above, just for a
+// single number instead of a panel-geometry object — no version field
+// needed, unlike HUD_LAYOUT_VERSION, since a plain number never needs a
+// migration path.
+function loadCardFontPrefs() {
+  try {
+    const raw = localStorage.getItem('ar_card_font_prefs');
+    return raw ? JSON.parse(raw) : {};
+  } catch {
+    return {};
+  }
+}
+function saveCardFontPrefs(patch) {
+  try {
+    const prefs = { ...loadCardFontPrefs(), ...patch };
+    localStorage.setItem('ar_card_font_prefs', JSON.stringify(prefs));
+  } catch {
+    /* localStorage unavailable — the scale still applies this session, just won't persist */
+  }
+}
+
+const CARD_FONT_SCALE_MIN = 0.8;
+const CARD_FONT_SCALE_MAX = 1.5;
+const CARD_FONT_SCALE_STEP = 0.1;
+
+// Applies the scale to the whole document (every card everywhere shares the
+// same --card-text-scale, see style.css) and refreshes the toolbar's own
+// readout/button state — called once at startup with whatever was last
+// saved, and again on every stepper click.
+function applyCardTextScale(scale) {
+  // Rounded to 1 decimal — repeated +/-0.1 stepper clicks otherwise drift
+  // into binary-float noise (e.g. 1.2000000000000002), which is harmless in
+  // the CSS calc() itself but would eventually throw off the min/max bound
+  // checks below.
+  const clamped = Math.min(CARD_FONT_SCALE_MAX, Math.max(CARD_FONT_SCALE_MIN, scale));
+  cardFontScale = Math.round(clamped * 10) / 10;
+  document.documentElement.style.setProperty('--card-text-scale', cardFontScale);
+  const readout = el('cardFontReadout');
+  if (readout) readout.textContent = `${Math.round(cardFontScale * 100)}%`;
+  const decBtn = el('cardFontDecrease');
+  const incBtn = el('cardFontIncrease');
+  if (decBtn) decBtn.disabled = cardFontScale <= CARD_FONT_SCALE_MIN + 0.001;
+  if (incBtn) incBtn.disabled = cardFontScale >= CARD_FONT_SCALE_MAX - 0.001;
+}
+
+function saveCardFontScaleToAccount(scale) {
+  const { token } = getStoredAccount();
+  if (!token) return;
+  fetch('api/card-font/save', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ token, scale }),
+  }).catch(() => {
+    /* best-effort — account sync failing should never break the local setting */
+  });
+}
+
+async function loadCardFontScaleFromAccount(token) {
+  try {
+    const res = await fetch('api/card-font/load', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ token }),
+    });
+    const data = await res.json();
+    if (typeof data?.scale !== 'number') return;
+    applyCardTextScale(data.scale);
+    saveCardFontPrefs({ scale: cardFontScale }); // keep the local cache in sync with the account
+  } catch {
+    /* best-effort — no account preference yet, or the request failed */
+  }
+}
+
+function syncCardFontScaleWithAccount() {
+  const { token } = getStoredAccount();
+  if (token === cardFontAccountSyncedForToken) return;
+  cardFontAccountSyncedForToken = token;
+  if (token) loadCardFontScaleFromAccount(token);
+}
+
 function toggleHudEditing() {
   hudEditing = !hudEditing;
   el('game').classList.toggle('hud-editing', hudEditing);
   el('hudEditToggle').classList.toggle('active', hudEditing);
   el('hudEditToggle').textContent = hudEditing ? '✓ Done Editing HUD' : '✥ Edit HUD Layout';
   el('hudResetLayout').classList.toggle('hidden', !hudEditing);
+  el('cardFontControl').classList.toggle('hidden', !hudEditing);
 }
 
 function resetHudLayout() {
@@ -3546,6 +3634,16 @@ function initHudLayout() {
   window.addEventListener('resize', () => HUD_PANELS.forEach((p) => applyPanelGeometry(p)));
   el('hudEditToggle')?.addEventListener('click', toggleHudEditing);
   el('hudResetLayout')?.addEventListener('click', resetHudLayout);
+  el('cardFontDecrease')?.addEventListener('click', () => {
+    applyCardTextScale(cardFontScale - CARD_FONT_SCALE_STEP);
+    saveCardFontPrefs({ scale: cardFontScale });
+    saveCardFontScaleToAccount(cardFontScale);
+  });
+  el('cardFontIncrease')?.addEventListener('click', () => {
+    applyCardTextScale(cardFontScale + CARD_FONT_SCALE_STEP);
+    saveCardFontPrefs({ scale: cardFontScale });
+    saveCardFontScaleToAccount(cardFontScale);
+  });
 }
 
 // ---------- Chat ----------
@@ -4255,6 +4353,10 @@ function renderFactionThumbnails() {
 }
 
 (async function init() {
+  // Synchronous and first — applied before anything renders a single card
+  // (deck preview, faction thumbnails, etc. all follow below), so nothing
+  // ever flashes at the default scale before the saved preference kicks in.
+  applyCardTextScale(loadCardFontPrefs().scale ?? 1);
   await Promise.all([loadFactionData(), applyLobbyLayout()]);
   refreshSidebarWidgets();
   initLobby();

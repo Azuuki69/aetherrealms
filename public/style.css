@@ -34,6 +34,11 @@
      modern UI face. Nothing set this before, so body/UI text silently fell
      back to the Georgia serif stack meant only for decorative headings. */
   --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  /* Global multiplier for card name/ability text size — adjustable via the
+     stepper in the HUD-editing toolbar (applyCardTextScale() in client.js),
+     persisted to localStorage and, when logged in, the player's account.
+     Left at 1 (no-op) until JS applies a saved preference. */
+  --card-text-scale: 1;
 
   /* Faction accents — the 10 hex values .faction-card[data-faction] already
      used as bare literals, named so they can be referenced elsewhere too. */
@@ -952,6 +957,35 @@ h1 span {
 .hud-edit-toggle.active { background: linear-gradient(var(--gold-bright), var(--gold)); color: #1a140d; }
 .hud-edit-toggle.active:hover { background: linear-gradient(var(--gold-bright), var(--gold-bright)); }
 
+/* Card text size stepper — same toolbar, only shown alongside Reset Layout
+   while HUD editing is active (toggled in toggleHudEditing(), client.js). */
+.hud-font-control {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(#3a2c14, #241c12);
+  border: 1px solid var(--gold);
+  border-radius: 8px;
+  padding: 0.3rem 0.6rem;
+  box-shadow: 0 4px 14px #000a;
+}
+.hud-font-label { color: var(--gold); font-size: 0.75rem; font-weight: bold; white-space: nowrap; }
+.hud-font-btn {
+  background: linear-gradient(#4a3a1c, #2e2416);
+  border: 1px solid var(--gold);
+  border-radius: 6px;
+  color: var(--gold);
+  font-weight: bold;
+  width: 22px;
+  height: 22px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s, opacity 0.15s;
+}
+.hud-font-btn:hover:not(:disabled) { background: linear-gradient(var(--gold-bright), var(--gold)); color: #1a140d; }
+.hud-font-btn:disabled { opacity: 0.4; cursor: default; }
+.hud-font-readout { color: var(--text); font-size: 0.75rem; font-weight: bold; min-width: 2.6em; text-align: center; }
+
 #hudOverlayLayer { position: absolute; inset: 0; pointer-events: none; z-index: 60; }
 .hud-panel-overlay { position: absolute; display: none; }
 #game.hud-editing .hud-panel-overlay { display: block; outline: 2px dashed var(--gold); outline-offset: 2px; }
@@ -1548,7 +1582,7 @@ h1 span {
   font-family: var(--font-display);
   font-weight: bold;
   line-height: 1.05;
-  font-size: clamp(4px, 2.8cqh, 20px);
+  font-size: calc(clamp(4px, 2.8cqh, 20px) * var(--card-text-scale, 1));
   letter-spacing: 0.02em;
   pointer-events: none;
 }
@@ -1561,13 +1595,13 @@ h1 span {
   color: #241a0e;
   text-align: center;
   line-height: 1.15;
-  font-size: clamp(4px, 2.6cqh, 15px);
+  font-size: calc(clamp(4px, 2.6cqh, 15px) * var(--card-text-scale, 1));
 }
 /* A 2-ability card needs to fit one more line in the same panel height —
    cheap, fully covers the current corpus (max 2 ability lines today) with
    zero per-render measurement cost. See Phase 5 for the general case
    (arbitrary future line counts / unusually long text). */
-.card-rules-panel:has(.ability-line:nth-child(2)) { font-size: clamp(4px, 1.9cqh, 12px); }
+.card-rules-panel:has(.ability-line:nth-child(2)) { font-size: calc(clamp(4px, 1.9cqh, 12px) * var(--card-text-scale, 1)); }
 .ability-line { font-weight: 600; }
 .ability-footer { font-style: italic; opacity: 0.7; font-size: 0.85em; }
 
@@ -1861,9 +1895,9 @@ body:has(#chatPanel:not(.collapsed)) .hand {
    afford a richer cqh ratio than the shared .card-name-plate/.card-rules-panel
    rules (tuned against ~80px-wide real hand cards, where a bigger ratio
    would overflow) — scoped here rather than raised globally. */
-.deck-card-grid .card-name-plate { font-size: clamp(6px, 3.4cqh, 24px); }
-.deck-card-grid .card-rules-panel { font-size: clamp(6px, 3.1cqh, 18px); }
-.deck-card-grid .card-rules-panel:has(.ability-line:nth-child(2)) { font-size: clamp(6px, 2.3cqh, 15px); }
+.deck-card-grid .card-name-plate { font-size: calc(clamp(6px, 3.4cqh, 24px) * var(--card-text-scale, 1)); }
+.deck-card-grid .card-rules-panel { font-size: calc(clamp(6px, 3.1cqh, 18px) * var(--card-text-scale, 1)); }
+.deck-card-grid .card-rules-panel:has(.ability-line:nth-child(2)) { font-size: calc(clamp(6px, 2.3cqh, 15px) * var(--card-text-scale, 1)); }
 .deck-card-grid-empty { color: var(--dim); text-align: center; grid-column: 1 / -1; padding: 1.5rem 0; }
 /* Classic intrinsic-ratio box: padding-top:150% gives an exact 2:3 height
    derived purely from width (0 content height + 150% padding), with none of

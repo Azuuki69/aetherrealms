@@ -46,6 +46,8 @@ export class AccountsRegistry {
       if (url.pathname === '/api/ai-stats' && request.method === 'POST') return this.handleAiStats(request);
       if (url.pathname === '/api/hud-layout/save' && request.method === 'POST') return this.handleSaveHudLayout(request);
       if (url.pathname === '/api/hud-layout/load' && request.method === 'POST') return this.handleLoadHudLayout(request);
+      if (url.pathname === '/api/card-font/save' && request.method === 'POST') return this.handleSaveCardFontScale(request);
+      if (url.pathname === '/api/card-font/load' && request.method === 'POST') return this.handleLoadCardFontScale(request);
       if (url.pathname === '/api/account-info' && request.method === 'POST') return this.handleAccountInfo(request);
       if (url.pathname === '/api/admin/accounts' && request.method === 'POST') return this.handleAdminAccounts(request);
       if (url.pathname === '/api/admin/delete-account' && request.method === 'POST') return this.handleAdminDeleteAccount(request);
@@ -154,6 +156,28 @@ export class AccountsRegistry {
     if (!username) return json({ layout: null });
     const hudLayouts = (await this.state.storage.get('hudLayouts')) || {};
     return json({ layout: hudLayouts[username.toLowerCase()] || null });
+  }
+
+  async handleSaveCardFontScale(request) {
+    const body = await request.json().catch(() => ({}));
+    const token = (body.token || '').toString();
+    const scale = body.scale;
+    const username = await this.resolveUsernameFromToken(token);
+    if (!username) return json({ error: 'Not logged in.' }, 401);
+    if (typeof scale !== 'number' || !Number.isFinite(scale)) return json({ error: 'Missing scale.' }, 400);
+    const cardFontPrefs = (await this.state.storage.get('cardFontPrefs')) || {};
+    cardFontPrefs[username.toLowerCase()] = { scale };
+    await this.state.storage.put('cardFontPrefs', cardFontPrefs);
+    return json({ ok: true });
+  }
+
+  async handleLoadCardFontScale(request) {
+    const body = await request.json().catch(() => ({}));
+    const token = (body.token || '').toString();
+    const username = await this.resolveUsernameFromToken(token);
+    if (!username) return json({ scale: null });
+    const cardFontPrefs = (await this.state.storage.get('cardFontPrefs')) || {};
+    return json({ scale: cardFontPrefs[username.toLowerCase()]?.scale ?? null });
   }
 
   async handleRecordResult(request) {

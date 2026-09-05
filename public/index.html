@@ -201,6 +201,12 @@
     <button id="hudPreviewExitBtn" type="button" class="hud-reset-btn hidden">← <span data-i18n="backToLobby">Back to Lobby</span></button>
     <button id="hudEditToggle" type="button" class="hud-edit-toggle">✥ <span data-i18n="editHudLayout">Edit HUD Layout</span></button>
     <button id="hudResetLayout" type="button" class="hud-reset-btn hidden" data-i18n="resetLayout">Reset Layout</button>
+    <div id="cardFontControl" class="hud-font-control hidden">
+      <span class="hud-font-label" data-i18n="cardTextSize">Card Text Size</span>
+      <button id="cardFontDecrease" type="button" class="hud-font-btn" data-i18n-aria-label="decreaseCardTextSize" aria-label="Decrease card text size">−</button>
+      <span id="cardFontReadout" class="hud-font-readout">100%</span>
+      <button id="cardFontIncrease" type="button" class="hud-font-btn" data-i18n-aria-label="increaseCardTextSize" aria-label="Increase card text size">+</button>
+    </div>
   </div>
   <div id="hudOverlayLayer"></div>
   <header id="topBar">
