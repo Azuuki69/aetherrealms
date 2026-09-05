@@ -446,7 +446,7 @@
     {
       "id": "dwarf_36",
       "name": "Earthshaker",
-      "cost": 4,
+      "cost": 3,
       "type": "spell",
       "copies": 1,
       "target": "none",

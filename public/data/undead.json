@@ -446,7 +446,7 @@
     {
       "id": "undead_36",
       "name": "Plague Wind",
-      "cost": 4,
+      "cost": 2,
       "type": "spell",
       "copies": 1,
       "target": "none",

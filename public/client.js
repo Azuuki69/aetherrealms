@@ -1052,9 +1052,12 @@ function renderCardFace(container, instance) {
   // "beast_token" — truthy, but with no matching extracted-art file — so it
   // must use the server's own `image` field (which deliberately points at
   // an existing card's art to reuse, see summonMusterToken() in rules.js)
-  // instead of the cardId-derived path below.
-  const isToken = instance.cardId && instance.cardId.endsWith('_token');
+  // instead of the cardId-derived path below. Detected by checking whether
+  // cardId actually resolves to a real card rather than string-matching a
+  // "_token" suffix, so any future synthetic id (not just this naming
+  // convention) still falls back to `image` correctly.
   const faction = instance.cardId ? instance.cardId.split('_')[0] : '';
+  const isToken = instance.cardId && !factionData[faction]?.cards?.some((c) => c.id === instance.cardId);
   // extract_art.ps1's output is keyed by cardId, not by the legacy `image`
   // path's filename (which is slug-based, e.g. "01_ashigaru.jpg", and can't
   // be derived from cardId alone) — falls back to the old baked image only
@@ -1729,12 +1732,18 @@ function requestNotificationPermission() {
   Notification.requestPermission().catch(() => {});
 }
 
+// Tracks which turnNumber the desktop notification has already fired for,
+// so switching tabs away and back multiple times during the same still-
+// ongoing turn only notifies once — re-armed the moment turnNumber changes.
+let turnFlashNotifiedTurnNumber = null;
 function startTurnFlash() {
-  if (turnFlashInterval) return; // already flashing (also guards the notification below from repeating every render)
+  if (turnFlashInterval) return; // already flashing
   turnFlashInterval = setInterval(() => {
     document.title = document.title === ORIGINAL_TITLE ? '🔴 Your Turn! — Aether Realms' : ORIGINAL_TITLE;
   }, 1000);
-  if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
+  const turnNumber = currentView && currentView.turnNumber;
+  if (turnNumber !== turnFlashNotifiedTurnNumber && typeof Notification !== 'undefined' && Notification.permission === 'granted') {
+    turnFlashNotifiedTurnNumber = turnNumber;
     const n = new Notification('Aether Realms', { body: "It's your turn!" });
     n.onclick = () => {
       window.focus();
@@ -2232,6 +2241,7 @@ function onBoardCardClick(side, lane, slotIndex) {
     targetSlot: slotIndex,
   });
   selectedUnit = null;
+  render();
 }
 
 function onCastleClick() {
@@ -2246,6 +2256,7 @@ function onCastleClick() {
     targetLane: 'commander',
   });
   selectedUnit = null;
+  render();
 }
 
 // ---------- Drag-to-target arrow ----------
