@@ -11,6 +11,11 @@ import undead from '../../public/data/undead.json';
 
 export const FACTIONS = { beast, clock, damned, dwarf, dynasty, elf, fallen, human, orc, undead };
 export const LANES = 4;
+// Single Row board mode's lane count — 5 slots, one row per side, no
+// Vanguard/Rearguard distinction. A separate constant rather than a second
+// meaning for LANES since the two board modes are otherwise independent
+// (see createGame()'s boardMode parameter and game.lanes below).
+export const SINGLE_ROW_LANES = 5;
 export const STARTING_HP = 50;
 export const MAX_MANA = 10;
 export const STARTING_HAND_SIZE = 5;
@@ -131,15 +136,26 @@ function makeCardInstance(card) {
   };
 }
 
-function emptyBoard() {
-  return { vanguard: new Array(LANES).fill(null), rearguard: new Array(LANES).fill(null) };
+// Single Row mode represents "no Rearguard" as a real but zero-length
+// array rather than removing the row concept from the engine — every
+// existing `for (const lane of ['vanguard', 'rearguard'])` loop and
+// `board[lane][slot]` lookup already treats an empty array as a correct,
+// natural no-op (Volley/Trample/Taunt/Formation/Rally/the row-targeted
+// spells all degrade correctly for free), so this one line is almost the
+// entire board-shape difference between the two modes.
+function emptyBoard(lanes, boardMode) {
+  return {
+    vanguard: new Array(lanes).fill(null),
+    rearguard: boardMode === 'single' ? [] : new Array(lanes).fill(null),
+  };
 }
 
 export function opponentOf(owner) {
   return owner === 'A' ? 'B' : 'A';
 }
 
-export function createGame(factionA, factionB, firstPlayer = 'A', usernameA = null, usernameB = null) {
+export function createGame(factionA, factionB, firstPlayer = 'A', usernameA = null, usernameB = null, boardMode = 'classic') {
+  const lanes = boardMode === 'single' ? SINGLE_ROW_LANES : LANES;
   const deckA = buildDeck(factionA);
   const deckB = buildDeck(factionB);
   const players = {
@@ -148,7 +164,7 @@ export function createGame(factionA, factionB, firstPlayer = 'A', usernameA = nu
       username: usernameA,
       deck: deckA,
       hand: deckA.splice(0, STARTING_HAND_SIZE),
-      board: emptyBoard(),
+      board: emptyBoard(lanes, boardMode),
       graveyard: [],
       hp: STARTING_HP,
       maxHp: STARTING_HP,
@@ -167,7 +183,7 @@ export function createGame(factionA, factionB, firstPlayer = 'A', usernameA = nu
       username: usernameB,
       deck: deckB,
       hand: deckB.splice(0, STARTING_HAND_SIZE),
-      board: emptyBoard(),
+      board: emptyBoard(lanes, boardMode),
       graveyard: [],
       hp: STARTING_HP,
       maxHp: STARTING_HP,
@@ -184,6 +200,8 @@ export function createGame(factionA, factionB, firstPlayer = 'A', usernameA = nu
   };
   return {
     players,
+    boardMode,
+    lanes,
     turn: firstPlayer,
     phase: 'coinflip',
     turnNumber: 1,
@@ -238,7 +256,7 @@ function isFormationActive(game, owner, lane, slotIndex) {
   if (!unit || !unit.keywords.includes('formation')) return false;
   const row = game.players[owner].board[lane];
   const left = slotIndex > 0 ? row[slotIndex - 1] : null;
-  const right = slotIndex < LANES - 1 ? row[slotIndex + 1] : null;
+  const right = slotIndex < game.lanes - 1 ? row[slotIndex + 1] : null;
   return [left, right].some((n) => n && n.faction === unit.faction);
 }
 
@@ -250,7 +268,7 @@ function hasRallyBonus(game, owner, lane, slotIndex) {
   if (!unit) return false;
   const row = game.players[owner].board[lane];
   const left = slotIndex > 0 ? row[slotIndex - 1] : null;
-  const right = slotIndex < LANES - 1 ? row[slotIndex + 1] : null;
+  const right = slotIndex < game.lanes - 1 ? row[slotIndex + 1] : null;
   return [left, right].some((n) => n && n.faction === unit.faction && n.keywords.includes('rally'));
 }
 
@@ -554,7 +572,7 @@ function summonMusterToken(game, owner, lane, slotIndex, faction) {
     actionsUsedThisTurn: 0,
   };
   player.board[lane][slotIndex] = token;
-  if (lane === 'vanguard') grantVanguardBonusIfNeeded(token);
+  if (lane === 'vanguard' && game.boardMode !== 'single') grantVanguardBonusIfNeeded(token);
   game.log.push(`A ${tmpl.name} token is summoned (Muster).`);
 }
 
@@ -1305,7 +1323,7 @@ function resolveSpellEffect(game, owner, card, target) {
       if (unit) {
         unit.turnPowerBonus = (unit.turnPowerBonus || 0) + eff.amount;
         const left = target.slot > 0 ? row[target.slot - 1] : null;
-        const right = target.slot < LANES - 1 ? row[target.slot + 1] : null;
+        const right = target.slot < game.lanes - 1 ? row[target.slot + 1] : null;
         let buffed = 1;
         for (const n of [left, right]) {
           if (n && n.faction === unit.faction) {
@@ -1443,13 +1461,24 @@ function validateSpellTarget(game, owner, card, target) {
     if (!target || (target.lane !== 'vanguard' && target.lane !== 'rearguard')) {
       throw new Error('Choose a lane to place the unit.');
     }
-    if (target.slot === undefined || target.slot < 0 || target.slot >= LANES) {
+    // Single Row mode's Rearguard is a real but zero-length array (see
+    // emptyBoard()) — without this, an out-of-range slot index into it
+    // would pass every check below (an empty array reads as both
+    // in-bounds-enough and "not occupied"), silently creating a sparse
+    // array instead of a clean rejection.
+    if (game.boardMode === 'single' && target.lane === 'rearguard') {
+      throw new Error('This match has no Rearguard row.');
+    }
+    if (target.slot === undefined || target.slot < 0 || target.slot >= game.lanes) {
       throw new Error('Choose a valid slot.');
     }
     if (you.board[target.lane][target.slot]) throw new Error('That slot is already occupied.');
   } else if (kind === 'ally_row') {
     if (!target || (target.lane !== 'vanguard' && target.lane !== 'rearguard')) {
       throw new Error('Choose a row to target.');
+    }
+    if (game.boardMode === 'single' && target.lane === 'rearguard') {
+      throw new Error('This match has no Rearguard row.');
     }
   } else if (kind === 'multi_enemy_unit') {
     const eff = card.effect;
@@ -1503,14 +1532,15 @@ export function playCard(game, owner, cardInstanceId, lane, slotIndex, spellTarg
   }
 
   if (lane !== 'vanguard' && lane !== 'rearguard') throw new Error('Invalid lane.');
-  if (slotIndex < 0 || slotIndex >= LANES) throw new Error('Invalid slot.');
+  if (game.boardMode === 'single' && lane === 'rearguard') throw new Error('This match has no Rearguard row.');
+  if (slotIndex < 0 || slotIndex >= game.lanes) throw new Error('Invalid slot.');
   if (player.board[lane][slotIndex]) throw new Error('That slot is already occupied.');
   player.hand.splice(idx, 1);
   player.mana -= effectiveCost;
   if (discount > 0) player.nextUnitDiscount = 0;
   const unit = { ...card, sick: !card.keywords.includes('charge'), attackedThisTurn: false, actionsUsedThisTurn: 0 };
   player.board[lane][slotIndex] = unit;
-  if (lane === 'vanguard') grantVanguardBonusIfNeeded(unit);
+  if (lane === 'vanguard' && game.boardMode !== 'single') grantVanguardBonusIfNeeded(unit);
   game.playSeq += 1;
   game.lastPlayedCard = { seq: game.playSeq, owner, type: 'unit', cardId: card.cardId, name: card.name, image: card.image, text: card.text, text_pl: card.text_pl, text_es: card.text_es, cost: card.cost };
   game.log.push(`${owner} played ${card.name} to ${lane} ${slotIndex + 1}.`);
@@ -1627,7 +1657,7 @@ export function getLegalAttackTargets(game, owner, attackerLane, attackerSlot) {
 
   const targets = [];
   let castleReachable = false;
-  for (let col = 0; col < LANES; col++) {
+  for (let col = 0; col < game.lanes; col++) {
     if (oppBoard.vanguard[col]) targets.push({ type: 'unit', lane: 'vanguard', slot: col });
     if (oppBoard.rearguard[col] && (isRanged || !oppBoard.vanguard[col])) {
       targets.push({ type: 'unit', lane: 'rearguard', slot: col });
@@ -1914,7 +1944,10 @@ export function moveUnit(game, owner, fromLane, fromSlot, toLane, toSlot) {
   if (game.phase !== 'combat') throw new Error('Units can only reposition during the Combat phase.');
   if (fromLane !== 'vanguard' && fromLane !== 'rearguard') throw new Error('Invalid lane.');
   if (toLane !== 'vanguard' && toLane !== 'rearguard') throw new Error('Invalid lane.');
-  if (toSlot < 0 || toSlot >= LANES) throw new Error('Invalid slot.');
+  if (game.boardMode === 'single' && (fromLane === 'rearguard' || toLane === 'rearguard')) {
+    throw new Error('This match has no Rearguard row.');
+  }
+  if (toSlot < 0 || toSlot >= game.lanes) throw new Error('Invalid slot.');
 
   const player = game.players[owner];
   const unit = player.board[fromLane][fromSlot];
@@ -1995,6 +2028,7 @@ export function viewFor(game, owner) {
     // ranked one (turn indicator copy, results screen) — set once at room
     // creation (see matchRoom.js), never derived or changed here.
     mode: game.mode || 'ranked',
+    boardMode: game.boardMode || 'classic',
     lastPlayedCard: game.lastPlayedCard || null,
     turnDeadlineAt: game.turnDeadlineAt || null,
     // Only the choosing player ever sees the actual revealed options — the

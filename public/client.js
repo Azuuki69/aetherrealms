@@ -30,6 +30,8 @@ const TRANSLATIONS = {
     difficultyHard: 'Hard', difficultyHardDesc: 'For experienced players.',
     playVsAi: 'Play vs AI',
     difficultyBeginner: 'Beginner', difficultyIntermediate: 'Intermediate', difficultyAdvanced: 'Advanced',
+    boardModeClassic: 'Classic (Vanguard/Rearguard)', boardModeClassicDesc: '4 lanes, two rows — reposition units front and back.',
+    boardModeSingle: 'Single Row', boardModeSingleDesc: 'One row of 5 slots per side — no Vanguard/Rearguard.',
     // Create/Join
     createMatchTitle: 'Create a Match', createMatchDesc: 'Pick a faction above, then create a room and share the code.',
     createMatch: 'Create Match', copy: 'Copy', copied: 'Copied!',
@@ -141,6 +143,8 @@ const TRANSLATIONS = {
     difficultyHard: 'Trudny', difficultyHardDesc: 'Dla doświadczonych graczy.',
     playVsAi: 'Zagraj z AI',
     difficultyBeginner: 'Początkujący', difficultyIntermediate: 'Średniozaawansowany', difficultyAdvanced: 'Zaawansowany',
+    boardModeClassic: 'Klasyczna (Vanguard/Rearguard)', boardModeClassicDesc: '4 tory, dwa rzędy — przesuwaj jednostki w przód i w tył.',
+    boardModeSingle: 'Jeden rząd', boardModeSingleDesc: 'Jeden rząd 5 miejsc na stronę — bez Vanguard/Rearguard.',
     createMatchTitle: 'Stwórz mecz', createMatchDesc: 'Wybierz frakcję powyżej, stwórz pokój i udostępnij kod.',
     createMatch: 'Stwórz mecz', copy: 'Kopiuj', copied: 'Skopiowano!',
     joinMatchTitle: 'Dołącz do meczu', joinMatchDesc: 'Wybierz frakcję powyżej, a następnie podaj kod pokoju znajomego.',
@@ -240,6 +244,8 @@ const TRANSLATIONS = {
     difficultyHard: 'Difícil', difficultyHardDesc: 'Para jugadores experimentados.',
     playVsAi: 'Jugar contra la IA',
     difficultyBeginner: 'Principiante', difficultyIntermediate: 'Intermedio', difficultyAdvanced: 'Avanzado',
+    boardModeClassic: 'Clásico (Vanguard/Rearguard)', boardModeClassicDesc: '4 carriles, dos filas — reposiciona unidades adelante y atrás.',
+    boardModeSingle: 'Fila única', boardModeSingleDesc: 'Una fila de 5 espacios por lado — sin Vanguard/Rearguard.',
     createMatchTitle: 'Crear una partida', createMatchDesc: 'Elige una facción arriba, luego crea una sala y comparte el código.',
     createMatch: 'Crear partida', copy: 'Copiar', copied: '¡Copiado!',
     joinMatchTitle: 'Unirse a una partida', joinMatchDesc: 'Elige una facción arriba y luego introduce el código de sala de tu amigo.',
@@ -419,6 +425,7 @@ function getDeckCopies(card) {
 let selectedFaction = null;
 let selectedGameMode = 'ranked'; // 'ranked' | 'ai' — which lobby panel is showing, see initGameModeTabs()
 let selectedDifficulty = 'normal'; // 'easy' | 'normal' | 'hard' — only meaningful when selectedGameMode === 'ai'
+let selectedBoardMode = 'classic'; // 'classic' | 'single' — applies to both ranked and AI matches, see boardModePicker
 let ws = null;
 let mySeatKey = null; // 'A' or 'B', informational only
 let currentView = null;
@@ -487,7 +494,11 @@ function initLobby() {
 
   el('createBtn').addEventListener('click', async () => {
     if (!selectedFaction) return setStatus(t('pickFactionFirst'));
-    const res = await fetch('api/room', { method: 'POST' });
+    const res = await fetch('api/room', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ boardMode: selectedBoardMode }),
+    });
     const { code } = await res.json();
     el('createdCodeText').textContent = code;
     el('createdCode').classList.remove('hidden');
@@ -525,7 +536,7 @@ function initLobby() {
     const res = await fetch('api/room', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ mode: 'ai', difficulty: selectedDifficulty }),
+      body: JSON.stringify({ mode: 'ai', difficulty: selectedDifficulty, boardMode: selectedBoardMode }),
     });
     const { code } = await res.json();
     connect(code);
@@ -559,6 +570,13 @@ function initGameModeTabs() {
     if (!btn) return;
     selectedDifficulty = btn.dataset.difficulty;
     document.querySelectorAll('.difficulty-btn').forEach((b) => b.classList.remove('active'));
+    btn.classList.add('active');
+  });
+  el('boardModePicker').addEventListener('click', (e) => {
+    const btn = e.target.closest('.board-mode-btn');
+    if (!btn) return;
+    selectedBoardMode = btn.dataset.boardMode;
+    document.querySelectorAll('.board-mode-btn').forEach((b) => b.classList.remove('active'));
     btn.classList.add('active');
   });
 }
@@ -1591,6 +1609,10 @@ function render() {
   el('oppDeckCount').textContent = opponent.deckCount;
   el('oppGraveCount').textContent = opponent.graveyard.length;
 
+  // Read the actual board shape rather than trusting `boardMode` separately
+  // — one less thing that could drift out of sync with what the server sent.
+  el('game').classList.toggle('single-row-mode', you.board.rearguard.length === 0);
+
   const newBoardIds = collectBoardIds(you, opponent);
   renderLane('youVanguard', you.board.vanguard, 'you', 'vanguard');
   renderLane('youRearguard', you.board.rearguard, 'you', 'rearguard');
@@ -1819,7 +1841,10 @@ function legalMoveDestinations(mover) {
   const row = you.board[lane];
   const oppositeLane = lane === 'vanguard' ? 'rearguard' : 'vanguard';
   const destinations = [];
-  if (!you.board[oppositeLane][slot]) destinations.push({ lane: oppositeLane, slot });
+  // An empty Rearguard array's [slot] read is `undefined` too — same as an
+  // occupied-check false positive — so Single Row mode needs this guarded
+  // explicitly rather than relying on the empty-array trick here.
+  if (you.board[oppositeLane].length > 0 && !you.board[oppositeLane][slot]) destinations.push({ lane: oppositeLane, slot });
   if (slot > 0 && !row[slot - 1]) destinations.push({ lane, slot: slot - 1 });
   if (slot < row.length - 1 && !row[slot + 1]) destinations.push({ lane, slot: slot + 1 });
   return destinations;

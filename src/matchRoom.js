@@ -5,6 +5,7 @@ const SEATS = ['seatA', 'seatB'];
 const TURN_TIMEOUT_MS = 60_000;
 const VALID_FACTIONS = ['beast', 'clock', 'damned', 'dwarf', 'dynasty', 'elf', 'fallen', 'human', 'orc', 'undead'];
 const VALID_DIFFICULTIES = ['easy', 'normal', 'hard'];
+const VALID_BOARD_MODES = ['classic', 'single'];
 // A short, natural-feeling gap between bot actions (see alarm()'s AI branch)
 // — long enough to read as "thinking", nowhere near the 60s human turn
 // timer, and re-rolled per step so it doesn't feel metronomic.
@@ -67,6 +68,8 @@ export class MatchRoom {
     const body = await request.json().catch(() => ({}));
     const mode = body.mode === 'ai' ? 'ai' : 'ranked';
     await this.state.storage.put('mode', mode);
+    const boardMode = VALID_BOARD_MODES.includes(body.boardMode) ? body.boardMode : 'classic';
+    await this.state.storage.put('boardMode', boardMode);
     if (mode === 'ai') {
       const difficulty = VALID_DIFFICULTIES.includes(body.difficulty) ? body.difficulty : 'normal';
       const aiFaction = VALID_FACTIONS[Math.floor(Math.random() * VALID_FACTIONS.length)];
@@ -278,6 +281,7 @@ export class MatchRoom {
     await this.state.storage.put('usernames', usernames);
 
     const mode = (await this.state.storage.get('mode')) || 'ranked';
+    const boardMode = (await this.state.storage.get('boardMode')) || 'classic';
 
     // AI rooms never wait for a second real join — as soon as the one human
     // seat picks a faction, seat the bot with the faction/difficulty fixed
@@ -291,7 +295,7 @@ export class MatchRoom {
       await this.state.storage.put('usernames', usernames);
 
       const firstPlayer = crypto.getRandomValues(new Uint32Array(1))[0] % 2 === 0 ? 'A' : 'B';
-      const game = createGame(factions.seatA, factions.seatB, firstPlayer, usernames.seatA, usernames.seatB);
+      const game = createGame(factions.seatA, factions.seatB, firstPlayer, usernames.seatA, usernames.seatB, boardMode);
       game.mode = 'ai';
       game.difficulty = difficulty;
       // The bot has no coin-flip animation to watch — it acks instantly, so
@@ -305,7 +309,7 @@ export class MatchRoom {
     const otherSeat = seat === 'seatA' ? 'seatB' : 'seatA';
     if (factions[otherSeat]) {
       const firstPlayer = crypto.getRandomValues(new Uint32Array(1))[0] % 2 === 0 ? 'A' : 'B';
-      const game = createGame(factions.seatA, factions.seatB, firstPlayer, usernames.seatA, usernames.seatB);
+      const game = createGame(factions.seatA, factions.seatB, firstPlayer, usernames.seatA, usernames.seatB, boardMode);
       await this.state.storage.put('game', game);
       this.broadcastState(game);
     } else {
