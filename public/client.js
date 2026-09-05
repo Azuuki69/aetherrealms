@@ -1527,17 +1527,21 @@ function initDeckPreview() {
 
 function renderCastle(sidePanelId, hp, maxHp, faction) {
   const sidePanel = el(sidePanelId);
+  // The side panel (#oppPanel/#youPanel) shows the faction's crest with the
+  // HP number overlaid directly on it; the compact top-bar mirror of this
+  // panel (#oppInfo/#youInfo) keeps the original castle illustration and its
+  // small "X / Y" text — this function still drives both, it just diverges
+  // on which image/text target each one actually has.
+  const isSidePanel = sidePanelId === 'youPanel' || sidePanelId === 'oppPanel';
   const img = sidePanel.querySelector('.castle-img');
-  img.src = `assets/cards/${faction}castle.png`;
-  img.alt = `${faction} castle`;
+  img.src = isSidePanel ? `assets/cards/${faction}logo.png` : `assets/cards/${faction}castle.png`;
+  img.alt = isSidePanel ? `${faction} crest` : `${faction} castle`;
   const clampedHp = Math.max(0, hp);
   const hpValue = sidePanel.querySelector('.castle-hp-value');
   if (hpValue) hpValue.textContent = `${clampedHp} / ${maxHp}`;
+  const hpOverlay = sidePanel.querySelector('.castle-hp-overlay');
+  if (hpOverlay) hpOverlay.textContent = clampedHp;
   const ratio = maxHp > 0 ? Math.max(0, hp / maxHp) : 0;
-  // The compact top-bar mirror of this panel (#oppInfo/#youInfo) has no room
-  // for a full bar — only the side panel (#oppPanel/#youPanel) has one.
-  const barFill = sidePanel.querySelector('.castle-hp-bar-fill');
-  if (barFill) barFill.style.width = `${ratio * 100}%`;
   const damaged = hp > 0 && ratio < 0.66;
   const critical = hp > 0 && ratio < 0.33;
   const destroyed = hp <= 0;
@@ -1667,15 +1671,20 @@ function findUnitAnchorEl(side, lane, slot) {
 
 function spawnEffect(fx) {
   if (fx.kind === 'castle-damage' || fx.kind === 'castle-heal') {
-    const headerPanelId = fx.side === 'you' ? 'youInfo' : 'oppInfo';
     const sidePanelId = fx.side === 'you' ? 'youPanel' : 'oppPanel';
-    const wrap = document.querySelector(`#${headerPanelId} .castle-wrap`);
+    // Anchored to the crest banner (#oppPanel/#youPanel), not the compact
+    // top-bar panel — that's the visible, prominent "this is the castle"
+    // target now, so a hit should read as landing on it.
+    const wrap = document.querySelector(`#${sidePanelId} .castle-wrap`);
     if (!wrap) return;
     if (fx.kind === 'castle-damage') {
       floatNumber(wrap, `-${fx.amount}`, 'fx-damage');
       pulseClass(wrap, 'castle-hit');
-      const barFill = document.querySelector(`#${sidePanelId} .castle-hp-bar-fill`);
-      if (barFill) pulseClass(barFill, 'bar-hit');
+      // Used to flash the side panel's HP bar-fill brighter on a hit; now
+      // flashes the crest's overlaid HP number instead — same feedback,
+      // same class/keyframe, just following the number that replaced the bar.
+      const hpOverlay = document.querySelector(`#${sidePanelId} .castle-hp-overlay`);
+      if (hpOverlay) pulseClass(hpOverlay, 'bar-hit');
     } else {
       floatNumber(wrap, `+${fx.amount}`, 'fx-heal');
     }
@@ -1706,14 +1715,14 @@ function spawnEffect(fx) {
   if (fx.kind === 'spell-cast-single') {
     const anchor = fx.lane
       ? findUnitAnchorEl(fx.side, fx.lane, fx.slot)
-      : document.querySelector(`#${fx.side === 'you' ? 'youInfo' : 'oppInfo'} .castle-wrap`);
+      : document.querySelector(`#${fx.side === 'you' ? 'youPanel' : 'oppPanel'} .castle-wrap`);
     if (anchor) floatNumber(anchor, '✦', 'fx-spell-impact');
     return;
   }
   if (fx.kind === 'combat-impact') {
     const anchor = fx.lane
       ? findUnitAnchorEl(fx.side, fx.lane, fx.slot)
-      : document.querySelector(`#${fx.side === 'you' ? 'youInfo' : 'oppInfo'} .castle-wrap`);
+      : document.querySelector(`#${fx.side === 'you' ? 'youPanel' : 'oppPanel'} .castle-wrap`);
     if (anchor) {
       spawnCombatImpact(anchor);
       pulseClass(anchor, 'combat-impact-shake');
@@ -2416,7 +2425,7 @@ function isPointOverLegalDrop(clientX, clientY) {
     if (side === 'you') return legalMoveDestinations(selectedUnit).some((d) => d.lane === lane && d.slot === slotIndex);
     return legalAttackTargets(selectedUnit).some((t) => t.type === 'unit' && t.lane === lane && t.slot === slotIndex);
   }
-  if (dropEl.closest('#oppInfo')) return legalAttackTargets(selectedUnit).some((t) => t.type === 'castle');
+  if (dropEl.closest('#oppPanel')) return legalAttackTargets(selectedUnit).some((t) => t.type === 'castle');
   return false;
 }
 
@@ -2444,7 +2453,7 @@ function endDrag(clientX, clientY) {
       const slotIndex = Number(slot);
       if (side === 'you') onEmptySlotClick(side, lane, slotIndex);
       else onBoardCardClick(side, lane, slotIndex);
-    } else if (dropEl.closest('#oppInfo')) {
+    } else if (dropEl.closest('#oppPanel')) {
       onCastleClick();
     }
   }
@@ -2543,7 +2552,10 @@ function findUnitLocation(playerView, instanceId) {
 }
 
 function castleCenter(side) {
-  const rect = el(side === 'you' ? 'youInfo' : 'oppInfo')?.getBoundingClientRect();
+  // The crest banner (#oppPanel/#youPanel's .castle-wrap) is the visible
+  // "this is the castle" target now — anchor arrows at the crest itself,
+  // not the wider stats panel around it.
+  const rect = document.querySelector(`#${side === 'you' ? 'youPanel' : 'oppPanel'} .castle-wrap`)?.getBoundingClientRect();
   if (!rect) return null;
   return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
 }
@@ -2719,21 +2731,21 @@ function markDeathPreview(side, lane, slot) {
 // Castle equivalent of markDeathPreview — there's no card element to grey
 // out, so this highlights the castle panel itself instead.
 function markCastleDeathPreview(side) {
-  el(side === 'you' ? 'youInfo' : 'oppInfo')?.classList.add('plan-castle-lethal');
+  el(side === 'you' ? 'youPanel' : 'oppPanel')?.classList.add('plan-castle-lethal');
 }
 
-// Castle equivalent of attachPredictedHpBadge — anchors to the castle panel
-// (already position:absolute via the HUD layout manager, so a plain
-// position:absolute child anchors correctly with no extra CSS needed).
+// Castle equivalent of attachPredictedHpBadge — anchors to the crest's own
+// .castle-wrap (already position:relative), not the wider #oppPanel/#youPanel
+// panel around it (a plain flex child with no positioning context of its own).
 function attachPredictedCastleHpBadge(side, finalBoard) {
-  const panel = el(side === 'you' ? 'youInfo' : 'oppInfo');
+  const wrap = document.querySelector(`#${side === 'you' ? 'youPanel' : 'oppPanel'} .castle-wrap`);
   const predictedHp = finalBoard?.[side === 'you' ? 'you' : 'opponent']?.hp;
-  if (!panel || predictedHp === undefined) return;
+  if (!wrap || predictedHp === undefined) return;
   const badge = document.createElement('div');
   badge.className = 'plan-hp-badge';
   badge.textContent = String(Math.max(0, predictedHp));
   badge.title = t('planPredictedHpLabel');
-  panel.appendChild(badge);
+  wrap.appendChild(badge);
 }
 
 function attachPredictedHpBadge(lane, slot, finalBoard) {
@@ -2817,7 +2829,7 @@ async function commitAttackPlan() {
 function highlightSelections() {
   document.querySelectorAll('.slot').forEach((s) => s.classList.remove('can-play', 'legal-target', 'spell-target'));
   document.querySelectorAll('.card.attack-ready').forEach((c) => c.classList.remove('attack-ready'));
-  el('oppInfo').classList.remove('legal-target');
+  el('oppPanel').classList.remove('legal-target');
 
   // A quiet glow on every unit of yours that could currently act, so
   // "which of my units can attack" reads at a glance instead of requiring
@@ -2847,7 +2859,7 @@ function highlightSelections() {
     });
     legalAttackTargets(selectedUnit).forEach((t) => {
       if (t.type === 'castle') {
-        el('oppInfo').classList.add('legal-target');
+        el('oppPanel').classList.add('legal-target');
         return;
       }
       const containerId = t.lane === 'vanguard' ? 'oppVanguard' : 'oppRearguard';
@@ -2966,7 +2978,7 @@ async function runAttackAll() {
 
 el('customizeHudBtn')?.addEventListener('click', enterHudPreview);
 el('hudPreviewExitBtn')?.addEventListener('click', exitHudPreview);
-el('oppInfo')?.addEventListener('click', onCastleClick);
+el('oppPanel')?.addEventListener('click', onCastleClick);
 el('combatBtn')?.addEventListener('click', () => send({ type: 'move_to_combat' }));
 el('attackAllBtn')?.addEventListener('click', () => {
   if (attackPlanningEnabled) {
@@ -3074,9 +3086,9 @@ const HUD_LAYOUT_STORAGE_KEY = 'aetherrealms_hud_layout';
 const HUD_LAYOUT_VERSION = 2;
 
 const HUD_PANELS = [
-  { id: 'oppInfo', labelKey: 'panelEnemyInfo', minW: 150, minH: 50 },
+  { id: 'oppInfo', labelKey: 'panelEnemyInfo', minW: 190, minH: 50 },
   { id: 'turnIndicator', labelKey: 'panelTurnTimer', minW: 120, minH: 40 },
-  { id: 'youInfo', labelKey: 'panelYourInfo', minW: 150, minH: 50 },
+  { id: 'youInfo', labelKey: 'panelYourInfo', minW: 190, minH: 50 },
   { id: 'oppPanel', labelKey: 'panelEnemyStats', minW: 70, minH: 140 },
   { id: 'boardArea', labelKey: 'panelBattlefield', minW: 320, minH: 220 },
   { id: 'youPanel', labelKey: 'panelYourStats', minW: 70, minH: 140 },
@@ -3440,15 +3452,20 @@ function initHudLayout() {
   // remains — a minor rounding difference when these panels were small, but
   // real overlap once they got bigger and don't shrink to fit anymore.
   const topBarRect = el('topBar')?.getBoundingClientRect();
-  // Capped as a fraction of the actual game width, not a flat 220px — two
+  // Capped as a fraction of the actual game width, not a flat 300px — two
   // fixed-width panels plus the turn indicator between them can otherwise
   // add up to more than a narrow window actually has. Floored at .hp-panel's
-  // own CSS min-width (150px, matching HUD_PANELS' minW below) so this
+  // own CSS min-width (190px, matching HUD_PANELS' minW below) so this
   // never computes a narrower width than the browser will actually render —
   // that mismatch is what left turnIndicator's position overlapping oppInfo
   // on a narrow window (oppInfo renders at its CSS floor while turnIndicator
-  // gets positioned as though oppInfo were narrower than that).
-  const infoPanelWidth = topBarRect ? Math.max(150, Math.min(220, gameRect.width * 0.22)) : 220;
+  // gets positioned as though oppInfo were narrower than that). Raised from
+  // 150/220 — at the floor, a name plus faction tag routinely truncated to
+  // 2-3 characters ("AI ...", "P..") since the faction tag used to never
+  // shrink. The faction tag now has its own ellipsis fallback too (see
+  // .hp-panel .faction-tag), so this width just needs to comfortably fit
+  // the common case, not every possible name+faction combination.
+  const infoPanelWidth = topBarRect ? Math.max(190, Math.min(300, gameRect.width * 0.28)) : 300;
   const gap = 16;
   const turnIndicatorEl = el('turnIndicator');
   // Still measured from its own natural (pre-detach) width — only its
