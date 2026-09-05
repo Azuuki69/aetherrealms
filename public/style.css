@@ -7,6 +7,15 @@
   --gold: #d9b25c;
   --gold-bright: #f0d896;
   --magic: #8a6fd8;
+  /* Fluid width for the rankings/music side docks (see the @media blocks
+     using it below) — scales down smoothly from the original fixed 320px
+     as the viewport narrows, instead of an all-or-nothing cutoff, so both
+     docks keep working on ordinary laptop screens (1350px+) rather than
+     only on very wide monitors. 474 = half the centered #lobby column
+     (450) + the dock's own 1.5rem edge margin (24px); floors at 200px,
+     the narrowest width its own contents (table columns, music buttons)
+     still comfortably fit at. */
+  --dock-width: clamp(200px, calc(50vw - 474px), 320px);
   --success: #6fd66a;
   --error: #e05c52;
   --warning: #e0a94d;
@@ -335,13 +344,13 @@ h1 span {
 #lobby[data-layout="sidebar"] {
   grid-template-areas: "logo" "acct" "fact" "dcmp" "hud" "modes" "play" "boardmode" "status";
 }
-@media (min-width: 1600px) {
+@media (min-width: 1350px) {
   #lobby[data-layout="sidebar"] > .rankings-panel {
     position: fixed;
     margin: 0;
     top: 6rem;
     right: 1.5rem;
-    width: 320px;
+    width: var(--dock-width);
   }
 }
 
@@ -360,13 +369,13 @@ h1 span {
 #lobby[data-layout="sidebar-hud"] > #lobbySidebarHighlights { grid-area: highlights; }
 #lobby[data-layout="sidebar-hud"] > .rankings-panel { grid-area: rank; }
 #lobby[data-layout="sidebar-hud"] .sidebar-widget { display: block; }
-@media (min-width: 1600px) {
+@media (min-width: 1350px) {
   #lobby[data-layout="sidebar-hud"] > .rankings-panel {
     position: fixed;
     margin: 0;
     top: 6rem;
     right: 1.5rem;
-    width: 320px;
+    width: var(--dock-width);
   }
 }
 
@@ -443,13 +452,13 @@ h1 span {
    included) does rankings actually get pulled out of the flow above and
    pinned to the edge, next to the scrollbar — exactly what was asked for,
    without ever touching or squeezing the main column at any width. */
-@media (min-width: 1600px) {
+@media (min-width: 1350px) {
   #lobby[data-layout="compact"] > .rankings-panel {
     position: fixed;
     margin: 0;
     top: 6rem;
     right: 1.5rem;
-    width: 320px;
+    width: var(--dock-width);
   }
 }
 
@@ -1890,13 +1899,13 @@ body:has(#chatPanel:not(.collapsed)) .hand {
    900px column (rankings already docks right at this same threshold) does
    this pop out to the left edge — each dock only ever needs its own side's
    margin, so the two never compete for space. */
-@media (min-width: 1700px) {
+@media (min-width: 1350px) {
   .music-player-lobby {
     position: fixed;
     margin: 0;
     top: 6rem;
     left: 1.5rem;
-    width: 320px;
+    width: var(--dock-width);
   }
 }
 
