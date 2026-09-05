@@ -311,6 +311,10 @@ h1 span {
 #lobby[data-layout="compact"] > .faction-picker,
 #lobby[data-layout="showcase"] > .faction-picker,
 #lobby[data-layout="sidebar-hud"] > .faction-picker { grid-area: fact; }
+#lobby[data-layout="sidebar"] > #myCustomDecksPanel,
+#lobby[data-layout="compact"] > #myCustomDecksPanel,
+#lobby[data-layout="showcase"] > #myCustomDecksPanel,
+#lobby[data-layout="sidebar-hud"] > #myCustomDecksPanel { grid-area: cust; }
 #lobby[data-layout="sidebar"] > .deck-compare-trigger,
 #lobby[data-layout="compact"] > .deck-compare-trigger,
 #lobby[data-layout="showcase"] > .deck-compare-trigger,
@@ -352,7 +356,7 @@ h1 span {
    of the single column exactly like Classic, and only pops out to a fixed
    dock on the right edge once the viewport is comfortably wide enough. */
 #lobby[data-layout="sidebar"] {
-  grid-template-areas: "logo" "acct" "fact" "dcmp" "hud" "modes" "play" "boardmode" "attackmode" "status";
+  grid-template-areas: "logo" "acct" "fact" "cust" "dcmp" "hud" "modes" "play" "boardmode" "attackmode" "status";
 }
 @media (min-width: 1350px) {
   #lobby[data-layout="sidebar"] > .rankings-panel {
@@ -373,7 +377,7 @@ h1 span {
    multiple fixed-position panels to get right. Rankings alone still gets the
    same wide-screen fixed dock as Sidebar/Compact. */
 #lobby[data-layout="sidebar-hud"] {
-  grid-template-areas: "logo" "acct" "modes" "play" "boardmode" "attackmode" "fact" "dcmp" "hud" "status" "preview" "highlights" "rank";
+  grid-template-areas: "logo" "acct" "modes" "play" "boardmode" "attackmode" "fact" "cust" "dcmp" "hud" "status" "preview" "highlights" "rank";
 }
 #lobby[data-layout="sidebar-hud"] > #lobbySidebarPreview { grid-area: preview; }
 #lobby[data-layout="sidebar-hud"] > #lobbySidebarHighlights { grid-area: highlights; }
@@ -455,7 +459,7 @@ h1 span {
    grid-area assigned here, so it just falls back to plain auto-placement at
    the end of the single column (same spot as Classic) by default. */
 #lobby[data-layout="compact"] {
-  grid-template-areas: "logo" "acct" "modes" "play" "boardmode" "attackmode" "fact" "dcmp" "hud" "status";
+  grid-template-areas: "logo" "acct" "modes" "play" "boardmode" "attackmode" "fact" "cust" "dcmp" "hud" "status";
 }
 /* Only on screens wide enough that a 300px dock on the right edge can't
    possibly overlap the still-centered 900px column (comfortable margin
@@ -476,7 +480,7 @@ h1 span {
    the account panel shrinks to a slim strip below it. */
 #lobby[data-layout="showcase"] {
   grid-template-columns: 1fr;
-  grid-template-areas: "logo" "fact" "acct" "dcmp" "hud" "modes" "play" "boardmode" "attackmode" "status" "rank";
+  grid-template-areas: "logo" "fact" "cust" "acct" "dcmp" "hud" "modes" "play" "boardmode" "attackmode" "status" "rank";
 }
 #lobby[data-layout="showcase"] > .account-panel { max-width: 640px; padding: 0.6rem 1rem; }
 #lobby[data-layout="showcase"] .faction-card .thumb { width: 100px; height: 150px; }
