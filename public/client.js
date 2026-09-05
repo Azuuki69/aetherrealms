@@ -540,7 +540,8 @@ function initLobby() {
   initGameModeTabs();
 
   el('createBtn').addEventListener('click', async () => {
-    if (!selectedFaction) return setStatus(t('pickFactionFirst'));
+    if (!selectedFaction) { showTopNotice(t('pickFactionFirst')); return setStatus(t('pickFactionFirst')); }
+    requestNotificationPermission();
     const res = await fetch('api/room', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
@@ -554,9 +555,10 @@ function initLobby() {
   });
 
   el('joinBtn').addEventListener('click', () => {
-    if (!selectedFaction) return setStatus(t('pickFactionFirst'));
+    if (!selectedFaction) { showTopNotice(t('pickFactionFirst')); return setStatus(t('pickFactionFirst')); }
     const code = el('joinCode').value.trim().toUpperCase();
     if (!code) return setStatus(t('enterRoomCode'));
+    requestNotificationPermission();
     connect(code);
   });
 
@@ -578,7 +580,8 @@ function initLobby() {
   });
 
   el('playAiBtn').addEventListener('click', async () => {
-    if (!selectedFaction) return setStatus(t('pickFactionFirst'));
+    if (!selectedFaction) { showTopNotice(t('pickFactionFirst')); return setStatus(t('pickFactionFirst')); }
+    requestNotificationPermission();
     setStatus(t('startingAiMatch'));
     const res = await fetch('api/room', {
       method: 'POST',
@@ -630,6 +633,37 @@ function initGameModeTabs() {
 
 function setStatus(text) {
   el('lobbyStatus').textContent = text;
+}
+
+// A brief, hard-to-miss banner fixed to the top of the viewport — unlike
+// #lobbyStatus (muted text far down the page, easily missed), this is for
+// the one case players kept overlooking entirely: forgetting to pick a
+// faction before clicking Create/Join/Play. Auto-dismisses on its own; the
+// remove/reflow/re-add restart matches pulseClass() below so clicking the
+// same button twice re-animates instead of silently no-op'ing.
+let topNoticeTimer = null;
+function showTopNotice(text) {
+  const notice = el('topNotice');
+  notice.textContent = text;
+  notice.classList.remove('showing');
+  void notice.offsetWidth;
+  notice.classList.add('showing');
+  clearTimeout(topNoticeTimer);
+  topNoticeTimer = setTimeout(() => notice.classList.remove('showing'), 3000);
+}
+
+// Same restart idiom as showTopNotice() above, for the big centered
+// "Your Turn"/"Opponent's Turn" banner (see render()'s previousMyTurn
+// edge-detection for the trigger).
+let turnBannerTimer = null;
+function showTurnBanner(text, sideClass) {
+  const banner = el('turnBanner');
+  banner.textContent = text;
+  banner.classList.remove('turn-you', 'turn-opponent', 'showing');
+  void banner.offsetWidth;
+  banner.classList.add(sideClass, 'showing');
+  clearTimeout(turnBannerTimer);
+  turnBannerTimer = setTimeout(() => banner.classList.remove('showing'), 2500);
 }
 
 // The server's afterJoin() (matchRoom.js) already resends the current
@@ -1009,12 +1043,18 @@ function renderCardFace(container, instance) {
   container.innerHTML = '';
   container.classList.add('card-templated');
 
+  // A summoned token (e.g. Muster's Beast Pup) has a synthetic cardId like
+  // "beast_token" — truthy, but with no matching extracted-art file — so it
+  // must use the server's own `image` field (which deliberately points at
+  // an existing card's art to reuse, see summonMusterToken() in rules.js)
+  // instead of the cardId-derived path below.
+  const isToken = instance.cardId && instance.cardId.endsWith('_token');
   const faction = instance.cardId ? instance.cardId.split('_')[0] : '';
   // extract_art.ps1's output is keyed by cardId, not by the legacy `image`
   // path's filename (which is slug-based, e.g. "01_ashigaru.jpg", and can't
   // be derived from cardId alone) — falls back to the old baked image only
   // if cardId is somehow missing, so nothing renders as a broken image.
-  const artSrc = faction ? `assets/cards/art/${faction}/${instance.cardId}.png` : instance.image;
+  const artSrc = isToken ? instance.image : faction ? `assets/cards/art/${faction}/${instance.cardId}.png` : instance.image;
 
   // extract_art.ps1 cropped the art-window rectangle straight out of each
   // card's old fully-composited JPG, which included that template's own
@@ -1625,15 +1665,36 @@ function pulseClass(elm, cssClass) {
 // Flashes the tab title so a player who's switched to another tab/window
 // notices their turn started — the Page Visibility API (document.hidden) is
 // what a background tab can actually observe about itself, no permission
-// prompt needed, unlike the Notification API.
+// prompt needed. Also fires an actual OS-level desktop notification when
+// permission was already granted (requested opportunistically when a match
+// starts — see requestNotificationPermission()) — the tab-title flash alone
+// is easy to miss if the tab/window isn't visible at all (minimized, other
+// virtual desktop, etc.).
 const ORIGINAL_TITLE = document.title;
 let turnFlashInterval = null;
 
+// Asked once, opportunistically, from a genuine click (Create/Join/Play vs
+// AI) rather than unprompted on page load — browsers are far likelier to
+// honor (rather than auto-block) a permission request tied to a real user
+// gesture, and by the time a turn could actually start backgrounded, the
+// prompt has already been resolved one way or the other.
+function requestNotificationPermission() {
+  if (typeof Notification === 'undefined' || Notification.permission !== 'default') return;
+  Notification.requestPermission().catch(() => {});
+}
+
 function startTurnFlash() {
-  if (turnFlashInterval) return; // already flashing
+  if (turnFlashInterval) return; // already flashing (also guards the notification below from repeating every render)
   turnFlashInterval = setInterval(() => {
     document.title = document.title === ORIGINAL_TITLE ? '🔴 Your Turn! — Aether Realms' : ORIGINAL_TITLE;
   }, 1000);
+  if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
+    const n = new Notification('Aether Realms', { body: "It's your turn!" });
+    n.onclick = () => {
+      window.focus();
+      n.close();
+    };
+  }
 }
 function stopTurnFlash() {
   if (!turnFlashInterval) return;
@@ -1677,7 +1738,12 @@ function render() {
   // reloading mid-turn), so that first render just records where things
   // stand rather than assuming "it just became true" and firing a chime
   // for a turn that actually started before the page ever loaded.
-  if (myTurn && previousMyTurn === false && !winner) playTurnStartChime();
+  if (myTurn && previousMyTurn === false && !winner) {
+    playTurnStartChime();
+    showTurnBanner(t('yourTurnWord'), 'turn-you');
+  } else if (!myTurn && previousMyTurn === true && !winner) {
+    showTurnBanner(t('opponentTurnWord'), 'turn-opponent');
+  }
   previousMyTurn = myTurn;
 
   if (myTurn && !winner && document.hidden) startTurnFlash();
